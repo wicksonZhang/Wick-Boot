@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 public class SystemUser extends BaseDO {
 
     @TableId
-    private BigInteger id;
+    private Long id;
 
     /**
      * 用户名
@@ -65,7 +65,7 @@ public class SystemUser extends BaseDO {
     private String mobile;
 
     /**
-     * 用户状态((1:正常;0:禁用))
+     * 用户状态(1:正常;0:禁用)
      */
     private Integer status;
 

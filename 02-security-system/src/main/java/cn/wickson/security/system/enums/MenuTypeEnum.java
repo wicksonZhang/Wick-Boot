@@ -1,4 +1,4 @@
-package cn.wickson.security.commons.enums;
+package cn.wickson.security.system.enums;
 
 import cn.hutool.core.util.ArrayUtil;
 import lombok.AllArgsConstructor;

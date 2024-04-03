@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
@@ -30,34 +31,9 @@ public class SystemUserDTO {
     private String username;
 
     /**
-     * 密码
-     */
-    private String password;
-
-    /**
      * 用户昵称
      */
     private String nickname;
-
-    /**
-     * 备注
-     */
-    private String remark;
-
-    /**
-     * 部门ID
-     */
-    private Long deptId;
-
-    /**
-     * 岗位编号数组
-     */
-    private Set<Long> postIds;
-
-    /**
-     * 用户邮箱
-     */
-    private String email;
 
     /**
      * 手机号码
@@ -67,7 +43,7 @@ public class SystemUserDTO {
     /**
      * 用户性别
      */
-    private Integer sex;
+    private Integer gender;
 
     /**
      * 头像地址
@@ -79,5 +55,14 @@ public class SystemUserDTO {
      */
     private Integer status;
 
+    /**
+     * 部门名称
+     */
+    private String deptName;
+
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
 
 }

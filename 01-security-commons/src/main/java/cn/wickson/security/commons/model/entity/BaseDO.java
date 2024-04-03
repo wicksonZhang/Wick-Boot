@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.ibatis.type.JdbcType;
 
 import java.io.Serializable;
@@ -12,7 +14,8 @@ import java.time.LocalDateTime;
 /**
  * 基础实体对象
  */
-@Data
+@Getter
+@Setter
 public abstract class BaseDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
