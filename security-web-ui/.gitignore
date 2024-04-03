@@ -3,7 +3,16 @@ node_modules
 dist
 dist-ssr
 *.local
-/dist*
-*-lock.*
-pnpm-debug
+.history
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.local
+
+package-lock.json
+pnpm-lock.yaml
 stats.html

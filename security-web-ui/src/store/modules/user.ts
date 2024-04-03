@@ -1,102 +1,94 @@
-import { defineStore } from 'pinia'
-import { store } from '../index'
-import { UserLoginType, UserType } from '@/api/login/types'
-import { ElMessageBox } from 'element-plus'
-import { useI18n } from '@/hooks/web/useI18n'
-import { loginOutApi } from '@/api/login'
-import { useTagsViewStore } from './tagsView'
-import router from '@/router'
+import { loginApi, logoutApi } from "@/api/auth";
+import { getUserInfoApi } from "@/api/user";
+import { resetRouter } from "@/router";
+import { store } from "@/store";
 
-interface UserState {
-  userInfo?: UserType
-  tokenKey: string
-  token: string
-  roleRouters?: string[] | AppCustomRouteRecordRaw[]
-  rememberMe: boolean
-  loginInfo?: UserLoginType
-}
+import { LoginData } from "@/api/auth/types";
+import { UserInfo } from "@/api/user/types";
 
-export const useUserStore = defineStore('user', {
-  state: (): UserState => {
-    return {
-      userInfo: undefined,
-      tokenKey: 'Authorization',
-      token: '',
-      roleRouters: undefined,
-      // 记住我
-      rememberMe: true,
-      loginInfo: undefined
-    }
-  },
-  getters: {
-    getTokenKey(): string {
-      return this.tokenKey
-    },
-    getToken(): string {
-      return this.token
-    },
-    getUserInfo(): UserType | undefined {
-      return this.userInfo
-    },
-    getRoleRouters(): string[] | AppCustomRouteRecordRaw[] | undefined {
-      return this.roleRouters
-    },
-    getRememberMe(): boolean {
-      return this.rememberMe
-    },
-    getLoginInfo(): UserLoginType | undefined {
-      return this.loginInfo
-    }
-  },
-  actions: {
-    setTokenKey(tokenKey: string) {
-      this.tokenKey = tokenKey
-    },
-    setToken(token: string) {
-      this.token = token
-    },
-    setUserInfo(userInfo?: UserType) {
-      this.userInfo = userInfo
-    },
-    setRoleRouters(roleRouters: string[] | AppCustomRouteRecordRaw[]) {
-      this.roleRouters = roleRouters
-    },
-    logoutConfirm() {
-      const { t } = useI18n()
-      ElMessageBox.confirm(t('common.loginOutMessage'), t('common.reminder'), {
-        confirmButtonText: t('common.ok'),
-        cancelButtonText: t('common.cancel'),
-        type: 'warning'
-      })
-        .then(async () => {
-          const res = await loginOutApi().catch(() => {})
-          if (res) {
-            this.reset()
-          }
+export const useUserStore = defineStore("user", () => {
+  const user = ref<UserInfo>({
+    roles: [],
+    perms: [],
+  });
+
+  /**
+   * 登录
+   *
+   * @param {LoginData}
+   * @returns
+   */
+  function login(loginData: LoginData) {
+    return new Promise<void>((resolve, reject) => {
+      loginApi(loginData)
+        .then((response) => {
+          const { tokenType, accessToken } = response.data;
+          localStorage.setItem("accessToken", tokenType + " " + accessToken); // Bearer eyJhbGciOiJIUzI1NiJ9.xxx.xxx
+          resolve();
         })
-        .catch(() => {})
-    },
-    reset() {
-      const tagsViewStore = useTagsViewStore()
-      tagsViewStore.delAllViews()
-      this.setToken('')
-      this.setUserInfo(undefined)
-      this.setRoleRouters([])
-      router.replace('/login')
-    },
-    logout() {
-      this.reset()
-    },
-    setRememberMe(rememberMe: boolean) {
-      this.rememberMe = rememberMe
-    },
-    setLoginInfo(loginInfo: UserLoginType | undefined) {
-      this.loginInfo = loginInfo
-    }
-  },
-  persist: true
-})
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
 
-export const useUserStoreWithOut = () => {
-  return useUserStore(store)
+  // 获取信息(用户昵称、头像、角色集合、权限集合)
+  function getUserInfo() {
+    return new Promise<UserInfo>((resolve, reject) => {
+      getUserInfoApi()
+        .then(({ data }) => {
+          if (!data) {
+            reject("Verification failed, please Login again.");
+            return;
+          }
+          if (!data.roles || data.roles.length <= 0) {
+            reject("getUserInfo: roles must be a non-null array!");
+            return;
+          }
+          Object.assign(user.value, { ...data });
+          resolve(data);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
+  // user logout
+  function logout() {
+    return new Promise<void>((resolve, reject) => {
+      logoutApi()
+        .then(() => {
+          localStorage.setItem("accessToken", "");
+          location.reload(); // 清空路由
+          resolve();
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
+  // remove token
+  function resetToken() {
+    console.log("resetToken");
+    return new Promise<void>((resolve) => {
+      localStorage.setItem("accessToken", "");
+      resetRouter();
+      resolve();
+    });
+  }
+
+  return {
+    user,
+    login,
+    getUserInfo,
+    logout,
+    resetToken,
+  };
+});
+
+// 非setup
+export function useUserStoreHook() {
+  return useUserStore(store);
 }

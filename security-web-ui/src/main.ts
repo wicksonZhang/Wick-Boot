@@ -1,53 +1,28 @@
-import 'vue/jsx'
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "@/router";
+import { setupStore } from "@/store";
+import { setupDirective } from "@/directive";
+import { setupElIcons, setupI18n, setupPermission } from "@/plugins";
 
-// 引入unocss
-import '@/plugins/unocss'
+// 本地SVG图标
+import "virtual:svg-icons-register";
 
-// 导入全局的svg图标
-import '@/plugins/svgIcon'
+// 样式
+import "element-plus/theme-chalk/dark/css-vars.css";
+import "@/styles/index.scss";
+import "uno.css";
+import "animate.css";
 
-// 初始化多语言
-import { setupI18n } from '@/plugins/vueI18n'
-
-// 引入状态管理
-import { setupStore } from '@/store'
-
-// 全局组件
-import { setupGlobCom } from '@/components'
-
-// 引入element-plus
-import { setupElementPlus } from '@/plugins/elementPlus'
-
-// 引入全局样式
-import '@/styles/index.less'
-
-// 引入动画
-import '@/plugins/animate.css'
-
-// 路由
-import { setupRouter } from './router'
-
-import { createApp } from 'vue'
-
-import App from './App.vue'
-
-import './permission'
-
-// 创建实例
-const setupAll = async () => {
-  const app = createApp(App)
-
-  await setupI18n(app)
-
-  setupStore(app)
-
-  setupGlobCom(app)
-
-  setupElementPlus(app)
-
-  setupRouter(app)
-
-  app.mount('#app')
-}
-
-setupAll()
+const app = createApp(App);
+// 全局注册 自定义指令(directive)
+setupDirective(app);
+// 全局注册 状态管理(store)
+setupStore(app);
+// 全局注册Element-plus图标
+setupElIcons(app);
+// 国际化
+setupI18n(app);
+// 注册动态路由
+setupPermission();
+app.use(router).mount("#app");

@@ -1,139 +1,51 @@
-// import type { Plugin } from 'vue'
+/**
+ * Check if an element has a class
+ * @param {HTMLElement} ele
+ * @param {string} cls
+ * @returns {boolean}
+ */
+export function hasClass(ele: HTMLElement, cls: string) {
+  return !!ele.className.match(new RegExp("(\\s|^)" + cls + "(\\s|$)"));
+}
 
 /**
+ * Add class to element
+ * @param {HTMLElement} ele
+ * @param {string} cls
+ */
+export function addClass(ele: HTMLElement, cls: string) {
+  if (!hasClass(ele, cls)) ele.className += " " + cls;
+}
+
+/**
+ * Remove class from element
+ * @param {HTMLElement} ele
+ * @param {string} cls
+ */
+export function removeClass(ele: HTMLElement, cls: string) {
+  if (hasClass(ele, cls)) {
+    const reg = new RegExp("(\\s|^)" + cls + "(\\s|$)");
+    ele.className = ele.className.replace(reg, " ");
+  }
+}
+
+/**
+ * 判断是否是外部链接
  *
- * @param component 需要注册的组件
- * @param alias 组件别名
- * @returns any
+ * @param {string} path
+ * @returns {Boolean}
  */
-export const withInstall = <T>(component: T, alias?: string) => {
-  const comp = component as any
-  comp.install = (app: any) => {
-    app.component(comp.name || comp.displayName, component)
-    if (alias) {
-      app.config.globalProperties[alias] = component
-    }
-  }
-  return component as T & Plugin
+export function isExternal(path: string) {
+  const isExternal = /^(https?:|http?:|mailto:|tel:)/.test(path);
+  return isExternal;
 }
 
 /**
- * @param str 需要转下划线的驼峰字符串
- * @returns 字符串下划线
+ * 设置Style属性
+ *
+ * @param propName
+ * @param value
  */
-export const humpToUnderline = (str: string): string => {
-  return str.replace(/([A-Z])/g, '-$1').toLowerCase()
-}
-
-/**
- * @param str 需要转驼峰的下划线字符串
- * @returns 字符串驼峰
- */
-export const underlineToHump = (str: string): string => {
-  if (!str) return ''
-  return str.replace(/\-(\w)/g, (_, letter: string) => {
-    return letter.toUpperCase()
-  })
-}
-
-/**
- * 驼峰转横杠
- */
-export const humpToDash = (str: string): string => {
-  return str.replace(/([A-Z])/g, '-$1').toLowerCase()
-}
-
-export const setCssVar = (prop: string, val: any, dom = document.documentElement) => {
-  dom.style.setProperty(prop, val)
-}
-
-export const getCssVar = (prop: string, dom = document.documentElement) => {
-  return getComputedStyle(dom).getPropertyValue(prop)
-}
-
-/**
- * 查找数组对象的某个下标
- * @param {Array} ary 查找的数组
- * @param {Functon} fn 判断的方法
- */
-// eslint-disable-next-line
-export const findIndex = <T = Recordable>(ary: Array<T>, fn: Fn): number => {
-  if (ary.findIndex) {
-    return ary.findIndex(fn)
-  }
-  let index = -1
-  ary.some((item: T, i: number, ary: Array<T>) => {
-    const ret: T = fn(item, i, ary)
-    if (ret) {
-      index = i
-      return ret
-    }
-  })
-  return index
-}
-
-export const trim = (str: string) => {
-  return str.replace(/(^\s*)|(\s*$)/g, '')
-}
-
-/**
- * @param {Date | number | string} time 需要转换的时间
- * @param {String} fmt 需要转换的格式 如 yyyy-MM-dd、yyyy-MM-dd HH:mm:ss
- */
-export function formatTime(time: Date | number | string, fmt: string) {
-  if (!time) return ''
-  else {
-    const date = new Date(time)
-    const o = {
-      'M+': date.getMonth() + 1,
-      'd+': date.getDate(),
-      'H+': date.getHours(),
-      'm+': date.getMinutes(),
-      's+': date.getSeconds(),
-      'q+': Math.floor((date.getMonth() + 3) / 3),
-      S: date.getMilliseconds()
-    }
-    if (/(y+)/.test(fmt)) {
-      fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
-    }
-    for (const k in o) {
-      if (new RegExp('(' + k + ')').test(fmt)) {
-        fmt = fmt.replace(
-          RegExp.$1,
-          RegExp.$1.length === 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length)
-        )
-      }
-    }
-    return fmt
-  }
-}
-
-/**
- * 生成随机字符串
- */
-export function toAnyString() {
-  const str: string = 'xxxxx-xxxxx-4xxxx-yxxxx-xxxxx'.replace(/[xy]/g, (c: string) => {
-    const r: number = (Math.random() * 16) | 0
-    const v: number = c === 'x' ? r : (r & 0x3) | 0x8
-    return v.toString()
-  })
-  return str
-}
-
-/**
- * 首字母大写
- */
-export function firstUpperCase(str: string) {
-  return str.toLowerCase().replace(/( |^)[a-z]/g, (L) => L.toUpperCase())
-}
-
-/**
- * 把对象转为formData
- */
-export function objToFormData(obj: Recordable) {
-  const formData = new FormData()
-  Object.keys(obj).forEach((key) => {
-    formData.append(key, obj[key])
-  })
-  return formData
+export function setStyleProperty(propName: string, value: string) {
+  document.documentElement.style.setProperty(propName, value);
 }
