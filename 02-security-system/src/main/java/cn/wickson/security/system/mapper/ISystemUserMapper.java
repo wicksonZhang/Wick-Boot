@@ -1,18 +1,17 @@
 package cn.wickson.security.system.mapper;
 
-import cn.hutool.core.util.ObjUtil;
-import cn.wickson.security.commons.result.PageResult;
 import cn.wickson.security.system.model.dto.SystemUserDTO;
 import cn.wickson.security.system.model.entity.SystemUser;
 import cn.wickson.security.system.model.vo.QueryUserPageReqVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
+ * 后台管理 - 部门Mapper
+ *
  * @author ZhangZiHeng
  * @date 2024-04-02
  */

@@ -11,14 +11,14 @@ export const constantRoutes: RouteRecordRaw[] = [
     children: [
       {
         path: "/redirect/:path(.*)",
-        component: () => import("@/views/Redirect/index.vue"),
+        component: () => import("@/views/redirect/index.vue"),
       },
     ],
   },
 
   {
     path: "/login",
-    component: () => import("@/views/Login/index.vue"),
+    component: () => import("@/views/login/index.vue"),
     meta: { hidden: true },
   },
 

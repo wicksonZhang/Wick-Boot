@@ -11,9 +11,9 @@ declare module "vue" {
     AppMain: (typeof import("./../layout/components/AppMain/index.vue"))["default"];
     BarChart: (typeof import("./../views/dashboard/components/BarChart.vue"))["default"];
     Breadcrumb: (typeof import("./../components/Breadcrumb/index.vue"))["default"];
-    DeptTree: (typeof import("./../views/system/user/components/dept-tree.vue"))["default"];
+    DeptTree: (typeof import("../views/system/user/components/dept-tree.vue"))["default"];
     Dictionary: (typeof import("./../components/Dictionary/index.vue"))["default"];
-    DictItem: (typeof import("./../views/system/dict/components/dict-item.vue"))["default"];
+    DictItem: (typeof import("../views/system/dict/components/dict-item.vue"))["default"];
     ElAlert: (typeof import("element-plus/es"))["ElAlert"];
     ElBreadcrumb: (typeof import("element-plus/es"))["ElBreadcrumb"];
     ElBreadcrumbItem: (typeof import("element-plus/es"))["ElBreadcrumbItem"];

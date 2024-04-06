@@ -2,6 +2,8 @@ package cn.wickson.security.system.controller;
 
 import cn.wickson.security.commons.result.ResultUtil;
 import cn.wickson.security.system.app.service.ISystemDeptService;
+import cn.wickson.security.system.model.dto.SystemDeptDTO;
+import cn.wickson.security.system.model.vo.QueryDeptListReqVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author ZhangZiHeng
@@ -24,7 +28,8 @@ public class SystemDeptController {
 
     @ApiOperation(value = "获取部门列表")
     @GetMapping
-    public ResultUtil<List<DeptVO>> listDepartments(DeptQuery queryParams) {
+    public ResultUtil<List<SystemDeptDTO>> listDepartments(@Valid QueryDeptListReqVO reqVO) {
+        return ResultUtil.success(systemDeptService.listDepartments(reqVO));
     }
 
 
