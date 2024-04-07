@@ -3,6 +3,7 @@ package cn.wickson.security.system.model.dto;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 后台管理 - 部门管理
@@ -21,6 +24,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class SystemDeptDTO {
 
     @ApiModelProperty(value = "部门id", example = "1")
@@ -37,6 +41,9 @@ public class SystemDeptDTO {
 
     @ApiModelProperty(value = "状态(1->正常；0->禁用)", example = "1")
     private Integer status;
+
+    @ApiModelProperty(value = "部门子级信息")
+    private List<SystemDeptDTO> children;
 
     @ApiModelProperty(value = "创建时间", example = "2024-04-06 22:11:44")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

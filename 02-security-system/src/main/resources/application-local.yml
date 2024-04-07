@@ -1,6 +1,6 @@
 # 服务端口
 server:
-  port: 1913
+  port: 8080
   servlet:
     context-path: /system
 

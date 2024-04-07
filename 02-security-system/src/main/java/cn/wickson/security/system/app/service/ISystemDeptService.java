@@ -4,6 +4,7 @@ import cn.wickson.security.system.model.dto.SystemDeptDTO;
 import cn.wickson.security.system.model.vo.QueryDeptListReqVO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Lenovo
@@ -18,4 +19,10 @@ public interface ISystemDeptService {
      */
     List<SystemDeptDTO> listDepartments(QueryDeptListReqVO reqVO);
 
+    /**
+     * 获取部门下拉选项
+     *
+     * @return Map<String, Object>
+     */
+    Map<String, Object> listDeptOptions();
 }

@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 /**
+ * 后台管理 - 用户信息
+ *
  * @author ZhangZiHeng
  * @date 2024-04-02
  */

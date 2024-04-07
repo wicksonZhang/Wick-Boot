@@ -14,19 +14,21 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum MenuTypeEnum {
 
-    MENU(1, "菜单"),
+    ROOT(0L, "根节点"),
 
-    CATALOG(2, "目录"),
+    MENU(1L, "菜单"),
 
-    EXT_LINK(3, "外链"),
+    CATALOG(2L, "目录"),
 
-    BUTTON(4, "按钮"),
+    EXT_LINK(3L, "外链"),
+
+    BUTTON(4L, "按钮"),
     ;
 
     /**
      * 类型
      */
-    private final Integer value;
+    private final Long value;
 
     /**
      * 名称

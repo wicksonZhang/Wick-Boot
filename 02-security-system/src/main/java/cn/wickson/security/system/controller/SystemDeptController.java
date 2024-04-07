@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author ZhangZiHeng
@@ -32,5 +34,9 @@ public class SystemDeptController {
         return ResultUtil.success(systemDeptService.listDepartments(reqVO));
     }
 
-
+    @ApiOperation(value = "获取部门下拉选项")
+    @GetMapping("/options")
+    public ResultUtil<Map<String, Object>> listDeptOptions() {
+        return ResultUtil.success(systemDeptService.listDeptOptions());
+    }
 }

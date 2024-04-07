@@ -2,6 +2,7 @@ package cn.wickson.security.system.mapper;
 
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.wickson.security.commons.enums.UseStatusEnum;
 import cn.wickson.security.system.model.entity.SystemDept;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -27,7 +28,21 @@ public interface ISystemDeptMapper extends BaseMapper<SystemDept> {
     default List<SystemDept> selectList(String name, Integer status) {
         return selectList(new LambdaQueryWrapper<SystemDept>()
                 .likeRight(ObjUtil.isNotNull(name), SystemDept::getName, name)
-                .eq(ObjUtil.isNotNull(status), SystemDept::getStatus, status));
+                .eq(ObjUtil.isNotNull(status), SystemDept::getStatus, status)
+                .orderByAsc(SystemDept::getSort));
     }
+
+    /**
+     * 部门下拉选项
+     *
+     * @return List<SystemDept>
+     */
+    default List<SystemDept> selectDeptOptions() {
+        return selectList(new LambdaQueryWrapper<SystemDept>()
+                .select(SystemDept::getId, SystemDept::getParentId, SystemDept::getName)
+                .eq(SystemDept::getStatus, UseStatusEnum.ENABLE.getValue())
+                .orderByAsc(SystemDept::getSort));
+    }
+
 
 }
