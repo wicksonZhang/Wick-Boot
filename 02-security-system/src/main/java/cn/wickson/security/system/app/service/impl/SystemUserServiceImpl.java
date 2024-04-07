@@ -37,7 +37,7 @@ public class SystemUserServiceImpl extends ServiceImpl<ISystemUserMapper, System
                 reqVO
         );
         if (CollUtil.isEmpty(pageResult.getRecords())) {
-            return new PageResult<>(pageResult.getTotal());
+            return PageResult.empty();
         }
         return new PageResult<>(pageResult.getRecords(), pageResult.getTotal());
     }

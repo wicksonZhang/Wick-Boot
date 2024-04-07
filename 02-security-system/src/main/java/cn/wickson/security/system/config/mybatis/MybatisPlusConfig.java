@@ -1,4 +1,4 @@
-package cn.wickson.security.system.config;
+package cn.wickson.security.system.config.mybatis;
 
 import cn.wickson.security.commons.handler.MyMetaObjectHandler;
 import com.baomidou.mybatisplus.annotation.DbType;

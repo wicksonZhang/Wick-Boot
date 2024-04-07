@@ -40,7 +40,7 @@ public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, System
                         .ne(SystemRole::getCode, SystemConstants.ROOT_ROLE_CODE)
         );
         if (CollUtil.isEmpty(pageResult.getRecords())) {
-            return new PageResult<>(pageResult.getTotal());
+            return PageResult.empty();
         }
         List<SystemRoleDTO> roleDTOList = SystemRoleConvert.INSTANCE.entityToDTOS(pageResult.getRecords());
         return new PageResult<>(roleDTOList, pageResult.getTotal());

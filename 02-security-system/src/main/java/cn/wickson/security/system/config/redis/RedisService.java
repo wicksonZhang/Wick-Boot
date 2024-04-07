@@ -1,4 +1,4 @@
-package cn.wickson.security.commons.service;
+package cn.wickson.security.system.config.redis;
 
 import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
