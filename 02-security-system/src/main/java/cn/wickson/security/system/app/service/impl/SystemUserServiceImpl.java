@@ -8,8 +8,8 @@ import cn.wickson.security.system.mapper.ISystemUserMapper;
 import cn.wickson.security.system.model.dto.SystemUserDTO;
 import cn.wickson.security.system.model.entity.SystemUser;
 import cn.wickson.security.system.model.vo.QueryUserPageReqVO;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  * @date 2024-04-02
  */
 @Service
-public class SystemUserServiceImpl implements ISystemUserService {
+public class SystemUserServiceImpl extends ServiceImpl<ISystemUserMapper, SystemUser> implements ISystemUserService {
 
     @Resource
     private ISystemUserMapper userMapper;

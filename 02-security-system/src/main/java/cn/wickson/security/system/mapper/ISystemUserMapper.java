@@ -34,6 +34,6 @@ public interface ISystemUserMapper extends BaseMapper<SystemUser> {
      * @param reqVO 用户请求信息
      * @return PageResult<SystemUser>
      */
-    Page<SystemUserDTO> selectPage(Page<QueryUserPageReqVO> page, @Param("reqVO") QueryUserPageReqVO reqVO);
+    Page<SystemUserDTO> selectPage(Page<SystemUserDTO> page, @Param("reqVO") QueryUserPageReqVO reqVO);
 
 }

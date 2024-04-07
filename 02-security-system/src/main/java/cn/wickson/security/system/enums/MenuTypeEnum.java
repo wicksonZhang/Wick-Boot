@@ -1,6 +1,7 @@
 package cn.wickson.security.system.enums;
 
 import cn.hutool.core.util.ArrayUtil;
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -14,21 +15,22 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum MenuTypeEnum {
 
-    ROOT(0L, "根节点"),
+    ROOT(0, "根节点"),
 
-    MENU(1L, "菜单"),
+    MENU(1, "菜单"),
 
-    CATALOG(2L, "目录"),
+    CATALOG(2, "目录"),
 
-    EXT_LINK(3L, "外链"),
+    EXT_LINK(3, "外链"),
 
-    BUTTON(4L, "按钮"),
+    BUTTON(4, "按钮"),
     ;
 
     /**
      * 类型
      */
-    private final Long value;
+    @EnumValue
+    private final Integer value;
 
     /**
      * 名称

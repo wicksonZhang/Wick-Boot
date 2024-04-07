@@ -11,7 +11,7 @@ public interface SystemConstants {
     /**
      * 根部门ID
      */
-    Long ROOT_NODE_ID = 0l;
+    Long ROOT_NODE_ID = 0L;
 
 
     /**

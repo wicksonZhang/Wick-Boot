@@ -3,9 +3,14 @@ package cn.wickson.security.system.app.service;
 
 import cn.wickson.security.commons.result.PageResult;
 import cn.wickson.security.system.model.dto.SystemUserDTO;
+import cn.wickson.security.system.model.entity.SystemUser;
 import cn.wickson.security.system.model.vo.QueryUserPageReqVO;
+import com.baomidou.mybatisplus.extension.service.IService;
 
-public interface ISystemUserService {
+/**
+ * 用户管理-服务层
+ */
+public interface ISystemUserService extends IService<SystemUser> {
 
     /**
      * 通过用户名称获取用户信息

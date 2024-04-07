@@ -8,11 +8,11 @@ import cn.wickson.security.system.app.service.ISystemRoleService;
 import cn.wickson.security.system.convert.SystemRoleConvert;
 import cn.wickson.security.system.mapper.ISystemRoleMapper;
 import cn.wickson.security.system.model.dto.SystemRoleDTO;
-import cn.wickson.security.system.model.dto.SystemUserDTO;
 import cn.wickson.security.system.model.entity.SystemRole;
 import cn.wickson.security.system.model.vo.QueryRolePageReqVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,7 +25,7 @@ import java.util.List;
  * @date 2024-04-07
  */
 @Service
-public class SystemRoleServiceImpl implements ISystemRoleService {
+public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, SystemRole> implements ISystemRoleService {
 
     @Resource
     private ISystemRoleMapper roleMapper;

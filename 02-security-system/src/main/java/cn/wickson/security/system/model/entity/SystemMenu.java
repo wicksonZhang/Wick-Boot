@@ -1,6 +1,7 @@
 package cn.wickson.security.system.model.entity;
 
 import cn.wickson.security.commons.model.entity.BaseDO;
+import cn.wickson.security.system.enums.MenuTypeEnum;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -34,7 +35,7 @@ public class SystemMenu extends BaseDO {
     /**
      * 菜单类型(1:菜单；2：目录；3：外链；4：按钮)
      */
-    private Integer type;
+    private MenuTypeEnum type;
 
     /**
      * 菜单名称

@@ -1,6 +1,5 @@
-package cn.wickson.security.commons.config;
+package cn.wickson.security.system.config;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;

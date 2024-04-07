@@ -37,6 +37,10 @@ mybatis-plus:
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
     default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+  # 指定加载Mapper.xml文件路径
+  mapper-locations: classpath*:/mapper/**Mapper.xml
+  # 指定扫描实体类的包路径
+  type-aliases-package: cn.wickson.security.system.model.entity
 
 # 日志模式、保存路径和文件名
 logging:
