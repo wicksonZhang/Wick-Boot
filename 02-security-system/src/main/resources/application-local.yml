@@ -2,7 +2,7 @@
 server:
   port: 8080
   servlet:
-    context-path: /system
+    context-path: /api/v1
 
 # Spring 配置
 spring:

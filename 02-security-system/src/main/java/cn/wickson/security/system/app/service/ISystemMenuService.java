@@ -1,7 +1,7 @@
 package cn.wickson.security.system.app.service;
 
 import cn.wickson.security.system.model.dto.SystemMenuDTO;
-import cn.wickson.security.system.model.dto.SystemMenuRouteDTO;
+import cn.wickson.security.system.model.dto.SystemRouteDTO;
 import cn.wickson.security.system.model.entity.SystemMenu;
 import cn.wickson.security.system.model.vo.QueryMenuListReqVO;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -29,5 +29,5 @@ public interface ISystemMenuService extends IService<SystemMenu> {
      *
      * @return
      */
-    List<SystemMenuRouteDTO> listRoutes();
+    List<SystemRouteDTO> listRoutes();
 }

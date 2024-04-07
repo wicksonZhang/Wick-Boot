@@ -8,10 +8,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 后台管理 - 菜单信息
+ * 后台管理 - 前端路由对象
  *
  * @author ZhangZiHeng
  * @date 2024-04-07
@@ -20,9 +21,9 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "路由对象")
+@ApiModel(value = "前端路由对象")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class SystemMenuRouteDTO {
+public class SystemRouteDTO {
 
     @ApiModelProperty(value = "路由路径", example = "user")
     private String path;
@@ -30,7 +31,7 @@ public class SystemMenuRouteDTO {
     @ApiModelProperty(value = "组件路径", example = "system/user/index")
     private String component;
 
-    @ApiModelProperty(value = "跳转链接", example = "https://www.wickson.top")
+    @ApiModelProperty(value = "跳转链接", example = "/system/user")
     private String redirect;
 
     @ApiModelProperty(value = "路由名称")
@@ -64,6 +65,6 @@ public class SystemMenuRouteDTO {
     }
 
     @ApiModelProperty(value = "子路由列表")
-    private List<SystemMenuRouteDTO> children;
+    private List<SystemRouteDTO> children = new ArrayList<>();
 
 }

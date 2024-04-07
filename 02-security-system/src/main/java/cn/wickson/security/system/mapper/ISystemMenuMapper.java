@@ -1,6 +1,7 @@
 package cn.wickson.security.system.mapper;
 
 import cn.hutool.core.util.ObjUtil;
+import cn.wickson.security.system.model.dto.SystemMenuDTO;
 import cn.wickson.security.system.model.entity.SystemMenu;
 import cn.wickson.security.system.model.vo.QueryMenuListReqVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -22,5 +23,12 @@ public interface ISystemMenuMapper extends BaseMapper<SystemMenu> {
                 .eq(ObjUtil.isNotNull(queryParams.getStatus()), SystemMenu::getVisible, queryParams.getStatus())
                 .orderByAsc(SystemMenu::getSort));
     }
+
+    /**
+     * 获取路由列表
+     *
+     * @return List<SystemRouteDTO>
+     */
+    List<SystemMenuDTO> selectListRoutes();
 
 }
