@@ -12,6 +12,8 @@
         <result property="path" column="path" jdbcType="VARCHAR"/>
         <result property="component" column="component" jdbcType="VARCHAR"/>
         <result property="redirect" column="redirect" jdbcType="VARCHAR"/>
+        <result property="alwaysShow" column="always_show" jdbcType="INTEGER"/>
+        <result property="keepAlive" column="keep_alive" jdbcType="INTEGER"/>
         <result property="icon" column="icon" jdbcType="VARCHAR"/>
         <result property="sort" column="sort" jdbcType="INTEGER"/>
         <result property="visible" column="visible" jdbcType="BOOLEAN"/>
@@ -28,6 +30,8 @@
                menu.path,
                menu.component,
                menu.redirect,
+               menu.always_show,
+               menu.keep_alive,
                menu.icon,
                menu.sort,
                menu.visible,
