@@ -6,8 +6,10 @@ import cn.wickson.security.system.app.service.ISystemDeptService;
 import cn.wickson.security.system.convert.SystemDeptConvert;
 import cn.wickson.security.system.mapper.ISystemDeptMapper;
 import cn.wickson.security.system.model.dto.SystemDeptDTO;
+import cn.wickson.security.system.model.dto.SystemDeptOptionsDTO;
 import cn.wickson.security.system.model.entity.SystemDept;
 import cn.wickson.security.system.model.vo.QueryDeptListReqVO;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
 
@@ -40,24 +42,18 @@ public class SystemDeptServiceImpl implements ISystemDeptService {
     }
 
     @Override
-    public Map<String, Object> listDeptOptions() {
+    public List<SystemDeptOptionsDTO> listDeptOptions() {
         /* Step-1: 获取部门信息 */
         List<SystemDept> deptList = systemDeptMapper.selectDeptOptions();
         if (CollUtil.isEmpty(deptList)) {
-            return Maps.newHashMap();
+            return Lists.newArrayList();
         }
 
         /* Step-2: 构建部门树 */
         List<SystemDeptDTO> deptDTOList = buildDeptTree(deptList);
 
         /* Step-3: 返回结果集 */
-        Map<String, Object> map = Maps.newLinkedHashMap();
-        deptDTOList.forEach(dept -> {
-            map.put("value", dept.getId());
-            map.put("label", dept.getName());
-            map.put("children", dept.getChildren());
-        });
-        return map;
+        return SystemDeptConvert.INSTANCE.entityToDTOList(deptDTOList);
     }
 
     /**

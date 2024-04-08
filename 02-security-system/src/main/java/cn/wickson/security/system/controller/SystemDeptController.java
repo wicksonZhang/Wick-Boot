@@ -3,6 +3,7 @@ package cn.wickson.security.system.controller;
 import cn.wickson.security.commons.result.ResultUtil;
 import cn.wickson.security.system.app.service.ISystemDeptService;
 import cn.wickson.security.system.model.dto.SystemDeptDTO;
+import cn.wickson.security.system.model.dto.SystemDeptOptionsDTO;
 import cn.wickson.security.system.model.vo.QueryDeptListReqVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,7 +38,7 @@ public class SystemDeptController {
 
     @ApiOperation(value = "获取部门下拉选项", notes = "系统管理 - 部门信息")
     @GetMapping("/options")
-    public ResultUtil<Map<String, Object>> listDeptOptions() {
+    public ResultUtil<List<SystemDeptOptionsDTO>> listDeptOptions() {
         return ResultUtil.success(systemDeptService.listDeptOptions());
     }
 }

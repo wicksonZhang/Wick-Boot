@@ -1,9 +1,11 @@
 package cn.wickson.security.system.convert;
 
 import cn.wickson.security.system.model.dto.SystemDeptDTO;
+import cn.wickson.security.system.model.dto.SystemDeptOptionsDTO;
 import cn.wickson.security.system.model.entity.SystemDept;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
@@ -34,5 +36,19 @@ public interface SystemDeptConvert {
         dto.setChildren(new ArrayList<>()); // 初始化 children 属性为空列表
         return dto;
     }
+
+    /**
+     * Convert SystemDeptDTO To SystemDeptOptionsDTO
+     *
+     * @param systemDeptDTO systemDeptDTO
+     * @return SystemDeptOptionsDTO
+     */
+    @Mappings({
+            @Mapping(target = "value", source = "id"),
+            @Mapping(target = "label", source = "name")
+    })
+    SystemDeptOptionsDTO dtoToDTO(SystemDeptDTO systemDeptDTO);
+
+    List<SystemDeptOptionsDTO> entityToDTOList(List<SystemDeptDTO> deptDTOList);
 
 }

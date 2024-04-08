@@ -1,10 +1,10 @@
 package cn.wickson.security.system.app.service;
 
 import cn.wickson.security.system.model.dto.SystemDeptDTO;
+import cn.wickson.security.system.model.dto.SystemDeptOptionsDTO;
 import cn.wickson.security.system.model.vo.QueryDeptListReqVO;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 部门管理-服务层
@@ -24,7 +24,7 @@ public interface ISystemDeptService {
     /**
      * 获取部门下拉选项
      *
-     * @return Map<String, Object>
+     * @return List<DeptOptionsDTO>
      */
-    Map<String, Object> listDeptOptions();
+    List<SystemDeptOptionsDTO> listDeptOptions();
 }
