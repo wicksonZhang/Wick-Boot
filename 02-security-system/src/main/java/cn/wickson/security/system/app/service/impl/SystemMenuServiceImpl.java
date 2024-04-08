@@ -10,7 +10,6 @@ import cn.wickson.security.system.model.dto.SystemMenuDTO;
 import cn.wickson.security.system.model.dto.SystemRouteDTO;
 import cn.wickson.security.system.model.entity.SystemMenu;
 import cn.wickson.security.system.model.vo.QueryMenuListReqVO;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +18,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 后台管理 - 菜单信息
+ * 菜单管理-服务实现层
  *
  * @author ZhangZiHeng
  * @date 2024-04-07
  */
 @Service
-public class SystemMenuServiceImpl extends ServiceImpl<ISystemMenuMapper, SystemMenu> implements ISystemMenuService {
+public class SystemMenuServiceImpl implements ISystemMenuService {
 
     @Resource
     private ISystemMenuMapper systemMenuMapper;

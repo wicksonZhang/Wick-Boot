@@ -5,12 +5,11 @@ import cn.wickson.security.commons.result.PageResult;
 import cn.wickson.security.system.model.dto.SystemUserDTO;
 import cn.wickson.security.system.model.entity.SystemUser;
 import cn.wickson.security.system.model.vo.QueryUserPageReqVO;
-import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * 用户管理-服务层
  */
-public interface ISystemUserService extends IService<SystemUser> {
+public interface ISystemUserService {
 
     /**
      * 通过用户名称获取用户信息

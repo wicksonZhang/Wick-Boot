@@ -8,7 +8,6 @@ import cn.wickson.security.system.mapper.ISystemDeptMapper;
 import cn.wickson.security.system.model.dto.SystemDeptDTO;
 import cn.wickson.security.system.model.entity.SystemDept;
 import cn.wickson.security.system.model.vo.QueryDeptListReqVO;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +16,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 后台管理 - 部门信息
+ * 部门管理-服务实现层
  *
  * @author Wickson
  * @date 2024-04-05 22:32
  **/
 @Service
-public class SystemDeptServiceImpl extends ServiceImpl<ISystemDeptMapper, SystemDept> implements ISystemDeptService {
+public class SystemDeptServiceImpl implements ISystemDeptService {
 
     @Resource
     private ISystemDeptMapper systemDeptMapper;

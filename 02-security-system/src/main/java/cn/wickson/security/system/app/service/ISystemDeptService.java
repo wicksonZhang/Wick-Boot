@@ -1,19 +1,17 @@
 package cn.wickson.security.system.app.service;
 
 import cn.wickson.security.system.model.dto.SystemDeptDTO;
-import cn.wickson.security.system.model.entity.SystemDept;
 import cn.wickson.security.system.model.vo.QueryDeptListReqVO;
-import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * 系统管理 - 部门信息服务层
+ * 部门管理-服务层
  *
  * @author Lenovo
  */
-public interface ISystemDeptService extends IService<SystemDept> {
+public interface ISystemDeptService {
 
     /**
      * 查询部门列表信息
