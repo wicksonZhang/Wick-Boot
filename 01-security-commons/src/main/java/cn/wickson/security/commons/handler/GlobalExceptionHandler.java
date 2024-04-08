@@ -1,10 +1,10 @@
 package cn.wickson.security.commons.handler;
 
 import cn.wickson.security.commons.constant.GlobalResultCodeConstants;
-import cn.wickson.security.commons.result.ResultCode;
 import cn.wickson.security.commons.exception.ParameterException;
 import cn.wickson.security.commons.exception.ServiceException;
 import cn.wickson.security.commons.exception.UserOperationException;
+import cn.wickson.security.commons.result.ResultCode;
 import cn.wickson.security.commons.result.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -60,7 +60,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(UserOperationException.class)
     public ResultUtil<?> handleUserOperationException(UserOperationException e, HttpServletRequest request) {
-        log.error("requestUrl：{}，用户操作异常{code={}，message={}}", request.getRequestURI(), e.getCode(),
+        log.error("requestUrl：{}，用户操作异常{code={}，msg={}}", request.getRequestURI(), e.getCode(),
                 e.getDescription());
         return ResultUtil.failure(e.getCode(), e.getDescription());
     }
@@ -71,7 +71,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(ServiceException.class)
     public ResultUtil<?> handleServiceException(ServiceException e, HttpServletRequest request) {
-        log.error("requestUrl：{}，用户操作异常{code={}，message={}}", request.getRequestURI(), e.getCode(),
+        log.error("requestUrl：{}，用户操作异常{code={}，msg={}}", request.getRequestURI(), e.getCode(),
                 e.getMessage());
         return ResultUtil.failure(e.getCode(), e.getMessage());
     }
@@ -82,7 +82,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(ParameterException.class)
     public ResultUtil<?> handleParamException(ParameterException e, HttpServletRequest request) {
-        log.error("requestUrl：{}，用户操作异常{code={}，message={}}", request.getRequestURI(), e.getCode(),
+        log.error("requestUrl：{}，用户操作异常{code={}，msg={}}", request.getRequestURI(), e.getCode(),
                 e.getDescription(), e);
         return ResultUtil.failure(e.getCode(), e.getDescription());
     }

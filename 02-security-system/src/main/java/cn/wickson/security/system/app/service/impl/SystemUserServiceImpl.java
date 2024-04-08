@@ -41,4 +41,9 @@ public class SystemUserServiceImpl extends ServiceImpl<ISystemUserMapper, System
         }
         return new PageResult<>(pageResult.getRecords(), pageResult.getTotal());
     }
+
+    @Override
+    public SystemUser getUserByName(String username) {
+        return userMapper.selectByUsername(username);
+    }
 }

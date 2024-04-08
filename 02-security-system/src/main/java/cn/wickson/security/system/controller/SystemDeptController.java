@@ -29,13 +29,13 @@ public class SystemDeptController {
     @Resource
     private ISystemDeptService systemDeptService;
 
-    @ApiOperation(value = "获取部门列表")
+    @ApiOperation(value = "获取部门列表", notes = "系统管理 - 部门信息")
     @GetMapping
     public ResultUtil<List<SystemDeptDTO>> listDepartments(@Valid QueryDeptListReqVO reqVO) {
         return ResultUtil.success(systemDeptService.listDepartments(reqVO));
     }
 
-    @ApiOperation(value = "获取部门下拉选项")
+    @ApiOperation(value = "获取部门下拉选项", notes = "系统管理 - 部门信息")
     @GetMapping("/options")
     public ResultUtil<Map<String, Object>> listDeptOptions() {
         return ResultUtil.success(systemDeptService.listDeptOptions());

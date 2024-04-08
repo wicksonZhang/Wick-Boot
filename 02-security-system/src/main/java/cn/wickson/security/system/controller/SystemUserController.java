@@ -22,7 +22,7 @@ import javax.validation.Valid;
  * @date 2024-04-02
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @Api(tags = "系统管理 - 用户信息")
 public class SystemUserController {
 
@@ -40,6 +40,5 @@ public class SystemUserController {
     public ResultUtil<PageResult<SystemUserDTO>> getUserPage(@Valid QueryUserPageReqVO reqVO) {
         return ResultUtil.success(userService.getUserPage(reqVO));
     }
-
 
 }

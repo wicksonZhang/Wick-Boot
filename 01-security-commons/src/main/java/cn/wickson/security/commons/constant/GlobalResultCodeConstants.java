@@ -9,7 +9,7 @@ import cn.wickson.security.commons.result.ResultCode;
  */
 public interface GlobalResultCodeConstants {
 
-    ResultCode SUCCESS = new ResultCode(00000, "成功");
+    ResultCode SUCCESS = new ResultCode(0, "成功");
 
     ResultCode FAIL = new ResultCode(500, "失败");
 

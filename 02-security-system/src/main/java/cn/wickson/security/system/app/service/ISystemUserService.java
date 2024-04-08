@@ -27,4 +27,12 @@ public interface ISystemUserService extends IService<SystemUser> {
      * @return PageResult<SystemUserDTO>
      */
     PageResult<SystemUserDTO> getUserPage(QueryUserPageReqVO reqVO);
+
+    /**
+     * 通过用户名获取对象
+     *
+     * @param username 用户名
+     * @return
+     */
+    SystemUser getUserByName(String username);
 }

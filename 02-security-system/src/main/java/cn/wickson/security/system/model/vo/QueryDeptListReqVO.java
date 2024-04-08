@@ -1,6 +1,5 @@
 package cn.wickson.security.system.model.vo;
 
-import cn.wickson.security.commons.model.vo.CommonPageParamVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
