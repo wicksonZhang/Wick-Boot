@@ -5,7 +5,7 @@ export default defineMock([
     url: "dept/options",
     method: ["GET"],
     body: {
-      code: "00000",
+      code: 0,
       data: [
         {
           value: 1,
@@ -30,7 +30,7 @@ export default defineMock([
     url: "dept",
     method: ["GET"],
     body: {
-      code: "00000",
+      code: 0,
       data: [
         {
           id: 1,
@@ -74,7 +74,7 @@ export default defineMock([
     method: ["POST"],
     body({ body }) {
       return {
-        code: "00000",
+        code: 0,
         data: null,
         msg: "新增部门" + body.name + "成功",
       };
@@ -87,7 +87,7 @@ export default defineMock([
     method: ["GET"],
     body: ({ params }) => {
       return {
-        code: "00000",
+        code: 0,
         data: deptMap[params.id],
         msg: "一切ok",
       };
@@ -100,7 +100,7 @@ export default defineMock([
     method: ["PUT"],
     body({ body }) {
       return {
-        code: "00000",
+        code: 0,
         data: null,
         msg: "修改部门" + body.name + "成功",
       };
@@ -113,7 +113,7 @@ export default defineMock([
     method: ["DELETE"],
     body({ params }) {
       return {
-        code: "00000",
+        code: 0,
         data: null,
         msg: "删除部门" + params.id + "成功",
       };

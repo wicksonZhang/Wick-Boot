@@ -5,7 +5,7 @@ export default defineMock([
     url: "auth/captcha",
     method: ["GET"],
     body: {
-      code: "00000",
+      code: 0,
       data: {
         captchaKey: "534b8ef2b0a24121bec76391ddd159f9",
         captchaBase64:
@@ -19,7 +19,7 @@ export default defineMock([
     url: "auth/login",
     method: ["POST"],
     body: {
-      code: "00000",
+      code: 0,
       data: {
         accessToken:
           "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImp0aSI6IjE2YWJkNTlkOTAxNzQwZDliYmI3ZjczODBhZDkyNzNhIiwidXNlcklkIjoyLCJ1c2VybmFtZSI6ImFkbWluIiwiZGVwdElkIjoxLCJkYXRhU2NvcGUiOjEsImF1dGhvcml0aWVzIjpbIlJPTEVfQURNSU4iXSwiZXhwIjoxNjkxMTAzMzgyfQ.P4cuIfmPepl3HuguhMS7NXn5a7IUPpsLbmtA_rHOhHk",
@@ -35,7 +35,7 @@ export default defineMock([
     url: "auth/logout",
     method: ["DELETE"],
     body: {
-      code: "00000",
+      code: 0,
       data: {},
       msg: "string",
     },

@@ -27,7 +27,7 @@ export default defineMock([
       }
 
       return {
-        code: "00000",
+        code: 0,
         data: list,
         msg: "一切ok",
       };
@@ -38,7 +38,7 @@ export default defineMock([
     url: "dict/types/page",
     method: ["GET"],
     body: {
-      code: "00000",
+      code: 0,
       data: {
         list: [
           {
@@ -64,7 +64,7 @@ export default defineMock([
     url: "dict/page",
     method: ["GET"],
     body: {
-      code: "00000",
+      code: 0,
       data: {
         list: [
           {
@@ -98,7 +98,7 @@ export default defineMock([
     method: ["POST"],
     body({ body }) {
       return {
-        code: "00000",
+        code: 0,
         data: null,
         msg: "新增字典类型" + body.name + "成功",
       };
@@ -111,7 +111,7 @@ export default defineMock([
     method: ["GET"],
     body: ({ params }) => {
       return {
-        code: "00000",
+        code: 0,
         data: dictTypeMap[params.id],
         msg: "一切ok",
       };
@@ -124,7 +124,7 @@ export default defineMock([
     method: ["PUT"],
     body({ body }) {
       return {
-        code: "00000",
+        code: 0,
         data: null,
         msg: "修改字典类型" + body.name + "成功",
       };
@@ -137,7 +137,7 @@ export default defineMock([
     method: ["DELETE"],
     body({ params }) {
       return {
-        code: "00000",
+        code: 0,
         data: null,
         msg: "删除字典类型" + params.id + "成功",
       };
@@ -150,7 +150,7 @@ export default defineMock([
     method: ["POST"],
     body({ body }) {
       return {
-        code: "00000",
+        code: 0,
         data: null,
         msg: "新增字典" + body.name + "成功",
       };
@@ -163,7 +163,7 @@ export default defineMock([
     method: ["GET"],
     body: ({ params }) => {
       return {
-        code: "00000",
+        code: 0,
         data: dictMap[params.id],
         msg: "一切ok",
       };
@@ -176,7 +176,7 @@ export default defineMock([
     method: ["PUT"],
     body({ body }) {
       return {
-        code: "00000",
+        code: 0,
         data: null,
         msg: "修改字典类型" + body.name + "成功",
       };
@@ -189,7 +189,7 @@ export default defineMock([
     method: ["DELETE"],
     body({ params }) {
       return {
-        code: "00000",
+        code: 0,
         data: null,
         msg: "删除字典" + params.id + "成功",
       };
