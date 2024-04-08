@@ -7,6 +7,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 /**
@@ -15,7 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * @author ZhangZiHeng
  * @date 2023-12-27
  */
-@ControllerAdvice
+@ControllerAdvice(annotations = RestController.class)
 public class GlobalResponseHandler implements ResponseBodyAdvice<Object> {
 
     /**

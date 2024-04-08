@@ -1,7 +1,7 @@
 package cn.wickson.security.commons.handler;
 
 import cn.wickson.security.commons.constant.GlobalResultCodeConstants;
-import cn.wickson.security.commons.enums.ResultCode;
+import cn.wickson.security.commons.result.ResultCode;
 import cn.wickson.security.commons.exception.ParameterException;
 import cn.wickson.security.commons.exception.ServiceException;
 import cn.wickson.security.commons.exception.UserOperationException;

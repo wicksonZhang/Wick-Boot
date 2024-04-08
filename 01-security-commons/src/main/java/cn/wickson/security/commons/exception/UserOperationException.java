@@ -1,6 +1,6 @@
 package cn.wickson.security.commons.exception;
 
-import cn.wickson.security.commons.enums.ResultCode;
+import cn.wickson.security.commons.result.ResultCode;
 import lombok.Getter;
 
 /**

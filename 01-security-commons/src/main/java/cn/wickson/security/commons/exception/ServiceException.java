@@ -1,7 +1,7 @@
 package cn.wickson.security.commons.exception;
 
 import cn.wickson.security.commons.constant.GlobalResultCodeConstants;
-import cn.wickson.security.commons.enums.ResultCode;
+import cn.wickson.security.commons.result.ResultCode;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author ZhangZiHeng
  * @date 2024-04-02
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "cn.wickson.security")
 public class SpringBootSystemApplication {
 
     public static void main(String[] args) {

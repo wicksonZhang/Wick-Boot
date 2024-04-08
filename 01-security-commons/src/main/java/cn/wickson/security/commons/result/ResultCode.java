@@ -1,4 +1,4 @@
-package cn.wickson.security.commons.enums;
+package cn.wickson.security.commons.result;
 
 import lombok.Data;
 

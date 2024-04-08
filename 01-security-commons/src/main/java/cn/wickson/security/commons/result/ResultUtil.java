@@ -1,14 +1,11 @@
 package cn.wickson.security.commons.result;
 
 import cn.wickson.security.commons.constant.GlobalResultCodeConstants;
-import cn.wickson.security.commons.enums.ResultCode;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * 前端统一返回结果类
@@ -31,7 +28,7 @@ public class ResultUtil<T> implements Serializable {
     /**
      * 状态码描述
      */
-    private String message;
+    private String msg;
 
     /**
      * 数据返回主体
@@ -61,8 +58,8 @@ public class ResultUtil<T> implements Serializable {
      *
      * @return 返回Result类实例
      */
-    public static <T> ResultUtil<T> success(Integer code, String message) {
-        return getInstance(code, message);
+    public static <T> ResultUtil<T> success(Integer code, String msg) {
+        return getInstance(code, msg);
     }
 
 
@@ -98,8 +95,8 @@ public class ResultUtil<T> implements Serializable {
      *
      * @return 返回Result类实例
      */
-    public static <T> ResultUtil<T> failure(ResultCode code, String message) {
-        return getInstance(code, message);
+    public static <T> ResultUtil<T> failure(ResultCode code, String msg) {
+        return getInstance(code, msg);
     }
 
     /**
@@ -116,8 +113,8 @@ public class ResultUtil<T> implements Serializable {
      *
      * @return 返回Result类实例
      */
-    public static <T> ResultUtil<T> failure(Integer code, String message) {
-        return getInstance(code, message);
+    public static <T> ResultUtil<T> failure(Integer code, String msg) {
+        return getInstance(code, msg);
     }
 
     /**
@@ -134,8 +131,8 @@ public class ResultUtil<T> implements Serializable {
      *
      * @return 返回Result类实例
      */
-    private static <T> ResultUtil<T> getInstance(ResultCode code, String message) {
-        return getInstance(code.getCode(), message, null);
+    private static <T> ResultUtil<T> getInstance(ResultCode code, String msg) {
+        return getInstance(code.getCode(), msg, null);
     }
 
     /**
@@ -151,13 +148,13 @@ public class ResultUtil<T> implements Serializable {
      * 获取空值Result类实例
      *
      * @param code
-     * @param message
+     * @param msg
      * @return
      */
-    private static <T> ResultUtil<T> getInstance(Integer code, String message) {
+    private static <T> ResultUtil<T> getInstance(Integer code, String msg) {
         ResultUtil<T> result = ResultUtil.getInstance();
         result.setCode(code);
-        result.setMessage(message);
+        result.setMsg(msg);
         result.setData(null);
         return result;
     }
@@ -166,14 +163,14 @@ public class ResultUtil<T> implements Serializable {
      * 获取空值Result类实例
      *
      * @param code
-     * @param message
+     * @param msg
      * @param data
      * @return
      */
-    private static <T> ResultUtil<T> getInstance(Integer code, String message, T data) {
+    private static <T> ResultUtil<T> getInstance(Integer code, String msg, T data) {
         ResultUtil<T> result = ResultUtil.getInstance();
         result.setCode(code);
-        result.setMessage(message);
+        result.setMsg(msg);
         result.setData(data);
         return result;
     }

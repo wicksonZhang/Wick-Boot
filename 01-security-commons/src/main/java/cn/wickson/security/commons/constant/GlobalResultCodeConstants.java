@@ -1,7 +1,7 @@
 package cn.wickson.security.commons.constant;
 
 
-import cn.wickson.security.commons.enums.ResultCode;
+import cn.wickson.security.commons.result.ResultCode;
 
 /**
  * 全局错误码枚举
@@ -9,7 +9,7 @@ import cn.wickson.security.commons.enums.ResultCode;
  */
 public interface GlobalResultCodeConstants {
 
-    ResultCode SUCCESS = new ResultCode(0, "成功");
+    ResultCode SUCCESS = new ResultCode(00000, "成功");
 
     ResultCode FAIL = new ResultCode(500, "失败");
 
