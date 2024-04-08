@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 
 /**
+ * 字典类型DTO
+ *
  * @author ZhangZiHeng
  * @date 2024-04-08
  */

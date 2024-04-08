@@ -32,16 +32,15 @@ public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, System
 
     @Override
     public PageResult<SystemRoleDTO> getRolePage(QueryRolePageReqVO reqVO) {
-        Page<SystemRole> pageResult = roleMapper.selectPage(
+        Page<SystemRole> pageResult = roleMapper.selectRolePage(
                 new Page<>(reqVO.getPageNumber(), reqVO.getPageSize()),
-                new LambdaQueryWrapper<SystemRole>()
-                        .likeRight(ObjUtil.isNotNull(reqVO.getName()), SystemRole::getName, reqVO.getName())
-                        .likeRight(ObjUtil.isNotNull(reqVO.getCode()), SystemRole::getCode, reqVO.getCode())
-                        .ne(SystemRole::getCode, GlobalSystemConstants.ROOT_ROLE_CODE)
+                reqVO.getName(), reqVO.getCode()
         );
+
         if (CollUtil.isEmpty(pageResult.getRecords())) {
             return PageResult.empty();
         }
+
         List<SystemRoleDTO> roleDTOList = SystemRoleConvert.INSTANCE.entityToDTOS(pageResult.getRecords());
         return new PageResult<>(roleDTOList, pageResult.getTotal());
     }

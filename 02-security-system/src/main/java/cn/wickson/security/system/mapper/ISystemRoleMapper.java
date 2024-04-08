@@ -1,7 +1,11 @@
 package cn.wickson.security.system.mapper;
 
+import cn.hutool.core.util.ObjUtil;
+import cn.wickson.security.commons.constant.GlobalSystemConstants;
 import cn.wickson.security.system.model.entity.SystemRole;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -12,5 +16,20 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
+
+    /**
+     * 获取角色分页信息
+     *
+     * @param page 分页page
+     * @param name 角色名称
+     * @param code 角色编码
+     * @return Page<SystemRole>
+     */
+    default Page<SystemRole> selectRolePage(Page<SystemRole> page, String name, String code) {
+        return this.selectPage(page, new LambdaQueryWrapper<SystemRole>()
+                .likeRight(ObjUtil.isNotNull(name), SystemRole::getName, name)
+                .likeRight(ObjUtil.isNotNull(code), SystemRole::getCode, code)
+                .ne(SystemRole::getCode, GlobalSystemConstants.ROOT_ROLE_CODE));
+    }
 
 }

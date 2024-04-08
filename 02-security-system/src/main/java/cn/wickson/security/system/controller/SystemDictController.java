@@ -18,7 +18,7 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 
 /**
- * 后台管理 - 字典类型管理
+ * 后台管理 - 字典管理
  *
  * @author ZhangZiHeng
  * @date 2024-04-08

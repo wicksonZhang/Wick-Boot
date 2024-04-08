@@ -7,6 +7,7 @@ import cn.wickson.security.system.model.dto.SystemUserDTO;
 import cn.wickson.security.system.model.vo.QueryUserPageReqVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +32,8 @@ public class SystemUserController {
 
     @GetMapping("/getUserInfo/{username}")
     @ApiOperation(value = "获取用户信息", notes = "用户信息")
-    public ResultUtil<SystemUserDTO> getUserInfo(@PathVariable("username") String username) {
+    public ResultUtil<SystemUserDTO> getUserInfo(@Parameter(description = "用户账号")
+                                                 @PathVariable("username") String username) {
         return ResultUtil.success(userService.getUserInfo(username));
     }
 
