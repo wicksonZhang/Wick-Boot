@@ -172,3 +172,58 @@ INSERT INTO `system_role_menu` VALUES (2, 2);
 INSERT INTO `system_role_menu` VALUES (2, 3);
 INSERT INTO `system_role_menu` VALUES (2, 4);
 INSERT INTO `system_role_menu` VALUES (2, 5);
+
+
+-- ----------------------------
+-- Table structure for sys_dict_type
+-- ----------------------------
+DROP TABLE IF EXISTS `system_dict_type`;
+CREATE TABLE `system_dict_type`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键 ',
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '类型名称',
+  `code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '类型编码',
+  `status` tinyint NULL DEFAULT 0 COMMENT '状态(0:正常;1:禁用)',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '备注',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '创建者',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '更新者',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `type_code`(`code`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_dict_type
+-- ----------------------------
+INSERT INTO `system_dict_type` VALUES (1, '性别', 'gender', 0, NULL, 0, '2019-12-06 19:03:32', '2022-06-12 16:21:28', 1, 1);
+
+
+-- ----------------------------
+-- Table structure for system_dict_data
+-- ----------------------------
+DROP TABLE IF EXISTS `system_dict_data`;
+CREATE TABLE `system_dict_data`  (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '字典编码',
+  `dict_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '字典类型',
+  `label` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '字典标签',
+  `value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '字典键值',
+  `sort` int NOT NULL DEFAULT 0 COMMENT '字典排序',
+  `status` tinyint NOT NULL DEFAULT 0 COMMENT '状态（0正常 1停用）',
+  `color_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '颜色类型',
+  `css_class` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT 'css 样式',
+  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '备注',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '创建者',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '更新者',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '字典数据表';
+
+-- ----------------------------
+-- Records of sys_dict_item
+-- ----------------------------
+INSERT INTO `system_dict_data` VALUES (1, 'gender', '男', '1', 1, 0, 'default', 'A', '性别男', 0, '2019-05-05 13:07:52', '2022-06-12 23:20:39', 1, 1);
+INSERT INTO `system_dict_data` VALUES (2, 'gender', '女', '2', 2, 0, 'success', '', '性别女', 0, '2019-04-19 11:33:00', '2019-07-02 14:23:05', 1, 1);
+INSERT INTO `system_dict_data` VALUES (3, 'gender', '未知', '0', 3, 0, 'success', '', '未知性别', 0, '2020-10-17 08:09:31', '2020-10-17 08:09:31', 1, 1);

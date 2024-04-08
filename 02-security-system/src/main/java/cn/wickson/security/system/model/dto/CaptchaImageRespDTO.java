@@ -15,9 +15,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@ApiModel(value = "AddUserSaveReqVO对象", description = "新增管理后台-用户创建信息")
+@ApiModel(value = "CaptchaImageRespDTO对象", description = "后台管理-验证码信息")
 public class CaptchaImageRespDTO {
 
     @ApiModelProperty(value = "是否开启验证码", example = "true")
