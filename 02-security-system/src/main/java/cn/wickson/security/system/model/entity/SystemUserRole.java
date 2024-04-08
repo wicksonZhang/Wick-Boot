@@ -1,10 +1,7 @@
 package cn.wickson.security.system.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 /**
@@ -15,9 +12,10 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Builder
-@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
+@ToString(callSuper = true)
 @TableName("system_user_role")
 public class SystemUserRole {
 

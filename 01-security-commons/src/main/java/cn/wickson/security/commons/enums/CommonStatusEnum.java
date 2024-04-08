@@ -11,7 +11,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum UseStatusEnum {
+public enum CommonStatusEnum {
 
     ENABLE(1, "启用"),
 

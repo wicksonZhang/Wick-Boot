@@ -3,10 +3,7 @@ package cn.wickson.security.system.model.entity;
 import cn.wickson.security.commons.model.entity.BaseDO;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.math.BigInteger;
@@ -20,9 +17,11 @@ import java.time.LocalDateTime;
  */
 @Data
 @Builder
-@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @TableName("system_user")
 public class SystemUser extends BaseDO {
 

@@ -1,7 +1,7 @@
 package cn.wickson.security.system.app.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.wickson.security.commons.constant.SystemConstants;
+import cn.wickson.security.commons.constant.GlobalSystemConstants;
 import cn.wickson.security.system.app.service.ISystemDeptService;
 import cn.wickson.security.system.convert.SystemDeptConvert;
 import cn.wickson.security.system.mapper.ISystemDeptMapper;
@@ -69,7 +69,7 @@ public class SystemDeptServiceImpl extends ServiceImpl<ISystemDeptMapper, System
      */
     private List<SystemDeptDTO> buildDeptTree(List<SystemDept> departmentList) {
         Map<Long, SystemDeptDTO> deptMap = new HashMap<>();
-        Long rootNodeId = SystemConstants.ROOT_NODE_ID;
+        Long rootNodeId = GlobalSystemConstants.ROOT_NODE_ID;
 
         // Step-1: 构建部门树并将部门存入Map
         for (SystemDept dept : departmentList) {

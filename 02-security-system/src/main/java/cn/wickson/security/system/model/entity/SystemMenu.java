@@ -5,9 +5,7 @@ import cn.wickson.security.system.enums.MenuTypeEnum;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 /**
@@ -17,9 +15,12 @@ import lombok.experimental.Accessors;
  * @date 2024-04-02
  */
 @Data
-@Accessors(chain = true)
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Accessors(chain = true)
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @TableName("system_menu")
 public class SystemMenu extends BaseDO {
 

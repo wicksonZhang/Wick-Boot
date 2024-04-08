@@ -2,7 +2,7 @@ package cn.wickson.security.system.app.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
-import cn.wickson.security.commons.constant.SystemConstants;
+import cn.wickson.security.commons.constant.GlobalSystemConstants;
 import cn.wickson.security.commons.result.PageResult;
 import cn.wickson.security.system.app.service.ISystemRoleService;
 import cn.wickson.security.system.convert.SystemRoleConvert;
@@ -37,7 +37,7 @@ public class SystemRoleServiceImpl extends ServiceImpl<ISystemRoleMapper, System
                 new LambdaQueryWrapper<SystemRole>()
                         .likeRight(ObjUtil.isNotNull(reqVO.getName()), SystemRole::getName, reqVO.getName())
                         .likeRight(ObjUtil.isNotNull(reqVO.getCode()), SystemRole::getCode, reqVO.getCode())
-                        .ne(SystemRole::getCode, SystemConstants.ROOT_ROLE_CODE)
+                        .ne(SystemRole::getCode, GlobalSystemConstants.ROOT_ROLE_CODE)
         );
         if (CollUtil.isEmpty(pageResult.getRecords())) {
             return PageResult.empty();

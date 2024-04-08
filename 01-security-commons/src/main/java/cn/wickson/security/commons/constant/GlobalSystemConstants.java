@@ -6,7 +6,7 @@ package cn.wickson.security.commons.constant;
  * @author ZhangZiHeng
  * @date 2024-04-07
  */
-public interface SystemConstants {
+public interface GlobalSystemConstants {
 
     /**
      * 根部门ID

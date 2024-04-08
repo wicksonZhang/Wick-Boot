@@ -1,6 +1,6 @@
 package cn.wickson.security.commons.constant;
 
-public interface CacheConstants {
+public interface GlobalCacheConstants {
 
     /**
      * 验证码 redis key

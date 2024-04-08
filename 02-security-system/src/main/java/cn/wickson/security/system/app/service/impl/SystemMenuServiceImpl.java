@@ -1,8 +1,8 @@
 package cn.wickson.security.system.app.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.wickson.security.commons.constant.SystemConstants;
-import cn.wickson.security.commons.enums.UseStatusEnum;
+import cn.wickson.security.commons.constant.GlobalSystemConstants;
+import cn.wickson.security.commons.enums.CommonStatusEnum;
 import cn.wickson.security.system.app.service.ISystemMenuService;
 import cn.wickson.security.system.convert.SystemMenuConvert;
 import cn.wickson.security.system.mapper.ISystemMenuMapper;
@@ -50,7 +50,7 @@ public class SystemMenuServiceImpl extends ServiceImpl<ISystemMenuMapper, System
      */
     private List<SystemMenuDTO> buildMenuTree(List<SystemMenu> menuList) {
         Map<Long, SystemMenuDTO> menuMap = new HashMap<>();
-        Long rootNodeId = SystemConstants.ROOT_NODE_ID;
+        Long rootNodeId = GlobalSystemConstants.ROOT_NODE_ID;
 
         // Step-1: 构建菜单树并将部门存入Map
         for (SystemMenu menu : menuList) {
@@ -100,7 +100,7 @@ public class SystemMenuServiceImpl extends ServiceImpl<ISystemMenuMapper, System
         // Step-2: 构建菜单树
         Map<Long, SystemRouteDTO> resultMap = new HashMap<>();
         menuDTOs.stream()
-                .filter(menu -> !Objects.equals(SystemConstants.ROOT_NODE_ID, menu.getParentId()))
+                .filter(menu -> !Objects.equals(GlobalSystemConstants.ROOT_NODE_ID, menu.getParentId()))
                 .forEach(menu -> {
                     SystemMenuDTO menuParent = menuMap.get(menu.getParentId());
                     if (menuParent != null) {
@@ -133,7 +133,7 @@ public class SystemMenuServiceImpl extends ServiceImpl<ISystemMenuMapper, System
         meta.setTitle(menu.getName());
         meta.setIcon(menu.getIcon());
         meta.setRoles(menu.getRoles());
-        meta.setHidden(UseStatusEnum.DISABLE.getValue().equals(menu.getVisible()));
+        meta.setHidden(CommonStatusEnum.DISABLE.getValue().equals(menu.getVisible()));
         meta.setKeepAlive(true);
         routeVO.setMeta(meta);
 

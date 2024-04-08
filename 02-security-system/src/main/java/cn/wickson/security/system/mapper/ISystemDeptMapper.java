@@ -1,15 +1,13 @@
 package cn.wickson.security.system.mapper;
 
 import cn.hutool.core.util.ObjUtil;
-import cn.hutool.core.util.StrUtil;
-import cn.wickson.security.commons.enums.UseStatusEnum;
+import cn.wickson.security.commons.enums.CommonStatusEnum;
 import cn.wickson.security.system.model.entity.SystemDept;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author ZhangZiHeng
@@ -40,7 +38,7 @@ public interface ISystemDeptMapper extends BaseMapper<SystemDept> {
     default List<SystemDept> selectDeptOptions() {
         return selectList(new LambdaQueryWrapper<SystemDept>()
                 .select(SystemDept::getId, SystemDept::getParentId, SystemDept::getName)
-                .eq(SystemDept::getStatus, UseStatusEnum.ENABLE.getValue())
+                .eq(SystemDept::getStatus, CommonStatusEnum.ENABLE.getValue())
                 .orderByAsc(SystemDept::getSort));
     }
 

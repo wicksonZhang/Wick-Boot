@@ -2,8 +2,8 @@ package cn.wickson.security.system.app.service;
 
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.wickson.security.commons.constant.CacheConstants;
-import cn.wickson.security.commons.enums.UseStatusEnum;
+import cn.wickson.security.commons.constant.GlobalCacheConstants;
+import cn.wickson.security.commons.enums.CommonStatusEnum;
 import cn.wickson.security.commons.exception.ServiceException;
 import cn.wickson.security.system.config.redis.RedisService;
 import cn.wickson.security.system.enums.ResultCodeSystem;
@@ -69,7 +69,7 @@ public abstract class AbstractAuthAppService {
             throw ServiceException.getInstance(ResultCodeSystem.AUTH_USER_PASSWORD_ERROR);
         }
         // 是否被禁用
-        if (UseStatusEnum.DISABLE.getValue().equals(systemUser.getStatus())) {
+        if (CommonStatusEnum.DISABLE.getValue().equals(systemUser.getStatus())) {
             throw ServiceException.getInstance(ResultCodeSystem.AUTH_USER_STATUS_DISABLE);
         }
         // 删除token
@@ -83,6 +83,6 @@ public abstract class AbstractAuthAppService {
      * @return String
      */
     protected String getCaptchaCodeKey(String key) {
-        return String.format(CacheConstants.CAPTCHA_CODE_KEY, key);
+        return String.format(GlobalCacheConstants.CAPTCHA_CODE_KEY, key);
     }
 }
