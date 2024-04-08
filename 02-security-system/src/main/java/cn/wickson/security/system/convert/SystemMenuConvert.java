@@ -4,12 +4,10 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.wickson.security.system.enums.MenuTypeEnum;
 import cn.wickson.security.system.model.dto.SystemMenuDTO;
 import cn.wickson.security.system.model.entity.SystemMenu;
-import com.google.common.collect.Lists;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 后台管理 - 菜单 Convert
@@ -23,22 +21,17 @@ public interface SystemMenuConvert {
     SystemMenuConvert INSTANCE = Mappers.getMapper(SystemMenuConvert.class);
 
     /**
-     * Convert entity to DTOs
+     * Convert entity to DTO
      *
-     * @param menuList menuList
-     * @return List<SystemMenuDTO>
+     * @return SystemMenuDTO
      */
-    default List<SystemMenuDTO> entityToDTOS(List<SystemMenu> menuList) {
-        List<SystemMenuDTO> dtoList = Lists.newArrayList();
-        for (SystemMenu menu : menuList) {
-            SystemMenuDTO systemMenuDTO = new SystemMenuDTO();
-            BeanUtil.copyProperties(menu, systemMenuDTO, "createBy", "updateBy", "deleted", "createTime", "updateTime");
-            systemMenuDTO.setChildren(new ArrayList<>());
-            systemMenuDTO.setRoles(new ArrayList<>());
-            systemMenuDTO.setType(MenuTypeEnum.valueOf(menu.getType().getValue()));
-            dtoList.add(systemMenuDTO);
-        }
-        return dtoList;
+    default SystemMenuDTO entityToDTOWithChildren(SystemMenu systemMenu) {
+        SystemMenuDTO systemMenuDTO = new SystemMenuDTO();
+        BeanUtil.copyProperties(systemMenu, systemMenuDTO, "createBy", "updateBy", "deleted", "createTime", "updateTime");
+        systemMenuDTO.setChildren(new ArrayList<>());
+        systemMenuDTO.setRoles(new ArrayList<>());
+        systemMenuDTO.setType(MenuTypeEnum.valueOf(systemMenu.getType().getValue()));
+        return systemMenuDTO;
     }
 
 }

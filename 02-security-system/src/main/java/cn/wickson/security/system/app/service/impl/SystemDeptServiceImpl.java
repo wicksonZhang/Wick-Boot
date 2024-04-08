@@ -13,10 +13,7 @@ import com.google.common.collect.Maps;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -67,26 +64,32 @@ public class SystemDeptServiceImpl extends ServiceImpl<ISystemDeptMapper, System
     /**
      * 构建部门树信息
      *
-     * @param deptList 部门列表信息
+     * @param departmentList 部门列表信息
      * @return List<SystemDeptDTO>
      */
-    private List<SystemDeptDTO> buildDeptTree(List<SystemDept> deptList) {
-        /* Step-1: 使用Map存储转换后的DTO对象, 并将其存入Map */
-        List<SystemDeptDTO> deptDTOS = SystemDeptConvert.INSTANCE.entityToDTOS(deptList);
-        Map<Long, SystemDeptDTO> deptMap = deptDTOS.stream().collect(Collectors.toMap(SystemDeptDTO::getId, dto -> dto));
-
-        /* Step-2: 将子部门添加到父部门的children属性中 */
+    private List<SystemDeptDTO> buildDeptTree(List<SystemDept> departmentList) {
+        Map<Long, SystemDeptDTO> deptMap = new HashMap<>();
         Long rootNodeId = SystemConstants.ROOT_NODE_ID;
-        deptDTOS.stream().filter(dept -> !Objects.equals(rootNodeId, dept.getParentId())).forEach(dept -> {
-            SystemDeptDTO parentDeptDTO = deptMap.get(dept.getParentId());
-            if (parentDeptDTO != null) {
-                parentDeptDTO.getChildren().add(dept);
-            }
-        });
 
-        /* Step-3: 返回根节点结果集 */
-        return deptMap.values()
-                .stream()
+        // Step-1: 构建部门树并将部门存入Map
+        for (SystemDept dept : departmentList) {
+            SystemDeptDTO deptDTO = SystemDeptConvert.INSTANCE.entityToDTOWithChildren(dept);
+            deptMap.put(deptDTO.getId(), deptDTO);
+        }
+
+        // 将子部门添加到父部门的children属性中
+        for (SystemDeptDTO deptDTO : deptMap.values()) {
+            if (Objects.equals(rootNodeId, deptDTO.getParentId())) {
+                continue;
+            }
+            SystemDeptDTO parentDeptDTO = deptMap.get(deptDTO.getParentId());
+            if (parentDeptDTO != null) {
+                parentDeptDTO.getChildren().add(deptDTO);
+            }
+        }
+
+        // Step-2: 返回根节点结果集
+        return deptMap.values().stream()
                 .filter(deptDTO -> Objects.equals(rootNodeId, deptDTO.getParentId()))
                 .collect(Collectors.toList());
     }

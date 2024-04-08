@@ -29,20 +29,10 @@ public interface SystemDeptConvert {
     @Mapping(target = "children", ignore = true)
     SystemDeptDTO entityToDTO(SystemDept dept);
 
-    /**
-     * Convert entity to DTOs
-     *
-     * @param deptList List of department entities
-     * @return List<SystemDeptDTO>
-     */
-    default List<SystemDeptDTO> entityToDTOS(List<SystemDept> deptList) {
-        List<SystemDeptDTO> dtoList = new ArrayList<>();
-        for (SystemDept dept : deptList) {
-            SystemDeptDTO dto = entityToDTO(dept);
-            dto.setChildren(new ArrayList<>());
-            dtoList.add(dto);
-        }
-        return dtoList;
+    default SystemDeptDTO entityToDTOWithChildren(SystemDept dept) {
+        SystemDeptDTO dto = entityToDTO(dept);
+        dto.setChildren(new ArrayList<>()); // 初始化 children 属性为空列表
+        return dto;
     }
 
 }
