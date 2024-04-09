@@ -10,8 +10,13 @@ import cn.wickson.security.system.model.dto.AuthUserLoginRespDTO;
 import cn.wickson.security.system.model.dto.CaptchaImageRespDTO;
 import cn.wickson.security.system.model.entity.SystemUser;
 import cn.wickson.security.system.model.vo.AuthUserLoginReqVO;
+import cn.wickson.security.system.security.util.JwtUtils;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -20,6 +25,10 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 public class AuthServiceImpl extends AbstractAuthAppService implements IAuthService {
+
+    @Resource
+    private AuthenticationManager authenticationManager;
+
 
     @Override
     public CaptchaImageRespDTO getCaptchaImage() {
@@ -51,9 +60,11 @@ public class AuthServiceImpl extends AbstractAuthAppService implements IAuthServ
         SystemUser systemUser = userService.getUserByName(reqVO.getUsername());
         this.validUserInfo(systemUser, reqVO.getPassword(), reqVO.getCaptchaKey());
 
-        /* Step-2: 创建 Token 令牌*/
-//        return createAccessToken();
-        return null;
+        /* Step2: Security 认证 */
+        Authentication token = new UsernamePasswordAuthenticationToken(systemUser.getUsername(), systemUser.getPassword());
+        Authentication authentication = authenticationManager.authenticate(token);
+        String accessToken = JwtUtils.generateToken(authentication);
+        return AuthUserLoginRespDTO.builder().accessToken(accessToken).tokenType("Bearer").build();
     }
 
 }
