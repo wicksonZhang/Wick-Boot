@@ -1,4 +1,4 @@
-package cn.wickson.security.system.config.redis;
+package cn.wickson.security.system.plugin.redis;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
