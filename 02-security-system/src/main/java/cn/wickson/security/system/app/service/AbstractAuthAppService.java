@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.wickson.security.commons.constant.GlobalCacheConstants;
 import cn.wickson.security.commons.enums.CommonStatusEnum;
 import cn.wickson.security.commons.exception.ServiceException;
-import cn.wickson.security.system.config.redis.RedisService;
+import cn.wickson.security.system.plugin.redis.RedisService;
 import cn.wickson.security.system.enums.ResultCodeSystem;
 import cn.wickson.security.system.model.entity.SystemUser;
 import org.springframework.beans.factory.annotation.Value;

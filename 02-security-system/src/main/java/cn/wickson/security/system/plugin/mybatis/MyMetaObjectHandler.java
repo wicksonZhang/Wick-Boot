@@ -1,4 +1,4 @@
-package cn.wickson.security.system.config.mybatis;
+package cn.wickson.security.system.plugin.mybatis;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;

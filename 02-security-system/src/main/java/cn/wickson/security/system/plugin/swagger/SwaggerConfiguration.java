@@ -1,4 +1,4 @@
-package cn.wickson.security.system.config.swagger;
+package cn.wickson.security.system.plugin.swagger;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
