@@ -112,8 +112,8 @@ public class SystemMenuServiceImpl implements ISystemMenuService {
                 continue;
             }
             // 获取或创建父菜单对应的路由
-            SystemMenuDTO parentMenuDTO = menuMap.get(parentId);
-            SystemRouteDTO systemRouteDTO = resultMap.computeIfAbsent(parentMenuDTO.getId(), route -> getRoute(parentMenuDTO));
+            SystemMenuDTO parentDTO = menuMap.get(parentId);
+            SystemRouteDTO systemRouteDTO = resultMap.computeIfAbsent(parentDTO.getId(), route -> getRoute(parentDTO));
             // 设置 children 属性
             systemRouteDTO.getChildren().add(getRoute(menuDTO));
         }
