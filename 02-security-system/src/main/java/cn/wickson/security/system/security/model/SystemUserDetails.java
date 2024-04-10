@@ -10,7 +10,7 @@ import java.util.Collection;
  * 系统用户
  */
 @Data
-public class SecurityUser implements UserDetails {
+public class SystemUserDetails implements UserDetails {
 
     /**
      * 用户名
@@ -32,7 +32,7 @@ public class SecurityUser implements UserDetails {
      */
     private Collection<? extends GrantedAuthority> authorities;
 
-    public SecurityUser(String username, String password, Boolean enabled, Collection<? extends GrantedAuthority> authorities) {
+    public SystemUserDetails(String username, String password, Boolean enabled, Collection<? extends GrantedAuthority> authorities) {
         this.username = username;
         this.password = password;
         this.enabled = enabled;

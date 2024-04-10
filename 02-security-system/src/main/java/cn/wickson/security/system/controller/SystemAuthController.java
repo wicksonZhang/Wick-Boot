@@ -37,4 +37,5 @@ public class SystemAuthController {
     public ResultUtil<AuthUserLoginRespDTO> login(@Valid AuthUserLoginReqVO reqVO) {
         return ResultUtil.success(authService.login(reqVO));
     }
+
 }
