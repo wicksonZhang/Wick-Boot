@@ -1,16 +1,30 @@
 package cn.wickson.security.system.security.model;
 
+import cn.wickson.security.system.model.dto.AuthUserInfoDTO;
+import com.google.common.collect.Sets;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * 系统用户
  */
 @Data
 public class SystemUserDetails implements UserDetails {
+
+    /**
+     * 用户id
+     */
+    private Long userId;
+
+    /**
+     * 部门id
+     */
+    private Long deptId;
 
     /**
      * 用户名
@@ -30,18 +44,20 @@ public class SystemUserDetails implements UserDetails {
     /**
      * 用户权限列表
      */
-    private Collection<? extends GrantedAuthority> authorities;
+    private Collection<SimpleGrantedAuthority> authorities;
 
-    public SystemUserDetails(String username, String password, Boolean enabled, Collection<? extends GrantedAuthority> authorities) {
-        this.username = username;
-        this.password = password;
-        this.enabled = enabled;
-        this.authorities = authorities;
+    public SystemUserDetails(AuthUserInfoDTO userDetailsDTO) {
+        this.userId = userDetailsDTO.getUserId();
+        this.deptId = userDetailsDTO.getDeptId();
+        this.username = userDetailsDTO.getUsername();
+        this.password = userDetailsDTO.getPassword();
+        this.enabled = Objects.equals(userDetailsDTO.getStatus(), 1);
+        this.authorities = Sets.newHashSet();
     }
 
     @Override
     public String getPassword() {
-        return username;
+        return password;
     }
 
     @Override

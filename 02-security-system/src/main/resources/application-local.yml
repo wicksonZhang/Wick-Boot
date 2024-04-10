@@ -48,3 +48,8 @@ logging:
     cn.wickson.security.system: debug
   file:
     name: ./logs/system-log.log
+
+# jwt properties
+jwt:
+  secret: 1234567890qwertyuiopasdfghjklzxcvbnm
+  expiration: 7200

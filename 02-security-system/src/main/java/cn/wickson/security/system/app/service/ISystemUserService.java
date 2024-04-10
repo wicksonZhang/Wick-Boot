@@ -2,8 +2,8 @@ package cn.wickson.security.system.app.service;
 
 
 import cn.wickson.security.commons.result.PageResult;
+import cn.wickson.security.system.model.dto.AuthUserInfoDTO;
 import cn.wickson.security.system.model.dto.SystemUserDTO;
-import cn.wickson.security.system.model.entity.SystemUser;
 import cn.wickson.security.system.model.vo.QueryUserPageReqVO;
 
 /**
@@ -31,7 +31,7 @@ public interface ISystemUserService {
      * 通过用户名获取对象
      *
      * @param username 用户名
-     * @return
+     * @return AuthUserInfoDTO
      */
-    SystemUser getUserByName(String username);
+    AuthUserInfoDTO getUserByName(String username);
 }

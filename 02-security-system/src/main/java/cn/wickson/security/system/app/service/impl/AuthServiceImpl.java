@@ -29,6 +29,8 @@ public class AuthServiceImpl extends AbstractAuthAppService implements IAuthServ
     @Resource
     private AuthenticationManager authenticationManager;
 
+    @Resource
+    private JwtUtils jwtUtils;
 
     @Override
     public CaptchaImageRespDTO getCaptchaImage() {
@@ -54,16 +56,16 @@ public class AuthServiceImpl extends AbstractAuthAppService implements IAuthServ
     public AuthUserLoginRespDTO login(AuthUserLoginReqVO reqVO) {
         /* Step-1: 参数验证 */
         // 验证验证码
-        this.validCaptcha(reqVO.getCaptchaKey(), reqVO.getCaptchaCode());
+        // this.validCaptcha(reqVO.getCaptchaKey(), reqVO.getCaptchaCode());
 
         // 验证用户信息
-        SystemUser systemUser = userService.getUserByName(reqVO.getUsername());
-        this.validUserInfo(systemUser, reqVO.getPassword(), reqVO.getCaptchaKey());
+//        SystemUser systemUser = userService.getUserByName(reqVO.getUsername());
+//        this.validUserInfo(systemUser, reqVO.getPassword(), reqVO.getCaptchaKey());
 
         /* Step2: Security 认证 */
-        Authentication token = new UsernamePasswordAuthenticationToken(systemUser.getUsername(), systemUser.getPassword());
+        Authentication token = new UsernamePasswordAuthenticationToken(reqVO.getUsername(), reqVO.getPassword());
         Authentication authentication = authenticationManager.authenticate(token);
-        String accessToken = JwtUtils.generateToken(authentication);
+        String accessToken = jwtUtils.generateToken(authentication);
         return AuthUserLoginRespDTO.builder().accessToken(accessToken).tokenType("Bearer").build();
     }
 

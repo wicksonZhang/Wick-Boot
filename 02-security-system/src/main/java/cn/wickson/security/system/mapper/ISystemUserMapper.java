@@ -1,5 +1,6 @@
 package cn.wickson.security.system.mapper;
 
+import cn.wickson.security.system.model.dto.AuthUserInfoDTO;
 import cn.wickson.security.system.model.dto.SystemUserDTO;
 import cn.wickson.security.system.model.entity.SystemUser;
 import cn.wickson.security.system.model.vo.QueryUserPageReqVO;
@@ -36,4 +37,11 @@ public interface ISystemUserMapper extends BaseMapper<SystemUser> {
      */
     Page<SystemUserDTO> selectPage(Page<SystemUserDTO> page, @Param("reqVO") QueryUserPageReqVO reqVO);
 
+    /**
+     * 获取用户认证信息
+     *
+     * @param username 用户名称
+     * @return AuthUserInfoDTO
+     */
+    AuthUserInfoDTO selectAuthUserInfo(String username);
 }

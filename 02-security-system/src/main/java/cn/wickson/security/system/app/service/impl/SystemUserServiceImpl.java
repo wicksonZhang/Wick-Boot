@@ -1,10 +1,12 @@
 package cn.wickson.security.system.app.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjUtil;
 import cn.wickson.security.commons.result.PageResult;
 import cn.wickson.security.system.app.service.ISystemUserService;
 import cn.wickson.security.system.convert.SystemUserConvert;
 import cn.wickson.security.system.mapper.ISystemUserMapper;
+import cn.wickson.security.system.model.dto.AuthUserInfoDTO;
 import cn.wickson.security.system.model.dto.SystemUserDTO;
 import cn.wickson.security.system.model.entity.SystemUser;
 import cn.wickson.security.system.model.vo.QueryUserPageReqVO;
@@ -12,6 +14,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Set;
 
 /**
  * 用户管理-服务实现层
@@ -44,7 +47,11 @@ public class SystemUserServiceImpl implements ISystemUserService {
     }
 
     @Override
-    public SystemUser getUserByName(String username) {
-        return userMapper.selectByUsername(username);
+    public AuthUserInfoDTO getUserByName(String username) {
+        AuthUserInfoDTO userInfoDTO = userMapper.selectAuthUserInfo(username);
+        if (ObjUtil.isNull(userInfoDTO)) {
+            return null;
+        }
+        return userInfoDTO;
     }
 }

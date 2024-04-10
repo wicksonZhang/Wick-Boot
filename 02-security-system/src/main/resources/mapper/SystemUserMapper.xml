@@ -35,4 +35,33 @@
         ORDER BY u.id ASC
     </select>
 
+    <!-- 用户认证信息映射 -->
+    <resultMap id="UserAuthMap" type="cn.wickson.security.system.model.dto.AuthUserInfoDTO">
+        <id property="userId" column="userId" jdbcType="BIGINT"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="BOOLEAN"/>
+        <result property="deptId" column="dept_id" jdbcType="BIGINT"/>
+        <collection property="roles" ofType="string" javaType="java.util.Set">
+            <result column="code"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectAuthUserInfo" resultMap="UserAuthMap">
+        SELECT
+            t1.id userId,
+            t1.username,
+            t1.nickname,
+            t1.password,
+            t1.STATUS,
+            t1.dept_id ,
+            t3.CODE
+        FROM
+            system_user t1
+            LEFT JOIN system_user_role t2 ON t2.user_id = t1.id
+            LEFT JOIN system_role t3 ON t3.id = t2.role_id
+        WHERE
+            t1.username = #{username}
+    </select>
+
 </mapper>

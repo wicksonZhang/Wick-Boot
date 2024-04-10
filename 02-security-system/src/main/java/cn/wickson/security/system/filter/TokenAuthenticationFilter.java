@@ -3,6 +3,7 @@ package cn.wickson.security.system.filter;
 import cn.hutool.core.util.StrUtil;
 import cn.wickson.security.system.security.util.JwtUtils;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -24,6 +25,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         if (StrUtil.isNotBlank(token)) {
             /* Step-1: 解析 token */
             JwtUtils.parseToken(token);
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
     }
