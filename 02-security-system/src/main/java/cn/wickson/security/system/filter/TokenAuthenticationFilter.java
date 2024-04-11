@@ -2,6 +2,7 @@ package cn.wickson.security.system.filter;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONArray;
 import cn.hutool.jwt.JWTPayload;
 import cn.wickson.security.commons.result.ResponseUtils;
 import cn.wickson.security.system.constants.JWTClaimConstants;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Token 校验过滤器
@@ -66,7 +68,10 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         // 用户名称
         userDetails.setUsername(Convert.toStr(payload.get(JWTPayload.SUBJECT)));
         // 角色信息
-        Set<SimpleGrantedAuthority> authorities = Sets.newHashSet();
+        Set<SimpleGrantedAuthority> authorities = ((JSONArray) payload.get(JWTClaimConstants.AUTHORITIES))
+                .stream()
+                .map(authority -> new SimpleGrantedAuthority(Convert.toStr(authority)))
+                .collect(Collectors.toSet());
         return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
     }
 

@@ -13,10 +13,13 @@ import com.google.common.collect.Maps;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 通过 HuTool 创建 Token
@@ -49,9 +52,12 @@ public class JwtUtils {
         // 用户ID
         payload.put(JWTClaimConstants.USER_ID, userDetails.getUserId());
         // 部门ID
-        payload.put(JWTClaimConstants.DEPT_ID, userDetails.getUsername());
+        payload.put(JWTClaimConstants.DEPT_ID, userDetails.getDeptId());
         // 角色信息
-        payload.put(JWTClaimConstants.AUTHORITIES, userDetails.getAuthorities());
+        Set<String> roles = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toSet());
+        payload.put(JWTClaimConstants.AUTHORITIES, roles);
 
         // 生成时间
         Date now = new Date();
@@ -87,10 +93,10 @@ public class JwtUtils {
         }
         // 验证JWT是否有效，验证包括：Token是否正确、生效时间不能晚于当前时间、失效时间不能早于当前时间、签发时间不能晚于当前时间
         JWT jwt = JWTUtil.parseToken(token);
-        if (!jwt.setKey(secret.getBytes()).validate(0)) {
-            return null;
+        if (jwt.setKey(secret.getBytes()).validate(0)) {
+            return jwt.getPayloads();
         }
-        return jwt.getPayloads();
+        return null;
     }
 
 }

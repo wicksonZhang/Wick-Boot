@@ -46,15 +46,11 @@ public class SecurityUtils {
      */
     public static Set<String> getRoles() {
         Set<String> resultSets = Sets.newHashSet();
-
         /* Step-1: 获取 SystemUserDetails 用户信息 */
-        SystemUserDetails userDetails = getUserDetails();
-        if (userDetails == null) {
-            return resultSets;
-        }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         /* Step-2: 获取 authorities 角色信息 */
-        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         if (CollUtil.isEmpty(authorities)) {
             return resultSets;
         }

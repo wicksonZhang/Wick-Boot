@@ -41,5 +41,4 @@ public class SystemUserInfoDTO {
     @ApiModelProperty(value = "用户权限标识集合", example = "sys:user:edit")
     private Set<String> perms;
 
-
 }
