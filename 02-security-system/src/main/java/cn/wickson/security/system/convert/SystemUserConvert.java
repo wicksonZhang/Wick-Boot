@@ -1,8 +1,10 @@
 package cn.wickson.security.system.convert;
 
 import cn.wickson.security.system.model.dto.SystemUserDTO;
+import cn.wickson.security.system.model.dto.SystemUserInfoDTO;
 import cn.wickson.security.system.model.entity.SystemUser;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 /**
@@ -16,6 +18,21 @@ public interface SystemUserConvert {
 
     SystemUserConvert INSTANCE = Mappers.getMapper(SystemUserConvert.class);
 
+    /**
+     * Convert entity To SystemUserDTO
+     *
+     * @param systemUser 用户信息
+     * @return SystemUserDTO
+     */
     SystemUserDTO entityToDTO(SystemUser systemUser);
+
+    /**
+     * Convert entity To SystemUserInfoDTO
+     *
+     * @param systemUser 用户信息
+     * @return SystemUserInfoDTO
+     */
+    @Mapping(target = "userId", source = "id")
+    SystemUserInfoDTO entityToDTO1(SystemUser systemUser);
 
 }

@@ -1,5 +1,7 @@
 package cn.wickson.security.system.security.model;
 
+import cn.hutool.core.collection.CollectionUtil;
+import cn.wickson.security.commons.constant.GlobalSystemConstants;
 import cn.wickson.security.system.model.dto.AuthUserInfoDTO;
 import com.google.common.collect.Sets;
 import lombok.Data;
@@ -10,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 系统用户
@@ -49,12 +53,27 @@ public class SystemUserDetails implements UserDetails {
     private Collection<SimpleGrantedAuthority> authorities;
 
     public SystemUserDetails(AuthUserInfoDTO userDetailsDTO) {
+        // 用户Id
         this.userId = userDetailsDTO.getUserId();
+        // 部门Id
         this.deptId = userDetailsDTO.getDeptId();
+        // 用户名称
         this.username = userDetailsDTO.getUsername();
+        // 用户密码
         this.password = userDetailsDTO.getPassword();
+        // 账号状态
         this.enabled = Objects.equals(userDetailsDTO.getStatus(), 1);
-        this.authorities = Sets.newHashSet();
+        // 角色Code
+        Set<String> roles = userDetailsDTO.getRoles();
+        Set<SimpleGrantedAuthority> authorities = Sets.newHashSet();
+        if (CollectionUtil.isNotEmpty(roles)) {
+            // 每个角色前都添加了 "ROLE_" 前缀，符合 Spring Security 角色的命名规范。
+            // 参考：https://juejin.cn/post/6995136682320199710
+            authorities = roles.stream()
+                    .map(role -> new SimpleGrantedAuthority(GlobalSystemConstants.ROLE + role))
+                    .collect(Collectors.toSet());
+        }
+        this.authorities = authorities;
     }
 
     @Override

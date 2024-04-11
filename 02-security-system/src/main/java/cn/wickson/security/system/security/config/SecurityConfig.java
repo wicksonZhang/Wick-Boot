@@ -1,6 +1,7 @@
 package cn.wickson.security.system.security.config;
 
 import cn.wickson.security.system.filter.TokenAuthenticationFilter;
+import cn.wickson.security.system.security.handler.MyAccessDeniedHandler;
 import cn.wickson.security.system.security.handler.MyAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,11 +23,11 @@ import javax.annotation.Resource;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    @Resource
-//    private MyAccessDeniedHandler myAccessDeniedHandler;
-
     @Resource
     private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
+
+    @Resource
+    private MyAccessDeniedHandler myAccessDeniedHandler;
 
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable() // 禁用跨站请求伪造保护
@@ -48,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(myAuthenticationEntryPoint)
-//                .accessDeniedHandler(myAccessDeniedHandler)
+                .accessDeniedHandler(myAccessDeniedHandler)
 
                 // Token 认证过滤器，在 UsernamePasswordAuthenticationFilter 之前添加自定义的 Token 认证过滤器
                 .and()

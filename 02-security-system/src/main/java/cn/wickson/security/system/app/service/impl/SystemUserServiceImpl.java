@@ -8,12 +8,19 @@ import cn.wickson.security.system.convert.SystemUserConvert;
 import cn.wickson.security.system.mapper.ISystemUserMapper;
 import cn.wickson.security.system.model.dto.AuthUserInfoDTO;
 import cn.wickson.security.system.model.dto.SystemUserDTO;
+import cn.wickson.security.system.model.dto.SystemUserInfoDTO;
 import cn.wickson.security.system.model.entity.SystemUser;
 import cn.wickson.security.system.model.vo.QueryUserPageReqVO;
+import cn.wickson.security.system.security.model.SystemUserDetails;
+import cn.wickson.security.system.security.service.SecurityUserDetails;
+import cn.wickson.security.system.security.util.SecurityUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -54,4 +61,29 @@ public class SystemUserServiceImpl implements ISystemUserService {
         }
         return userInfoDTO;
     }
+
+    @Override
+    public SystemUserInfoDTO getCurrentUserInfo() {
+        /* Step-1: 获取当前登录用户信息 */
+        SystemUserDetails userDetails = SecurityUtils.getUserDetails();
+        if (ObjUtil.isNull(userDetails)) {
+            return SystemUserInfoDTO.builder().build();
+        }
+
+        /* Step-2: 通过用户名称获取用户信息 */
+        SystemUser systemUser = this.userMapper.selectByUsername(userDetails.getUsername());
+        // 封装用户信息
+        SystemUserInfoDTO userInfoDTO = SystemUserConvert.INSTANCE.entityToDTO1(systemUser);
+
+        /* Step-3: 获取角色信息 */
+        Set<String> roles = SecurityUtils.getRoles();
+        // 封装角色信息
+        userInfoDTO.setRoles(roles);
+
+        /* Step-4: 获取权限信息 */
+
+
+        return null;
+    }
+
 }

@@ -53,9 +53,9 @@
             t1.username,
             t1.nickname,
             t1.password,
-            t1.STATUS,
+            t1.status,
             t1.dept_id ,
-            t3.CODE
+            t3.code
         FROM
             system_user t1
             LEFT JOIN system_user_role t2 ON t2.user_id = t1.id

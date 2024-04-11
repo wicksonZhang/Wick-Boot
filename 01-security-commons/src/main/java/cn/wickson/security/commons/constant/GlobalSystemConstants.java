@@ -24,6 +24,11 @@ public interface GlobalSystemConstants {
     String TOKEN_TYPE_BEARER = "Bearer ";
 
     /**
+     * Spring Security 角色的命名规范
+     */
+    String ROLE = "ROLE_";
+
+    /**
      * 超级管理员角色编码
      */
     String ROOT_ROLE_CODE = "ROOT";

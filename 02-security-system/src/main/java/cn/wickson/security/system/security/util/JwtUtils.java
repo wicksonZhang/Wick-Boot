@@ -59,7 +59,9 @@ public class JwtUtils {
         payload.put(JWTPayload.ISSUED_AT, now);
         // 过期时间
         payload.put(JWTPayload.EXPIRES_AT, expirationDate);
+        // 主体
         payload.put(JWTPayload.SUBJECT, authentication.getName());
+        // jwt的唯一身份标识，主要用来作为一次性 token ,从而回避重放攻击
         payload.put(JWTPayload.JWT_ID, IdUtil.simpleUUID());
 
         // 创建 Token

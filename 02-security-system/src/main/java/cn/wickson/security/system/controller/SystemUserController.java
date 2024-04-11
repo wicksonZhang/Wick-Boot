@@ -4,6 +4,7 @@ import cn.wickson.security.commons.result.PageResult;
 import cn.wickson.security.commons.result.ResultUtil;
 import cn.wickson.security.system.app.service.ISystemUserService;
 import cn.wickson.security.system.model.dto.SystemUserDTO;
+import cn.wickson.security.system.model.dto.SystemUserInfoDTO;
 import cn.wickson.security.system.model.vo.QueryUserPageReqVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,6 +36,12 @@ public class SystemUserController {
     public ResultUtil<SystemUserDTO> getUserInfo(@Parameter(description = "用户账号")
                                                  @PathVariable("username") String username) {
         return ResultUtil.success(userService.getUserInfo(username));
+    }
+
+    @GetMapping("/me")
+    @ApiOperation(value = "获取当前登录用户信息", notes = "用户信息")
+    public ResultUtil<SystemUserInfoDTO> getCurrentUserInfo() {
+        return ResultUtil.success(userService.getCurrentUserInfo());
     }
 
     @GetMapping("/page")
