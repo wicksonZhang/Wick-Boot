@@ -26,11 +26,11 @@ public class SystemAuthController {
     @Resource
     private IAuthService authService;
 
-    @GetMapping("/captcha")
-    @ApiOperation(value = "获取验证码", notes = "系统管理 - 认证中心")
-    public ResultUtil<CaptchaImageRespDTO> getCaptchaImage() {
-        return ResultUtil.success(authService.getCaptchaImage());
-    }
+//    @GetMapping("/captcha")
+//    @ApiOperation(value = "获取验证码", notes = "系统管理 - 认证中心")
+//    public ResultUtil<CaptchaImageRespDTO> getCaptchaImage() {
+//        return ResultUtil.success(authService.getCaptchaImage());
+//    }
 
     @PostMapping("/login")
     @ApiOperation(value = "用户登录", notes = "系统管理 - 认证中心")

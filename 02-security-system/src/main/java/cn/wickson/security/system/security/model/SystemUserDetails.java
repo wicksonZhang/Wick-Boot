@@ -3,6 +3,7 @@ package cn.wickson.security.system.security.model;
 import cn.wickson.security.system.model.dto.AuthUserInfoDTO;
 import com.google.common.collect.Sets;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +15,7 @@ import java.util.Objects;
  * 系统用户
  */
 @Data
+@NoArgsConstructor
 public class SystemUserDetails implements UserDetails {
 
     /**

@@ -13,11 +13,15 @@ public interface GlobalSystemConstants {
      */
     Long ROOT_NODE_ID = 0L;
 
-
     /**
      * 系统默认密码
      */
     String DEFAULT_USER_PASSWORD = "123456";
+
+    /**
+     * 系统 Token 类型
+     */
+    String TOKEN_TYPE_BEARER = "Bearer ";
 
     /**
      * 超级管理员角色编码

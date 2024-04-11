@@ -1,13 +1,10 @@
 package cn.wickson.security.system.security.config;
 
 import cn.wickson.security.system.filter.TokenAuthenticationFilter;
-import cn.wickson.security.system.security.handler.EntryPointUnauthorizedHandler;
-import cn.wickson.security.system.security.handler.MyAccessDeniedHandler;
-import cn.wickson.security.system.security.service.SecurityUserDetails;
+import cn.wickson.security.system.security.handler.MyAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -25,11 +22,11 @@ import javax.annotation.Resource;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Resource
-    private MyAccessDeniedHandler myAccessDeniedHandler;
+//    @Resource
+//    private MyAccessDeniedHandler myAccessDeniedHandler;
 
     @Resource
-    private EntryPointUnauthorizedHandler entryPointUnauthorizedHandler;
+    private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
 
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable() // 禁用跨站请求伪造保护
@@ -50,8 +47,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 处理异常情况：认证失败和权限不足
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(entryPointUnauthorizedHandler)
-                .accessDeniedHandler(myAccessDeniedHandler)
+                .authenticationEntryPoint(myAuthenticationEntryPoint)
+//                .accessDeniedHandler(myAccessDeniedHandler)
 
                 // Token 认证过滤器，在 UsernamePasswordAuthenticationFilter 之前添加自定义的 Token 认证过滤器
                 .and()

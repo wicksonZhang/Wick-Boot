@@ -26,7 +26,7 @@ public class AuthUserLoginReqVO {
     @Pattern(regexp = "^[A-Za-z0-9]+$", message = "账号格式为数字以及字母")
     private String username;
 
-    @ApiModelProperty(name = "登录密码", example = "123456")
+    @ApiModelProperty(name = "登录密码", required = true, example = "123456")
     @NotBlank(message = "登录密码不能为空")
     @Length(min = 4, max = 16, message = "密码长度为 4-16 位")
     private String password;
