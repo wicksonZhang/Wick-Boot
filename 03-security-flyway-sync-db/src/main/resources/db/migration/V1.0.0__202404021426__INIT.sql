@@ -172,6 +172,26 @@ INSERT INTO `system_role_menu` VALUES (2, 2);
 INSERT INTO `system_role_menu` VALUES (2, 3);
 INSERT INTO `system_role_menu` VALUES (2, 4);
 INSERT INTO `system_role_menu` VALUES (2, 5);
+INSERT INTO `system_role_menu` VALUES (2, 6);
+INSERT INTO `system_role_menu` VALUES (2, 40);
+INSERT INTO `system_role_menu` VALUES (2, 41);
+INSERT INTO `system_role_menu` VALUES (2, 42);
+INSERT INTO `system_role_menu` VALUES (2, 70);
+INSERT INTO `system_role_menu` VALUES (2, 71);
+INSERT INTO `system_role_menu` VALUES (2, 72);
+INSERT INTO `system_role_menu` VALUES (2, 73);
+INSERT INTO `system_role_menu` VALUES (2, 74);
+INSERT INTO `system_role_menu` VALUES (2, 75);
+INSERT INTO `system_role_menu` VALUES (2, 76);
+INSERT INTO `system_role_menu` VALUES (2, 77);
+INSERT INTO `system_role_menu` VALUES (2, 78);
+INSERT INTO `system_role_menu` VALUES (2, 79);
+INSERT INTO `system_role_menu` VALUES (2, 81);
+INSERT INTO `system_role_menu` VALUES (2, 84);
+INSERT INTO `system_role_menu` VALUES (2, 85);
+INSERT INTO `system_role_menu` VALUES (2, 86);
+INSERT INTO `system_role_menu` VALUES (2, 87);
+INSERT INTO `system_role_menu` VALUES (2, 88);
 
 
 -- ----------------------------
