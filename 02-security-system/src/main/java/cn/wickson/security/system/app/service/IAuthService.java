@@ -17,7 +17,7 @@ public interface IAuthService {
      *
      * @return CaptchaImageRespDTO
      */
-//    CaptchaImageRespDTO getCaptchaImage();
+    CaptchaImageRespDTO getCaptchaImage();
 
     /**
      * 用户登录信息

@@ -89,7 +89,7 @@ public class JwtUtils {
         // 替换掉 Token type
         String bearer = GlobalSystemConstants.TOKEN_TYPE_BEARER;
         if (token.startsWith(bearer)) {
-            token = token.replace(bearer, "");
+            token = token.replace(bearer, "").trim();
         }
         // 验证JWT是否有效，验证包括：Token是否正确、生效时间不能晚于当前时间、失效时间不能早于当前时间、签发时间不能晚于当前时间
         JWT jwt = JWTUtil.parseToken(token);

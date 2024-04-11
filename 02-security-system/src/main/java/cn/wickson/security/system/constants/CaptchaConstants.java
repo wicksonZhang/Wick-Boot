@@ -28,4 +28,14 @@ public interface CaptchaConstants {
      */
     Long CAPTCHA_TIME_OUT = 600L;
 
+    /**
+     * 验证码key
+     */
+    String CAPTCHA_KEY = "captchaKey";
+
+    /**
+     * 验证码
+     */
+    String CAPTCHA_CODE = "captchaCode";
+
 }

@@ -1,5 +1,6 @@
 package cn.wickson.security.system.security.config;
 
+import cn.wickson.security.system.filter.CaptchaAuthenticationFilter;
 import cn.wickson.security.system.filter.TokenAuthenticationFilter;
 import cn.wickson.security.system.security.handler.MyAccessDeniedHandler;
 import cn.wickson.security.system.security.handler.MyAuthenticationEntryPoint;
@@ -53,6 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // Token 认证过滤器，在 UsernamePasswordAuthenticationFilter 之前添加自定义的 Token 认证过滤器
                 .and()
+                .addFilterBefore(authenticationCaptchaFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
     }
 
@@ -71,7 +73,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     };
 
     /**
-     * 自定义 Token 校验过滤器
+     * 验证码过滤器
+     *
+     * @return CaptchaAuthenticationFilter
+     */
+    @Bean
+    public CaptchaAuthenticationFilter authenticationCaptchaFilter() {
+        return new CaptchaAuthenticationFilter();
+    }
+
+    /**
+     * Token 校验过滤器
      *
      * @return TokenAuthenticationFilter
      */
