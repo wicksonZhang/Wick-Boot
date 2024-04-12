@@ -47,6 +47,8 @@ public class CaptchaAuthenticationFilter extends OncePerRequestFilter {
                 redisService.deleteObject(redisKey);
                 ResponseUtils.writeErrMsg(response, ResultCodeSystem.AUTH_CAPTCHA_CODE_ERROR);
             }
+            // 验证成功之后删除验证码
+            redisService.deleteObject(redisKey);
         }
 
         /* Step-2: 如果非 /login 直接放行 */
