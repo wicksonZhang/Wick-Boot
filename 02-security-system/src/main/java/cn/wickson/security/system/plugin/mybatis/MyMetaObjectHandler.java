@@ -1,5 +1,10 @@
 package cn.wickson.security.system.plugin.mybatis;
 
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.ObjUtil;
+import cn.wickson.security.commons.model.entity.BaseDO;
+import cn.wickson.security.system.security.model.SystemUserDetails;
+import cn.wickson.security.system.security.util.SecurityUtils;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
@@ -12,22 +17,49 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
     /**
      * 新增填充创建时间
      *
-     * @param metaObject
+     * @param metaObject 元数据信息
      */
     @Override
     public void insertFill(MetaObject metaObject) {
-        this.strictInsertFill(metaObject, "createTime", LocalDateTime::now, LocalDateTime.class);
-        this.strictUpdateFill(metaObject, "updateTime", LocalDateTime::now, LocalDateTime.class);
+        if (ObjUtil.isNotNull(metaObject) && metaObject.getOriginalObject() instanceof BaseDO) {
+            // 创建时间和更新时间
+            BaseDO baseDO = (BaseDO) metaObject.getOriginalObject();
+
+            // 判断创建时间是否为空
+            if (ObjUtil.isNull(baseDO.getCreateTime())) {
+                baseDO.setCreateTime(LocalDateTime.now());
+            }
+            // 判断更新时间是否为空
+            if (ObjUtil.isNull(baseDO.getUpdateTime())) {
+                baseDO.setUpdateTime(LocalDateTime.now());
+            }
+            // 判断创建者是否为空
+            SystemUserDetails userDetails = SecurityUtils.getUserDetails();
+            if (ObjUtil.isNotNull(userDetails) && ObjUtil.isNull(baseDO.getCreateBy())) {
+                baseDO.setCreateBy(Convert.toStr(userDetails.getUserId()));
+            }
+            // 判断更新者是否为空
+            if (ObjUtil.isNotNull(userDetails) && ObjUtil.isNull(baseDO.getUpdateBy())) {
+                baseDO.setUpdateBy(Convert.toStr(userDetails.getUserId()));
+            }
+        }
     }
 
     /**
      * 更新填充更新时间
      *
-     * @param metaObject
+     * @param metaObject 元数据信息
      */
     @Override
     public void updateFill(MetaObject metaObject) {
-        this.strictUpdateFill(metaObject, "updateTime", LocalDateTime::now, LocalDateTime.class);
+        // 更新时间
+        this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
+
+        // 如果当前更新者不为空，则进行更新
+        SystemUserDetails userDetails = SecurityUtils.getUserDetails();
+        if (ObjUtil.isNotNull(userDetails)) {
+            this.setFieldValByName("updateBy", userDetails.getUserId(), metaObject);
+        }
     }
 
 }
