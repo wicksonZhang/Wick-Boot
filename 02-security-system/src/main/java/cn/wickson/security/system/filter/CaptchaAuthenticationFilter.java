@@ -31,35 +31,32 @@ public class CaptchaAuthenticationFilter extends OncePerRequestFilter {
     @Override
     @SuppressWarnings("NullableProblems")
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-        /* Step-1: 如果非 /login 直接放行 */
-        String requestURI = request.getRequestURI();
-        if (requestURI.contains("/login")) {
-            /* Step-2: 获取验证码参数，进行验证 */
+            throws IOException, ServletException {
+        /* Step-1: 拦截 /login 请求，并且开启了验证码的情况 */
+        if (request.getRequestURI().contains("/login") && Boolean.TRUE.equals(enable)) {
+            // 获取验证码参数，进行验证
             String captchaKey = request.getParameter(CaptchaConstants.CAPTCHA_KEY);
             String captchaCode = request.getParameter(CaptchaConstants.CAPTCHA_CODE);
-            // 如果没有开启验证码则不进行校验
-            if (!Boolean.TRUE.equals(enable)) {
-                filterChain.doFilter(request, response);
-            }
-            // 验证验证码是否存在
+            // 校验验证码Key是否存在
             String redisKey = GlobalCacheConstants.getCaptchaCodeKey(captchaKey);
             String verifyCode = redisService.getCacheObject(redisKey);
             if (StrUtil.isBlankIfStr(verifyCode)) {
                 ResponseUtils.writeErrMsg(response, ResultCodeSystem.AUTH_CAPTCHA_CODE_ERROR);
             }
-            // 验证码不能为空
-            if (captchaCode == null) {
+            // 验证码Code不能为空
+            if (StrUtil.isBlankIfStr(captchaCode)) {
                 ResponseUtils.writeErrMsg(response, ResultCodeSystem.AUTH_CAPTCHA_CODE_ERROR);
             }
-            // 验证验证码是否正确
-            if (!Objects.requireNonNull(captchaCode).equalsIgnoreCase(verifyCode)) {
-                redisService.deleteObject(redisKey);
+            // 校验验证码Code是否正确
+            if (!captchaCode.equalsIgnoreCase(verifyCode)) {
                 ResponseUtils.writeErrMsg(response, ResultCodeSystem.AUTH_CAPTCHA_CODE_ERROR);
             }
+            redisService.deleteObject(redisKey);
         }
-        /* Step-3: 放行 */
+
+        /* Step-2: 如果非 /login 直接放行 */
         filterChain.doFilter(request, response);
     }
+
 
 }
