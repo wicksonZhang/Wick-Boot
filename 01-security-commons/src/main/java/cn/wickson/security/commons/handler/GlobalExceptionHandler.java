@@ -3,7 +3,6 @@ package cn.wickson.security.commons.handler;
 import cn.wickson.security.commons.constant.GlobalResultCodeConstants;
 import cn.wickson.security.commons.exception.ParameterException;
 import cn.wickson.security.commons.exception.ServiceException;
-import cn.wickson.security.commons.exception.UserOperationException;
 import cn.wickson.security.commons.result.ResultCode;
 import cn.wickson.security.commons.result.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -54,16 +53,6 @@ public class GlobalExceptionHandler {
         return ResultUtil.failure(GlobalResultCodeConstants.PARAM_TYPE_BIND_ERROR);
     }
 
-    /**
-     * 自定义用户操作异常处理
-     */
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(UserOperationException.class)
-    public ResultUtil<?> handleUserOperationException(UserOperationException e, HttpServletRequest request) {
-        log.error("requestUrl：{}，用户操作异常{code={}，msg={}}", request.getRequestURI(), e.getCode(),
-                e.getDescription());
-        return ResultUtil.failure(e.getCode(), e.getDescription());
-    }
 
     /**
      * 自定义用户操作异常处理

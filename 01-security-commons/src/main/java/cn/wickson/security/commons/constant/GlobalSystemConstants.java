@@ -21,7 +21,7 @@ public interface GlobalSystemConstants {
     /**
      * 系统 Token 类型
      */
-    String TOKEN_TYPE_BEARER = "Bearer  ";
+    String TOKEN_TYPE_BEARER = "Bearer ";
 
     /**
      * Spring Security 角色的命名规范
