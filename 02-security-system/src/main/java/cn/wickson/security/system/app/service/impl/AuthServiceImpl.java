@@ -5,7 +5,6 @@ import cn.hutool.captcha.GifCaptcha;
 import cn.hutool.core.util.IdUtil;
 import cn.wickson.security.commons.constant.GlobalCacheConstants;
 import cn.wickson.security.commons.constant.GlobalSystemConstants;
-import cn.wickson.security.system.app.service.AbstractAuthAppService;
 import cn.wickson.security.system.app.service.IAuthService;
 import cn.wickson.security.system.constants.CaptchaConstants;
 import cn.wickson.security.system.model.dto.AuthUserLoginRespDTO;
@@ -27,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2024-04-08
  */
 @Service
-public class AuthServiceImpl extends AbstractAuthAppService implements IAuthService {
+public class AuthServiceImpl implements IAuthService {
 
     @Value("${captcha.enable:true}")
     private Boolean enable;
