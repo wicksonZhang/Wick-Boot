@@ -21,7 +21,7 @@ import javax.validation.Valid;
  * @date 2024-04-02
  */
 @RestController
-@RequestMapping("/role")
+@RequestMapping("/roles")
 @Api(tags = "系统管理 - 角色信息")
 public class SystemRoleController {
 
