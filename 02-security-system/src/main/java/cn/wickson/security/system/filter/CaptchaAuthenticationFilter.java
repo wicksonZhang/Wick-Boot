@@ -15,7 +15,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * 验证码过滤器
@@ -43,15 +42,11 @@ public class CaptchaAuthenticationFilter extends OncePerRequestFilter {
             if (StrUtil.isBlankIfStr(verifyCode)) {
                 ResponseUtils.writeErrMsg(response, ResultCodeSystem.AUTH_CAPTCHA_CODE_ERROR);
             }
-            // 验证码Code不能为空
-            if (StrUtil.isBlankIfStr(captchaCode)) {
+            // 验证码Code不能为空 || 验证码Code是否正确
+            if (StrUtil.isBlankIfStr(captchaCode) || !captchaCode.equalsIgnoreCase(verifyCode)) {
+                redisService.deleteObject(redisKey);
                 ResponseUtils.writeErrMsg(response, ResultCodeSystem.AUTH_CAPTCHA_CODE_ERROR);
             }
-            // 校验验证码Code是否正确
-            if (!captchaCode.equalsIgnoreCase(verifyCode)) {
-                ResponseUtils.writeErrMsg(response, ResultCodeSystem.AUTH_CAPTCHA_CODE_ERROR);
-            }
-            redisService.deleteObject(redisKey);
         }
 
         /* Step-2: 如果非 /login 直接放行 */
