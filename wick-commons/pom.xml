@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- 父级项目 -->
+    <parent>
+        <groupId>com.wick</groupId>
+        <artifactId>wick-boot</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <!-- 项目信息 -->
+    <artifactId>wick-commons</artifactId>
+    <packaging>pom</packaging>
+    <modelVersion>4.0.0</modelVersion>
+    <description>Wick Boot 公共类模块</description>
+
+    <!-- 子级项目 -->
+    <modules>
+        <module>wick-common-core</module>
+        <module>wick-common-mybatis</module>
+        <module>wick-common-redis</module>
+        <module>wick-common-security</module>
+        <module>wick-common-web</module>
+    </modules>
+
+</project>
