@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wick.module.system.mapper.ISystemMenuMapper">
+
+    <!-- 菜单路由映射 -->
+    <resultMap id="RouteMap" type="com.wick.module.system.model.dto.SystemMenuDTO">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
+        <result property="path" column="path" jdbcType="VARCHAR"/>
+        <result property="component" column="component" jdbcType="VARCHAR"/>
+        <result property="redirect" column="redirect" jdbcType="VARCHAR"/>
+        <result property="alwaysShow" column="always_show" jdbcType="INTEGER"/>
+        <result property="keepAlive" column="keep_alive" jdbcType="INTEGER"/>
+        <result property="icon" column="icon" jdbcType="VARCHAR"/>
+        <result property="sort" column="sort" jdbcType="INTEGER"/>
+        <result property="visible" column="visible" jdbcType="BOOLEAN"/>
+        <result property="type" column="type" jdbcType="OTHER"/>
+        <collection property="roles" ofType="string" javaType="list">
+            <result column="code"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectListRoutes" resultMap="RouteMap">
+        SELECT menu.id,
+               menu.name,
+               menu.parent_id,
+               menu.path,
+               menu.component,
+               menu.redirect,
+               menu.always_show,
+               menu.keep_alive,
+               menu.icon,
+               menu.sort,
+               menu.visible,
+               menu.type,
+               role.code
+        FROM system_menu menu
+                 LEFT JOIN system_role_menu role_menu ON menu.id = role_menu.menu_id
+                 LEFT JOIN system_role role ON role_menu.role_id = role.id
+        WHERE menu.type IN (1, 2, 3)
+        ORDER BY menu.sort ASC
+    </select>
+
+</mapper>
