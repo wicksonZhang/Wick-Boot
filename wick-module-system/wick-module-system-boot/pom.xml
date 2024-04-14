@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>wick-module-system</artifactId>
+        <groupId>com.wick</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <description>系统管理</description>
+    <packaging>jar</packaging>
+    <artifactId>wick-module-system-boot</artifactId>
+
+    <dependencies>
+        <!-- system api -->
+        <dependency>
+            <groupId>com.wick</groupId>
+            <artifactId>wick-module-system-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wick</groupId>
+            <artifactId>wick-common-core</artifactId>
+        </dependency>
+
+        <!-- common mybatis -->
+        <dependency>
+            <groupId>com.wick</groupId>
+            <artifactId>wick-common-mybatis</artifactId>
+        </dependency>
+
+        <!-- common redis -->
+        <dependency>
+            <groupId>com.wick</groupId>
+            <artifactId>wick-common-redis</artifactId>
+        </dependency>
+
+        <!-- common security -->
+        <dependency>
+            <groupId>com.wick</groupId>
+            <artifactId>wick-common-security</artifactId>
+        </dependency>
+
+        <!-- common web -->
+        <dependency>
+            <groupId>com.wick</groupId>
+            <artifactId>wick-common-web</artifactId>
+        </dependency>
+
+        <!-- mapstruct -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

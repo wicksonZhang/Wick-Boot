@@ -43,10 +43,10 @@
 
     <!-- 统一管理jar包版本 -->
     <modules>
-        <module>wick-server</module>
+        <module>wick-admin-server</module>
         <module>wick-commons</module>
-        <module>wick-auth</module>
-        <module>wick-system</module>
+        <module>wick-module-auth</module>
+        <module>wick-module-system</module>
         <!--        <module>04-wick-flyway</module>-->
     </modules>
 
@@ -219,7 +219,7 @@
             <!-- auth -->
             <dependency>
                 <groupId>com.wick</groupId>
-                <artifactId>wick-auth</artifactId>
+                <artifactId>wick-module-auth</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -233,7 +233,7 @@
             <!-- system-boot -->
             <dependency>
                 <groupId>com.wick</groupId>
-                <artifactId>wick-system-boot</artifactId>
+                <artifactId>wick-module-system-boot</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

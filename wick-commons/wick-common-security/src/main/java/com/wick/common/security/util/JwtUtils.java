@@ -9,6 +9,7 @@ import cn.hutool.jwt.JWTUtil;
 import com.google.common.collect.Maps;
 import com.wick.common.core.constant.GlobalSystemConstants;
 import com.wick.common.core.model.dto.LoginUserInfoDTO;
+import com.wick.common.core.model.userdetails.LoginUserDetails;
 import com.wick.common.security.constants.JWTClaimConstants;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -46,7 +47,7 @@ public class JwtUtils {
      * @return Token 字符串
      */
     public String generateToken(Authentication authentication) {
-        LoginUserInfoDTO userDetails = (LoginUserInfoDTO) authentication.getPrincipal();
+        LoginUserDetails userDetails = (LoginUserDetails) authentication.getPrincipal();
         // 载体
         Map<String, Object> payload = Maps.newHashMap();
         // 用户ID

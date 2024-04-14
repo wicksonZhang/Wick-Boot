@@ -7,6 +7,7 @@ import cn.hutool.json.JSONUtil;
 import cn.hutool.jwt.JWTPayload;
 import com.wick.common.core.enums.ResultCodeSystem;
 import com.wick.common.core.model.dto.LoginUserInfoDTO;
+import com.wick.common.core.model.userdetails.LoginUserDetails;
 import com.wick.common.security.constants.JWTClaimConstants;
 import com.wick.common.security.util.JwtUtils;
 import org.springframework.http.HttpHeaders;
@@ -68,7 +69,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private Authentication getAuthentication(Map<String, Object> payload) {
-        LoginUserInfoDTO userDetails = new LoginUserInfoDTO();
+        LoginUserDetails userDetails = new LoginUserDetails();
         // 用户ID
         userDetails.setUserId(Convert.toLong(payload.get(JWTClaimConstants.USER_ID)));
         // 部门ID
