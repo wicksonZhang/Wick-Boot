@@ -4,21 +4,17 @@ import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.GifCaptcha;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import com.wick.common.core.constant.CaptchaConstants;
+import com.wick.common.core.constant.GlobalCacheConstants;
+import com.wick.common.core.enums.ResultCodeSystem;
+import com.wick.common.core.exception.ServiceException;
+import com.wick.common.redis.service.RedisService;
 import com.wick.module.auth.service.IAuthService;
 import com.wick.module.system.model.dto.AuthUserLoginRespDTO;
 import com.wick.module.system.model.dto.CaptchaImageRespDTO;
 import com.wick.module.system.model.vo.AuthUserLoginReqVO;
-import com.wick.common.core.constant.CaptchaConstants;
-import com.wick.common.core.constant.GlobalCacheConstants;
-import com.wick.common.core.constant.GlobalSystemConstants;
-import com.wick.common.core.enums.ResultCodeSystem;
-import com.wick.common.core.exception.ServiceException;
-import com.wick.common.redis.service.RedisService;
-import com.wick.common.security.util.JwtUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -39,9 +35,6 @@ public class AuthServiceImpl implements IAuthService {
 
     @Resource
     private AuthenticationManager authenticationManager;
-
-    @Resource
-    private JwtUtils jwtUtils;
 
     @Override
     public CaptchaImageRespDTO getCaptchaImage() {
@@ -68,11 +61,9 @@ public class AuthServiceImpl implements IAuthService {
         /* Step-1: 验证验证码信息 */
         this.validateCaptcha(reqVO.getCaptchaKey(), reqVO.getCaptchaCode());
 
-        /* Step-2: 认证、授权 */
-        Authentication token = new UsernamePasswordAuthenticationToken(reqVO.getUsername(), reqVO.getPassword());
-        Authentication authenticate = authenticationManager.authenticate(token);
-        String accessToken = jwtUtils.generateToken(authenticate);
-        return AuthUserLoginRespDTO.builder().accessToken(accessToken).tokenType(GlobalSystemConstants.TOKEN_TYPE_BEARER).build();
+        /* Step-2: 验证用户名和密码 */
+//        return AuthUserLoginRespDTO.builder().accessToken(accessToken).tokenType(GlobalSystemConstants.TOKEN_TYPE_BEARER).build();
+        return null;
     }
 
     private void validateCaptcha(String captchaKey, String captchaCode) {
@@ -89,8 +80,6 @@ public class AuthServiceImpl implements IAuthService {
         }
         // 验证成功之后删除验证码
         redisService.deleteObject(redisKey);
-
-
     }
 
 }
