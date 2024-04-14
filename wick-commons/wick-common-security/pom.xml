@@ -35,6 +35,12 @@
             <groupId>com.wick</groupId>
             <artifactId>wick-common-redis</artifactId>
         </dependency>
+
+        <!-- 业务组件 -->
+        <dependency>
+            <groupId>com.wick</groupId>
+            <artifactId>wick-module-system-api</artifactId> <!-- 需要使用它，进行 Token 的校验 -->
+        </dependency>
     </dependencies>
 
 </project>

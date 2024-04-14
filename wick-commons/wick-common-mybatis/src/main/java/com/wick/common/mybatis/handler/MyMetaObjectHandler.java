@@ -3,9 +3,9 @@ package com.wick.common.mybatis.handler;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.wick.common.core.model.dto.LoginUserInfoDTO;
 import com.wick.common.core.model.entity.BaseDO;
 import com.wick.common.security.util.SecurityUtils;
+import com.wick.module.system.model.dto.LoginUserInfoDTO;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
 

@@ -42,6 +42,8 @@
         <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="BOOLEAN"/>
         <result property="deptId" column="dept_id" jdbcType="BIGINT"/>
+        <result property="loginIp" column="login_ip" jdbcType="VARCHAR"/>
+        <result property="loginDate" column="login_date" jdbcType="DATE"/>
         <collection property="roles" ofType="string" javaType="java.util.Set">
             <result column="code"/>
         </collection>
@@ -55,6 +57,8 @@
             t1.password,
             t1.status,
             t1.dept_id ,
+            t1.login_ip ,
+            t1.login_date ,
             t3.code
         FROM
             system_user t1

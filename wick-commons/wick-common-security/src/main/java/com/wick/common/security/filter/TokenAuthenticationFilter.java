@@ -2,19 +2,18 @@ package com.wick.common.security.filter;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONUtil;
-import cn.hutool.jwt.JWTPayload;
+import com.wick.common.core.constant.GlobalCacheConstants;
+import com.wick.common.core.constant.GlobalSystemConstants;
 import com.wick.common.core.enums.ResultCodeSystem;
-import com.wick.common.core.model.dto.LoginUserInfoDTO;
-import com.wick.common.core.model.userdetails.LoginUserDetails;
-import com.wick.common.security.constants.JWTClaimConstants;
-import com.wick.common.security.util.JwtUtils;
+import com.wick.common.redis.service.RedisService;
+import com.wick.module.system.model.dto.LoginUserInfoDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.annotation.Resource;
@@ -25,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,11 +32,8 @@ import java.util.stream.Collectors;
  */
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
-    /**
-     * JWT的工具类
-     */
     @Resource
-    private JwtUtils jwtUtils;
+    private RedisService redisService;
 
     @Override
     @SuppressWarnings("NullableProblems")
@@ -48,9 +43,14 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         // 验证 Token 是否正确
         if (StrUtil.isNotBlank(token)) {
             /* Step-1: 解析 token */
-            // 如果 jwtUtils.parseToken 解析不出来会直接报错
-            Map<String, Object> payload = jwtUtils.parseToken(token);
-            if (payload == null) {
+            // 替换掉 Token type
+            String bearer = GlobalSystemConstants.TOKEN_TYPE_BEARER;
+            if (token.startsWith(bearer)) {
+                token = token.replace(bearer, "").trim();
+            }
+            String accessToken = GlobalCacheConstants.getLoginAccessToken(token);
+            LoginUserInfoDTO loginUserInfoDTO = redisService.getCacheObject(accessToken);
+            if (loginUserInfoDTO == null) {
 //                ResponseUtils.writeErrMsg(response, ResultCodeSystem.AUTH_TOKEN_INVALID);
                 // 设置响应的内容类型和字符编码
                 response.setContentType("application/json");
@@ -61,27 +61,23 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 outputStream.close();
             } else {
                 /* Step-2: 获取用户信息， 存入 SecurityContextHolder  */
-                Authentication authentication = this.getAuthentication(payload);
+                Authentication authentication = this.getAuthentication(loginUserInfoDTO, request);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
         filterChain.doFilter(request, response);
     }
 
-    private Authentication getAuthentication(Map<String, Object> payload) {
-        LoginUserDetails userDetails = new LoginUserDetails();
-        // 用户ID
-        userDetails.setUserId(Convert.toLong(payload.get(JWTClaimConstants.USER_ID)));
-        // 部门ID
-        userDetails.setDeptId(Convert.toLong(payload.get(JWTClaimConstants.DEPT_ID)));
-        // 用户名称
-        userDetails.setUsername(Convert.toStr(payload.get(JWTPayload.SUBJECT)));
+    private Authentication getAuthentication(LoginUserInfoDTO loginUserInfoDTO, HttpServletRequest request) {
         // 角色信息
-        Set<SimpleGrantedAuthority> authorities = ((JSONArray) payload.get(JWTClaimConstants.AUTHORITIES))
+        Set<SimpleGrantedAuthority> authorities = loginUserInfoDTO.getRoles()
                 .stream()
                 .map(authority -> new SimpleGrantedAuthority(Convert.toStr(authority)))
                 .collect(Collectors.toSet());
-        return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUserInfoDTO, "",
+                authorities);
+        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        return authenticationToken;
     }
 
 

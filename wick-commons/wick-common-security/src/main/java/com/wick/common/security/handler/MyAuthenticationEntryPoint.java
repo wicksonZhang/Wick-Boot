@@ -1,11 +1,8 @@
 package com.wick.common.security.handler;
 
 import cn.hutool.json.JSONUtil;
-import com.wick.common.core.enums.ResultCodeSystem;
-import com.wick.common.core.result.ResultCode;
+import com.wick.common.core.constant.GlobalResultCodeConstants;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -33,19 +30,11 @@ public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
      */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-        ResultCode resultCode = ResultCodeSystem.AUTH_TOKEN_INVALID;
-        if (authException instanceof BadCredentialsException) {
-            // 用户名或密码错误
-            resultCode = ResultCodeSystem.AUTH_USER_PASSWORD_ERROR;
-        } else if (authException instanceof DisabledException) {
-            // 当前账号已被停用
-            resultCode = ResultCodeSystem.AUTH_USER_STATUS_DISABLE;
-        }
         // 设置响应的内容类型和字符编码
         response.setContentType("application/json");
         ServletOutputStream outputStream = response.getOutputStream();
         // 生成相应的失败结果，并转换成 JSON 格式写入到响应中
-        outputStream.write(JSONUtil.toJsonStr(resultCode).getBytes(StandardCharsets.UTF_8));
+        outputStream.write(JSONUtil.toJsonStr(GlobalResultCodeConstants.UNAUTHORIZED).getBytes(StandardCharsets.UTF_8));
         outputStream.flush();
         outputStream.close();
     }

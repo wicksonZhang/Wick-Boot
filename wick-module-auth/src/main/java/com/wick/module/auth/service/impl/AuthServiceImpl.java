@@ -3,18 +3,22 @@ package com.wick.module.auth.service.impl;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.GifCaptcha;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import com.wick.common.core.constant.CaptchaConstants;
 import com.wick.common.core.constant.GlobalCacheConstants;
+import com.wick.common.core.constant.GlobalSystemConstants;
+import com.wick.common.core.enums.CommonStatusEnum;
 import com.wick.common.core.enums.ResultCodeSystem;
 import com.wick.common.core.exception.ServiceException;
 import com.wick.common.redis.service.RedisService;
 import com.wick.module.auth.service.IAuthService;
+import com.wick.module.system.api.ApiSystemUser;
 import com.wick.module.system.model.dto.AuthUserLoginRespDTO;
 import com.wick.module.system.model.dto.CaptchaImageRespDTO;
+import com.wick.module.system.model.dto.LoginUserInfoDTO;
 import com.wick.module.system.model.vo.AuthUserLoginReqVO;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -34,7 +38,7 @@ public class AuthServiceImpl implements IAuthService {
     private RedisService redisService;
 
     @Resource
-    private AuthenticationManager authenticationManager;
+    private ApiSystemUser systemUser;
 
     @Override
     public CaptchaImageRespDTO getCaptchaImage() {
@@ -62,11 +66,31 @@ public class AuthServiceImpl implements IAuthService {
         this.validateCaptcha(reqVO.getCaptchaKey(), reqVO.getCaptchaCode());
 
         /* Step-2: 验证用户名和密码 */
-//        return AuthUserLoginRespDTO.builder().accessToken(accessToken).tokenType(GlobalSystemConstants.TOKEN_TYPE_BEARER).build();
-        return null;
+        LoginUserInfoDTO userInfoDTO = systemUser.getUserByName(reqVO.getUsername());
+        this.validUserInfo(userInfoDTO, reqVO.getPassword());
+
+        /* Step-3: 存入Redis，创建Token */
+        String accessTokenKey = IdUtil.fastSimpleUUID();
+        String accessToken = GlobalCacheConstants.getLoginAccessToken(accessTokenKey);
+        redisService.setCacheObject(accessToken, userInfoDTO);
+
+        return AuthUserLoginRespDTO.builder()
+                .accessToken(accessTokenKey)
+                .tokenType(GlobalSystemConstants.TOKEN_TYPE_BEARER)
+                .build();
     }
 
+    /**
+     * 校验验证码
+     *
+     * @param captchaKey  验证码Key
+     * @param captchaCode 验证码Code
+     */
     private void validateCaptcha(String captchaKey, String captchaCode) {
+        /* Step-1：判断是否开启验证码 */
+        if (!Boolean.TRUE.equals(enable)) {
+            return;
+        }
         // 校验验证码Key是否存在
         String redisKey = GlobalCacheConstants.getCaptchaCodeKey(captchaKey);
         String verifyCode = redisService.getCacheObject(redisKey);
@@ -80,6 +104,27 @@ public class AuthServiceImpl implements IAuthService {
         }
         // 验证成功之后删除验证码
         redisService.deleteObject(redisKey);
+    }
+
+    /**
+     * 验证用户信息
+     *
+     * @param userInfoDTO 用户信息
+     * @param password    密码
+     */
+    protected void validUserInfo(LoginUserInfoDTO userInfoDTO, String password) {
+        // 当前用户是否存在
+        if (ObjUtil.isNull(userInfoDTO)) {
+            throw ServiceException.getInstance(ResultCodeSystem.AUTH_USER_PASSWORD_ERROR);
+        }
+        // 当前用户密码是否正确
+        if (!systemUser.isPasswordMatch(password, userInfoDTO.getPassword())) {
+            throw ServiceException.getInstance(ResultCodeSystem.AUTH_USER_PASSWORD_ERROR);
+        }
+        // 是否被禁用
+        if (CommonStatusEnum.DISABLE.getValue().equals(userInfoDTO.getStatus())) {
+            throw ServiceException.getInstance(ResultCodeSystem.AUTH_USER_STATUS_DISABLE);
+        }
     }
 
 }

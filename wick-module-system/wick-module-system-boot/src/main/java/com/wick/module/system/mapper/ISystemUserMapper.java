@@ -1,12 +1,12 @@
 package com.wick.module.system.mapper;
 
-import com.wick.common.core.model.dto.LoginUserInfoDTO;
-import com.wick.module.system.model.dto.SystemUserDTO;
-import com.wick.module.system.model.entity.SystemUser;
-import com.wick.module.system.model.vo.QueryUserPageReqVO;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wick.module.system.model.dto.LoginUserInfoDTO;
+import com.wick.module.system.model.dto.SystemUserDTO;
+import com.wick.module.system.model.entity.SystemUser;
+import com.wick.module.system.model.vo.QueryUserPageReqVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

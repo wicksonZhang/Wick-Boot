@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Sets;
 import com.wick.common.core.constant.GlobalSystemConstants;
-import com.wick.common.core.model.dto.LoginUserInfoDTO;
+import com.wick.module.system.model.dto.LoginUserInfoDTO;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -55,14 +55,9 @@ public class SecurityUtils {
             return resultSets;
         }
 
-        /* Step-3: 移除角色的前缀 ROLE_ */
+        /* Step-3: 获取 */
         for (GrantedAuthority item : authorities) {
-            String authority = item.getAuthority();
-            String role_ = GlobalSystemConstants.ROLE;
-            if (authority.startsWith(role_)) {
-                String role = StrUtil.removePrefix(authority, role_);
-                resultSets.add(role);
-            }
+            resultSets.add(item.getAuthority());
         }
         return resultSets;
     }

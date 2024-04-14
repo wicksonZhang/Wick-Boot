@@ -1,9 +1,12 @@
 package com.wick.module.system.app.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjUtil;
+import com.wick.common.security.util.SecurityUtils;
 import com.wick.module.system.app.service.ISystemUserService;
 import com.wick.module.system.convert.SystemUserConvert;
 import com.wick.module.system.mapper.ISystemUserMapper;
+import com.wick.module.system.model.dto.LoginUserInfoDTO;
 import com.wick.module.system.model.dto.SystemUserDTO;
 import com.wick.module.system.model.dto.SystemUserInfoDTO;
 import com.wick.module.system.model.entity.SystemUser;
@@ -55,26 +58,25 @@ public class SystemUserServiceImpl implements ISystemUserService {
     @Override
     public SystemUserInfoDTO getCurrentUserInfo() {
         /* Step-1: 获取当前登录用户信息 */
-//        SystemUserDetails userDetails = SecurityUtils.getUserDetails();
-//        if (ObjUtil.isNull(userDetails)) {
-//            return SystemUserInfoDTO.builder().build();
-//        }
-//
-//        /* Step-2: 通过用户名称获取用户信息 */
-//        SystemUser systemUser = this.userMapper.selectByUsername(userDetails.getUsername());
-//        // 封装用户信息
-//        SystemUserInfoDTO userInfoDTO = SystemUserConvert.INSTANCE.entityToDTO1(systemUser);
-//
-//        /* Step-3: 获取角色信息 */
-//        Set<String> roles = SecurityUtils.getRoles();
-//        // 封装角色信息
-//        userInfoDTO.setRoles(roles);
-//
-//        /* Step-4: 获取权限信息 */
-//        Set<String> perms = getPerms(roles);
-//        userInfoDTO.setPerms(perms);
-//        return userInfoDTO;
-        return null;
+        LoginUserInfoDTO userDetails = SecurityUtils.getUserDetails();
+        if (ObjUtil.isNull(userDetails)) {
+            return SystemUserInfoDTO.builder().build();
+        }
+
+        /* Step-2: 通过用户名称获取用户信息 */
+        SystemUser systemUser = this.userMapper.selectByUsername(userDetails.getUsername());
+        // 封装用户信息
+        SystemUserInfoDTO userInfoDTO = SystemUserConvert.INSTANCE.entityToDTO1(systemUser);
+
+        /* Step-3: 获取角色信息 */
+        Set<String> roles = SecurityUtils.getRoles();
+        // 封装角色信息
+        userInfoDTO.setRoles(roles);
+
+        /* Step-4: 获取权限信息 */
+        Set<String> perms = getPerms(roles);
+        userInfoDTO.setPerms(perms);
+        return userInfoDTO;
     }
 
     /**
