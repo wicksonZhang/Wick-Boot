@@ -1,17 +1,18 @@
 package com.wick.boot.module.system.app.service.impl;
 
 import cn.hutool.core.util.ObjUtil;
-import com.wick.boot.module.system.model.entity.SystemDictType;
-import com.wick.boot.module.system.convert.SystemDictConvert;
-import com.wick.boot.module.system.mapper.ISystemDictTypeMapper;
-import com.wick.boot.module.system.model.dto.SystemDictTypeDTO;
-import com.wick.boot.module.system.model.vo.QueryDictTypePageReqVO;
-import com.wick.boot.module.system.app.service.ISystemDictTypeService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.core.result.PageResult;
+import com.wick.boot.module.system.app.service.AbstractSystemDictTypeAppService;
+import com.wick.boot.module.system.app.service.ISystemDictTypeService;
+import com.wick.boot.module.system.convert.SystemDictConvert;
+import com.wick.boot.module.system.model.dto.SystemDictTypeDTO;
+import com.wick.boot.module.system.model.entity.SystemDictType;
+import com.wick.boot.module.system.model.vo.AddDictTypeReqVO;
+import com.wick.boot.module.system.model.vo.QueryDictTypePageReqVO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -21,10 +22,18 @@ import java.util.List;
  * @date 2024-04-08
  */
 @Service
-public class SystemDictTypeServiceImpl implements ISystemDictTypeService {
+public class SystemDictTypeServiceImpl extends AbstractSystemDictTypeAppService implements ISystemDictTypeService {
 
-    @Resource
-    private ISystemDictTypeMapper dictTypeMapper;
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void addDictType(AddDictTypeReqVO reqVO) {
+        /* Step-1: 验证字典类型是否正确 */
+        this.validateAddParams(reqVO);
+
+        /* Step-2: 新增字典信息 */
+        SystemDictType dictType = SystemDictConvert.INSTANCE.addOrUpdateVoToEntity(reqVO);
+        this.dictTypeMapper.insert(dictType);
+    }
 
     @Override
     public PageResult<SystemDictTypeDTO> getDictTypePage(QueryDictTypePageReqVO reqVO) {
@@ -45,4 +54,5 @@ public class SystemDictTypeServiceImpl implements ISystemDictTypeService {
     public SystemDictType getDictTypeByCode(String typeCode) {
         return this.dictTypeMapper.selectDictTypeByCode(typeCode);
     }
+
 }

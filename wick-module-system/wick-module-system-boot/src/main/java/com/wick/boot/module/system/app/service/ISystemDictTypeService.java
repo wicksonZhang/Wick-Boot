@@ -2,6 +2,7 @@ package com.wick.boot.module.system.app.service;
 
 import com.wick.boot.module.system.model.dto.SystemDictTypeDTO;
 import com.wick.boot.module.system.model.entity.SystemDictType;
+import com.wick.boot.module.system.model.vo.AddDictTypeReqVO;
 import com.wick.boot.module.system.model.vo.QueryDictTypePageReqVO;
 import com.wick.boot.common.core.result.PageResult;
 
@@ -10,6 +11,13 @@ import com.wick.boot.common.core.result.PageResult;
  * @date 2024-04-08
  */
 public interface ISystemDictTypeService {
+
+    /**
+     * 新增字典类型数据
+     *
+     * @param reqVO 请求参数
+     */
+    void addDictType(AddDictTypeReqVO reqVO);
 
     /**
      * 获取字典分页信息
@@ -26,4 +34,5 @@ public interface ISystemDictTypeService {
      * @return SystemDictType
      */
     SystemDictType getDictTypeByCode(String typeCode);
+
 }
