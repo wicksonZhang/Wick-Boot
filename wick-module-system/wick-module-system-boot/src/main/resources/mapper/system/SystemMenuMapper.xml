@@ -2,10 +2,10 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wick.module.system.mapper.ISystemMenuMapper">
+<mapper namespace="com.wick.boot.module.system.mapper.ISystemMenuMapper">
 
     <!-- 菜单路由映射 -->
-    <resultMap id="RouteMap" type="com.wick.module.system.model.dto.SystemMenuDTO">
+    <resultMap id="RouteMap" type="com.wick.boot.module.system.model.dto.SystemMenuDTO">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="name" column="name" jdbcType="VARCHAR"/>
         <result property="parentId" column="parent_id" jdbcType="BIGINT"/>

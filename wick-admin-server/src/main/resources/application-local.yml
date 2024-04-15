@@ -49,12 +49,12 @@ mybatis-plus:
   # 指定加载Mapper.xml文件路径
   mapperLocations: classpath*:mapper/**/*Mapper.xml
   # 指定扫描实体类的包路径
-  type-aliases-package: com.wick.module.*.model.entity
+  type-aliases-package: com.wick.boot.module.*.model.entity
 
 
 # 日志模式、保存路径和文件名
 logging:
   level:
-    com.wick.module.*: debug
+    com.wick.boot.module.*: debug
   file:
     name: ./logs/wick-admin-log.log
