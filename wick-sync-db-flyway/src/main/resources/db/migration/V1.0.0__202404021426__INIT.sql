@@ -202,7 +202,7 @@ CREATE TABLE `system_dict_type`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键 ',
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '类型名称',
   `code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '类型编码',
-  `status` tinyint NULL DEFAULT 0 COMMENT '状态(0:正常;1:禁用)',
+  `status` tinyint NULL DEFAULT 0 COMMENT '状态(1:正常;0:禁用)',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '备注',
   `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -216,7 +216,7 @@ CREATE TABLE `system_dict_type`  (
 -- ----------------------------
 -- Records of sys_dict_type
 -- ----------------------------
-INSERT INTO `system_dict_type` VALUES (1, '性别', 'gender', 0, NULL, 0, '2019-12-06 19:03:32', '2022-06-12 16:21:28', 1, 1);
+INSERT INTO `system_dict_type` VALUES (1, '性别', 'gender', 1, NULL, 0, '2019-12-06 19:03:32', '2022-06-12 16:21:28', 1, 1);
 
 
 -- ----------------------------
