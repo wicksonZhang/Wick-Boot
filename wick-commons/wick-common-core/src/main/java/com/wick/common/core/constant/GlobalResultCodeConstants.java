@@ -24,7 +24,7 @@ public interface GlobalResultCodeConstants {
 
     // ===================================== 服务端错误段 =====================================
 
-    ResultCode UNAUTHORIZED = new ResultCode(401, "访问未授权");
+    ResultCode UNAUTHORIZED = new ResultCode(401, "账号未登录");
     ResultCode ACCESS_UNAUTHORIZED_CODE = new ResultCode(403, "访问未授权");
 
 }

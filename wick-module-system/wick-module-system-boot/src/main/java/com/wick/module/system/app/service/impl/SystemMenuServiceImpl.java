@@ -13,7 +13,7 @@ import com.wick.module.system.model.entity.SystemMenu;
 import com.wick.module.system.model.vo.QueryMenuListReqVO;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.wick.common.core.constant.GlobalSystemConstants;
+import com.wick.common.core.constant.GlobalConstants;
 import com.wick.common.core.enums.CommonStatusEnum;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -54,7 +54,7 @@ public class SystemMenuServiceImpl implements ISystemMenuService {
      */
     private List<SystemMenuDTO> buildMenuTree(List<SystemMenu> menuList) {
         Map<Long, SystemMenuDTO> menuMap = new HashMap<>();
-        Long rootNodeId = GlobalSystemConstants.ROOT_NODE_ID;
+        Long rootNodeId = GlobalConstants.ROOT_NODE_ID;
 
         // Step-1: 构建菜单树并将部门存入Map
         for (SystemMenu menu : menuList) {
@@ -100,7 +100,7 @@ public class SystemMenuServiceImpl implements ISystemMenuService {
     private List<SystemRouteDTO> buildRouteTree(List<SystemMenuDTO> menuDTOs) {
         // 创建结果Map，以父菜单ID为键
         Map<Long, SystemRouteDTO> resultMap = Maps.newLinkedHashMap();
-        Long rootNodeId = GlobalSystemConstants.ROOT_NODE_ID;
+        Long rootNodeId = GlobalConstants.ROOT_NODE_ID;
 
         // Step-1: 构建路由树并将部门存入Map
         Map<Long, SystemMenuDTO> menuMap = menuDTOs.stream().collect(Collectors.toMap(SystemMenuDTO::getId, dto -> dto));

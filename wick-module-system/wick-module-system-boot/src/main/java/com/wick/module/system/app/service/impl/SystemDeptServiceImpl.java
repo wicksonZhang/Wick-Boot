@@ -9,7 +9,7 @@ import com.wick.module.system.model.dto.SystemDeptOptionsDTO;
 import com.wick.module.system.model.entity.SystemDept;
 import com.wick.module.system.model.vo.QueryDeptListReqVO;
 import com.google.common.collect.Lists;
-import com.wick.common.core.constant.GlobalSystemConstants;
+import com.wick.common.core.constant.GlobalConstants;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -63,7 +63,7 @@ public class SystemDeptServiceImpl implements ISystemDeptService {
      */
     private List<SystemDeptDTO> buildDeptTree(List<SystemDept> departmentList) {
         Map<Long, SystemDeptDTO> deptMap = new HashMap<>();
-        Long rootNodeId = GlobalSystemConstants.ROOT_NODE_ID;
+        Long rootNodeId = GlobalConstants.ROOT_NODE_ID;
 
         // Step-1: 构建部门树并将部门存入Map
         for (SystemDept dept : departmentList) {

@@ -1,16 +1,8 @@
 package com.wick.common.security.util;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
-import com.google.common.collect.Sets;
-import com.wick.common.core.constant.GlobalSystemConstants;
 import com.wick.module.system.model.dto.LoginUserInfoDTO;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-
-import java.util.Collection;
-import java.util.Set;
 
 /**
  * Security 用户信息
@@ -37,29 +29,6 @@ public class SecurityUtils {
             return (LoginUserInfoDTO) principal;
         }
         return null;
-    }
-
-    /**
-     * 获取角色信息
-     *
-     * @return Set<String>
-     */
-    public static Set<String> getRoles() {
-        Set<String> resultSets = Sets.newHashSet();
-        /* Step-1: 获取 LoginUserInfoDTO 用户信息 */
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        /* Step-2: 获取 authorities 角色信息 */
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        if (CollUtil.isEmpty(authorities)) {
-            return resultSets;
-        }
-
-        /* Step-3: 获取 */
-        for (GrantedAuthority item : authorities) {
-            resultSets.add(item.getAuthority());
-        }
-        return resultSets;
     }
 
 }

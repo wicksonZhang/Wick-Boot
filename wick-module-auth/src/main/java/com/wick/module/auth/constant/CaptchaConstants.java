@@ -1,4 +1,4 @@
-package com.wick.common.core.constant;
+package com.wick.module.auth.constant;
 
 /**
  * 验证码参数信息
@@ -27,15 +27,5 @@ public interface CaptchaConstants {
      * 验证码超时时间
      */
     Long CAPTCHA_TIME_OUT = 600L;
-
-    /**
-     * 验证码key
-     */
-    String CAPTCHA_KEY = "captchaKey";
-
-    /**
-     * 验证码
-     */
-    String CAPTCHA_CODE = "captchaCode";
 
 }

@@ -1,17 +1,15 @@
 package com.wick.common.security.handler;
 
-import cn.hutool.json.JSONUtil;
 import com.wick.common.core.constant.GlobalResultCodeConstants;
+import com.wick.common.security.util.ResponseUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 /**
  * 认证异常处理
@@ -30,13 +28,7 @@ public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
      */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-        // 设置响应的内容类型和字符编码
-        response.setContentType("application/json");
-        ServletOutputStream outputStream = response.getOutputStream();
-        // 生成相应的失败结果，并转换成 JSON 格式写入到响应中
-        outputStream.write(JSONUtil.toJsonStr(GlobalResultCodeConstants.UNAUTHORIZED).getBytes(StandardCharsets.UTF_8));
-        outputStream.flush();
-        outputStream.close();
+        ResponseUtils.writeErrMsg(response, GlobalResultCodeConstants.UNAUTHORIZED);
     }
 
 }

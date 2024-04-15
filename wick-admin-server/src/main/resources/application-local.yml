@@ -55,11 +55,6 @@ mybatis-plus:
 # 日志模式、保存路径和文件名
 logging:
   level:
-    cn.wickson.security.system: debug
+    com.wick.module.*: debug
   file:
-    name: ./logs/system-log.log
-
-# jwt properties
-jwt:
-  secret: 1234567890qwertyuiopasdfghjklzxcvbnm
-  expiration: 7200
+    name: ./logs/wick-admin-log.log

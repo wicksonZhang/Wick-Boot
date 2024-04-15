@@ -5,7 +5,7 @@ import com.wick.module.system.model.entity.SystemRole;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wick.common.core.constant.GlobalSystemConstants;
+import com.wick.common.core.constant.GlobalConstants;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -29,7 +29,7 @@ public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
         return this.selectPage(page, new LambdaQueryWrapper<SystemRole>()
                 .likeRight(ObjUtil.isNotNull(name), SystemRole::getName, name)
                 .likeRight(ObjUtil.isNotNull(code), SystemRole::getCode, code)
-                .ne(SystemRole::getCode, GlobalSystemConstants.ROOT_ROLE_CODE));
+                .ne(SystemRole::getCode, GlobalConstants.ROOT_ROLE_CODE));
     }
 
 }

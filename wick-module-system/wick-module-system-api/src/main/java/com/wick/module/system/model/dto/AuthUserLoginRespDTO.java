@@ -19,9 +19,6 @@ public class AuthUserLoginRespDTO {
     @ApiModelProperty(value = "访问token")
     private String accessToken;
 
-    @ApiModelProperty(value = "token 类型", example = "Bearer")
-    private String tokenType;
-
     @ApiModelProperty(value = "刷新token")
     private String refreshToken;
 

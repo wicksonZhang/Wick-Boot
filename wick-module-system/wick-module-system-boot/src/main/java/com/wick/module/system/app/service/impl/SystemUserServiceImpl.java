@@ -2,6 +2,11 @@ package com.wick.module.system.app.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Sets;
+import com.wick.common.core.constant.GlobalCacheConstants;
+import com.wick.common.core.result.PageResult;
+import com.wick.common.redis.service.RedisService;
 import com.wick.common.security.util.SecurityUtils;
 import com.wick.module.system.app.service.ISystemUserService;
 import com.wick.module.system.convert.SystemUserConvert;
@@ -11,11 +16,6 @@ import com.wick.module.system.model.dto.SystemUserDTO;
 import com.wick.module.system.model.dto.SystemUserInfoDTO;
 import com.wick.module.system.model.entity.SystemUser;
 import com.wick.module.system.model.vo.QueryUserPageReqVO;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.common.collect.Sets;
-import com.wick.common.core.constant.GlobalCacheConstants;
-import com.wick.common.core.result.PageResult;
-import com.wick.common.redis.service.RedisService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -68,14 +68,11 @@ public class SystemUserServiceImpl implements ISystemUserService {
         // 封装用户信息
         SystemUserInfoDTO userInfoDTO = SystemUserConvert.INSTANCE.entityToDTO1(systemUser);
 
-        /* Step-3: 获取角色信息 */
-        Set<String> roles = SecurityUtils.getRoles();
         // 封装角色信息
-        userInfoDTO.setRoles(roles);
+        userInfoDTO.setRoles(userDetails.getRoles());
 
         /* Step-4: 获取权限信息 */
-        Set<String> perms = getPerms(roles);
-        userInfoDTO.setPerms(perms);
+        userInfoDTO.setPerms(getPerms(userDetails.getRoles()));
         return userInfoDTO;
     }
 
