@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
+        <groupId>com.wick.boot</groupId>
         <artifactId>wick-commons</artifactId>
-        <groupId>com.wick</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -14,7 +14,7 @@
     <dependencies>
         <!-- web 模块 -->
         <dependency>
-            <groupId>com.wick</groupId>
+            <groupId>com.wick.boot</groupId>
             <artifactId>wick-common-web</artifactId>
         </dependency>
 
@@ -26,13 +26,13 @@
 
         <!-- redis 模块 -->
         <dependency>
-            <groupId>com.wick</groupId>
+            <groupId>com.wick.boot</groupId>
             <artifactId>wick-common-redis</artifactId>
         </dependency>
 
         <!-- 业务组件 -->
         <dependency>
-            <groupId>com.wick</groupId>
+            <groupId>com.wick.boot</groupId>
             <artifactId>wick-module-system-api</artifactId> <!-- 需要使用它，进行 Token 的校验 -->
         </dependency>
     </dependencies>

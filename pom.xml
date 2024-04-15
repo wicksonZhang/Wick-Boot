@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.wick</groupId>
+    <groupId>com.wick.boot</groupId>
     <artifactId>wick-boot</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
@@ -183,56 +183,56 @@
 
             <!-- common-core -->
             <dependency>
-                <groupId>com.wick</groupId>
+                <groupId>com.wick.boot</groupId>
                 <artifactId>wick-common-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <!-- common-redis -->
             <dependency>
-                <groupId>com.wick</groupId>
+                <groupId>com.wick.boot</groupId>
                 <artifactId>wick-common-redis</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <!-- common-mybatis -->
             <dependency>
-                <groupId>com.wick</groupId>
+                <groupId>com.wick.boot</groupId>
                 <artifactId>wick-common-mybatis</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <!-- common-mybatis -->
             <dependency>
-                <groupId>com.wick</groupId>
+                <groupId>com.wick.boot</groupId>
                 <artifactId>wick-common-security</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <!-- common-web -->
             <dependency>
-                <groupId>com.wick</groupId>
+                <groupId>com.wick.boot</groupId>
                 <artifactId>wick-common-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <!-- auth -->
             <dependency>
-                <groupId>com.wick</groupId>
+                <groupId>com.wick.boot</groupId>
                 <artifactId>wick-module-auth</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <!-- system-api -->
             <dependency>
-                <groupId>com.wick</groupId>
+                <groupId>com.wick.boot</groupId>
                 <artifactId>wick-module-system-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <!-- system-boot -->
             <dependency>
-                <groupId>com.wick</groupId>
+                <groupId>com.wick.boot</groupId>
                 <artifactId>wick-module-system-boot</artifactId>
                 <version>${project.version}</version>
             </dependency>
