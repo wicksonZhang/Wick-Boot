@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.wick.boot.common.web.handler.GlobalExceptionHandler,\
-  com.wick.boot.common.web.handler.GlobalResponseHandler
+  com.wick.boot.common.web.handler.GlobalResponseHandler,\
+  com.wick.boot.common.web.config.SwaggerConfig

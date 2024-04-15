@@ -20,7 +20,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/auth")
-@Api(tags = "系统管理 - 认证中心")
+@Api(tags = "认证中心")
 public class AuthController {
 
     @Resource
