@@ -6,7 +6,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import com.wick.boot.module.auth.constant.CaptchaConstants;
-import com.wick.boot.module.auth.enums.ResultCodeAuth;
+import com.wick.boot.module.auth.enums.ErrorCodeAuth;
 import com.wick.boot.module.auth.service.IAuthService;
 import com.wick.boot.common.core.constant.GlobalCacheConstants;
 import com.wick.boot.common.core.constant.GlobalConstants;
@@ -94,12 +94,12 @@ public class AuthServiceImpl implements IAuthService {
         String redisKey = GlobalCacheConstants.getCaptchaCodeKey(captchaKey);
         String verifyCode = redisService.getCacheObject(redisKey);
         if (StrUtil.isBlankIfStr(verifyCode)) {
-            throw ServiceException.getInstance(ResultCodeAuth.AUTH_CAPTCHA_CODE_ERROR);
+            throw ServiceException.getInstance(ErrorCodeAuth.AUTH_CAPTCHA_CODE_ERROR);
         }
         // 验证码Code不能为空 || 验证码Code是否正确
         if (StrUtil.isBlankIfStr(captchaCode) || !captchaCode.equalsIgnoreCase(verifyCode)) {
             redisService.deleteObject(redisKey);
-            throw ServiceException.getInstance(ResultCodeAuth.AUTH_CAPTCHA_CODE_ERROR);
+            throw ServiceException.getInstance(ErrorCodeAuth.AUTH_CAPTCHA_CODE_ERROR);
         }
         // 验证成功之后删除验证码
         redisService.deleteObject(redisKey);
@@ -114,15 +114,15 @@ public class AuthServiceImpl implements IAuthService {
     protected void validUserInfo(LoginUserInfoDTO userInfoDTO, String password) {
         // 当前用户是否存在
         if (ObjUtil.isNull(userInfoDTO)) {
-            throw ServiceException.getInstance(ResultCodeAuth.AUTH_USER_PASSWORD_ERROR);
+            throw ServiceException.getInstance(ErrorCodeAuth.AUTH_USER_PASSWORD_ERROR);
         }
         // 当前用户密码是否正确
         if (!systemUser.isPasswordMatch(password, userInfoDTO.getPassword())) {
-            throw ServiceException.getInstance(ResultCodeAuth.AUTH_USER_PASSWORD_ERROR);
+            throw ServiceException.getInstance(ErrorCodeAuth.AUTH_USER_PASSWORD_ERROR);
         }
         // 是否被禁用
         if (CommonStatusEnum.DISABLE.getValue().equals(userInfoDTO.getStatus())) {
-            throw ServiceException.getInstance(ResultCodeAuth.AUTH_USER_STATUS_DISABLE);
+            throw ServiceException.getInstance(ErrorCodeAuth.AUTH_USER_STATUS_DISABLE);
         }
     }
 
