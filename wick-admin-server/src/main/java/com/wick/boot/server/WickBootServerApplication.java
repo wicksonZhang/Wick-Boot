@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author ZhangZiHeng
  * @date 2024-04-13
  */
-@SpringBootApplication(scanBasePackages = {"com.wick.boot.module.*"})
+@SpringBootApplication(scanBasePackages = {"com.wick.boot.module"})
 public class WickBootServerApplication {
 
     public static void main(String[] args) {
