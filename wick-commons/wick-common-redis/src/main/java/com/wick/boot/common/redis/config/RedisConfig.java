@@ -1,12 +1,10 @@
 package com.wick.boot.common.redis.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
-import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
@@ -17,33 +15,26 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
 
-    @Value("${spring.redis.host}")
-    private String hostName;
-
-    @Value("${spring.redis.port}")
-    private Integer port;
-
-    @Value("${spring.redis.password}")
-    private String password;
-
+    /**
+     * 自定义 RedisTemplate
+     * <p>
+     * 修改 Redis 序列化方式，默认 JdkSerializationRedisSerializer
+     *
+     * @param redisConnectionFactory {@link RedisConnectionFactory}
+     * @return {@link RedisTemplate}
+     */
     @Bean
-    public LettuceConnectionFactory lettuceConnectionFactory() {
-        RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
-        configuration.setHostName(hostName);
-        configuration.setPort(port);
-        configuration.setPassword(password);
-        return new LettuceConnectionFactory(configuration);
-    }
-
-    @Bean
-    public RedisTemplate<String, Object> redisTemplate(LettuceConnectionFactory lettuceConnectionFactory) {
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        // 创建 RedisTemplate 对象
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(lettuceConnectionFactory);
-
+        // 设置 RedisConnection 工厂
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
+        // 使用 String 序列化方式，序列化 KEY 。
         redisTemplate.setKeySerializer(RedisSerializer.string());
-        redisTemplate.setValueSerializer(RedisSerializer.json());
-
         redisTemplate.setHashKeySerializer(RedisSerializer.string());
+
+        // 使用 JSON 序列化方式（库是 Jackson ），序列化 VALUE 。
+        redisTemplate.setValueSerializer(RedisSerializer.json());
         redisTemplate.setHashValueSerializer(RedisSerializer.json());
 
         redisTemplate.afterPropertiesSet();
