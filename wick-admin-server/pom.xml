@@ -37,36 +37,13 @@
             <scope>compile</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.wick</groupId>
-            <artifactId>wick-sync-db-flyway</artifactId>
-        </dependency>
-
     </dependencies>
 
-<!--    <build>-->
-<!--        &lt;!&ndash; 设置构建的 jar 包名 &ndash;&gt;-->
-<!--        <finalName>${project.artifactId}</finalName>-->
-<!--        <plugins>-->
-<!--            &lt;!&ndash; 打包 &ndash;&gt;-->
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--                <version>${spring.boot.version}</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <goals>-->
-<!--                            <goal>repackage</goal> &lt;!&ndash; 将引入的 jar 打入其中 &ndash;&gt;-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </build>-->
-
     <build>
+        <!-- 设置构建的 jar 包名 -->
         <finalName>${project.artifactId}</finalName>
         <plugins>
+            <!-- 打包 -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -74,24 +51,10 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>repackage</goal>
+                            <goal>repackage</goal> <!-- 将引入的 jar 打入其中 -->
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>${maven.jar.plugin.version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${maven.war.plugin.version}</version>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <warName>${project.artifactId}</warName>
-                </configuration>
             </plugin>
         </plugins>
     </build>

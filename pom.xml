@@ -236,13 +236,6 @@
                 <artifactId>wick-module-system-boot</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
-            <dependency>
-                <groupId>com.wick</groupId>
-                <artifactId>wick-sync-db-flyway</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
 
@@ -268,51 +261,7 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-            <!-- 统一版本号管理 -->
-            <!--            <plugin>-->
-            <!--                <groupId>org.codehaus.mojo</groupId>-->
-            <!--                <artifactId>flatten-maven-plugin</artifactId>-->
-            <!--                <version>${flatten-maven-plugin.version}</version>-->
-            <!--                <configuration>-->
-            <!--                    <updatePomFile>true</updatePomFile>-->
-            <!--                    <flattenMode>resolveCiFriendliesOnly</flattenMode>-->
-            <!--                </configuration>-->
-            <!--                <executions>-->
-            <!--                    <execution>-->
-            <!--                        <id>flatten</id>-->
-            <!--                        <phase>process-resources</phase>-->
-            <!--                        <goals>-->
-            <!--                            <goal>flatten</goal>-->
-            <!--                        </goals>-->
-            <!--                    </execution>-->
-            <!--                    <execution>-->
-            <!--                        <id>flatten.clean</id>-->
-            <!--                        <phase>clean</phase>-->
-            <!--                        <goals>-->
-            <!--                            <goal>clean</goal>-->
-            <!--                        </goals>-->
-            <!--                    </execution>-->
-            <!--                </executions>-->
-            <!--            </plugin>-->
         </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <!-- 关闭过滤 -->
-                <filtering>false</filtering>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <!-- 引入所有 匹配文件进行过滤 -->
-                <includes>
-                    <include>application*</include>
-                    <include>bootstrap*</include>
-                    <include>banner*</include>
-                </includes>
-                <!-- 启用过滤 即该资源中的变量将会被过滤器中的值替换 -->
-                <filtering>true</filtering>
-            </resource>
-        </resources>
     </build>
 
 </project>
