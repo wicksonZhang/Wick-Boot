@@ -18,6 +18,20 @@ spring:
     url: jdbc:mysql://139.9.202.135:1653/security_system?useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root
     password: P@ssw0rd2024
+  # flyway
+  flyway:
+    enabled: true
+    encoding: UTF-8
+    table: flyway_schema_history
+    # 禁止清理数据库表
+    clean-disabled: true
+    # 如果数据库不是空表，需要设置成 true，否则启动报错
+    baseline-on-migrate: true
+    # 与 baseline-on-migrate: true 搭配使用
+    baseline-version: 0
+    locations:
+      - classpath:db/migration
+  # redis
   redis:
     host: 139.9.202.135
     port: 3189
@@ -45,7 +59,6 @@ mybatis-plus:
       logic-delete-value: 1 # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
     banner: true # 关闭控制台的 Banner 打印
-  # 不支持多包, 如有需要可在注解配置 或 提升扫包等级
   # 指定加载Mapper.xml文件路径
   mapperLocations: classpath*:mapper/**/*Mapper.xml
   # 指定扫描实体类的包路径

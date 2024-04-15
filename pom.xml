@@ -47,7 +47,7 @@
         <module>wick-commons</module>
         <module>wick-module-auth</module>
         <module>wick-module-system</module>
-        <module>wick-flyway</module>
+        <module>wick-sync-db-flyway</module>
     </modules>
 
     <dependencies>
@@ -234,6 +234,12 @@
             <dependency>
                 <groupId>com.wick</groupId>
                 <artifactId>wick-module-system-boot</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wick</groupId>
+                <artifactId>wick-sync-db-flyway</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

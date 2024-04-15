@@ -12,7 +12,6 @@
     <artifactId>wick-common-mybatis</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>com.wick</groupId>
             <artifactId>wick-common-security</artifactId>
