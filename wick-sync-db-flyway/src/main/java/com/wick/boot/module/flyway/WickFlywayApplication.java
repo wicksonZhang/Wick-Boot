@@ -10,10 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2024-04-15
  */
 @SpringBootApplication
-public class FlywayApplication {
+public class WickFlywayApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FlywayApplication.class, args);
+        SpringApplication.run(WickFlywayApplication.class, args);
     }
 
 }
