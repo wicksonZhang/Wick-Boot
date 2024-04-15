@@ -11,6 +11,7 @@ import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -37,6 +38,7 @@ public class SystemDictController {
 
     @PostMapping("/types")
     @ApiOperation(value = "新增字典类型数据", notes = "字典信息")
+    @PreAuthorize("@ss.hasPerm('sys:dict_type:add')")
     public ResultUtil<Long> addDictType(@Valid @RequestBody AddDictTypeReqVO reqVO) {
         dictTypeService.addDictType(reqVO);
         return ResultUtil.success();

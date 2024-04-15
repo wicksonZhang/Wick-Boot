@@ -1,8 +1,11 @@
 package com.wick.boot.common.security.util;
 
+import com.google.common.collect.Sets;
 import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.Set;
 
 /**
  * Security 用户信息
@@ -31,4 +34,16 @@ public class SecurityUtils {
         return null;
     }
 
+    /**
+     * 获取角色信息
+     *
+     * @return 角色集合
+     */
+    public static Set<String> getRoles() {
+        LoginUserInfoDTO userDetails = getUserDetails();
+        if (userDetails == null) {
+            return Sets.newHashSet();
+        }
+        return userDetails.getRoles();
+    }
 }
