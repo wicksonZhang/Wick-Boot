@@ -4,23 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cn.wickson.security</groupId>
-    <artifactId>spring-boot-security</artifactId>
+    <groupId>com.wick</groupId>
+    <artifactId>wick-boot</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
     <!-- 子模块信息 -->
-    <modules>
-        <module>01-security-commons</module>
-        <module>02-security-system</module>
-        <module>03-security-flyway-sync-db</module>
-    </modules>
-
-    <!-- 统一管理jar包版本 -->
     <properties>
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <!-- 插件版本 -->
+        <maven.jar.plugin.version>3.2.2</maven.jar.plugin.version>
+        <maven.war.plugin.version>3.2.2</maven.war.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
 
@@ -40,9 +36,19 @@
         <!-- Tools -->
         <lombok.version>1.18.26</lombok.version>
         <hutool.version>5.8.25</hutool.version>
+        <guava.version>27.0.1-android</guava.version>
         <fastjson.version>2.0.43</fastjson.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
     </properties>
+
+    <!-- 统一管理jar包版本 -->
+    <modules>
+        <module>wick-admin-server</module>
+        <module>wick-commons</module>
+        <module>wick-module-auth</module>
+        <module>wick-module-system</module>
+        <module>wick-sync-db-flyway</module>
+    </modules>
 
     <dependencies>
         <dependency>
@@ -56,6 +62,12 @@
             <artifactId>hutool-all</artifactId>
             <version>${hutool.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -64,6 +76,13 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+
+            <!-- spring boot 配置所需依赖 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
 
@@ -99,13 +118,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-validation</artifactId>
                 <version>${spring.boot.version}</version>
-            </dependency>
-
-            <!-- Spring Boot Commons -->
-            <dependency>
-                <groupId>cn.wickson.security</groupId>
-                <artifactId>01-security-commons</artifactId>
-                <version>${project.version}</version>
             </dependency>
 
             <!--mysql依赖包-->
@@ -169,34 +181,87 @@
                 <version>${flyway.core.version}</version>
             </dependency>
 
+            <!-- common-core -->
+            <dependency>
+                <groupId>com.wick</groupId>
+                <artifactId>wick-common-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- common-redis -->
+            <dependency>
+                <groupId>com.wick</groupId>
+                <artifactId>wick-common-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- common-mybatis -->
+            <dependency>
+                <groupId>com.wick</groupId>
+                <artifactId>wick-common-mybatis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- common-mybatis -->
+            <dependency>
+                <groupId>com.wick</groupId>
+                <artifactId>wick-common-security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- common-web -->
+            <dependency>
+                <groupId>com.wick</groupId>
+                <artifactId>wick-common-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- auth -->
+            <dependency>
+                <groupId>com.wick</groupId>
+                <artifactId>wick-module-auth</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- system-api -->
+            <dependency>
+                <groupId>com.wick</groupId>
+                <artifactId>wick-module-system-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- system-boot -->
+            <dependency>
+                <groupId>com.wick</groupId>
+                <artifactId>wick-module-system-boot</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <!-- maven-compiler-plugin 插件，解决 Lombok + MapStruct 组合 -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${maven-compiler-plugin.version}</version>
-                    <configuration>
-                        <annotationProcessorPaths>
-                            <path>
-                                <groupId>org.projectlombok</groupId>
-                                <artifactId>lombok</artifactId>
-                                <version>${lombok.version}</version>
-                            </path>
-                            <path>
-                                <groupId>org.mapstruct</groupId>
-                                <artifactId>mapstruct-processor</artifactId>
-                                <version>${mapstruct.version}</version>
-                            </path>
-                        </annotationProcessorPaths>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+        <plugins>
+            <!-- maven-compiler-plugin 插件，解决 Lombok + MapStruct 组合 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
 </project>

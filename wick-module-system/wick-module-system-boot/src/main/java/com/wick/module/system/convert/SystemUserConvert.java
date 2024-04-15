@@ -1,0 +1,38 @@
+package com.wick.module.system.convert;
+
+import com.wick.module.system.model.dto.SystemUserDTO;
+import com.wick.module.system.model.dto.SystemUserInfoDTO;
+import com.wick.module.system.model.entity.SystemUser;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
+
+/**
+ * 后台管理 - 用户信息
+ *
+ * @author ZhangZiHeng
+ * @date 2024-04-02
+ */
+@Mapper
+public interface SystemUserConvert {
+
+    SystemUserConvert INSTANCE = Mappers.getMapper(SystemUserConvert.class);
+
+    /**
+     * Convert entity To SystemUserDTO
+     *
+     * @param systemUser 用户信息
+     * @return SystemUserDTO
+     */
+    SystemUserDTO entityToDTO(SystemUser systemUser);
+
+    /**
+     * Convert entity To SystemUserInfoDTO
+     *
+     * @param systemUser 用户信息
+     * @return SystemUserInfoDTO
+     */
+    @Mapping(target = "userId", source = "id")
+    SystemUserInfoDTO entityToDTO1(SystemUser systemUser);
+
+}

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wick.module.system.mapper.ISystemUserMapper">
+
+    <select id="selectPage" resultType="com.wick.module.system.model.dto.SystemUserDTO">
+        SELECT
+            u.id,
+            u.username,
+            u.nickname,
+            u.mobile,
+            u.gender,
+            u.avatar,
+            u.STATUS,
+            d.name AS dept_name,
+            u.create_time
+        FROM
+            system_user u LEFT JOIN system_dept d ON u.dept_id = d.id
+        <where>
+            u.deleted = 0 AND u.username != 'root'
+            <if test='reqVO.username != null'>
+                AND u.username LIKE CONCAT('%', #{reqVO.username} ,'%')
+            </if>
+            <if test='reqVO.mobile != null'>
+                AND u.mobile LIKE CONCAT('%', #{reqVO.mobile} ,'%')
+            </if>
+            <if test='reqVO.deptId != null'>
+                AND u.dept_id = #{reqVO.deptId}
+            </if>
+            <if test='reqVO.status != null'>
+                AND u.status = #{reqVO.status}
+            </if>
+        </where>
+        ORDER BY u.id ASC
+    </select>
+
+    <!-- 用户认证信息映射 -->
+    <resultMap id="UserAuthMap" type="com.wick.module.system.model.dto.LoginUserInfoDTO">
+        <id property="userId" column="userId" jdbcType="BIGINT"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="BOOLEAN"/>
+        <result property="deptId" column="dept_id" jdbcType="BIGINT"/>
+        <result property="loginIp" column="login_ip" jdbcType="VARCHAR"/>
+        <result property="loginDate" column="login_date" jdbcType="DATE"/>
+        <collection property="roles" ofType="string" javaType="java.util.Set">
+            <result column="code"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectAuthUserInfo" resultMap="UserAuthMap">
+        SELECT
+            t1.id userId,
+            t1.username,
+            t1.nickname,
+            t1.password,
+            t1.status,
+            t1.dept_id ,
+            t1.login_ip ,
+            t1.login_date ,
+            t3.code
+        FROM
+            system_user t1
+            LEFT JOIN system_user_role t2 ON t2.user_id = t1.id
+            LEFT JOIN system_role t3 ON t3.id = t2.role_id
+        WHERE
+            t1.username = #{username}
+    </select>
+
+</mapper>

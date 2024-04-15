@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.wick.common.security.config.SecurityConfig,\
+  com.wick.common.security.handler.MyAccessDeniedHandler,\
+  com.wick.common.security.handler.MyAuthenticationEntryPoint
