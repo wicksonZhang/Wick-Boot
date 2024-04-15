@@ -12,38 +12,28 @@
     <artifactId>wick-common-web</artifactId>
 
     <dependencies>
+        <!-- common core 依赖 -->
+        <dependency>
+            <groupId>com.wick</groupId>
+            <artifactId>wick-common-core</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!--引入参数校验依赖包-->
+        <!-- 引入参数校验依赖包 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-
-        <!-- mapstruct -->
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
         </dependency>
 
         <!-- Api文档 -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
-        </dependency>
-
-        <!-- common core 依赖 -->
-        <dependency>
-            <groupId>com.wick</groupId>
-            <artifactId>wick-common-core</artifactId>
         </dependency>
     </dependencies>
 </project>

@@ -12,12 +12,6 @@
     <artifactId>wick-module-system-api</artifactId>
 
     <dependencies>
-        <!-- common-core -->
-        <dependency>
-            <groupId>com.wick</groupId>
-            <artifactId>wick-common-core</artifactId>
-        </dependency>
-
         <!-- common web -->
         <dependency>
             <groupId>com.wick</groupId>

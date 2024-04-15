@@ -12,18 +12,11 @@
     <artifactId>wick-common-redis</artifactId>
 
     <dependencies>
-        <!-- common core 依赖 -->
-        <dependency>
-            <groupId>com.wick</groupId>
-            <artifactId>wick-common-core</artifactId>
-        </dependency>
-
         <!-- SpringBoot Boot Redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-
     </dependencies>
 
 </project>

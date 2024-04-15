@@ -47,7 +47,7 @@
         <module>wick-commons</module>
         <module>wick-module-auth</module>
         <module>wick-module-system</module>
-        <!--        <module>04-wick-flyway</module>-->
+        <module>wick-flyway</module>
     </modules>
 
     <dependencies>
@@ -263,31 +263,31 @@
                 </configuration>
             </plugin>
             <!-- 统一版本号管理 -->
-<!--            <plugin>-->
-<!--                <groupId>org.codehaus.mojo</groupId>-->
-<!--                <artifactId>flatten-maven-plugin</artifactId>-->
-<!--                <version>${flatten-maven-plugin.version}</version>-->
-<!--                <configuration>-->
-<!--                    <updatePomFile>true</updatePomFile>-->
-<!--                    <flattenMode>resolveCiFriendliesOnly</flattenMode>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>flatten</id>-->
-<!--                        <phase>process-resources</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>flatten</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                    <execution>-->
-<!--                        <id>flatten.clean</id>-->
-<!--                        <phase>clean</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>clean</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <!--            <plugin>-->
+            <!--                <groupId>org.codehaus.mojo</groupId>-->
+            <!--                <artifactId>flatten-maven-plugin</artifactId>-->
+            <!--                <version>${flatten-maven-plugin.version}</version>-->
+            <!--                <configuration>-->
+            <!--                    <updatePomFile>true</updatePomFile>-->
+            <!--                    <flattenMode>resolveCiFriendliesOnly</flattenMode>-->
+            <!--                </configuration>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <id>flatten</id>-->
+            <!--                        <phase>process-resources</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>flatten</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                    <execution>-->
+            <!--                        <id>flatten.clean</id>-->
+            <!--                        <phase>clean</phase>-->
+            <!--                        <goals>-->
+            <!--                            <goal>clean</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
         </plugins>
         <resources>
             <resource>
