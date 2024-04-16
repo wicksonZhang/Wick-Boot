@@ -8,7 +8,7 @@ import com.wick.boot.module.system.app.service.ISystemDictTypeService;
 import com.wick.boot.module.system.convert.SystemDictConvert;
 import com.wick.boot.module.system.mapper.ISystemDictDataMapper;
 import com.wick.boot.module.system.model.dto.SystemDictDataDTO;
-import com.wick.boot.module.system.model.vo.QueryDictDataPageReqVO;
+import com.wick.boot.module.system.model.vo.dict.data.QueryDictDataPageReqVO;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.core.result.PageResult;
 import org.springframework.stereotype.Service;

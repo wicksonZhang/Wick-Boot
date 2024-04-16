@@ -1,7 +1,7 @@
 package com.wick.boot.module.system.app.service;
 
 import com.wick.boot.module.system.model.dto.SystemDictDataDTO;
-import com.wick.boot.module.system.model.vo.QueryDictDataPageReqVO;
+import com.wick.boot.module.system.model.vo.dict.data.QueryDictDataPageReqVO;
 import com.wick.boot.common.core.result.PageResult;
 
 /**

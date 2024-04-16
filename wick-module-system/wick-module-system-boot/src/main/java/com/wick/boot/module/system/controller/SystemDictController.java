@@ -2,13 +2,14 @@ package com.wick.boot.module.system.controller;
 
 import com.wick.boot.module.system.model.dto.SystemDictDataDTO;
 import com.wick.boot.module.system.model.dto.SystemDictTypeDTO;
-import com.wick.boot.module.system.model.vo.AddDictTypeReqVO;
-import com.wick.boot.module.system.model.vo.QueryDictDataPageReqVO;
-import com.wick.boot.module.system.model.vo.QueryDictTypePageReqVO;
+import com.wick.boot.module.system.model.vo.dict.type.AddDictTypeReqVO;
+import com.wick.boot.module.system.model.vo.dict.data.QueryDictDataPageReqVO;
+import com.wick.boot.module.system.model.vo.dict.type.QueryDictTypePageReqVO;
 import com.wick.boot.module.system.app.service.ISystemDictDataService;
 import com.wick.boot.module.system.app.service.ISystemDictTypeService;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
+import com.wick.boot.module.system.model.vo.dict.type.UpdateDictTypeReqVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,11 +37,19 @@ public class SystemDictController {
 
     //region =============================================== 字典类型 ===============================================
 
-    @PostMapping("/types")
+    @PostMapping("/types/add")
     @ApiOperation(value = "新增字典类型数据", notes = "字典信息")
     @PreAuthorize("@ss.hasPerm('sys:dict_type:add')")
     public ResultUtil<Long> addDictType(@Valid @RequestBody AddDictTypeReqVO reqVO) {
         dictTypeService.addDictType(reqVO);
+        return ResultUtil.success();
+    }
+
+    @PutMapping("/types/update")
+    @ApiOperation(value = "编辑字典类型数据", notes = "字典信息")
+    @PreAuthorize("@ss.hasPerm('sys:dict_type:edit')")
+    public ResultUtil<Long> updateDictType(@Valid @RequestBody UpdateDictTypeReqVO reqVO) {
+        dictTypeService.updateDictType(reqVO);
         return ResultUtil.success();
     }
 

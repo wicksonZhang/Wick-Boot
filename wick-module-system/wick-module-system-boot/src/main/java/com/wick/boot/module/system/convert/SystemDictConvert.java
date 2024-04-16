@@ -4,7 +4,8 @@ import com.wick.boot.module.system.model.dto.SystemDictDataDTO;
 import com.wick.boot.module.system.model.dto.SystemDictTypeDTO;
 import com.wick.boot.module.system.model.entity.SystemDictData;
 import com.wick.boot.module.system.model.entity.SystemDictType;
-import com.wick.boot.module.system.model.vo.AddDictTypeReqVO;
+import com.wick.boot.module.system.model.vo.dict.type.AddDictTypeReqVO;
+import com.wick.boot.module.system.model.vo.dict.type.UpdateDictTypeReqVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -17,12 +18,20 @@ public interface SystemDictConvert {
     SystemDictConvert INSTANCE = Mappers.getMapper(SystemDictConvert.class);
 
     /**
-     * DictTypeConvert VO To Entity
+     * DictTypeConvert addVO To Entity
      *
      * @param reqVO 新增请求参数
      * @return SystemDictType
      */
-    SystemDictType addOrUpdateVoToEntity(AddDictTypeReqVO reqVO);
+    SystemDictType addVoToEntity(AddDictTypeReqVO reqVO);
+
+    /**
+     * DictTypeConvert updateVO To Entity
+     *
+     * @param reqVO 新增请求参数
+     * @return SystemDictType
+     */
+    SystemDictType updateVoToEntity(UpdateDictTypeReqVO reqVO);
 
     /**
      * DictTypeConvert Entity To List<DTO>

@@ -1,10 +1,11 @@
 package com.wick.boot.module.system.app.service;
 
+import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.model.dto.SystemDictTypeDTO;
 import com.wick.boot.module.system.model.entity.SystemDictType;
-import com.wick.boot.module.system.model.vo.AddDictTypeReqVO;
-import com.wick.boot.module.system.model.vo.QueryDictTypePageReqVO;
-import com.wick.boot.common.core.result.PageResult;
+import com.wick.boot.module.system.model.vo.dict.type.AddDictTypeReqVO;
+import com.wick.boot.module.system.model.vo.dict.type.QueryDictTypePageReqVO;
+import com.wick.boot.module.system.model.vo.dict.type.UpdateDictTypeReqVO;
 
 /**
  * @author ZhangZiHeng
@@ -15,9 +16,16 @@ public interface ISystemDictTypeService {
     /**
      * 新增字典类型数据
      *
-     * @param reqVO 请求参数
+     * @param reqVO 新增请求参数
      */
     void addDictType(AddDictTypeReqVO reqVO);
+
+    /**
+     * 更新字典类型数据
+     *
+     * @param reqVO 更新请求参数
+     */
+    void updateDictType(UpdateDictTypeReqVO reqVO);
 
     /**
      * 获取字典分页信息

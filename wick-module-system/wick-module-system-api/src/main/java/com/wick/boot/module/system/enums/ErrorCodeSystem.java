@@ -42,5 +42,6 @@ public interface ErrorCodeSystem {
     // ======================================== System-部门管理 1-002-004-000 ========================================
 
     // ======================================== System-字典管理 1-002-005-000 ========================================
-    ResultCode DICT_TYPE_CODE_ALREADY_EXIST = new ResultCode(1002005001, "字典类型编码已存在");
+    ResultCode DICT_TYPE_NOT_EXIST = new ResultCode(1002005001, "字典类型不存在");
+    ResultCode DICT_TYPE_CODE_ALREADY_EXIST = new ResultCode(1002005002, "字典类型编码已存在");
 }

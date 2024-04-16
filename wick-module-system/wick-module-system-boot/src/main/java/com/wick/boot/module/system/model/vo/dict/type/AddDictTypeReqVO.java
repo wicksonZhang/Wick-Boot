@@ -1,9 +1,10 @@
-package com.wick.boot.module.system.model.vo;
+package com.wick.boot.module.system.model.vo.dict.type;
 
 import com.wick.boot.common.core.enums.CommonStatusEnum;
 import com.wick.boot.common.core.validator.InEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
