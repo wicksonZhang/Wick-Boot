@@ -11,12 +11,16 @@ import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.module.system.model.vo.dict.type.UpdateDictTypeReqVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * 后台管理 - 字典管理
@@ -41,15 +45,24 @@ public class SystemDictController {
     @ApiOperation(value = "新增字典类型数据", notes = "字典信息")
     @PreAuthorize("@ss.hasPerm('sys:dict_type:add')")
     public ResultUtil<Long> addDictType(@Valid @RequestBody AddDictTypeReqVO reqVO) {
-        dictTypeService.addDictType(reqVO);
-        return ResultUtil.success();
+        return ResultUtil.success(dictTypeService.addDictType(reqVO));
     }
 
     @PutMapping("/types/update")
     @ApiOperation(value = "编辑字典类型数据", notes = "字典信息")
     @PreAuthorize("@ss.hasPerm('sys:dict_type:edit')")
-    public ResultUtil<Long> updateDictType(@Valid @RequestBody UpdateDictTypeReqVO reqVO) {
+    public ResultUtil<Boolean> updateDictType(@Valid @RequestBody UpdateDictTypeReqVO reqVO) {
         dictTypeService.updateDictType(reqVO);
+        return ResultUtil.success(true);
+    }
+
+    @DeleteMapping("/types/{ids}")
+    @ApiOperation(value = "删除字典类型数据", notes = "字典信息")
+    @PreAuthorize("@ss.hasPerm('sys:dict_type:delete')")
+    @ApiImplicitParam(name = "ids", value = "字典类型ID", required = true)
+    public ResultUtil<Long> deleteDictType(@NotEmpty(message = "字典类型主键不能为空")
+                                           @PathVariable("ids") List<Long> ids) {
+        dictTypeService.deleteDictType(ids);
         return ResultUtil.success();
     }
 

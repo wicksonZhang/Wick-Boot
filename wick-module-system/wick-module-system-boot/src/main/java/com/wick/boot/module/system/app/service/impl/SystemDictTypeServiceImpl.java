@@ -17,7 +17,9 @@ import com.wick.boot.module.system.model.vo.dict.type.UpdateDictTypeReqVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 字典类型管理-服务实现层
@@ -30,13 +32,14 @@ public class SystemDictTypeServiceImpl extends AbstractSystemDictTypeAppService 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void addDictType(AddDictTypeReqVO reqVO) {
+    public Long addDictType(AddDictTypeReqVO reqVO) {
         /* Step-1: 验证字典类型是否正确 */
         this.validateAddParams(reqVO);
 
         /* Step-2: 新增字典信息 */
         SystemDictType dictType = SystemDictConvert.INSTANCE.addVoToEntity(reqVO);
         this.dictTypeMapper.insert(dictType);
+        return dictType.getId();
     }
 
     @Override
@@ -55,17 +58,42 @@ public class SystemDictTypeServiceImpl extends AbstractSystemDictTypeAppService 
     }
 
     private void updateDictDateByCode(String newTypeCode, String oldTypeCode) {
+        // 如果更新的 code 是一致的，则不用更新
         if (newTypeCode.equals(oldTypeCode)) {
             return;
         }
-        List<SystemDictData> systemDictData = this.dictDataMapper.selectList(
-                new LambdaQueryWrapper<SystemDictData>().eq(SystemDictData::getDictType, oldTypeCode)
-        );
-        if (CollUtil.isEmpty(systemDictData)) {
+        // 通过 code 获取 system_dict_data 所有数据
+        List<SystemDictData> dictDataList = getDictDataByTypeCode(Collections.singletonList(oldTypeCode));
+        if (CollUtil.isEmpty(dictDataList)) {
             return;
         }
-        systemDictData.forEach(dictData -> dictData.setDictType(newTypeCode));
-        this.dictDataMapper.updateBatch(systemDictData);
+        // 批量更新字典数据
+        dictDataList.forEach(dictData -> dictData.setDictType(newTypeCode));
+        this.dictDataMapper.updateBatch(dictDataList);
+    }
+
+    private List<SystemDictData> getDictDataByTypeCode(List<String> typeCodes) {
+        return this.dictDataMapper.selectList(
+                new LambdaQueryWrapper<SystemDictData>().in(SystemDictData::getDictType, typeCodes)
+        );
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteDictType(List<Long> ids) {
+        /* Step-1: 验证删除参数 */
+        List<SystemDictType> systemDictTypes = this.dictTypeMapper.selectBatchIds(ids);
+        this.validateDeleteParams(systemDictTypes, ids);
+
+        /* Step-2: 先删除从表 system_dict_data, 在删除主表 system_dict_type */
+        // 删除从表
+        List<String> codes = systemDictTypes.stream().map(SystemDictType::getCode).collect(Collectors.toList());
+        List<SystemDictData> dictDataList = getDictDataByTypeCode(codes);
+        if (CollUtil.isNotEmpty(dictDataList)) {
+            this.dictDataMapper.deleteBatchIds(dictDataList);
+        }
+        // 删除主表
+        this.dictTypeMapper.deleteBatchIds(ids);
     }
 
     @Override

@@ -7,6 +7,8 @@ import com.wick.boot.module.system.model.vo.dict.type.AddDictTypeReqVO;
 import com.wick.boot.module.system.model.vo.dict.type.QueryDictTypePageReqVO;
 import com.wick.boot.module.system.model.vo.dict.type.UpdateDictTypeReqVO;
 
+import java.util.List;
+
 /**
  * @author ZhangZiHeng
  * @date 2024-04-08
@@ -17,8 +19,9 @@ public interface ISystemDictTypeService {
      * 新增字典类型数据
      *
      * @param reqVO 新增请求参数
+     * @return
      */
-    void addDictType(AddDictTypeReqVO reqVO);
+    Long addDictType(AddDictTypeReqVO reqVO);
 
     /**
      * 更新字典类型数据
@@ -26,6 +29,13 @@ public interface ISystemDictTypeService {
      * @param reqVO 更新请求参数
      */
     void updateDictType(UpdateDictTypeReqVO reqVO);
+
+    /**
+     * 删除字典类型数据
+     *
+     * @param ids 主键id
+     */
+    void deleteDictType(List<Long> ids);
 
     /**
      * 获取字典分页信息
