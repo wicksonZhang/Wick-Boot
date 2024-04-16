@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 /**
  * @author ZhangZiHeng
@@ -17,7 +18,9 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @Getter
 @ApiModel(value = "AddDictTypeReqVO", description = "新增字段类型参数")
-public class AddDictTypeReqVO {
+public class AddDictTypeReqVO implements Serializable {
+
+
 
     /**
      * 字典编码
