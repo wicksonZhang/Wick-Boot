@@ -58,7 +58,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         // 如果当前更新者不为空，则进行更新
         LoginUserInfoDTO userDetails = SecurityUtils.getUserDetails();
         if (ObjUtil.isNotNull(userDetails)) {
-            this.setFieldValByName("updateBy", userDetails.getUserId(), metaObject);
+            this.setFieldValByName("updateBy", Convert.toStr(userDetails.getUserId()), metaObject);
         }
     }
 

@@ -1,11 +1,11 @@
 package com.wick.boot.module.system.mapper;
 
 import cn.hutool.core.util.ObjUtil;
-import com.wick.boot.module.system.model.entity.SystemRole;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.core.constant.GlobalConstants;
+import com.wick.boot.common.mybatis.mapper.BaseMapperX;
+import com.wick.boot.module.system.model.entity.SystemRole;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -15,7 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2024-04-07
  */
 @Mapper
-public interface ISystemRoleMapper extends BaseMapper<SystemRole> {
+public interface ISystemRoleMapper extends BaseMapperX<SystemRole> {
 
     /**
      * 获取角色分页信息

@@ -1,10 +1,10 @@
 package com.wick.boot.module.system.mapper;
 
 import cn.hutool.core.util.ObjUtil;
-import com.wick.boot.module.system.model.entity.SystemDictType;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wick.boot.common.mybatis.mapper.BaseMapperX;
+import com.wick.boot.module.system.model.entity.SystemDictType;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2024-04-08
  */
 @Mapper
-public interface ISystemDictTypeMapper extends BaseMapper<SystemDictType> {
+public interface ISystemDictTypeMapper extends BaseMapperX<SystemDictType> {
 
     default Page<SystemDictType> selectDictTypePage(Page<SystemDictType> page, String name, String code) {
         return this.selectPage(page, new LambdaQueryWrapper<SystemDictType>()

@@ -1,12 +1,12 @@
 package com.wick.boot.module.system.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wick.boot.common.mybatis.mapper.BaseMapperX;
+import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import com.wick.boot.module.system.model.dto.SystemUserDTO;
 import com.wick.boot.module.system.model.entity.SystemUser;
 import com.wick.boot.module.system.model.vo.QueryUserPageReqVO;
-import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,7 +17,7 @@ import org.apache.ibatis.annotations.Param;
  * @date 2024-04-02
  */
 @Mapper
-public interface ISystemUserMapper extends BaseMapper<SystemUser> {
+public interface ISystemUserMapper extends BaseMapperX<SystemUser> {
 
     /**
      * 校验用户名唯一

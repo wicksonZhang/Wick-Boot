@@ -1,11 +1,11 @@
 package com.wick.boot.module.system.mapper;
 
 import cn.hutool.core.util.ObjUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.wick.boot.common.mybatis.mapper.BaseMapperX;
 import com.wick.boot.module.system.model.dto.SystemMenuDTO;
 import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.system.model.vo.QueryMenuListReqVO;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
  * @date 2024-04-07
  */
 @Mapper
-public interface ISystemMenuMapper extends BaseMapper<SystemMenu> {
+public interface ISystemMenuMapper extends BaseMapperX<SystemMenu> {
 
     default List<SystemMenu> selectList(QueryMenuListReqVO queryParams) {
         return selectList(new LambdaQueryWrapper<SystemMenu>()

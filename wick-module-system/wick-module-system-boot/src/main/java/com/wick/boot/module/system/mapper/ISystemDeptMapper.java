@@ -1,10 +1,10 @@
 package com.wick.boot.module.system.mapper;
 
 import cn.hutool.core.util.ObjUtil;
-import com.wick.boot.module.system.model.entity.SystemDept;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wick.boot.common.core.enums.CommonStatusEnum;
+import com.wick.boot.common.mybatis.mapper.BaseMapperX;
+import com.wick.boot.module.system.model.entity.SystemDept;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  * @date 2024-04-02
  */
 @Mapper
-public interface ISystemDeptMapper extends BaseMapper<SystemDept> {
+public interface ISystemDeptMapper extends BaseMapperX<SystemDept> {
 
     /**
      * 查询部门列表信息
