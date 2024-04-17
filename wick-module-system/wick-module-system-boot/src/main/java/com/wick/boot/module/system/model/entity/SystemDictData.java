@@ -19,7 +19,6 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @Accessors(chain = true)
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
 @TableName("system_dict_data")
 public class SystemDictData extends BaseDO {
 

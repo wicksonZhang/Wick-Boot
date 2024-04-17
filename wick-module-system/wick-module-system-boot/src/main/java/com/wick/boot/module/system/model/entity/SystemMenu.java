@@ -20,7 +20,6 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @Accessors(chain = true)
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
 @TableName("system_menu")
 public class SystemMenu extends BaseDO {
 

@@ -22,7 +22,6 @@ import java.util.List;
 @AllArgsConstructor
 @Accessors(chain = true)
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
 @TableName("system_role")
 public class SystemRole extends BaseDO {
 
