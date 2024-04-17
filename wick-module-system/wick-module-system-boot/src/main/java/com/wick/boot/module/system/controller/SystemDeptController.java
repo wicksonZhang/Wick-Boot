@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -56,6 +57,14 @@ public class SystemDeptController {
                                        @PathVariable("ids") List<Long> ids) {
         systemDeptService.deleteDept(ids);
         return ResultUtil.success();
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation(value = "通过部门ID获取部门数据", notes = "部门信息")
+    @ApiImplicitParam(name = "id", value = "部门ID", required = true)
+    public ResultUtil<SystemDeptDTO> getDepartment(@NotNull(message = "部门ID不能为空")
+                                                   @PathVariable("id") Long id) {
+        return ResultUtil.success(systemDeptService.getDepartmentById(id));
     }
 
     @ApiOperation(value = "获取部门列表", notes = "部门信息")

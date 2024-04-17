@@ -82,8 +82,16 @@ public class SystemDeptServiceImpl extends AbstractSystemDeptAppService implemen
 
         /* Step-2: 批量删除数据, 包含该部门或者子级部门 */
         // 查询部门以及子部门信息
-        Set<SystemDept> removeDeptList =this.systemDeptMapper.selectDeptByIdOrTreePath(ids);
+        Set<SystemDept> removeDeptList = this.systemDeptMapper.selectDeptByIdOrTreePath(ids);
         this.systemDeptMapper.deleteBatchIds(removeDeptList);
+    }
+
+    @Override
+    public SystemDeptDTO getDepartmentById(Long id) {
+        /* Step-1: 获取部门数据 */
+        SystemDept systemDept = this.systemDeptMapper.selectById(id);
+        /* Step-2: Convert entity to DTO */
+        return SystemDeptConvert.INSTANCE.entityToDTO(systemDept);
     }
 
     @Override

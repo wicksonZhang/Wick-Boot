@@ -37,6 +37,14 @@ public interface ISystemDeptService {
     void deleteDept(List<Long> ids);
 
     /**
+     * 通过ID获取部门信息
+     *
+     * @param id 部门ID
+     * @return SystemDeptDTO 部门DTO
+     */
+    SystemDeptDTO getDepartmentById(Long id);
+
+    /**
      * 查询部门列表信息
      *
      * @param reqVO 查询信息
