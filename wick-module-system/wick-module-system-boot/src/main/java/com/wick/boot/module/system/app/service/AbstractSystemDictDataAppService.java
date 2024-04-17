@@ -8,6 +8,7 @@ import com.wick.boot.module.system.mapper.ISystemDictTypeMapper;
 import com.wick.boot.module.system.model.entity.SystemDictData;
 import com.wick.boot.module.system.model.entity.SystemDictType;
 import com.wick.boot.module.system.model.vo.dict.data.AddDictDataReqVO;
+import com.wick.boot.module.system.model.vo.dict.data.UpdateDictDataReqVO;
 
 import javax.annotation.Resource;
 
@@ -77,6 +78,78 @@ public abstract class AbstractSystemDictDataAppService {
         if (ObjUtil.isNotNull(dictData)) {
             throw ServiceException.getInstance(ErrorCodeSystem.DICT_DATA_VALUE_ALREADY_EXIST);
         }
+    }
+
+    // ============================================== 更新参数校验 ==============================================
+
+    /**
+     * 校验字典数据更新参数
+     *
+     * @param reqVO 字典数据更新参数
+     */
+    protected void validateUpdateParams(UpdateDictDataReqVO reqVO) {
+        // 验证字典数据是否存在
+        SystemDictData systemDictData = this.validateDictData(reqVO.getId());
+        // 验证字典类型
+        this.validateDictDataByCode(systemDictData.getDictType(), reqVO.getTypeCode());
+        // 验证字典标签
+        this.validateDictDataByName(systemDictData.getLabel(), reqVO.getTypeCode(), reqVO.getName());
+        // 验证字典键值
+        this.validateDictDataByValue(systemDictData.getValue(), reqVO.getTypeCode(), reqVO.getValue());
+    }
+
+    /**
+     * 验证字典数据
+     *
+     * @param id 字典数据主键ID
+     */
+    private SystemDictData validateDictData(Long id) {
+        SystemDictData systemDictData = this.dictDataMapper.selectById(id);
+        if (ObjUtil.isNull(systemDictData)) {
+            throw ServiceException.getInstance(ErrorCodeSystem.DICT_DATA_NOT_EXIST);
+        }
+        return systemDictData;
+    }
+
+    /**
+     * 校验字典编码
+     *
+     * @param oldTypeCode 旧字典编码
+     * @param newTypeCode 新字典编码
+     */
+    private void validateDictDataByCode(String oldTypeCode, String newTypeCode) {
+        if (oldTypeCode.equals(newTypeCode)) {
+            return;
+        }
+        this.validateDictDataByCode(newTypeCode);
+    }
+
+    /**
+     * 验证当前字典类型下是否存在字典标签
+     *
+     * @param oldName     旧字典名称
+     * @param newTypeCode 字典编码
+     * @param newName     新字典名称
+     */
+    private void validateDictDataByName(String oldName, String newTypeCode, String newName) {
+        if (newName.equals(oldName)) {
+            return;
+        }
+        this.validateDictDataByName(newTypeCode, newName);
+    }
+
+    /**
+     * 验证当前字典类型下是否存在字典键值
+     *
+     * @param oldValue    旧字典键值
+     * @param newTypeCode 字典编码
+     * @param newValue    新字典键值
+     */
+    private void validateDictDataByValue(String oldValue, String newTypeCode, String newValue) {
+        if (oldValue.equals(newValue)) {
+            return;
+        }
+        this.validateDictDataByValue(newTypeCode, newValue);
     }
 
 }

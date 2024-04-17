@@ -8,6 +8,7 @@ import com.wick.boot.module.system.model.dto.SystemDictDataDTO;
 import com.wick.boot.module.system.model.dto.SystemDictTypeDTO;
 import com.wick.boot.module.system.model.vo.dict.data.AddDictDataReqVO;
 import com.wick.boot.module.system.model.vo.dict.data.QueryDictDataPageReqVO;
+import com.wick.boot.module.system.model.vo.dict.data.UpdateDictDataReqVO;
 import com.wick.boot.module.system.model.vo.dict.type.AddDictTypeReqVO;
 import com.wick.boot.module.system.model.vo.dict.type.QueryDictTypePageReqVO;
 import com.wick.boot.module.system.model.vo.dict.type.UpdateDictTypeReqVO;
@@ -80,6 +81,14 @@ public class SystemDictController {
     @ApiOperation(value = "新增字典数据", notes = "字典信息")
     public ResultUtil<Long> addDictData(@Valid @RequestBody AddDictDataReqVO reqVO) {
         return ResultUtil.success(dictDataService.addDictData(reqVO));
+    }
+
+    // TODO 修改前端传递参数
+    @PutMapping("/data/update")
+    @ApiOperation(value = "编辑字典数据", notes = "字典信息")
+    public ResultUtil<Boolean> updateDictData(@Valid @RequestBody UpdateDictDataReqVO reqVO) {
+        dictDataService.updateDictData(reqVO);
+        return ResultUtil.success(true);
     }
 
     @GetMapping("/data/page")

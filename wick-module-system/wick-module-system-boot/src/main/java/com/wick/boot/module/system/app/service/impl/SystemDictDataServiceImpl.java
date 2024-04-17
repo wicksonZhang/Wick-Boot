@@ -14,6 +14,7 @@ import com.wick.boot.module.system.model.entity.SystemDictData;
 import com.wick.boot.module.system.model.entity.SystemDictType;
 import com.wick.boot.module.system.model.vo.dict.data.AddDictDataReqVO;
 import com.wick.boot.module.system.model.vo.dict.data.QueryDictDataPageReqVO;
+import com.wick.boot.module.system.model.vo.dict.data.UpdateDictDataReqVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +43,17 @@ public class SystemDictDataServiceImpl extends AbstractSystemDictDataAppService 
         SystemDictData systemDictData = SystemDictDataConvert.INSTANCE.addVoToEntity(reqVO);
         this.dictDataMapper.insert(systemDictData);
         return systemDictData.getId();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateDictData(UpdateDictDataReqVO reqVO) {
+        /* Step-1: 验证字典类型是否正确 */
+        this.validateUpdateParams(reqVO);
+
+        /* Step-2: 更新字典数据信息 */
+        SystemDictData systemDictData = SystemDictDataConvert.INSTANCE.updateVoToEntity(reqVO);
+        this.dictDataMapper.updateById(systemDictData);
     }
 
     @Override

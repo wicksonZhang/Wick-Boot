@@ -45,9 +45,7 @@ public interface ErrorCodeSystem {
     ResultCode DICT_TYPE_NOT_EXIST = new ResultCode(1002005001, "字典类型不存在");
     ResultCode DICT_TYPE_CODE_ALREADY_EXIST = new ResultCode(1002005002, "字典类型编码已存在");
     ResultCode DICT_TYPE_CODE_NOT_EXIST = new ResultCode(1002005003, "字典类型编码不存在");
-
     ResultCode DICT_DATA_NOT_EXIST = new ResultCode(1002005004, "字典数据不存在");
-
     ResultCode DICT_DATA_LABEL_ALREADY_EXIST = new ResultCode(1002005005, "字典标签已存在");
     ResultCode DICT_DATA_VALUE_ALREADY_EXIST = new ResultCode(1002005006, "字典键值已存在");
 }
