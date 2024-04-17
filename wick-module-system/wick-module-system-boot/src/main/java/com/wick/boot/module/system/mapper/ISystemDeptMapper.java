@@ -56,4 +56,11 @@ public interface ISystemDeptMapper extends BaseMapperX<SystemDept> {
                 .eq(SystemDept::getName, name)
         );
     }
+
+    default List<SystemDept> selectDeptByIdOrTreePath(List<Long> ids) {
+        return this.selectList(new LambdaQueryWrapper<SystemDept>()
+                .in(SystemDept::getId, ids).or()
+                .apply("CONCAT (',',tree_path,',') LIKE CONCAT('%,',{0},',%')", ids)
+        );
+    }
 }

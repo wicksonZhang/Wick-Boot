@@ -41,7 +41,8 @@ public interface ErrorCodeSystem {
 
     // ======================================== System-部门管理 1-002-004-000 ========================================
     ResultCode DEPT_NOT_EXIST = new ResultCode(1002004001, "部门不存在");
-    ResultCode DEPT_NAME_ALREADY_EXIST = new ResultCode(1002004001, "同一个部门下不能存在相同的部门名称");
+    ResultCode DEPT_NAME_ALREADY_EXIST = new ResultCode(1002004002, "同一个部门下不能存在相同的部门名称");
+    ResultCode DEPT_PARENT_ID_CANNOT_BE_SELF = new ResultCode(1002004003, "部门父级ID不能是自己");
 
     // ======================================== System-字典管理 1-002-005-000 ========================================
     ResultCode DICT_TYPE_NOT_EXIST = new ResultCode(1002005001, "字典类型不存在");

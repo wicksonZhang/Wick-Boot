@@ -4,6 +4,7 @@ import com.wick.boot.module.system.model.dto.SystemDeptDTO;
 import com.wick.boot.module.system.model.dto.SystemDeptOptionsDTO;
 import com.wick.boot.module.system.model.entity.SystemDept;
 import com.wick.boot.module.system.model.vo.dept.AddDeptReqVO;
+import com.wick.boot.module.system.model.vo.dept.UpdateDeptReqVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -26,10 +27,18 @@ public interface SystemDeptConvert {
     /**
      * Convert addVo To Entity
      *
-     * @param reqVO 部门请求参数VO
+     * @param reqVO 部门新增请求参数VO
      * @return SystemDept 系统部门
      */
     SystemDept addVoToEntity(AddDeptReqVO reqVO);
+
+    /**
+     * Convert updateVo To Entity
+     *
+     * @param reqVO 部门更新请求参数VO
+     * @return SystemDept 系统部门
+     */
+    SystemDept updateVoToEntity(UpdateDeptReqVO reqVO);
 
     /**
      * Convert entity to DTO

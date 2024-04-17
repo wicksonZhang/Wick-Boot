@@ -12,6 +12,7 @@ import com.wick.boot.module.system.model.dto.SystemDeptOptionsDTO;
 import com.wick.boot.module.system.model.entity.SystemDept;
 import com.wick.boot.module.system.model.vo.dept.AddDeptReqVO;
 import com.wick.boot.module.system.model.vo.dept.QueryDeptListReqVO;
+import com.wick.boot.module.system.model.vo.dept.UpdateDeptReqVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +34,7 @@ public class SystemDeptServiceImpl extends AbstractSystemDeptAppService implemen
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long addDepartment(AddDeptReqVO reqVO) {
+    public void addDepartment(AddDeptReqVO reqVO) {
         /* Step-1: 验证新增字典数据 */
         this.validateAddParams(reqVO);
 
@@ -45,7 +46,22 @@ public class SystemDeptServiceImpl extends AbstractSystemDeptAppService implemen
 
         // 保存部门信息
         this.systemDeptMapper.insert(systemDept);
-        return systemDept.getId();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateDepartment(UpdateDeptReqVO reqVO) {
+        /* Step-1: 验证更新部门信息是否正确 */
+        this.validateUpdateParams(reqVO);
+
+        /* Step-2: 类型转换，更新部门数据信息 */
+        SystemDept systemDept = SystemDeptConvert.INSTANCE.updateVoToEntity(reqVO);
+        // 获取 treePath(父节点id路径) 用作后续删除
+        String treePath = getTreePath(reqVO.getParentId());
+        systemDept.setTreePath(treePath);
+
+        // 更新部门信息
+        this.systemDeptMapper.updateById(systemDept);
     }
 
     private String getTreePath(Long parentId) {
@@ -55,6 +71,19 @@ public class SystemDeptServiceImpl extends AbstractSystemDeptAppService implemen
         }
         SystemDept systemDept = this.systemDeptMapper.selectById(parentId);
         return systemDept.getTreePath() + "," + parentId;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteDept(List<Long> ids) {
+        /* Step-1: 验证删除参数 */
+        List<SystemDept> systemDeptList = this.systemDeptMapper.selectBatchIds(ids);
+        this.validateDeleteParams(systemDeptList, ids);
+
+        /* Step-2: 批量删除数据, 包含该部门或者子级部门 */
+        // 查询部门以及子部门信息
+        List<SystemDept> removeDeptList =this.systemDeptMapper.selectDeptByIdOrTreePath(ids);
+        this.systemDeptMapper.deleteBatchIds(removeDeptList);
     }
 
     @Override

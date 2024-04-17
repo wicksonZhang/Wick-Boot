@@ -4,6 +4,7 @@ import com.wick.boot.module.system.model.dto.SystemDeptDTO;
 import com.wick.boot.module.system.model.dto.SystemDeptOptionsDTO;
 import com.wick.boot.module.system.model.vo.dept.AddDeptReqVO;
 import com.wick.boot.module.system.model.vo.dept.QueryDeptListReqVO;
+import com.wick.boot.module.system.model.vo.dept.UpdateDeptReqVO;
 
 import java.util.List;
 
@@ -18,9 +19,22 @@ public interface ISystemDeptService {
      * 新增部门
      *
      * @param reqVO 新增请求参数
-     * @return Long 主键ID
      */
-    Long addDepartment(AddDeptReqVO reqVO);
+    void addDepartment(AddDeptReqVO reqVO);
+
+    /**
+     * 更新部门
+     *
+     * @param reqVO 更新请求参数
+     */
+    void updateDepartment(UpdateDeptReqVO reqVO);
+
+    /**
+     * 删除部门信息
+     *
+     * @param ids 部门主键Ids
+     */
+    void deleteDept(List<Long> ids);
 
     /**
      * 查询部门列表信息

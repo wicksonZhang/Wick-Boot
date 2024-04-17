@@ -6,13 +6,16 @@ import com.wick.boot.module.system.model.dto.SystemDeptDTO;
 import com.wick.boot.module.system.model.dto.SystemDeptOptionsDTO;
 import com.wick.boot.module.system.model.vo.dept.AddDeptReqVO;
 import com.wick.boot.module.system.model.vo.dept.QueryDeptListReqVO;
+import com.wick.boot.module.system.model.vo.dept.UpdateDeptReqVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
@@ -34,6 +37,24 @@ public class SystemDeptController {
     @PreAuthorize("@ss.hasPerm('sys:dept:add')")
     public ResultUtil<Long> addDepartment(@Valid @RequestBody AddDeptReqVO reqVO) {
         systemDeptService.addDepartment(reqVO);
+        return ResultUtil.success();
+    }
+
+    @ApiOperation(value = "编辑部门数据", notes = "部门信息")
+    @PutMapping
+    @PreAuthorize("@ss.hasPerm('sys:dept:edit')")
+    public ResultUtil<Boolean> editDepartment(@Valid @RequestBody UpdateDeptReqVO reqVO) {
+        systemDeptService.updateDepartment(reqVO);
+        return ResultUtil.success();
+    }
+
+    @ApiOperation(value = "删除部门数据", notes = "部门信息")
+    @DeleteMapping("/{ids}")
+    @PreAuthorize("@ss.hasPerm('sys:dept:delete')")
+    @ApiImplicitParam(name = "ids", value = "部门ID", required = true)
+    public ResultUtil<Long> deleteDept(@NotEmpty(message = "部门信息主键不能为空")
+                                       @PathVariable("ids") List<Long> ids) {
+        systemDeptService.deleteDept(ids);
         return ResultUtil.success();
     }
 
