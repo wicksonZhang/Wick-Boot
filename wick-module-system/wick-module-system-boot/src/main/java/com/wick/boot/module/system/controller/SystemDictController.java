@@ -22,6 +22,7 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -70,9 +71,9 @@ public class SystemDictController {
     }
 
     @GetMapping("/types/{id}")
-    @ApiOperation(value = "通过字典ID获取字典类型数据", notes = "字典信息")
+    @ApiOperation(value = "获取字典类型数据ById", notes = "字典信息")
     @ApiImplicitParam(name = "id", value = "字典类型ID", required = true)
-    public ResultUtil<SystemDictTypeDTO> getDictType(@NotBlank(message = "字典类型主键不能为空")
+    public ResultUtil<SystemDictTypeDTO> getDictType(@NotNull(message = "字典类型主键不能为空")
                                                      @PathVariable("id") Long id) {
         return ResultUtil.success(dictTypeService.getDictTypeById(id));
     }
@@ -109,6 +110,14 @@ public class SystemDictController {
                                            @PathVariable("ids") List<Long> ids) {
         dictDataService.deleteDictData(ids);
         return ResultUtil.success();
+    }
+
+    @GetMapping("/data/{id}")
+    @ApiOperation(value = "获取字典类型数据ById", notes = "字典信息")
+    @ApiImplicitParam(name = "id", value = "字典数据ID", required = true)
+    public ResultUtil<SystemDictDataDTO> getDictData(@NotNull(message = "字典数据ID不能为空")
+                                                     @PathVariable("id") Long id) {
+        return ResultUtil.success(dictDataService.getDictData(id));
     }
 
     @GetMapping("/data/page")

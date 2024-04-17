@@ -66,6 +66,14 @@ public class SystemDictDataServiceImpl extends AbstractSystemDictDataAppService 
     }
 
     @Override
+    public SystemDictDataDTO getDictData(Long id) {
+        /* Step-1: 获取字典数据 */
+        SystemDictData systemDictData = this.dictDataMapper.selectById(id);
+
+        return SystemDictDataConvert.INSTANCE.entityToDictDataDTO(systemDictData);
+    }
+
+    @Override
     public PageResult<SystemDictDataDTO> getDictDataPage(QueryDictDataPageReqVO reqVO) {
         /* Step-1: 判断数据类型是否存在 */
         SystemDictType dictType = dictTypeService.getDictTypeByCode(reqVO.getTypeCode());

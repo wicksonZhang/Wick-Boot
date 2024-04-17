@@ -20,6 +20,9 @@ public class SystemDictDataDTO {
     @ApiModelProperty(value = "字典数据编号", example = "1")
     private Long id;
 
+    @ApiModelProperty(value = "字典编码Code", example = "gender")
+    private String typeCode;
+
     @ApiModelProperty(value = "字典名称", example = "男")
     private String name;
 
@@ -31,5 +34,11 @@ public class SystemDictDataDTO {
      */
     @ApiModelProperty(value = "状态", example = "1")
     private Integer status;
+
+    @ApiModelProperty(value = "排序", example = "1")
+    private Integer sort;
+
+    @ApiModelProperty(value = "备注", example = "备注")
+    private String remark;
 
 }

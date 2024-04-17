@@ -39,6 +39,14 @@ public interface ISystemDictDataService {
     void deleteDictData(List<Long> ids);
 
     /**
+     * 获取字典类型数据ById
+     *
+     * @param id 主键ID
+     * @return SystemDictDataDTO
+     */
+    SystemDictDataDTO getDictData(Long id);
+
+    /**
      * 获取字典数据分页
      *
      * @param reqVO 字典数据请求参数

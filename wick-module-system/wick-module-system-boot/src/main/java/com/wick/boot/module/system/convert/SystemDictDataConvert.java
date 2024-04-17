@@ -1,5 +1,6 @@
 package com.wick.boot.module.system.convert;
 
+import com.wick.boot.module.system.model.dto.SystemDictDataDTO;
 import com.wick.boot.module.system.model.entity.SystemDictData;
 import com.wick.boot.module.system.model.vo.dict.data.AddDictDataReqVO;
 import com.wick.boot.module.system.model.vo.dict.data.UpdateDictDataReqVO;
@@ -42,4 +43,16 @@ public interface SystemDictDataConvert {
             @Mapping(target = "dictType", source = "typeCode")
     })
     SystemDictData updateVoToEntity(UpdateDictDataReqVO reqVO);
+
+    /**
+     * Convert entity To DTO
+     *
+     * @param systemDictData 字典数据
+     * @return SystemDictDataDTO 字典数据DTO
+     */
+    @Mappings({
+            @Mapping(target = "name", source = "label"),
+            @Mapping(target = "typeCode", source = "dictType")
+    })
+    SystemDictDataDTO entityToDictDataDTO(SystemDictData systemDictData);
 }
