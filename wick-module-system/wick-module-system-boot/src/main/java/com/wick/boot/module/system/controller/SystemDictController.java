@@ -77,7 +77,7 @@ public class SystemDictController {
     //  ============================================ 字典数据 ===============================================
 
     @PostMapping("/data")
-    @ApiModelProperty(value = "新增字典数据", notes = "字典信息")
+    @ApiOperation(value = "新增字典数据", notes = "字典信息")
     public ResultUtil<Long> addDictData(@Valid @RequestBody AddDictDataReqVO reqVO) {
         return ResultUtil.success(dictDataService.addDictData(reqVO));
     }
@@ -87,6 +87,7 @@ public class SystemDictController {
     public ResultUtil<PageResult<SystemDictDataDTO>> getDictDataPage(@Valid QueryDictDataPageReqVO reqVO) {
         return ResultUtil.success(dictDataService.getDictDataPage(reqVO));
     }
+
 
 
 }

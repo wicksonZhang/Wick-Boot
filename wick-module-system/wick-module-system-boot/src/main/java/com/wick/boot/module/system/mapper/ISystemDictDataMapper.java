@@ -30,4 +30,31 @@ public interface ISystemDictDataMapper extends BaseMapperX<SystemDictData> {
                 .eq(SystemDictData::getDictType, typeCode));
     }
 
+    /**
+     * 通过字典类型编码、标签获取字典数据
+     *
+     * @param typeCode 字典编码
+     * @param name     字典标签
+     * @return SystemDictData 字典数据
+     */
+    default SystemDictData selectDictDataByName(String typeCode, String name) {
+        return this.selectOne(new LambdaQueryWrapper<SystemDictData>()
+                .eq(SystemDictData::getDictType, typeCode)
+                .eq(SystemDictData::getLabel, name)
+        );
+    }
+
+    /**
+     * 通过字典类型编码、键值获取字典数据
+     *
+     * @param typeCode 字典编码
+     * @param value    字典键值
+     * @return SystemDictData 字典数据
+     */
+    default SystemDictData selectDictDataByValue(String typeCode, String value) {
+        return this.selectOne(new LambdaQueryWrapper<SystemDictData>()
+                .eq(SystemDictData::getDictType, typeCode)
+                .eq(SystemDictData::getValue, value)
+        );
+    }
 }

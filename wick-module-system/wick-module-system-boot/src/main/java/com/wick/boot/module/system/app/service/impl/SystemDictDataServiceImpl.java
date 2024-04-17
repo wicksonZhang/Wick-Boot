@@ -6,7 +6,8 @@ import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.app.service.AbstractSystemDictDataAppService;
 import com.wick.boot.module.system.app.service.ISystemDictDataService;
 import com.wick.boot.module.system.app.service.ISystemDictTypeService;
-import com.wick.boot.module.system.convert.SystemDictConvert;
+import com.wick.boot.module.system.convert.SystemDictDataConvert;
+import com.wick.boot.module.system.convert.SystemDictTypeConvert;
 import com.wick.boot.module.system.mapper.ISystemDictDataMapper;
 import com.wick.boot.module.system.model.dto.SystemDictDataDTO;
 import com.wick.boot.module.system.model.entity.SystemDictData;
@@ -31,14 +32,16 @@ public class SystemDictDataServiceImpl extends AbstractSystemDictDataAppService 
     @Resource
     private ISystemDictTypeService dictTypeService;
 
-    @Resource
-    private ISystemDictDataMapper dictDataMapper;
-
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long addDictData(AddDictDataReqVO reqVO) {
+        /* Step-1: 验证新增字典数据 */
+        this.validateAddParams(reqVO);
 
-        return null;
+        /* Step-2: 新增字典数据信息 */
+        SystemDictData systemDictData = SystemDictDataConvert.INSTANCE.addVoToEntity(reqVO);
+        this.dictDataMapper.insert(systemDictData);
+        return systemDictData.getId();
     }
 
     @Override
@@ -59,7 +62,7 @@ public class SystemDictDataServiceImpl extends AbstractSystemDictDataAppService 
         }
 
         /* Step-3: 返回结果集 */
-        List<SystemDictDataDTO> dictDataDTOS = SystemDictConvert.INSTANCE.entityToDictDataDTOS(pageResult.getRecords());
+        List<SystemDictDataDTO> dictDataDTOS = SystemDictTypeConvert.INSTANCE.entityToDictDataDTOS(pageResult.getRecords());
         return new PageResult<>(dictDataDTOS, pageResult.getTotal());
     }
 }
