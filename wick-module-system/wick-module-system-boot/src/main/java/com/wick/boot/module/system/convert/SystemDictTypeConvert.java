@@ -13,9 +13,9 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 @Mapper
-public interface SystemDictConvert {
+public interface SystemDictTypeConvert {
 
-    SystemDictConvert INSTANCE = Mappers.getMapper(SystemDictConvert.class);
+    SystemDictTypeConvert INSTANCE = Mappers.getMapper(SystemDictTypeConvert.class);
 
     /**
      * DictTypeConvert addVO To Entity

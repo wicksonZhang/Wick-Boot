@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.app.service.AbstractSystemDictTypeAppService;
 import com.wick.boot.module.system.app.service.ISystemDictTypeService;
-import com.wick.boot.module.system.convert.SystemDictConvert;
+import com.wick.boot.module.system.convert.SystemDictTypeConvert;
 import com.wick.boot.module.system.model.dto.SystemDictTypeDTO;
 import com.wick.boot.module.system.model.entity.SystemDictData;
 import com.wick.boot.module.system.model.entity.SystemDictType;
@@ -37,7 +37,7 @@ public class SystemDictTypeServiceImpl extends AbstractSystemDictTypeAppService 
         this.validateAddParams(reqVO);
 
         /* Step-2: 新增字典信息 */
-        SystemDictType dictType = SystemDictConvert.INSTANCE.addVoToEntity(reqVO);
+        SystemDictType dictType = SystemDictTypeConvert.INSTANCE.addVoToEntity(reqVO);
         this.dictTypeMapper.insert(dictType);
         return dictType.getId();
     }
@@ -51,7 +51,7 @@ public class SystemDictTypeServiceImpl extends AbstractSystemDictTypeAppService 
 
         /* Step-2: 更新字典类型、字典数据信息 */
         // 更新字典类型
-        SystemDictType newSystemDictType = SystemDictConvert.INSTANCE.updateVoToEntity(reqVO);
+        SystemDictType newSystemDictType = SystemDictTypeConvert.INSTANCE.updateVoToEntity(reqVO);
         this.dictTypeMapper.updateById(newSystemDictType);
         // 更新字典数据
         this.updateDictDateByCode(newSystemDictType.getCode(), oldSystemDictType.getCode());
@@ -107,7 +107,7 @@ public class SystemDictTypeServiceImpl extends AbstractSystemDictTypeAppService 
             return PageResult.empty();
         }
 
-        List<SystemDictTypeDTO> dictTypeDTOS = SystemDictConvert.INSTANCE.entityToDictTypeDTOS(pageResult.getRecords());
+        List<SystemDictTypeDTO> dictTypeDTOS = SystemDictTypeConvert.INSTANCE.entityToDictTypeDTOS(pageResult.getRecords());
         return new PageResult<>(dictTypeDTOS, pageResult.getTotal());
     }
 
