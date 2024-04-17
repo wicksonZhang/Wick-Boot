@@ -1,5 +1,7 @@
 package com.wick.boot.module.system.app.service;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjUtil;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.module.system.enums.ErrorCodeSystem;
@@ -11,6 +13,9 @@ import com.wick.boot.module.system.model.vo.dict.data.AddDictDataReqVO;
 import com.wick.boot.module.system.model.vo.dict.data.UpdateDictDataReqVO;
 
 import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 字典数据 - 防腐层
@@ -152,4 +157,37 @@ public abstract class AbstractSystemDictDataAppService {
         this.validateDictDataByValue(newTypeCode, newValue);
     }
 
+    // ============================================== 删除参数校验 ==============================================
+
+    /**
+     * 校验字典数据删除参数
+     *
+     * @param ids ids集合
+     */
+    protected void validateDeleteParams(List<Long> ids) {
+        // 验证字典类型是否存在
+        List<SystemDictData> systemDictDataList = this.validateDictDataList(ids);
+        // 验证字典类型集合和 ids 是否匹配
+        this.validateDictDataByIds(systemDictDataList, ids);
+    }
+
+    private List<SystemDictData> validateDictDataList(List<Long> ids) {
+        /* Step-1: 验证删除参数 */
+        List<SystemDictData> systemDictDataList = this.dictDataMapper.selectBatchIds(ids);
+        // 校验字典类型集合是否存在
+        if (CollUtil.isEmpty(systemDictDataList)) {
+            throw ServiceException.getInstance(ErrorCodeSystem.DICT_DATA_NOT_EXIST);
+        }
+        return systemDictDataList;
+    }
+
+    private void validateDictDataByIds(List<SystemDictData> systemDictDataList, List<Long> ids) {
+        // 校验不存在的字典类型ID
+        List<Long> dictDataIds = systemDictDataList.stream().map(SystemDictData::getId).collect(Collectors.toList());
+        Collection<Long> errorIds = CollectionUtil.subtract(ids, dictDataIds);
+        if (CollUtil.isNotEmpty(errorIds)) {
+            String errorMsg = "请确认字典数据主键 " + errorIds + " 是否存在";
+            throw ServiceException.getInstance(ErrorCodeSystem.DICT_DATA_NOT_EXIST.getCode(), errorMsg);
+        }
+    }
 }

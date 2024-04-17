@@ -8,7 +8,6 @@ import com.wick.boot.module.system.app.service.ISystemDictDataService;
 import com.wick.boot.module.system.app.service.ISystemDictTypeService;
 import com.wick.boot.module.system.convert.SystemDictDataConvert;
 import com.wick.boot.module.system.convert.SystemDictTypeConvert;
-import com.wick.boot.module.system.mapper.ISystemDictDataMapper;
 import com.wick.boot.module.system.model.dto.SystemDictDataDTO;
 import com.wick.boot.module.system.model.entity.SystemDictData;
 import com.wick.boot.module.system.model.entity.SystemDictType;
@@ -54,6 +53,16 @@ public class SystemDictDataServiceImpl extends AbstractSystemDictDataAppService 
         /* Step-2: 更新字典数据信息 */
         SystemDictData systemDictData = SystemDictDataConvert.INSTANCE.updateVoToEntity(reqVO);
         this.dictDataMapper.updateById(systemDictData);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteDictData(List<Long> ids) {
+        /* Step-1: 验证删除参数 */
+        this.validateDeleteParams(ids);
+
+        /* Step-2: 批量删除数据 */
+        this.dictDataMapper.deleteBatchIds(ids);
     }
 
     @Override

@@ -1,10 +1,12 @@
 package com.wick.boot.module.system.app.service;
 
+import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.model.dto.SystemDictDataDTO;
 import com.wick.boot.module.system.model.vo.dict.data.AddDictDataReqVO;
 import com.wick.boot.module.system.model.vo.dict.data.QueryDictDataPageReqVO;
-import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.model.vo.dict.data.UpdateDictDataReqVO;
+
+import java.util.List;
 
 /**
  * 字典数据管理-服务层
@@ -28,6 +30,13 @@ public interface ISystemDictDataService {
      * @param reqVO 更新字典数据请求参数
      */
     void updateDictData(UpdateDictDataReqVO reqVO);
+
+    /**
+     * 批量删除字典数据
+     *
+     * @param ids 字典主键集合
+     */
+    void deleteDictData(List<Long> ids);
 
     /**
      * 获取字典数据分页

@@ -19,7 +19,7 @@ public interface ISystemDictTypeService {
      * 新增字典类型数据
      *
      * @param reqVO 新增请求参数
-     * @return
+     * @return Long 字典类型主键ID
      */
     Long addDictType(AddDictTypeReqVO reqVO);
 
