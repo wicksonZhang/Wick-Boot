@@ -32,5 +32,7 @@ public class SystemDictTypeDTO {
     @ApiModelProperty(value = "字典状态(1->启用、0->禁用)", example = "1")
     private Integer status;
 
+    @ApiModelProperty(value = "备注", example = "备注")
+    private String remark;
 
 }

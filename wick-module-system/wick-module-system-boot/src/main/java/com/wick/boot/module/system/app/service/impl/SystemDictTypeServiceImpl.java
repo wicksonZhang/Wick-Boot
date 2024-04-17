@@ -97,6 +97,13 @@ public class SystemDictTypeServiceImpl extends AbstractSystemDictTypeAppService 
     }
 
     @Override
+    public SystemDictTypeDTO getDictTypeById(Long id) {
+        /* Step-1: 通过ID获取字典类型数据 */
+        SystemDictType systemDictType = this.dictTypeMapper.selectById(id);
+        return SystemDictTypeConvert.INSTANCE.entityToDictTypeDTO(systemDictType);
+    }
+
+    @Override
     public PageResult<SystemDictTypeDTO> getDictTypePage(QueryDictTypePageReqVO reqVO) {
         Page<SystemDictType> pageResult = this.dictTypeMapper.selectDictTypePage(
                 new Page<>(reqVO.getPageNumber(), reqVO.getPageSize()),

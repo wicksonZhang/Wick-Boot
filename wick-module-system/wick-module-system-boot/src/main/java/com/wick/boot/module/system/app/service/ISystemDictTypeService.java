@@ -38,6 +38,14 @@ public interface ISystemDictTypeService {
     void deleteDictType(List<Long> ids);
 
     /**
+     * 通过字典ID获取字典类型数据
+     *
+     * @param id 字典主键ID
+     * @return SystemDictTypeDTO 字典类型DTO
+     */
+    SystemDictTypeDTO getDictTypeById(Long id);
+
+    /**
      * 获取字典分页信息
      *
      * @param reqVO 字典分页请求参数

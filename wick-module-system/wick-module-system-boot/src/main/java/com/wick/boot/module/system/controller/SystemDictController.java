@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
@@ -68,6 +69,14 @@ public class SystemDictController {
         return ResultUtil.success();
     }
 
+    @GetMapping("/types/{id}")
+    @ApiOperation(value = "通过字典ID获取字典类型数据", notes = "字典信息")
+    @ApiImplicitParam(name = "id", value = "字典类型ID", required = true)
+    public ResultUtil<SystemDictTypeDTO> getDictType(@NotBlank(message = "字典类型主键不能为空")
+                                                     @PathVariable("id") Long id) {
+        return ResultUtil.success(dictTypeService.getDictTypeById(id));
+    }
+
     @GetMapping("/types/page")
     @ApiOperation(value = "获取字典类型分页", notes = "字典信息")
     public ResultUtil<PageResult<SystemDictTypeDTO>> getDictTypePage(@Valid QueryDictTypePageReqVO reqVO) {
@@ -107,7 +116,6 @@ public class SystemDictController {
     public ResultUtil<PageResult<SystemDictDataDTO>> getDictDataPage(@Valid QueryDictDataPageReqVO reqVO) {
         return ResultUtil.success(dictDataService.getDictDataPage(reqVO));
     }
-
 
 
 }

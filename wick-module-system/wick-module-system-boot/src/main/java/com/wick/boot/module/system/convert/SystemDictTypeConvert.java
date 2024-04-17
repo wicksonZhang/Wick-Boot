@@ -58,4 +58,11 @@ public interface SystemDictTypeConvert {
     @Mapping(target = "name", source = "label")
     SystemDictDataDTO entityToDictData(SystemDictData systemDictData);
 
+    /**
+     * Convert entity To DTO
+     *
+     * @param systemDictType 字典类型
+     * @return SystemDictTypeDTO
+     */
+    SystemDictTypeDTO entityToDictTypeDTO(SystemDictType systemDictType);
 }
