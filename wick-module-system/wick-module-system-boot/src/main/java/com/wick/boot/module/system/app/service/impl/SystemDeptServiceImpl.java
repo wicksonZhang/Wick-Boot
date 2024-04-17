@@ -1,16 +1,19 @@
 package com.wick.boot.module.system.app.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import com.wick.boot.module.system.model.entity.SystemDept;
+import com.google.common.collect.Lists;
+import com.wick.boot.common.core.constant.GlobalConstants;
+import com.wick.boot.module.system.app.service.AbstractSystemDeptAppService;
 import com.wick.boot.module.system.app.service.ISystemDeptService;
 import com.wick.boot.module.system.convert.SystemDeptConvert;
 import com.wick.boot.module.system.mapper.ISystemDeptMapper;
 import com.wick.boot.module.system.model.dto.SystemDeptDTO;
 import com.wick.boot.module.system.model.dto.SystemDeptOptionsDTO;
-import com.wick.boot.module.system.model.vo.QueryDeptListReqVO;
-import com.google.common.collect.Lists;
-import com.wick.boot.common.core.constant.GlobalConstants;
+import com.wick.boot.module.system.model.entity.SystemDept;
+import com.wick.boot.module.system.model.vo.dept.AddDeptReqVO;
+import com.wick.boot.module.system.model.vo.dept.QueryDeptListReqVO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -23,10 +26,36 @@ import java.util.stream.Collectors;
  * @date 2024-04-05 22:32
  **/
 @Service
-public class SystemDeptServiceImpl implements ISystemDeptService {
+public class SystemDeptServiceImpl extends AbstractSystemDeptAppService implements ISystemDeptService {
 
     @Resource
     private ISystemDeptMapper systemDeptMapper;
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Long addDepartment(AddDeptReqVO reqVO) {
+        /* Step-1: 验证新增字典数据 */
+        this.validateAddParams(reqVO);
+
+        /* Step-2: 类型转换，新增部门数据信息 */
+        SystemDept systemDept = SystemDeptConvert.INSTANCE.addVoToEntity(reqVO);
+        // 获取 treePath(父节点id路径) 用作后续删除
+        String treePath = getTreePath(reqVO.getParentId());
+        systemDept.setTreePath(treePath);
+
+        // 保存部门信息
+        this.systemDeptMapper.insert(systemDept);
+        return systemDept.getId();
+    }
+
+    private String getTreePath(Long parentId) {
+        // 如果父级节点是根节点直接返回
+        if (GlobalConstants.ROOT_NODE_ID.equals(parentId)) {
+            return GlobalConstants.ROOT_NODE_ID.toString();
+        }
+        SystemDept systemDept = this.systemDeptMapper.selectById(parentId);
+        return systemDept.getTreePath() + "," + parentId;
+    }
 
     @Override
     public List<SystemDeptDTO> listDepartments(QueryDeptListReqVO reqVO) {

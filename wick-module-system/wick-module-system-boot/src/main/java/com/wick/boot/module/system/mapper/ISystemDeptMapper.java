@@ -43,4 +43,17 @@ public interface ISystemDeptMapper extends BaseMapperX<SystemDept> {
     }
 
 
+    /**
+     * 通过部门父级Id和部门名称获取部门信息
+     *
+     * @param parentId 父级ID
+     * @param name     部门名称
+     * @return SystemDept 部门信息
+     */
+    default Long selectCountByParentIdAndName(Long parentId, String name) {
+        return selectCount(new LambdaQueryWrapper<SystemDept>()
+                .eq(SystemDept::getParentId, parentId)
+                .eq(SystemDept::getName, name)
+        );
+    }
 }

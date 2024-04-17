@@ -40,6 +40,8 @@ public interface ErrorCodeSystem {
     // ======================================== System-菜单管理 1-002-003-000 ========================================
 
     // ======================================== System-部门管理 1-002-004-000 ========================================
+    ResultCode DEPT_NOT_EXIST = new ResultCode(1002004001, "部门不存在");
+    ResultCode DEPT_NAME_ALREADY_EXIST = new ResultCode(1002004001, "同一个部门下不能存在相同的部门名称");
 
     // ======================================== System-字典管理 1-002-005-000 ========================================
     ResultCode DICT_TYPE_NOT_EXIST = new ResultCode(1002005001, "字典类型不存在");
@@ -48,4 +50,5 @@ public interface ErrorCodeSystem {
     ResultCode DICT_DATA_NOT_EXIST = new ResultCode(1002005004, "字典数据不存在");
     ResultCode DICT_DATA_LABEL_ALREADY_EXIST = new ResultCode(1002005005, "字典标签已存在");
     ResultCode DICT_DATA_VALUE_ALREADY_EXIST = new ResultCode(1002005006, "字典键值已存在");
+
 }

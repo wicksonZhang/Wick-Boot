@@ -3,6 +3,7 @@ package com.wick.boot.module.system.convert;
 import com.wick.boot.module.system.model.dto.SystemDeptDTO;
 import com.wick.boot.module.system.model.dto.SystemDeptOptionsDTO;
 import com.wick.boot.module.system.model.entity.SystemDept;
+import com.wick.boot.module.system.model.vo.dept.AddDeptReqVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -21,6 +22,14 @@ import java.util.List;
 public interface SystemDeptConvert {
 
     SystemDeptConvert INSTANCE = Mappers.getMapper(SystemDeptConvert.class);
+
+    /**
+     * Convert addVo To Entity
+     *
+     * @param reqVO 部门请求参数VO
+     * @return SystemDept 系统部门
+     */
+    SystemDept addVoToEntity(AddDeptReqVO reqVO);
 
     /**
      * Convert entity to DTO
@@ -49,6 +58,12 @@ public interface SystemDeptConvert {
     })
     SystemDeptOptionsDTO dtoToDTO(SystemDeptDTO systemDeptDTO);
 
+    /**
+     * Convert entity To DTOList
+     *
+     * @param deptDTOList 部门DTO集合
+     * @return
+     */
     List<SystemDeptOptionsDTO> entityToDTOList(List<SystemDeptDTO> deptDTOList);
 
 }

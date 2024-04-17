@@ -2,7 +2,8 @@ package com.wick.boot.module.system.app.service;
 
 import com.wick.boot.module.system.model.dto.SystemDeptDTO;
 import com.wick.boot.module.system.model.dto.SystemDeptOptionsDTO;
-import com.wick.boot.module.system.model.vo.QueryDeptListReqVO;
+import com.wick.boot.module.system.model.vo.dept.AddDeptReqVO;
+import com.wick.boot.module.system.model.vo.dept.QueryDeptListReqVO;
 
 import java.util.List;
 
@@ -12,6 +13,14 @@ import java.util.List;
  * @author Lenovo
  */
 public interface ISystemDeptService {
+
+    /**
+     * 新增部门
+     *
+     * @param reqVO 新增请求参数
+     * @return Long 主键ID
+     */
+    Long addDepartment(AddDeptReqVO reqVO);
 
     /**
      * 查询部门列表信息
@@ -27,4 +36,5 @@ public interface ISystemDeptService {
      * @return List<DeptOptionsDTO>
      */
     List<SystemDeptOptionsDTO> listDeptOptions();
+
 }
