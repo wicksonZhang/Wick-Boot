@@ -134,9 +134,9 @@ INSERT INTO `system_menu` VALUES (78, 5, 4, '部门删除', '', NULL, 'sys:dept:
 INSERT INTO `system_menu` VALUES (79, 6, 4, '字典类型新增', '', NULL, 'sys:dict_type:add', '', 1, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:16:06', '2023-05-21 00:16:06', 1, 1);
 INSERT INTO `system_menu` VALUES (81, 6, 4, '字典类型编辑', '', NULL, 'sys:dict_type:edit', '', 2, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:27:37', '2023-05-21 00:27:37', 1, 1);
 INSERT INTO `system_menu` VALUES (84, 6, 4, '字典类型删除', '', NULL, 'sys:dict_type:delete', '', 3, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:29:39', '2023-05-21 00:29:39', 1, 1);
-INSERT INTO `system_menu` VALUES (85, 6, 4, '字典数据新增', '', NULL, 'sys:dict:add', '', 4, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:46:56', '2023-05-21 00:47:06', 1, 1);
-INSERT INTO `system_menu` VALUES (86, 6, 4, '字典数据编辑', '', NULL, 'sys:dict:edit', '', 5, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:47:36', '2023-05-21 00:47:36', 1, 1);
-INSERT INTO `system_menu` VALUES (87, 6, 4, '字典数据删除', '', NULL, 'sys:dict:delete', '', 6, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:48:10', '2023-05-21 00:48:20', 1, 1);
+INSERT INTO `system_menu` VALUES (85, 6, 4, '字典数据新增', '', NULL, 'sys:dict_data:add', '', 4, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:46:56', '2023-05-21 00:47:06', 1, 1);
+INSERT INTO `system_menu` VALUES (86, 6, 4, '字典数据编辑', '', NULL, 'sys:dict_data:edit', '', 5, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:47:36', '2023-05-21 00:47:36', 1, 1);
+INSERT INTO `system_menu` VALUES (87, 6, 4, '字典数据删除', '', NULL, 'sys:dict_data:delete', '', 6, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:48:10', '2023-05-21 00:48:20', 1, 1);
 INSERT INTO `system_menu` VALUES (88, 2, 4, '重置密码', '', NULL, 'sys:user:reset_pwd', '', 4, 1, NULL, '0,1,2', NULL, NULL, 0, '2023-05-21 00:49:18', '2023-05-21 00:49:18', 1, 1);
 
 -- ----------------------------
