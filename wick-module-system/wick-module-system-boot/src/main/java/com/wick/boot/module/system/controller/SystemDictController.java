@@ -14,7 +14,6 @@ import com.wick.boot.module.system.model.vo.dict.type.QueryDictTypePageReqVO;
 import com.wick.boot.module.system.model.vo.dict.type.UpdateDictTypeReqVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -79,6 +78,7 @@ public class SystemDictController {
 
     @PostMapping("/data")
     @ApiOperation(value = "新增字典数据", notes = "字典信息")
+    @PreAuthorize("@ss.hasPerm('sys:dict_data:add')")
     public ResultUtil<Long> addDictData(@Valid @RequestBody AddDictDataReqVO reqVO) {
         return ResultUtil.success(dictDataService.addDictData(reqVO));
     }
@@ -86,9 +86,20 @@ public class SystemDictController {
     // TODO 修改前端传递参数
     @PutMapping("/data/update")
     @ApiOperation(value = "编辑字典数据", notes = "字典信息")
+    @PreAuthorize("@ss.hasPerm('sys:dict_data:edit')")
     public ResultUtil<Boolean> updateDictData(@Valid @RequestBody UpdateDictDataReqVO reqVO) {
         dictDataService.updateDictData(reqVO);
         return ResultUtil.success(true);
+    }
+
+    @DeleteMapping("/data/{ids}")
+    @ApiOperation(value = "删除字典数据", notes = "字典信息")
+    @PreAuthorize("@ss.hasPerm('sys:dict_data:delete')")
+    @ApiImplicitParam(name = "ids", value = "字典数据ID", required = true)
+    public ResultUtil<Long> deleteDictData(@NotEmpty(message = "字典类型主键不能为空")
+                                           @PathVariable("ids") List<Long> ids) {
+        dictDataService.deleteDictData(ids);
+        return ResultUtil.success();
     }
 
     @GetMapping("/data/page")
