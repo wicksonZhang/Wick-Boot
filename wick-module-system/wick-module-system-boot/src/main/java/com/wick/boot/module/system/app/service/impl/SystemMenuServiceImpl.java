@@ -3,6 +3,7 @@ package com.wick.boot.module.system.app.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.wick.boot.module.system.app.service.AbstractSystemMenuAppService;
 import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.system.app.service.ISystemMenuService;
 import com.wick.boot.module.system.convert.SystemMenuConvert;
@@ -10,7 +11,8 @@ import com.wick.boot.module.system.enums.MenuTypeEnum;
 import com.wick.boot.module.system.mapper.ISystemMenuMapper;
 import com.wick.boot.module.system.model.dto.SystemMenuDTO;
 import com.wick.boot.module.system.model.dto.SystemRouteDTO;
-import com.wick.boot.module.system.model.vo.QueryMenuListReqVO;
+import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
+import com.wick.boot.module.system.model.vo.menu.QueryMenuListReqVO;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.wick.boot.common.core.constant.GlobalConstants;
@@ -29,10 +31,18 @@ import java.util.stream.Collectors;
  * @date 2024-04-07
  */
 @Service
-public class SystemMenuServiceImpl implements ISystemMenuService {
+public class SystemMenuServiceImpl extends AbstractSystemMenuAppService implements ISystemMenuService {
 
     @Resource
     private ISystemMenuMapper systemMenuMapper;
+
+    @Override
+    public Long addMenu(AddMenuReqVO reqVO) {
+        /* Step-1: 校验新增菜单参数 */
+        this.validateAddParams(reqVO);
+
+        return null;
+    }
 
     @Override
     public List<SystemMenuDTO> listMenus(QueryMenuListReqVO queryParams) {

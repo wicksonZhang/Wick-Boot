@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
 import com.wick.boot.module.system.model.dto.SystemMenuDTO;
 import com.wick.boot.module.system.model.entity.SystemMenu;
-import com.wick.boot.module.system.model.vo.QueryMenuListReqVO;
+import com.wick.boot.module.system.model.vo.menu.QueryMenuListReqVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
