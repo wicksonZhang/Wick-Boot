@@ -11,6 +11,8 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
+ * 菜单-Mapper
+ *
  * @author ZhangZiHeng
  * @date 2024-04-07
  */
@@ -31,4 +33,17 @@ public interface ISystemMenuMapper extends BaseMapperX<SystemMenu> {
      */
     List<SystemMenuDTO> selectListRoutes();
 
+    /**
+     * 通过菜单父级Id和菜单名称获取菜单信息
+     *
+     * @param parentId 父级ID
+     * @param name     菜单名称
+     * @return SystemMenu 菜单信息
+     */
+    default Long selectCountByParentIdAndName(Long parentId, String name) {
+        return selectCount(new LambdaQueryWrapper<SystemMenu>()
+                .eq(SystemMenu::getParentId, parentId)
+                .eq(SystemMenu::getName, name)
+        );
+    }
 }

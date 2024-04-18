@@ -2,6 +2,7 @@ package com.wick.boot.module.system.model.vo.menu;
 
 import com.wick.boot.common.core.enums.CommonStatusEnum;
 import com.wick.boot.common.core.validator.InEnum;
+import com.wick.boot.module.system.enums.MenuTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -30,10 +31,9 @@ public class AddMenuReqVO {
      */
     @ApiModelProperty(value = "菜单类型", required = true, example = "MENU")
     @NotBlank(message = "菜单类型不能为空")
-    private String type;
+    private MenuTypeEnum type;
 
-    @ApiModelProperty(value = "路由路径", required = true, example = "user")
-    @NotBlank(message = "路由路径不能为空")
+    @ApiModelProperty(value = "路由路径", example = "user")
     private String path;
 
     @ApiModelProperty(value = "显示状态(1:显示，0：隐藏)", required = true, example = "1")

@@ -2,8 +2,12 @@ package com.wick.boot.module.system.enums;
 
 import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.annotation.EnumValue;
+import com.wick.boot.common.core.enums.CommonStatusEnum;
+import com.wick.boot.common.core.validator.IntArrayValuable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.util.Arrays;
 
 /**
  * 菜单类型-枚举
@@ -13,7 +17,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum MenuTypeEnum {
+public enum MenuTypeEnum implements IntArrayValuable {
 
     ROOT(0, "根节点"),
 
@@ -37,6 +41,8 @@ public enum MenuTypeEnum {
      */
     private final String name;
 
+    public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(MenuTypeEnum::getValue).toArray();
+
     /**
      * 据键返回枚举-枚举类值
      *
@@ -48,4 +54,8 @@ public enum MenuTypeEnum {
     }
 
 
+    @Override
+    public int[] array() {
+        return ARRAYS;
+    }
 }
