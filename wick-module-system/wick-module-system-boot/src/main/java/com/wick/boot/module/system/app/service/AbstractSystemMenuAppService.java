@@ -80,18 +80,30 @@ public abstract class AbstractSystemMenuAppService {
         }
     }
 
+    /**
+     * 校验目录参数
+     */
     private void validateByCatalog() {
 
     }
 
+    /**
+     * 校验菜单参数
+     */
     private void validateByMenu() {
 
     }
 
+    /**
+     * 校验按钮参数
+     */
     private void validateByButton() {
 
     }
 
+    /**
+     * 检验外部链接参数
+     */
     private void validateByLink() {
 
     }
