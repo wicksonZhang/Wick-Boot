@@ -36,7 +36,7 @@ public class AddMenuReqVO {
     @ApiModelProperty(value = "路由路径", example = "user")
     private String path;
 
-    @ApiModelProperty(value = "显示状态(1:显示，0：隐藏)", required = true, example = "1")
+    @ApiModelProperty(value = "显示状态(1:显示，0：隐藏)", example = "1")
     @InEnum(value = CommonStatusEnum.class, message = "显示状态必须是 {value}")
     private Integer visible;
 
@@ -50,6 +50,9 @@ public class AddMenuReqVO {
 
     @ApiModelProperty(value = "页面路径", example = "system/user/index")
     private String component;
+
+    @ApiModelProperty(value = "外链地址", example = "https://wickosn.top")
+    private String redirect;
 
     @ApiModelProperty(value = "排序", example = "1")
     @Max(value = 99, message = "排序不能大于 99")

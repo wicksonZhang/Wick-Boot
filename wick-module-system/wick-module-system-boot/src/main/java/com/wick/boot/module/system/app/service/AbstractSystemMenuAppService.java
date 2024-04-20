@@ -1,7 +1,10 @@
 package com.wick.boot.module.system.app.service;
 
 import cn.hutool.core.util.ObjUtil;
+import cn.hutool.core.util.StrUtil;
 import com.wick.boot.common.core.constant.GlobalConstants;
+import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
+import com.wick.boot.common.core.exception.ParameterException;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.module.system.enums.ErrorCodeSystem;
 import com.wick.boot.module.system.enums.MenuTypeEnum;
@@ -66,16 +69,11 @@ public abstract class AbstractSystemMenuAppService {
         MenuTypeEnum type = reqVO.getType();
         switch (type) {
             case CATALOG:
-                this.validateByCatalog();
+            case EXT_LINK:
+                this.validateByCatalogAndLink(reqVO.getPath(), reqVO.getVisible());
                 break;
             case MENU:
-                this.validateByMenu();
-                break;
-            case BUTTON:
-                this.validateByButton();
-                break;
-            case EXT_LINK:
-                this.validateByLink();
+                this.validateByMenu(reqVO.getPath(), reqVO.getComponent(), reqVO.getVisible());
                 break;
         }
     }
@@ -83,28 +81,33 @@ public abstract class AbstractSystemMenuAppService {
     /**
      * 校验目录参数
      */
-    private void validateByCatalog() {
-
+    private void validateByCatalogAndLink(String path, Integer visible) {
+        // 校验路由路径不为空
+        if (StrUtil.isBlankIfStr(path)) {
+            throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "路由路径不能为空");
+        }
+        // 校验显示状态不为空
+        if (StrUtil.isBlankIfStr(visible)) {
+            throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "显示状态不能为空");
+        }
     }
 
     /**
      * 校验菜单参数
      */
-    private void validateByMenu() {
-
+    private void validateByMenu(String path, String component, Integer visible) {
+        // 校验路由路径不为空
+        if (StrUtil.isBlankIfStr(path)) {
+            throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "路由路径不能为空");
+        }
+        // 校验页面路径不为空
+        if (StrUtil.isBlankIfStr(component)) {
+            throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "页面路径不能为空");
+        }
+        // 校验显示状态不为空
+        if (StrUtil.isBlankIfStr(visible)) {
+            throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "显示状态不能为空");
+        }
     }
 
-    /**
-     * 校验按钮参数
-     */
-    private void validateByButton() {
-
-    }
-
-    /**
-     * 检验外部链接参数
-     */
-    private void validateByLink() {
-
-    }
 }

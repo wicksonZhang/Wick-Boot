@@ -3,20 +3,20 @@ package com.wick.boot.module.system.app.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.wick.boot.common.core.constant.GlobalConstants;
+import com.wick.boot.common.core.enums.CommonStatusEnum;
 import com.wick.boot.module.system.app.service.AbstractSystemMenuAppService;
-import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.system.app.service.ISystemMenuService;
 import com.wick.boot.module.system.convert.SystemMenuConvert;
 import com.wick.boot.module.system.enums.MenuTypeEnum;
 import com.wick.boot.module.system.mapper.ISystemMenuMapper;
 import com.wick.boot.module.system.model.dto.SystemMenuDTO;
 import com.wick.boot.module.system.model.dto.SystemRouteDTO;
+import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
 import com.wick.boot.module.system.model.vo.menu.QueryMenuListReqVO;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.wick.boot.common.core.constant.GlobalConstants;
-import com.wick.boot.common.core.enums.CommonStatusEnum;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -41,7 +41,10 @@ public class SystemMenuServiceImpl extends AbstractSystemMenuAppService implemen
         /* Step-1: 校验新增菜单参数 */
         this.validateAddParams(reqVO);
 
-        return null;
+        /* Step-2: 新增菜单信息 */
+        SystemMenu systemMenu = SystemMenuConvert.INSTANCE.addVoToEntity(reqVO);
+        this.systemMenuMapper.insert(systemMenu);
+        return systemMenu.getId();
     }
 
     @Override

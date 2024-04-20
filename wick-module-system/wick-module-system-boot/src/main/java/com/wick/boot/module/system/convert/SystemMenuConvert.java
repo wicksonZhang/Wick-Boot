@@ -1,9 +1,10 @@
 package com.wick.boot.module.system.convert;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.wick.boot.module.system.enums.MenuTypeEnum;
 import com.wick.boot.module.system.model.dto.SystemMenuDTO;
 import com.wick.boot.module.system.model.entity.SystemMenu;
-import com.wick.boot.module.system.enums.MenuTypeEnum;
+import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -33,5 +34,13 @@ public interface SystemMenuConvert {
         systemMenuDTO.setType(MenuTypeEnum.valueOf(systemMenu.getType().getValue()));
         return systemMenuDTO;
     }
+
+    /**
+     * Convert addVo To entity
+     *
+     * @param reqVO 新增请求参数
+     * @return SystemMenu 系统菜单
+     */
+    SystemMenu addVoToEntity(AddMenuReqVO reqVO);
 
 }
