@@ -30,7 +30,6 @@ public class AddMenuReqVO {
      * {@link com.wick.boot.module.system.enums.MenuTypeEnum }
      */
     @ApiModelProperty(value = "菜单类型", required = true, example = "MENU")
-    @NotBlank(message = "菜单类型不能为空")
     private MenuTypeEnum type;
 
     @ApiModelProperty(value = "路由路径", example = "user")
@@ -51,7 +50,7 @@ public class AddMenuReqVO {
     @ApiModelProperty(value = "页面路径", example = "system/user/index")
     private String component;
 
-    @ApiModelProperty(value = "外链地址", example = "https://wickosn.top")
+    @ApiModelProperty(value = "跳转路径", example = "/system/user")
     private String redirect;
 
     @ApiModelProperty(value = "排序", example = "1")

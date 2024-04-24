@@ -12,11 +12,14 @@ import com.wick.boot.module.system.mapper.ISystemMenuMapper;
 import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
 
+import javax.annotation.Resource;
+
 /**
  * 字典信息 - 防腐层
  */
 public abstract class AbstractSystemMenuAppService {
 
+    @Resource
     protected ISystemMenuMapper menuMapper;
 
     // ============================================== 新增参数校验 ==============================================
@@ -24,7 +27,7 @@ public abstract class AbstractSystemMenuAppService {
     protected void validateAddParams(AddMenuReqVO reqVO) {
         // 验证父级菜单是否存在
         this.validateMenuByParentId(reqVO.getParentId());
-        // 校验部门名称是否存在
+        // 校验菜单名称是否存在
         this.validateMenuByName(reqVO.getParentId(), reqVO.getName());
         // 通过菜单类型验证其他参数信息
         this.validateMenuByType(reqVO);

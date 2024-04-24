@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2024-04-13
  */
 @SpringBootApplication(scanBasePackages = {"com.wick.boot"})
-public class WickBootServerApplication {
+public class  WickBootServerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(WickBootServerApplication.class, args);
