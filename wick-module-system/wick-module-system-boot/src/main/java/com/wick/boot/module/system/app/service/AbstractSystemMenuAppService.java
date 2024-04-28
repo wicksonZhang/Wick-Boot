@@ -73,12 +73,17 @@ public abstract class AbstractSystemMenuAppService {
         switch (type) {
             case CATALOG:
                 this.validateByCatalog(reqVO);
+                reqVO.setPerm(null);
+                reqVO.setComponent("Layout");
                 break;
             case EXT_LINK:
                 this.validateByLink(reqVO);
+                reqVO.setPerm(null);
+                reqVO.setComponent(null);
                 break;
             case MENU:
                 this.validateByMenu(reqVO);
+                reqVO.setPerm(null);
                 break;
         }
     }
@@ -97,11 +102,10 @@ public abstract class AbstractSystemMenuAppService {
         if (StrUtil.isBlankIfStr(reqVO.getVisible())) {
             throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "显示状态不能为空");
         }
-        if (reqVO.getParentId() == 0 && !reqVO.getPath().startsWith("/")) {
+        // 验证目录参数的路由路径
+        if (GlobalConstants.ROOT_NODE_ID.equals(reqVO.getParentId()) && !reqVO.getPath().startsWith("/")) {
             reqVO.setPath("/" + reqVO.getPath()); // 一级目录需以 / 开头
         }
-        reqVO.setPerm(null);
-        reqVO.setComponent("Layout");
     }
 
     /**
@@ -118,8 +122,6 @@ public abstract class AbstractSystemMenuAppService {
         if (StrUtil.isBlankIfStr(reqVO.getVisible())) {
             throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "显示状态不能为空");
         }
-        reqVO.setPerm(null);
-        reqVO.setComponent(null);
     }
 
     /**
@@ -140,7 +142,6 @@ public abstract class AbstractSystemMenuAppService {
         if (StrUtil.isBlankIfStr(reqVO.getVisible())) {
             throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "显示状态不能为空");
         }
-        reqVO.setPerm(null);
     }
 
 }

@@ -40,7 +40,7 @@ public class SystemMenuServiceImpl extends AbstractSystemMenuAppService implemen
     private ISystemMenuMapper systemMenuMapper;
 
     @Override
-    @CacheEvict(cacheNames = "MENU", key = "'ROUTES'")
+    @CacheEvict(cacheNames = "MENU", key = "'ROUTES'") // @CacheEvict 注解的方法在被调用时，会从缓存中移除已存储的数据
     public Long addMenu(AddMenuReqVO reqVO) {
         /* Step-1: 校验新增菜单参数 */
         this.validateAddParams(reqVO);
@@ -109,7 +109,7 @@ public class SystemMenuServiceImpl extends AbstractSystemMenuAppService implemen
     }
 
     @Override
-    @Cacheable(cacheNames = "MENU", key = "'ROUTES'")
+    @Cacheable(cacheNames = "MENU", key = "'ROUTES'") // 可以将方法运行的结果进行缓存， 下次执行先走缓存， 在走数据库
     public List<SystemRouteDTO> listRoutes() {
         /* Step-1: 获取菜单信息 */
         List<SystemMenuDTO> routeDTOS = systemMenuMapper.selectListRoutes();
