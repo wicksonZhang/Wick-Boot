@@ -113,15 +113,15 @@ CREATE TABLE `system_menu`  (
 -- ----------------------------
 -- Records of system_menu
 -- ----------------------------
-INSERT INTO `system_menu` VALUES (1, 0, 2, '系统管理', '/system', 'Layout', NULL, 'system', 1, 1, '/system/user', NULL, NULL, NULL, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
-INSERT INTO `system_menu` VALUES (2, 1, 1, '用户管理', 'user', 'system/user/index', NULL, 'user', 1, 1, NULL, NULL, NULL, 1, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
-INSERT INTO `system_menu` VALUES (3, 1, 1, '角色管理', 'role', 'system/role/index', NULL, 'role', 2, 1, NULL, NULL, NULL, 1, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
-INSERT INTO `system_menu` VALUES (4, 1, 1, '菜单管理', 'menu', 'system/menu/index', NULL, 'menu', 3, 1, NULL, NULL, NULL, 1, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
-INSERT INTO `system_menu` VALUES (5, 1, 1, '部门管理', 'dept', 'system/dept/index', NULL, 'tree', 4, 1, NULL, NULL, NULL, 1, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
-INSERT INTO `system_menu` VALUES (6, 1, 1, '字典管理', 'dict', 'system/dict/index', NULL, 'dict', 5, 1, NULL, NULL, NULL, 1, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
-INSERT INTO `system_menu` VALUES (40, 2, 4, '新增用户', '', NULL, 'sys:user:add', '', 1, 1, '', NULL, NULL, NULL, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
-INSERT INTO `system_menu` VALUES (41, 2, 4, '修改用户', '', NULL, 'sys:user:edit', '', 2, 1, '', NULL, NULL, NULL, 0, '2022-11-05 01:26:44', '2022-11-05 01:26:44', 1, 1);
-INSERT INTO `system_menu` VALUES (42, 2, 4, '删除用户', '', NULL, 'sys:user:del', '', 3, 1, '', NULL, NULL, NULL, 0, '2022-11-05 01:27:13', '2022-11-05 01:27:13', 1, 1);
+INSERT INTO `system_menu` VALUES (1, 0, 2, '系统管理', '/system', 'Layout', NULL, 'system', 1, 1, '/system/user', '0', NULL, NULL, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
+INSERT INTO `system_menu` VALUES (2, 1, 1, '用户管理', 'user', 'system/user/index', NULL, 'user', 1, 1, NULL, '0,1', NULL, 1, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
+INSERT INTO `system_menu` VALUES (3, 1, 1, '角色管理', 'role', 'system/role/index', NULL, 'role', 2, 1, NULL, '0,1', NULL, 1, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
+INSERT INTO `system_menu` VALUES (4, 1, 1, '菜单管理', 'menu', 'system/menu/index', NULL, 'menu', 3, 1, NULL, '0,1', NULL, 1, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
+INSERT INTO `system_menu` VALUES (5, 1, 1, '部门管理', 'dept', 'system/dept/index', NULL, 'tree', 4, 1, NULL, '0,1', NULL, 1, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
+INSERT INTO `system_menu` VALUES (6, 1, 1, '字典管理', 'dict', 'system/dict/index', NULL, 'dict', 5, 1, NULL, '0,1', NULL, 1, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
+INSERT INTO `system_menu` VALUES (40, 2, 4, '新增用户', '', NULL, 'sys:user:add', '', 1, 1, '', '0,1,2', NULL, NULL, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
+INSERT INTO `system_menu` VALUES (41, 2, 4, '修改用户', '', NULL, 'sys:user:edit', '', 2, 1, '', '0,1,2', NULL, NULL, 0, '2022-11-05 01:26:44', '2022-11-05 01:26:44', 1, 1);
+INSERT INTO `system_menu` VALUES (42, 2, 4, '删除用户', '', NULL, 'sys:user:del', '', 3, 1, '', '0,1,2', NULL, NULL, 0, '2022-11-05 01:27:13', '2022-11-05 01:27:13', 1, 1);
 INSERT INTO `system_menu` VALUES (70, 3, 4, '角色新增', '', NULL, 'sys:role:add', '', 1, 1, NULL, '0,1,3', NULL, NULL, 0, '2023-05-20 23:39:09', '2023-05-20 23:39:09', 1, 1);
 INSERT INTO `system_menu` VALUES (71, 3, 4, '角色编辑', '', NULL, 'sys:role:edit', '', 2, 1, NULL, '0,1,3', NULL, NULL, 0, '2023-05-20 23:40:31', '2023-05-20 23:40:31', 1, 1);
 INSERT INTO `system_menu` VALUES (72, 3, 4, '角色删除', '', NULL, 'sys:role:delete', '', 3, 1, NULL, '0,1,3', NULL, NULL, 0, '2023-05-20 23:41:08', '2023-05-20 23:41:08', 1, 1);
