@@ -57,6 +57,9 @@ public class SystemMenu extends BaseDO {
     @ApiModelProperty(value = "跳转路径", example = "/system/user")
     private String redirect;
 
+    @ApiModelProperty(value = "树的深度", example = "0,1")
+    private String treePath;
+
     @ApiModelProperty(value = "目录", example = "1")
     private Integer alwaysShow;
 

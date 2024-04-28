@@ -72,45 +72,75 @@ public abstract class AbstractSystemMenuAppService {
         MenuTypeEnum type = reqVO.getType();
         switch (type) {
             case CATALOG:
+                this.validateByCatalog(reqVO);
+                break;
             case EXT_LINK:
-                this.validateByCatalogAndLink(reqVO.getPath(), reqVO.getVisible());
+                this.validateByLink(reqVO);
                 break;
             case MENU:
-                this.validateByMenu(reqVO.getPath(), reqVO.getComponent(), reqVO.getVisible());
+                this.validateByMenu(reqVO);
                 break;
         }
     }
 
     /**
      * 校验目录参数
+     *
+     * @param reqVO 新增请求参数
      */
-    private void validateByCatalogAndLink(String path, Integer visible) {
+    private void validateByCatalog(AddMenuReqVO reqVO) {
         // 校验路由路径不为空
-        if (StrUtil.isBlankIfStr(path)) {
+        if (StrUtil.isBlankIfStr(reqVO.getPath())) {
             throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "路由路径不能为空");
         }
         // 校验显示状态不为空
-        if (StrUtil.isBlankIfStr(visible)) {
+        if (StrUtil.isBlankIfStr(reqVO.getVisible())) {
             throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "显示状态不能为空");
         }
+        if (reqVO.getParentId() == 0 && !reqVO.getPath().startsWith("/")) {
+            reqVO.setPath("/" + reqVO.getPath()); // 一级目录需以 / 开头
+        }
+        reqVO.setPerm(null);
+        reqVO.setComponent("Layout");
+    }
+
+    /**
+     * 校验外链参数
+     *
+     * @param reqVO 新增请求参数
+     */
+    private void validateByLink(AddMenuReqVO reqVO) {
+        // 校验路由路径不为空
+        if (StrUtil.isBlankIfStr(reqVO.getPath())) {
+            throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "路由路径不能为空");
+        }
+        // 校验显示状态不为空
+        if (StrUtil.isBlankIfStr(reqVO.getVisible())) {
+            throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "显示状态不能为空");
+        }
+        reqVO.setPerm(null);
+        reqVO.setComponent(null);
     }
 
     /**
      * 校验菜单参数
+     *
+     * @param reqVO 新增请求参数
      */
-    private void validateByMenu(String path, String component, Integer visible) {
+    private void validateByMenu(AddMenuReqVO reqVO) {
         // 校验路由路径不为空
-        if (StrUtil.isBlankIfStr(path)) {
+        if (StrUtil.isBlankIfStr(reqVO.getPath())) {
             throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "路由路径不能为空");
         }
         // 校验页面路径不为空
-        if (StrUtil.isBlankIfStr(component)) {
+        if (StrUtil.isBlankIfStr(reqVO.getComponent())) {
             throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "页面路径不能为空");
         }
         // 校验显示状态不为空
-        if (StrUtil.isBlankIfStr(visible)) {
+        if (StrUtil.isBlankIfStr(reqVO.getVisible())) {
             throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "显示状态不能为空");
         }
+        reqVO.setPerm(null);
     }
 
 }

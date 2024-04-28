@@ -14,9 +14,12 @@ import com.wick.boot.module.system.enums.MenuTypeEnum;
 import com.wick.boot.module.system.mapper.ISystemMenuMapper;
 import com.wick.boot.module.system.model.dto.SystemMenuDTO;
 import com.wick.boot.module.system.model.dto.SystemRouteDTO;
+import com.wick.boot.module.system.model.entity.SystemDept;
 import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
 import com.wick.boot.module.system.model.vo.menu.QueryMenuListReqVO;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -37,15 +40,27 @@ public class SystemMenuServiceImpl extends AbstractSystemMenuAppService implemen
     private ISystemMenuMapper systemMenuMapper;
 
     @Override
+    @CacheEvict(cacheNames = "MENU", key = "'ROUTES'")
     public Long addMenu(AddMenuReqVO reqVO) {
         /* Step-1: 校验新增菜单参数 */
         this.validateAddParams(reqVO);
 
         /* Step-2: 新增菜单信息 */
         SystemMenu systemMenu = SystemMenuConvert.INSTANCE.addVoToEntity(reqVO);
-        //
+        // 获取TreePath
+        String treePath = getTreePath(reqVO.getParentId());
+        systemMenu.setTreePath(treePath);
         this.systemMenuMapper.insert(systemMenu);
         return systemMenu.getId();
+    }
+
+    private String getTreePath(Long parentId) {
+        // 如果父级节点是根节点直接返回
+        if (GlobalConstants.ROOT_NODE_ID.equals(parentId)) {
+            return GlobalConstants.ROOT_NODE_ID.toString();
+        }
+        SystemMenu systemMenu = this.systemMenuMapper.selectById(parentId);
+        return systemMenu.getTreePath() + "," + parentId;
     }
 
     @Override
@@ -94,6 +109,7 @@ public class SystemMenuServiceImpl extends AbstractSystemMenuAppService implemen
     }
 
     @Override
+    @Cacheable(cacheNames = "MENU", key = "'ROUTES'")
     public List<SystemRouteDTO> listRoutes() {
         /* Step-1: 获取菜单信息 */
         List<SystemMenuDTO> routeDTOS = systemMenuMapper.selectListRoutes();
