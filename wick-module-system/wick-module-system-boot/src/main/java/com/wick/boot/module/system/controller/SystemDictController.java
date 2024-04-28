@@ -126,5 +126,4 @@ public class SystemDictController {
         return ResultUtil.success(dictDataService.getDictDataPage(reqVO));
     }
 
-
 }

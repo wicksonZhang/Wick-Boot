@@ -20,18 +20,18 @@ public interface ISystemUserService {
     SystemUserDTO getUserInfo(String username);
 
     /**
+     * 获取当前用户信息
+     *
+     * @return SystemUserInfoDTO
+     */
+    SystemUserInfoDTO getCurrentUserInfo();
+
+    /**
      * 返回用户分页数据信息
      *
      * @param reqVO 用户分页查询请求数据
      * @return PageResult<SystemUserDTO>
      */
     PageResult<SystemUserDTO> getUserPage(QueryUserPageReqVO reqVO);
-
-    /**
-     * 获取当前用户信息
-     *
-     * @return SystemUserInfoDTO
-     */
-    SystemUserInfoDTO getCurrentUserInfo();
 
 }

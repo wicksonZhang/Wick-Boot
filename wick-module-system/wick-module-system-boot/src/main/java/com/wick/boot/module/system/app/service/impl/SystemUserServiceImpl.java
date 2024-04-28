@@ -44,18 +44,6 @@ public class SystemUserServiceImpl implements ISystemUserService {
     }
 
     @Override
-    public PageResult<SystemUserDTO> getUserPage(QueryUserPageReqVO reqVO) {
-        Page<SystemUserDTO> pageResult = userMapper.selectPage(
-                new Page<>(reqVO.getPageNumber(), reqVO.getPageSize()),
-                reqVO
-        );
-        if (CollUtil.isEmpty(pageResult.getRecords())) {
-            return PageResult.empty();
-        }
-        return new PageResult<>(pageResult.getRecords(), pageResult.getTotal());
-    }
-
-    @Override
     public SystemUserInfoDTO getCurrentUserInfo() {
         /* Step-1: 获取当前登录用户信息 */
         LoginUserInfoDTO userDetails = SecurityUtils.getUserDetails();
@@ -89,6 +77,18 @@ public class SystemUserServiceImpl implements ISystemUserService {
             perms.addAll(redisService.getCacheSet(key));
         }
         return perms;
+    }
+
+    @Override
+    public PageResult<SystemUserDTO> getUserPage(QueryUserPageReqVO reqVO) {
+        Page<SystemUserDTO> pageResult = userMapper.selectPage(
+                new Page<>(reqVO.getPageNumber(), reqVO.getPageSize()),
+                reqVO
+        );
+        if (CollUtil.isEmpty(pageResult.getRecords())) {
+            return PageResult.empty();
+        }
+        return new PageResult<>(pageResult.getRecords(), pageResult.getTotal());
     }
 
 }
