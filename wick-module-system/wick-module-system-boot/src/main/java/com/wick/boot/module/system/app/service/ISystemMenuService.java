@@ -4,6 +4,7 @@ import com.wick.boot.module.system.model.dto.SystemMenuDTO;
 import com.wick.boot.module.system.model.dto.SystemRouteDTO;
 import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
 import com.wick.boot.module.system.model.vo.menu.QueryMenuListReqVO;
+import com.wick.boot.module.system.model.vo.menu.UpdateMenuReqVO;
 
 import java.util.List;
 
@@ -22,6 +23,13 @@ public interface ISystemMenuService {
      * @return 菜单主键ID
      */
     Long addMenu(AddMenuReqVO reqVO);
+
+    /**
+     * 更新菜单
+     *
+     * @param reqVO 更新菜单请求参数
+     */
+    void updateMenu(UpdateMenuReqVO reqVO);
 
     /**
      * 获取菜单列表

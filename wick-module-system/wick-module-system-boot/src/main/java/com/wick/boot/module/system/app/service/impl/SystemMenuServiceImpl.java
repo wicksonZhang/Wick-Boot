@@ -9,6 +9,7 @@ import com.wick.boot.common.core.constant.GlobalConstants;
 import com.wick.boot.common.core.enums.CommonStatusEnum;
 import com.wick.boot.module.system.app.service.AbstractSystemMenuAppService;
 import com.wick.boot.module.system.app.service.ISystemMenuService;
+import com.wick.boot.module.system.app.service.ISystemRoleMenuService;
 import com.wick.boot.module.system.convert.SystemMenuConvert;
 import com.wick.boot.module.system.enums.MenuTypeEnum;
 import com.wick.boot.module.system.mapper.ISystemMenuMapper;
@@ -18,9 +19,11 @@ import com.wick.boot.module.system.model.entity.SystemDept;
 import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
 import com.wick.boot.module.system.model.vo.menu.QueryMenuListReqVO;
+import com.wick.boot.module.system.model.vo.menu.UpdateMenuReqVO;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -39,7 +42,11 @@ public class SystemMenuServiceImpl extends AbstractSystemMenuAppService implemen
     @Resource
     private ISystemMenuMapper systemMenuMapper;
 
+    @Resource
+    private ISystemRoleMenuService roleMenuService;
+
     @Override
+    @Transactional(rollbackFor = Exception.class)
     @CacheEvict(cacheNames = "MENU", key = "'ROUTES'") // @CacheEvict 注解的方法在被调用时，会从缓存中移除已存储的数据
     public Long addMenu(AddMenuReqVO reqVO) {
         /* Step-1: 校验新增菜单参数 */
@@ -61,6 +68,25 @@ public class SystemMenuServiceImpl extends AbstractSystemMenuAppService implemen
         }
         SystemMenu systemMenu = this.systemMenuMapper.selectById(parentId);
         return systemMenu.getTreePath() + "," + parentId;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(cacheNames = "MENU", key = "'ROUTES'") // @CacheEvict 注解的方法在被调用时，会从缓存中移除已存储的数据
+    public void updateMenu(UpdateMenuReqVO reqVO) {
+        /* Step-1: 校验更新菜单参数 */
+        this.validateUpdateParams(reqVO);
+
+        /* Step-2: 更新菜单信息 */
+        // Convert VO To Entity
+        SystemMenu systemMenu = SystemMenuConvert.INSTANCE.updateVoToEntity(reqVO);
+        // get treePath
+        String treePath = getTreePath(reqVO.getParentId());
+        systemMenu.setTreePath(treePath);
+        this.systemMenuMapper.updateById(systemMenu);
+
+        /* Step-3: 刷新角色对应的菜单权限 */
+        this.roleMenuService.refreshRolePermsCache();
     }
 
     @Override

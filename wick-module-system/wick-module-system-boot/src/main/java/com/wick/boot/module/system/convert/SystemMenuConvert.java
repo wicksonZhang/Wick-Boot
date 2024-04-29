@@ -5,6 +5,7 @@ import com.wick.boot.module.system.enums.MenuTypeEnum;
 import com.wick.boot.module.system.model.dto.SystemMenuDTO;
 import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
+import com.wick.boot.module.system.model.vo.menu.UpdateMenuReqVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -43,4 +44,11 @@ public interface SystemMenuConvert {
      */
     SystemMenu addVoToEntity(AddMenuReqVO reqVO);
 
+    /**
+     * Convert updateVo To entity
+     *
+     * @param reqVO 更新请求参数
+     * @return SystemMenu 系统菜单
+     */
+    SystemMenu updateVoToEntity(UpdateMenuReqVO reqVO);
 }

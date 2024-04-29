@@ -11,6 +11,7 @@ import com.wick.boot.module.system.enums.MenuTypeEnum;
 import com.wick.boot.module.system.mapper.ISystemMenuMapper;
 import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
+import com.wick.boot.module.system.model.vo.menu.UpdateMenuReqVO;
 
 import javax.annotation.Resource;
 
@@ -142,6 +143,60 @@ public abstract class AbstractSystemMenuAppService {
         if (StrUtil.isBlankIfStr(reqVO.getVisible())) {
             throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "显示状态不能为空");
         }
+    }
+
+    // ============================================== 更新参数校验 ==============================================
+
+    protected void validateUpdateParams(UpdateMenuReqVO reqVO) {
+        // 校验菜单信息是否存在
+        SystemMenu systemMenu = this.validateMenuByMenuId(reqVO.getId());
+        // 验证父级Id是否存在
+        this.validateMenuByParentId(systemMenu.getParentId(), reqVO.getParentId());
+        // 校验菜单名称是否存在
+        this.validateMenuByName(reqVO.getParentId(), systemMenu.getName(), reqVO.getName());
+        // 通过菜单类型验证其他参数信息
+        this.validateMenuByType(reqVO);
+    }
+
+    /**
+     * 验证菜单Id
+     *
+     * @param id 菜单Id
+     * @return 系统菜单
+     */
+    private SystemMenu validateMenuByMenuId(Long id) {
+        SystemMenu systemMenu = this.menuMapper.selectById(id);
+        if (ObjUtil.isNull(systemMenu)) {
+            throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "当前菜单不存在");
+        }
+        return systemMenu;
+    }
+
+    /**
+     * 校验菜单父级Id
+     *
+     * @param oldParentId 旧菜单Id
+     * @param newParentId 新菜单Id
+     */
+    private void validateMenuByParentId(Long oldParentId, Long newParentId) {
+        if (oldParentId.equals(newParentId)) {
+            return;
+        }
+        this.validateMenuByParentId(newParentId);
+    }
+
+    /**
+     * 校验菜单名称
+     *
+     * @param parentId 父级菜单名称
+     * @param oldName  旧菜单名称
+     * @param newName  新菜单名称
+     */
+    private void validateMenuByName(Long parentId, String oldName, String newName) {
+        if (oldName.equals(newName)) {
+            return;
+        }
+        this.validateMenuByName(parentId, newName);
     }
 
 }
