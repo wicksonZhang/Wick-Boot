@@ -98,11 +98,13 @@ public class SystemMenuServiceImpl extends AbstractSystemMenuAppService implemen
 
         /* Step-2: 批量删除数据, 包含该菜单或者子级菜单 */
         // 查询菜单以及子菜单信息
-        // TODO 删除角色-菜单关联信息
         Set<SystemMenu> removeMenuList = this.systemMenuMapper.selectMenuByIdOrTreePath(ids);
         this.systemMenuMapper.deleteBatchIds(removeMenuList);
 
         /* Step-3: 刷新角色对应的菜单权限 */
+        // 删除对应的 角色-权限 信息表
+        this.roleMenuService.deleteRolePermsByMenuId(ids);
+        // 刷新对应的 角色-权限
         this.roleMenuService.refreshRolePermsCache();
     }
 

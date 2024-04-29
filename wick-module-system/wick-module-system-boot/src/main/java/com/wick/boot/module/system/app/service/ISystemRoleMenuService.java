@@ -16,6 +16,13 @@ public interface ISystemRoleMenuService {
     void deleteRolePermsByRoleId(List<Long> roleIds);
 
     /**
+     * 删除角色-权限信息
+     *
+     * @param menuIds 菜单Ids
+     */
+    void deleteRolePermsByMenuId(List<Long> menuIds);
+
+    /**
      * 刷新角色-权限信息
      */
     void refreshRolePermsCache();

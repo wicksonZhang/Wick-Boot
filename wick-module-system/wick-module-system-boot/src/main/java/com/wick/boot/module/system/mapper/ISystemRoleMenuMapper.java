@@ -28,5 +28,12 @@ public interface ISystemRoleMenuMapper extends BaseMapperX<SystemRoleMenu> {
      *
      * @param roleIds 角色Ids
      */
-    void deleteRolePermsByRoleId(@Param("roleIds") List<Long> roleIds);
+    void deleteRolePermsByRoleIds(@Param("roleIds") List<Long> roleIds);
+
+    /**
+     * 删除 角色-权限菜单 信息
+     *
+     * @param menuIds 菜单Ids
+     */
+    void deleteRolePermsByMenuIds(@Param("menuIds") List<Long> menuIds);
 }

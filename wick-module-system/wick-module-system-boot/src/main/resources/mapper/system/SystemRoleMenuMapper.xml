@@ -29,10 +29,17 @@
         </if>
     </select>
 
-    <delete id="deleteRolePermsByRoleId" parameterType="java.util.List">
+    <delete id="deleteRolePermsByRoleIds" parameterType="java.util.List">
         DELETE FROM `system_role_menu` WHERE role_id IN
         <foreach item="roleId" collection="roleIds" open="(" separator="," close=")">
             #{roleId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteRolePermsByMenuIds" parameterType="java.util.List">
+        DELETE FROM `system_role_menu` WHERE menu_id IN
+        <foreach item="menuId" collection="menuIds" open="(" separator="," close=")">
+            #{menuId}
         </foreach>
     </delete>
 

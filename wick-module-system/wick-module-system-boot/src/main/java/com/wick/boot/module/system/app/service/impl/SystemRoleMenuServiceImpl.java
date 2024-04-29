@@ -79,6 +79,15 @@ public class SystemRoleMenuServiceImpl implements ISystemRoleMenuService {
         if (CollUtil.isEmpty(roleIds)) {
             return;
         }
-        this.systemRoleMenuMapper.deleteRolePermsByRoleId(roleIds);
+        this.systemRoleMenuMapper.deleteRolePermsByRoleIds(roleIds);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteRolePermsByMenuId(List<Long> menuIds) {
+        if (CollUtil.isEmpty(menuIds)) {
+            return;
+        }
+        this.systemRoleMenuMapper.deleteRolePermsByMenuIds(menuIds);
     }
 }
