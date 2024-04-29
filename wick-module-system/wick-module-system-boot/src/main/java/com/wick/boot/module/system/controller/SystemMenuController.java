@@ -8,12 +8,14 @@ import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
 import com.wick.boot.module.system.model.vo.menu.QueryMenuListReqVO;
 import com.wick.boot.module.system.model.vo.menu.UpdateMenuReqVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
@@ -44,6 +46,16 @@ public class SystemMenuController {
     public ResultUtil<Boolean> updateMenu(@Valid @RequestBody UpdateMenuReqVO reqVO) {
         systemMenuService.updateMenu(reqVO);
         return ResultUtil.success(true);
+    }
+
+    @DeleteMapping("/{ids}")
+    @ApiOperation(value = "删除菜单信息", notes = "菜单信息")
+    @PreAuthorize("@ss.hasPerm('sys:menu:delete')")
+    @ApiImplicitParam(name = "ids", value = "菜单数据ID", required = true)
+    public ResultUtil<Long> deleteMenu(@NotEmpty(message = "菜单主键不能为空")
+                                       @PathVariable("ids") List<Long> ids) {
+        systemMenuService.deleteMenu(ids);
+        return ResultUtil.success();
     }
 
     @GetMapping

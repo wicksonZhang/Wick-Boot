@@ -2,13 +2,17 @@ package com.wick.boot.module.system.mapper;
 
 import cn.hutool.core.util.ObjUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
 import com.wick.boot.module.system.model.dto.SystemMenuDTO;
+import com.wick.boot.module.system.model.entity.SystemDept;
 import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.system.model.vo.menu.QueryMenuListReqVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 菜单-Mapper
@@ -45,5 +49,27 @@ public interface ISystemMenuMapper extends BaseMapperX<SystemMenu> {
                 .eq(SystemMenu::getParentId, parentId)
                 .eq(SystemMenu::getName, name)
         );
+    }
+
+    /**
+     * 根据菜单id模糊查询
+     *
+     * @param ids 菜单集合ids
+     * @return 菜单集合数据
+     */
+    default Set<SystemMenu> selectMenuByIdOrTreePath(List<Long> ids) {
+        // 模糊匹配查询：
+        // SELECT id FROM system_menu WHERE deleted=0 AND (id = ? OR CONCAT(',', tree_path, ',') LIKE CONCAT('%,', ?, ',%'))
+        List<SystemMenu> resultList = Lists.newArrayList();
+        ids.forEach(id -> {
+            List<SystemMenu> byTreePath = this.selectList(new LambdaQueryWrapper<SystemMenu>()
+                    .select(SystemMenu::getId)
+                    .eq(SystemMenu::getId, id)
+                    .or()
+                    .apply("CONCAT(',', tree_path, ',') LIKE CONCAT('%,', {0}, ',%')", id)
+            );
+            resultList.addAll(byTreePath);
+        });
+        return Sets.newHashSet(resultList);
     }
 }

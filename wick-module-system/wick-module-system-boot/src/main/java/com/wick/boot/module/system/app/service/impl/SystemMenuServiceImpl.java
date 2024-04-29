@@ -90,6 +90,23 @@ public class SystemMenuServiceImpl extends AbstractSystemMenuAppService implemen
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(cacheNames = "MENU", key = "'ROUTES'") // @CacheEvict 注解的方法在被调用时，会从缓存中移除已存储的数据
+    public void deleteMenu(List<Long> ids) {
+        /* Step-1: 校验删除菜单参数 */
+        List<SystemMenu> systemMenuList = this.systemMenuMapper.selectBatchIds(ids);
+        this.validateDeleteParams(systemMenuList, ids);
+
+        /* Step-2: 批量删除数据, 包含该菜单或者子级菜单 */
+        // 查询菜单以及子菜单信息
+        Set<SystemMenu> removeMenuList = this.systemMenuMapper.selectMenuByIdOrTreePath(ids);
+        this.systemMenuMapper.deleteBatchIds(removeMenuList);
+
+        /* Step-3: 刷新角色对应的菜单权限 */
+        this.roleMenuService.refreshRolePermsCache();
+    }
+
+    @Override
     public List<SystemMenuDTO> listMenus(QueryMenuListReqVO queryParams) {
         /* Step-1: 获取菜单信息 */
         List<SystemMenu> menuList = systemMenuMapper.selectList(queryParams);
@@ -111,13 +128,13 @@ public class SystemMenuServiceImpl extends AbstractSystemMenuAppService implemen
         Map<Long, SystemMenuDTO> menuMap = new HashMap<>();
         Long rootNodeId = GlobalConstants.ROOT_NODE_ID;
 
-        // Step-1: 构建菜单树并将部门存入Map
+        // Step-1: 构建菜单树并存入Map
         for (SystemMenu menu : menuList) {
             SystemMenuDTO menuDTO = SystemMenuConvert.INSTANCE.entityToDTOWithChildren(menu);
             menuMap.put(menuDTO.getId(), menuDTO);
         }
 
-        // 将子菜单添加到父部门的children属性中
+        // 将子菜单添加到父级菜单的children属性中
         for (SystemMenuDTO menuDTO : menuMap.values()) {
             if (Objects.equals(rootNodeId, menuDTO.getParentId())) {
                 continue;
@@ -158,10 +175,10 @@ public class SystemMenuServiceImpl extends AbstractSystemMenuAppService implemen
         Map<Long, SystemRouteDTO> resultMap = Maps.newLinkedHashMap();
         Long rootNodeId = GlobalConstants.ROOT_NODE_ID;
 
-        // Step-1: 构建路由树并将部门存入Map
+        // Step-1: 构建路由树并将菜单存入Map
         Map<Long, SystemMenuDTO> menuMap = menuDTOs.stream().collect(Collectors.toMap(SystemMenuDTO::getId, dto -> dto));
 
-        // 将子菜单添加到父部门的children属性中
+        // 将子菜单添加到父菜单的children属性中
         for (SystemMenuDTO menuDTO : menuMap.values()) {
             Long parentId = menuDTO.getParentId();
             if (Objects.equals(rootNodeId, parentId) || !menuMap.containsKey(parentId)) {

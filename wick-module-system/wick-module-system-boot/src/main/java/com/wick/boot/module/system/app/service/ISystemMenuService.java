@@ -32,17 +32,24 @@ public interface ISystemMenuService {
     void updateMenu(UpdateMenuReqVO reqVO);
 
     /**
+     * 删除菜单
+     *
+     * @param ids 菜单集合
+     */
+    void deleteMenu(List<Long> ids);
+
+    /**
      * 获取菜单列表
      *
      * @param queryParams 菜单列表请求参数信息
-     * @return
+     * @return 菜单列表集合
      */
     List<SystemMenuDTO> listMenus(QueryMenuListReqVO queryParams);
 
     /**
      * 获取路由列表
      *
-     * @return
+     * @return 菜单列表集合
      */
     List<SystemRouteDTO> listRoutes();
 

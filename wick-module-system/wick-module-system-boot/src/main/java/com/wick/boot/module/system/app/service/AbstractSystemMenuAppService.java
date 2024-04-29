@@ -1,5 +1,7 @@
 package com.wick.boot.module.system.app.service;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import com.wick.boot.common.core.constant.GlobalConstants;
@@ -9,11 +11,15 @@ import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.module.system.enums.ErrorCodeSystem;
 import com.wick.boot.module.system.enums.MenuTypeEnum;
 import com.wick.boot.module.system.mapper.ISystemMenuMapper;
+import com.wick.boot.module.system.model.entity.SystemDept;
 import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
 import com.wick.boot.module.system.model.vo.menu.UpdateMenuReqVO;
 
 import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 字典信息 - 防腐层
@@ -199,4 +205,40 @@ public abstract class AbstractSystemMenuAppService {
         this.validateMenuByName(parentId, newName);
     }
 
+    // ============================================== 删除参数校验 ==============================================
+
+    protected void validateDeleteParams(List<SystemMenu> systemMenuList, List<Long> ids) {
+        // 验证菜单是否存在
+        this.validateMenuList(systemMenuList);
+        // 验证菜单集合和 ids 是否匹配
+        this.validateMenuByIds(systemMenuList, ids);
+    }
+
+    /**
+     * 验证菜单是否存在
+     *
+     * @param systemMenuList 菜单集合
+     */
+    private void validateMenuList(List<SystemMenu> systemMenuList) {
+        // 校验菜单集合是否存在
+        if (CollUtil.isEmpty(systemMenuList)) {
+            throw ServiceException.getInstance(ErrorCodeSystem.MENU_NOT_EXIST);
+        }
+    }
+
+    /**
+     * 验证菜单集合和 ids 是否匹配
+     *
+     * @param systemMenuList 菜单集合
+     * @param ids            ids
+     */
+    private void validateMenuByIds(List<SystemMenu> systemMenuList, List<Long> ids) {
+        // 校验不存在的菜单ID
+        List<Long> menuIds = systemMenuList.stream().map(SystemMenu::getId).collect(Collectors.toList());
+        Collection<Long> errorIds = CollectionUtil.subtract(ids, menuIds);
+        if (CollUtil.isNotEmpty(errorIds)) {
+            String errorMsg = "请确认菜单主键 " + errorIds + " 是否存在";
+            throw ServiceException.getInstance(ErrorCodeSystem.MENU_NOT_EXIST.getCode(), errorMsg);
+        }
+    }
 }
