@@ -3,6 +3,7 @@ package com.wick.boot.module.system.controller;
 import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.module.system.app.service.ISystemMenuService;
 import com.wick.boot.module.system.model.dto.SystemMenuDTO;
+import com.wick.boot.module.system.model.dto.SystemMenuOptionsDTO;
 import com.wick.boot.module.system.model.dto.SystemRouteDTO;
 import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
 import com.wick.boot.module.system.model.vo.menu.QueryMenuListReqVO;
@@ -56,6 +57,12 @@ public class SystemMenuController {
                                        @PathVariable("ids") List<Long> ids) {
         systemMenuService.deleteMenu(ids);
         return ResultUtil.success();
+    }
+
+    @GetMapping("/options")
+    @ApiOperation(value = "获取菜单选项", notes = "菜单信息")
+    public ResultUtil<List<SystemMenuOptionsDTO>> options() {
+        return ResultUtil.success(systemMenuService.options());
     }
 
     @GetMapping

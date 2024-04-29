@@ -14,6 +14,7 @@ import com.wick.boot.module.system.convert.SystemMenuConvert;
 import com.wick.boot.module.system.enums.MenuTypeEnum;
 import com.wick.boot.module.system.mapper.ISystemMenuMapper;
 import com.wick.boot.module.system.model.dto.SystemMenuDTO;
+import com.wick.boot.module.system.model.dto.SystemMenuOptionsDTO;
 import com.wick.boot.module.system.model.dto.SystemRouteDTO;
 import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
@@ -164,6 +165,11 @@ public class SystemMenuServiceImpl extends AbstractSystemMenuAppService implemen
 
         /* Step-2: 构建菜单树 */
         return buildRouteTree(routeDTOS);
+    }
+
+    @Override
+    public List<SystemMenuOptionsDTO> options() {
+        return null;
     }
 
     /**

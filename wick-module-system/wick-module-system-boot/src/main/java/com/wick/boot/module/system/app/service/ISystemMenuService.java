@@ -1,6 +1,7 @@
 package com.wick.boot.module.system.app.service;
 
 import com.wick.boot.module.system.model.dto.SystemMenuDTO;
+import com.wick.boot.module.system.model.dto.SystemMenuOptionsDTO;
 import com.wick.boot.module.system.model.dto.SystemRouteDTO;
 import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
 import com.wick.boot.module.system.model.vo.menu.QueryMenuListReqVO;
@@ -53,4 +54,10 @@ public interface ISystemMenuService {
      */
     List<SystemRouteDTO> listRoutes();
 
+    /**
+     * 菜单选项信息
+     *
+     * @return 菜单列表集合
+     */
+    List<SystemMenuOptionsDTO> options();
 }
