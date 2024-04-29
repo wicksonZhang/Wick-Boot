@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 角色管理-服务实现层
@@ -54,6 +56,24 @@ public class SystemRoleServiceImpl extends AbstractSystemRoleAppService implemen
 
         /* Step-3: 刷新 Role_Menu 权限信息 */
         this.roleMenuService.refreshRolePermsCache();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteRole(List<Long> ids) {
+        /* Step-1: 校验删除角色参数 */
+        List<SystemRole> systemRoleList = this.roleMapper.selectBatchIds(ids);
+        this.validateDeleteParams(systemRoleList, ids);
+
+        /* Step-2: 删除角色信息 */
+        this.roleMapper.deleteBatchIds(systemRoleList);
+
+        /* Step-3: 删除、刷新 Role_Menu 权限信息 */
+        // 删除角色-权限菜单信息
+        this.roleMenuService.deleteRolePermsByRoleId(ids);
+        // 刷新角色-权限菜单缓存
+        Set<String> codes = systemRoleList.stream().map(SystemRole::getCode).collect(Collectors.toSet());
+        this.roleMenuService.refreshRolePermsCache(codes);
     }
 
     @Override

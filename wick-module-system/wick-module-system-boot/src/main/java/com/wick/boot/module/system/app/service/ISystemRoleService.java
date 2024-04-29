@@ -6,6 +6,8 @@ import com.wick.boot.module.system.model.vo.role.QueryRolePageReqVO;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.model.vo.role.UpdateRoleVo;
 
+import java.util.List;
+
 /**
  * 角色管理-服务层
  *
@@ -28,6 +30,13 @@ public interface ISystemRoleService {
      * @param reqVO 编辑角色请求参数
      */
     void updateRole(UpdateRoleVo reqVO);
+
+    /**
+     * 删除角色信息
+     *
+     * @param ids id集合
+     */
+    void deleteRole(List<Long> ids);
 
     /**
      * 角色分页

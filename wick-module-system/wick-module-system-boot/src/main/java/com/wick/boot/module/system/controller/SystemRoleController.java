@@ -44,6 +44,14 @@ public class SystemRoleController {
         return ResultUtil.success(true);
     }
 
+    @DeleteMapping("/{ids}")
+    @ApiOperation(value = "删除角色信息", notes = "角色信息")
+    @ApiImplicitParam(name = "ids", value = "角色数据ID", required = true)
+    public ResultUtil<Long> deleteRole(@PathVariable("ids") List<Long> ids) {
+        this.systemRoleService.deleteRole(ids);
+        return ResultUtil.success();
+    }
+
     @GetMapping("/page")
     @ApiOperation(value = "获取角色分页", notes = "角色信息")
     public ResultUtil<PageResult<SystemRoleDTO>> getUserPage(@Valid QueryRolePageReqVO reqVO) {

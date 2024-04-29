@@ -1,14 +1,25 @@
 package com.wick.boot.module.system.app.service;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjUtil;
+import com.wick.boot.common.core.constant.GlobalConstants;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.exception.ParameterException;
+import com.wick.boot.common.core.exception.ServiceException;
+import com.wick.boot.module.system.enums.ErrorCodeSystem;
 import com.wick.boot.module.system.mapper.ISystemRoleMapper;
+import com.wick.boot.module.system.mapper.ISystemUserRoleMapper;
 import com.wick.boot.module.system.model.entity.SystemRole;
+import com.wick.boot.module.system.model.entity.SystemUserRole;
 import com.wick.boot.module.system.model.vo.role.AddRoleVo;
 import com.wick.boot.module.system.model.vo.role.UpdateRoleVo;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 角色管理-防腐层
@@ -20,6 +31,9 @@ public abstract class AbstractSystemRoleAppService {
 
     @Resource
     protected ISystemRoleMapper roleMapper;
+
+    @Resource
+    protected ISystemUserRoleMapper userRoleMapper;
 
     // ============================================== 新增参数校验 ==============================================
 
@@ -102,6 +116,80 @@ public abstract class AbstractSystemRoleAppService {
             return;
         }
         this.validateRoleByCode(newCode);
+    }
+
+    // ============================================== 删除参数校验 ==============================================
+
+    protected void validateDeleteParams(List<SystemRole> systemRoleList, List<Long> ids) {
+        // 验证角色是否存在
+        this.validateRoleList(systemRoleList);
+        // 验证角色集合和 ids 是否匹配
+        this.validateRoleByIds(systemRoleList, ids);
+        // 验证角色集合中是否包含 Root 角色
+        this.validateRoleByRoot(systemRoleList);
+        // 验证当前角色是否与用户关联
+        this.validateRoleByUser(systemRoleList, ids);
+    }
+
+    /**
+     * 验证角色是否存在
+     *
+     * @param systemRoleList 角色集合
+     */
+    private void validateRoleList(List<SystemRole> systemRoleList) {
+        // 校验角色集合是否存在
+        if (CollUtil.isEmpty(systemRoleList)) {
+            throw ServiceException.getInstance(ErrorCodeSystem.MENU_NOT_EXIST);
+        }
+    }
+
+    /**
+     * 验证角色集合和 ids 是否匹配
+     *
+     * @param systemRoleList 角色集合
+     * @param ids            角色Ids
+     */
+    private void validateRoleByIds(List<SystemRole> systemRoleList, List<Long> ids) {
+        // 校验不存在的角色ID
+        List<Long> menuIds = systemRoleList.stream().map(SystemRole::getId).collect(Collectors.toList());
+        // 验证是否存在
+        Collection<Long> errorIds = CollectionUtil.subtract(ids, menuIds);
+        if (CollUtil.isNotEmpty(errorIds)) {
+            String errorMsg = "请确认角色主键 " + errorIds + " 是否存在";
+            throw ServiceException.getInstance(ErrorCodeSystem.MENU_NOT_EXIST.getCode(), errorMsg);
+        }
+    }
+
+    /**
+     * 验证角色集合中是否包含 Root 角色
+     *
+     * @param systemRoleList 角色集合
+     */
+    private void validateRoleByRoot(List<SystemRole> systemRoleList) {
+        List<String> codes = systemRoleList.stream()
+                .map(SystemRole::getCode)
+                .map(String::toUpperCase)
+                .collect(Collectors.toList());
+        boolean containsRoot = CollectionUtil.contains(codes, GlobalConstants.ROOT_ROLE_CODE);
+        if (containsRoot) {
+            throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "ROOT 角色不能被删除");
+        }
+    }
+
+    /**
+     * 验证当前角色是否与用户关联
+     *
+     * @param roleList 角色集合
+     * @param ids      角色Ids
+     */
+    private void validateRoleByUser(List<SystemRole> roleList, List<Long> ids) {
+        List<SystemUserRole> userRoles = this.userRoleMapper.selectUserRoleByRoleIds(ids);
+        if (CollUtil.isEmpty(userRoles)) {
+            return;
+        }
+        List<String> roleNames = roleList.stream().map(SystemRole::getName).collect(Collectors.toList());
+        String errorMsg = "角色 " + roleNames + " 与用户存在关联，请先解除关联后删除";
+        throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, errorMsg);
     }
 
 }
