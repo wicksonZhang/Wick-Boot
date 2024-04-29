@@ -2,6 +2,7 @@ package com.wick.boot.module.system.mapper;
 
 import cn.hutool.core.util.ObjUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.core.constant.GlobalConstants;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
@@ -32,4 +33,23 @@ public interface ISystemRoleMapper extends BaseMapperX<SystemRole> {
                 .ne(SystemRole::getCode, GlobalConstants.ROOT_ROLE_CODE));
     }
 
+    /**
+     * 通过角色名称获取角色信息
+     *
+     * @param name 角色名称
+     * @return 角色信息
+     */
+    default SystemRole selectRoleByName(String name) {
+        return selectOne(new LambdaQueryWrapper<SystemRole>().eq(SystemRole::getName, name));
+    }
+
+    /**
+     * 通过角色编码获取角色信息
+     *
+     * @param code 角色编码
+     * @return 角色信息
+     */
+    default SystemRole selectRoleByCode(String code) {
+        return selectOne(new LambdaQueryWrapper<SystemRole>().eq(SystemRole::getCode, code));
+    }
 }

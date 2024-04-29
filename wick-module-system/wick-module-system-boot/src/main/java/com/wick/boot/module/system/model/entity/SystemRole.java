@@ -49,7 +49,7 @@ public class SystemRole extends BaseDO {
     private Integer status;
 
     /**
-     * 数据权限(0-所有数据；1-部门及子部门数据；2-本部门数据；3-本人数据)
+     * 数据权限(1-全部数据权限；2-自定数据权限；3-部门数据权限；4-部门及以下数据权限；5-仅本人数据权限)
      */
     private Integer dataScope;
 
