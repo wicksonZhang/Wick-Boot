@@ -4,9 +4,10 @@ import cn.hutool.core.util.ObjUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.wick.boot.common.core.enums.CommonStatusEnum;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
 import com.wick.boot.module.system.model.dto.SystemMenuDTO;
-import com.wick.boot.module.system.model.entity.SystemDept;
+import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.system.model.vo.menu.QueryMenuListReqVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -71,5 +72,20 @@ public interface ISystemMenuMapper extends BaseMapperX<SystemMenu> {
             resultList.addAll(byTreePath);
         });
         return Sets.newHashSet(resultList);
+    }
+
+    /**
+     * 获取系统菜单选项
+     *
+     * @return 菜单集合
+     */
+    default List<SystemMenu> selectMenuOptions() {
+        return selectList(new LambdaQueryWrapper<SystemMenu>()
+                .select(SystemMenu::getId,
+                        SystemMenu::getParentId,
+                        SystemMenu::getName,
+                        SystemMenu::getType)
+                .eq(SystemMenu::getVisible, CommonStatusEnum.ENABLE.getValue())
+                .orderByAsc(SystemMenu::getSort));
     }
 }

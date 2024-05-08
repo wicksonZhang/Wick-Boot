@@ -3,13 +3,17 @@ package com.wick.boot.module.system.convert;
 import cn.hutool.core.bean.BeanUtil;
 import com.wick.boot.module.system.enums.MenuTypeEnum;
 import com.wick.boot.module.system.model.dto.SystemMenuDTO;
+import com.wick.boot.module.system.model.dto.SystemMenuOptionsDTO;
 import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
 import com.wick.boot.module.system.model.vo.menu.UpdateMenuReqVO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 后台管理 - 菜单 Convert
@@ -51,4 +55,24 @@ public interface SystemMenuConvert {
      * @return SystemMenu 系统菜单
      */
     SystemMenu updateVoToEntity(UpdateMenuReqVO reqVO);
+
+    /**
+     * Convert SystemMenuDTO To SystemMenuOptionsDTO
+     *
+     * @param systemMenuDTO systemMenuDTO
+     * @return SystemMenuOptionsDTO
+     */
+    @Mappings({
+            @Mapping(target = "value", source = "id"),
+            @Mapping(target = "label", source = "name")
+    })
+    SystemMenuOptionsDTO dtoToDTO(SystemMenuDTO systemMenuDTO);
+
+    /**
+     * Covert entity To DTOList
+     *
+     * @param menuDTOList 菜单DTO集合
+     * @return
+     */
+    List<SystemMenuOptionsDTO> entityToDTOList(List<SystemMenuDTO> menuDTOList);
 }

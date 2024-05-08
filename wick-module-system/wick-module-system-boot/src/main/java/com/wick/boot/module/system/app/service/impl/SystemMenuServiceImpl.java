@@ -10,12 +10,12 @@ import com.wick.boot.common.core.enums.CommonStatusEnum;
 import com.wick.boot.module.system.app.service.AbstractSystemMenuAppService;
 import com.wick.boot.module.system.app.service.ISystemMenuService;
 import com.wick.boot.module.system.app.service.ISystemRoleMenuService;
+import com.wick.boot.module.system.convert.SystemDeptConvert;
 import com.wick.boot.module.system.convert.SystemMenuConvert;
 import com.wick.boot.module.system.enums.MenuTypeEnum;
 import com.wick.boot.module.system.mapper.ISystemMenuMapper;
-import com.wick.boot.module.system.model.dto.SystemMenuDTO;
-import com.wick.boot.module.system.model.dto.SystemMenuOptionsDTO;
-import com.wick.boot.module.system.model.dto.SystemRouteDTO;
+import com.wick.boot.module.system.model.dto.*;
+import com.wick.boot.module.system.model.entity.SystemDept;
 import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
 import com.wick.boot.module.system.model.vo.menu.QueryMenuListReqVO;
@@ -169,7 +169,17 @@ public class SystemMenuServiceImpl extends AbstractSystemMenuAppService implemen
 
     @Override
     public List<SystemMenuOptionsDTO> options() {
-        return null;
+        /* Step-1: 获取菜单信息 */
+        List<SystemMenu> menuList = systemMenuMapper.selectMenuOptions();
+        if (CollUtil.isEmpty(menuList)) {
+            return Lists.newArrayList();
+        }
+
+        /* Step-2: 构建菜单树 */
+        List<SystemMenuDTO> menuDTOList = buildMenuTree(menuList);
+
+        /* Step-3: 返回结果集 */
+        return SystemMenuConvert.INSTANCE.entityToDTOList(menuDTOList);
     }
 
     /**

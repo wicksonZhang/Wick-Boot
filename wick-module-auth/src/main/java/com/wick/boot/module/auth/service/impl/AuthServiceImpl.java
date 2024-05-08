@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class AuthServiceImpl implements IAuthService {
 
-    @Value("${captcha.enable:false}")
+    @Value("${captcha.enable:true}")
     private Boolean enable;
 
     @Resource
@@ -76,6 +76,7 @@ public class AuthServiceImpl implements IAuthService {
 
         return AuthUserLoginRespDTO.builder()
                 .accessToken(accessTokenKey)
+                .tokenType("Bearer")
                 .build();
     }
 
