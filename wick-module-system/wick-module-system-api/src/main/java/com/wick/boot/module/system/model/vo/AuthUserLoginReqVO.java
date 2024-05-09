@@ -32,11 +32,9 @@ public class AuthUserLoginReqVO {
     private String password;
 
     @ApiModelProperty(value = "验证码key", example = "c2e71a2de35748fca269164a7d9837b6")
-    @NotBlank(message = "验证码key不能为空")
     private String captchaKey;
 
     @ApiModelProperty(value = "验证码", example = "0sov")
-    @NotBlank(message = "验证码不能为空")
     private String captchaCode;
 
 }

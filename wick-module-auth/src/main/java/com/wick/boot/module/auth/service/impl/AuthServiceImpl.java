@@ -5,6 +5,9 @@ import cn.hutool.captcha.GifCaptcha;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
+import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
+import com.wick.boot.common.core.exception.ParameterException;
+import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.module.auth.constant.CaptchaConstants;
 import com.wick.boot.module.auth.enums.ErrorCodeAuth;
 import com.wick.boot.module.auth.service.IAuthService;
@@ -91,6 +94,14 @@ public class AuthServiceImpl implements IAuthService {
         if (!Boolean.TRUE.equals(enable)) {
             return;
         }
+        // 验证验证码
+        if (StrUtil.isBlankIfStr(captchaCode)) {
+            throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "验证码不能为空");
+        }
+        // 验证验证码Key
+        if (StrUtil.isBlankIfStr(captchaKey)) {
+            throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "验证码 Key 不能为空");
+        }
         // 校验验证码Key是否存在
         String redisKey = GlobalCacheConstants.getCaptchaCodeKey(captchaKey);
         String verifyCode = redisService.getCacheObject(redisKey);
@@ -98,7 +109,7 @@ public class AuthServiceImpl implements IAuthService {
             throw ServiceException.getInstance(ErrorCodeAuth.AUTH_CAPTCHA_CODE_ERROR);
         }
         // 验证码Code不能为空 || 验证码Code是否正确
-        if (StrUtil.isBlankIfStr(captchaCode) || !captchaCode.equalsIgnoreCase(verifyCode)) {
+        if (!captchaCode.equalsIgnoreCase(verifyCode)) {
             redisService.deleteObject(redisKey);
             throw ServiceException.getInstance(ErrorCodeAuth.AUTH_CAPTCHA_CODE_ERROR);
         }
