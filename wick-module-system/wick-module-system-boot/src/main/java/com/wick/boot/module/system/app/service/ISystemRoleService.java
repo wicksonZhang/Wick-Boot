@@ -54,4 +54,11 @@ public interface ISystemRoleService {
      */
     List<Long> getRoleMenuIds(Long roleId);
 
+    /**
+     * 分配菜单(包括按钮权限)给角色
+     *
+     * @param roleId  角色Id
+     * @param menuIds 菜单集合
+     */
+    void assignMenusToRole(Long roleId, List<Long> menuIds);
 }

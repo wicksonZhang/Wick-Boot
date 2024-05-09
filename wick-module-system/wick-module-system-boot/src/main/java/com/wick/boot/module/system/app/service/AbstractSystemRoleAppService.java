@@ -9,6 +9,7 @@ import com.wick.boot.common.core.exception.ParameterException;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.module.system.enums.ErrorCodeSystem;
 import com.wick.boot.module.system.mapper.ISystemRoleMapper;
+import com.wick.boot.module.system.mapper.ISystemRoleMenuMapper;
 import com.wick.boot.module.system.mapper.ISystemUserRoleMapper;
 import com.wick.boot.module.system.model.entity.SystemRole;
 import com.wick.boot.module.system.model.entity.SystemUserRole;
@@ -16,7 +17,6 @@ import com.wick.boot.module.system.model.vo.role.AddRoleVo;
 import com.wick.boot.module.system.model.vo.role.UpdateRoleVo;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +34,9 @@ public abstract class AbstractSystemRoleAppService {
 
     @Resource
     protected ISystemUserRoleMapper userRoleMapper;
+
+    @Resource
+    protected ISystemRoleMenuMapper roleMenuMapper;
 
     // ============================================== 新增参数校验 ==============================================
 
@@ -190,6 +193,27 @@ public abstract class AbstractSystemRoleAppService {
         List<String> roleNames = roleList.stream().map(SystemRole::getName).collect(Collectors.toList());
         String errorMsg = "角色 " + roleNames + " 与用户存在关联，请先解除关联后删除";
         throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, errorMsg);
+    }
+
+    // ======================================= 校验 分配菜单(包括按钮权限)给角色 =======================================
+
+    protected void validateAssignParams(SystemRole systemRole) {
+        // 验证角色是否存在
+        this.validateRole(systemRole);
+        // 校验是否是ROOT
+        this.validateRoleByRoot(systemRole.getCode());
+    }
+
+    private void validateRole(SystemRole systemRole) {
+        if (ObjUtil.isNull(systemRole)) {
+            throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "参数错误，角色Id不存在");
+        }
+    }
+
+    private void validateRoleByRoot(String code) {
+        if (GlobalConstants.ROOT_ROLE_CODE.equals(code)) {
+            throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "ROOT 角色不能被修改");
+        }
     }
 
 }

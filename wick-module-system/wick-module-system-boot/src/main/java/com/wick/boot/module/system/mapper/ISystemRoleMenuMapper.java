@@ -1,5 +1,6 @@
 package com.wick.boot.module.system.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
 import com.wick.boot.module.system.model.dto.SystemRolePermsDTO;
 import com.wick.boot.module.system.model.entity.SystemRoleMenu;
@@ -36,4 +37,5 @@ public interface ISystemRoleMenuMapper extends BaseMapperX<SystemRoleMenu> {
      * @param menuIds 菜单Ids
      */
     void deleteRolePermsByMenuIds(@Param("menuIds") List<Long> menuIds);
+
 }

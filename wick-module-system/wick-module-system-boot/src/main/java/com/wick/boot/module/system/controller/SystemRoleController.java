@@ -10,10 +10,12 @@ import com.wick.boot.module.system.model.vo.role.UpdateRoleVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
@@ -63,6 +65,16 @@ public class SystemRoleController {
     @ApiImplicitParam(name = "roleId", value = "角色ID", required = true)
     public ResultUtil<List<Long>> getRoleMenuIds(@PathVariable("roleId") Long roleId) {
         return ResultUtil.success(systemRoleService.getRoleMenuIds(roleId));
+    }
+
+    @GetMapping("/{roleId}/menus")
+    @ApiOperation(value = "分配菜单(包括按钮权限)给角色", notes = "角色信息")
+    @ApiImplicitParam(name = "roleId", value = "角色ID", required = true)
+    public ResultUtil<Long> assignMenusToRole(@PathVariable("roleId") Long roleId,
+                                              @NotEmpty(message = "菜单集合不能为空")
+                                              @RequestBody List<Long> menuIds) {
+        systemRoleService.assignMenusToRole(roleId, menuIds);
+        return ResultUtil.success();
     }
 
 }

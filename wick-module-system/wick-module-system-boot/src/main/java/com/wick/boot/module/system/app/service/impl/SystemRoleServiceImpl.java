@@ -9,6 +9,7 @@ import com.wick.boot.module.system.app.service.ISystemRoleService;
 import com.wick.boot.module.system.convert.SystemRoleConvert;
 import com.wick.boot.module.system.model.dto.SystemRoleDTO;
 import com.wick.boot.module.system.model.entity.SystemRole;
+import com.wick.boot.module.system.model.entity.SystemRoleMenu;
 import com.wick.boot.module.system.model.vo.role.AddRoleVo;
 import com.wick.boot.module.system.model.vo.role.QueryRolePageReqVO;
 import com.wick.boot.module.system.model.vo.role.UpdateRoleVo;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -94,5 +96,26 @@ public class SystemRoleServiceImpl extends AbstractSystemRoleAppService implemen
     @Override
     public List<Long> getRoleMenuIds(Long roleId) {
         return roleMapper.selectRoleMenuIds(roleId);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void assignMenusToRole(Long roleId, List<Long> menuIds) {
+        /* Step-1: 校验分配菜单(包括按钮权限)给角色 */
+        SystemRole systemRole = this.roleMapper.selectById(roleId);
+        this.validateAssignParams(systemRole);
+
+        /* Step-2: 删除角色对应的菜单信息 */
+        roleMenuMapper.deleteRolePermsByRoleIds(Collections.singletonList(roleId));
+
+        /* Step-3: 新增角色菜单信息 */
+        List<SystemRoleMenu> menuList =
+                menuIds.stream()
+                        .map(roleMenu -> new SystemRoleMenu(roleId, roleMenu))
+                        .collect(Collectors.toList());
+        roleMenuMapper.insertBatch(menuList);
+
+        /* Step-4: 刷新缓存权限 */
+        this.roleMenuService.refreshRolePermsCache(Collections.singleton(systemRole.getCode()));
     }
 }
