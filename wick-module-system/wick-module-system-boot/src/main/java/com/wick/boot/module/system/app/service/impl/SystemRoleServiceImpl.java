@@ -13,6 +13,7 @@ import com.wick.boot.module.system.model.entity.SystemRoleMenu;
 import com.wick.boot.module.system.model.vo.role.AddRoleVo;
 import com.wick.boot.module.system.model.vo.role.QueryRolePageReqVO;
 import com.wick.boot.module.system.model.vo.role.UpdateRoleVo;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -100,6 +101,7 @@ public class SystemRoleServiceImpl extends AbstractSystemRoleAppService implemen
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(cacheNames = "MENU", key = "'ROUTES'") // @CacheEvict 注解的方法在被调用时，会从缓存中移除已存储的数据
     public void assignMenusToRole(Long roleId, List<Long> menuIds) {
         /* Step-1: 校验分配菜单(包括按钮权限)给角色 */
         SystemRole systemRole = this.roleMapper.selectById(roleId);
