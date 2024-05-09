@@ -46,7 +46,7 @@ const ids = ref<number[]>([]);
 const total = ref(0);
 
 const queryParams = reactive<DictQuery>({
-  pageNum: 1,
+  pageNumber: 1,
   pageSize: 10,
   typeCode: props.typeCode,
 });
@@ -89,7 +89,7 @@ function handleQuery() {
  */
 function resetQuery() {
   queryFormRef.value.resetFields();
-  queryParams.pageNum = 1;
+  queryParams.pageNumber = 1;
   handleQuery();
 }
 
@@ -219,13 +219,13 @@ onMounted(() => {
     <el-card shadow="never">
       <template #header>
         <el-button
-          v-hasPerm="['sys:dict:add']"
+          v-hasPerm="['sys:dict_type:add']"
           type="success"
           @click="openDialog()"
           ><i-ep-plus />新增</el-button
         >
         <el-button
-          v-hasPerm="['sys:dict:delete']"
+          v-hasPerm="['sys:dict_type:delete']"
           type="danger"
           :disabled="ids.length === 0"
           @click="handleDelete()"
@@ -242,7 +242,7 @@ onMounted(() => {
       >
         <el-table-column type="selection" width="50" />
         <el-table-column label="字典名称" prop="name" />
-        <el-table-column label="字典值" prop="value" />
+        <el-table-column label="字典值" prop="code" />
         <el-table-column label="状态" align="center">
           <template #default="scope">
             <el-tag v-if="scope.row.status === 1" type="success">启用</el-tag>
@@ -252,14 +252,14 @@ onMounted(() => {
         <el-table-column fixed="right" label="操作" align="center">
           <template #default="scope">
             <el-button
-              v-hasPerm="['sys:dict:edit']"
+              v-hasPerm="['sys:dict_data:edit']"
               type="primary"
               link
               @click="openDialog(scope.row.id)"
               ><i-ep-edit />编辑</el-button
             >
             <el-button
-              v-hasPerm="['sys:dict:delete']"
+              v-hasPerm="['sys:dict_data:delete']"
               type="primary"
               link
               @click.stop="handleDelete(scope.row.id)"
@@ -272,7 +272,7 @@ onMounted(() => {
       <pagination
         v-if="total > 0"
         v-model:total="total"
-        v-model:page="queryParams.pageNum"
+        v-model:page="queryParams.pageNumber"
         v-model:limit="queryParams.pageSize"
         @pagination="handleQuery"
       />

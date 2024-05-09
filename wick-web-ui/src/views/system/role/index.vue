@@ -26,7 +26,7 @@ const ids = ref<number[]>([]);
 const total = ref(0);
 
 const queryParams = reactive<RoleQuery>({
-  pageNum: 1,
+  pageNumber: 1,
   pageSize: 10,
 });
 
@@ -76,7 +76,7 @@ function handleQuery() {
 /** 重置查询 */
 function resetQuery() {
   queryFormRef.value.resetFields();
-  queryParams.pageNum = 1;
+  queryParams.pageNumber = 1;
   handleQuery();
 }
 
@@ -308,7 +308,7 @@ onMounted(() => {
       <pagination
         v-if="total > 0"
         v-model:total="total"
-        v-model:page="queryParams.pageNum"
+        v-model:page="queryParams.pageNumber"
         v-model:limit="queryParams.pageSize"
         @pagination="handleQuery"
       />

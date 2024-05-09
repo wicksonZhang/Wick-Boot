@@ -23,7 +23,7 @@ const ids = ref<number[]>([]);
 const total = ref(0);
 
 const queryParams = reactive<DictTypeQuery>({
-  pageNum: 1,
+  pageNumber: 1,
   pageSize: 10,
 });
 
@@ -61,7 +61,7 @@ function handleQuery() {
  */
 function resetQuery() {
   queryFormRef.value.resetFields();
-  queryParams.pageNum = 1;
+  queryParams.pageNumber = 1;
   handleQuery();
 }
 
@@ -160,7 +160,7 @@ const selectedDictType = reactive({ typeCode: "", typeName: "" }); // 当前选�
 function openDictDialog(row: DictTypePageVO) {
   dictDataDialog.visible = true;
   dictDataDialog.title = "【" + row.name + "】字典数据";
-
+  console.log(row);
   selectedDictType.typeCode = row.code;
   selectedDictType.typeName = row.name;
 }
@@ -179,10 +179,18 @@ onMounted(() => {
   <div class="app-container">
     <div class="search-container">
       <el-form ref="queryFormRef" :model="queryParams" :inline="true">
-        <el-form-item label="关键字" prop="name">
+        <el-form-item label="字典类型名称" prop="name">
           <el-input
-            v-model="queryParams.keywords"
-            placeholder="字典类型名称/编码"
+            v-model="queryParams.name"
+            placeholder="字典类型名称"
+            clearable
+            @keyup.enter="handleQuery"
+          />
+        </el-form-item>
+        <el-form-item label="字典类型编码" prop="code">
+          <el-input
+            v-model="queryParams.code"
+            placeholder="字典类型编码"
             clearable
             @keyup.enter="handleQuery"
           />
@@ -235,8 +243,7 @@ onMounted(() => {
               link
               size="small"
               @click.stop="openDictDialog(scope.row)"
-              ><i-ep-Collection />字典数据</el-button
-            >
+              ><i-ep-Collection />字典数据</el-button>
             <el-button
               v-hasPerm="['sys:dict_type:edit']"
               type="primary"
@@ -260,7 +267,7 @@ onMounted(() => {
       <pagination
         v-if="total > 0"
         v-model:total="total"
-        v-model:page="queryParams.pageNum"
+        v-model:page="queryParams.pageNumber"
         v-model:limit="queryParams.pageSize"
         @pagination="handleQuery"
       />

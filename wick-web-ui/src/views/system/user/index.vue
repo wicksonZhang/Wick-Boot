@@ -188,7 +188,7 @@
           <pagination
             v-if="total > 0"
             v-model:total="total"
-            v-model:page="queryParams.pageNum"
+            v-model:page="queryParams.pageNumber"
             v-model:limit="queryParams.pageSize"
             @pagination="handleQuery"
           />
@@ -357,7 +357,7 @@ const uploadRef = ref<UploadInstance>(); // 上传组件
 const loading = ref(false); //  加载状态
 const removeIds = ref([]); // 删除用户ID集合 用于批量删除
 const queryParams = reactive<UserQuery>({
-  pageNum: 1,
+  pageNumber: 1,
   pageSize: 10,
 });
 const dateTimeRange = ref("");
@@ -432,7 +432,7 @@ function handleQuery() {
 function resetQuery() {
   queryFormRef.value.resetFields();
   dateTimeRange.value = "";
-  queryParams.pageNum = 1;
+  queryParams.pageNumber = 1;
   queryParams.deptId = undefined;
   queryParams.startTime = undefined;
   queryParams.endTime = undefined;

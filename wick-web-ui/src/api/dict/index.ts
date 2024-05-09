@@ -31,7 +31,7 @@ export function getDictTypePage(
  */
 export function getDictTypeForm(id: number): AxiosPromise<DictTypeForm> {
   return request({
-    url: "/api/v1/dict/types/" + id + "/form",
+    url: "/api/v1/dict/types/" + id,
     method: "get",
   });
 }
@@ -43,7 +43,7 @@ export function getDictTypeForm(id: number): AxiosPromise<DictTypeForm> {
  */
 export function addDictType(data: DictTypeForm) {
   return request({
-    url: "/api/v1/dict/types",
+    url: "/api/v1/dict/types/add",
     method: "post",
     data: data,
   });
@@ -57,7 +57,7 @@ export function addDictType(data: DictTypeForm) {
  */
 export function updateDictType(id: number, data: DictTypeForm) {
   return request({
-    url: "/api/v1/dict/types/" + id,
+    url: "/api/v1/dict/types/update" + id,
     method: "put",
     data: data,
   });
@@ -92,7 +92,7 @@ export function getDictPage(
   queryParams: DictQuery
 ): AxiosPromise<DictPageResult> {
   return request({
-    url: "/api/v1/dict/page",
+    url: "/api/v1/dict/types/page",
     method: "get",
     params: queryParams,
   });
@@ -105,7 +105,7 @@ export function getDictPage(
  */
 export function getDictFormData(id: number): AxiosPromise<DictForm> {
   return request({
-    url: "/api/v1/dict/" + id + "/form",
+    url: "/api/v1/dict/data/" + id,
     method: "get",
   });
 }
@@ -117,7 +117,7 @@ export function getDictFormData(id: number): AxiosPromise<DictForm> {
  */
 export function addDict(data: DictForm) {
   return request({
-    url: "/api/v1/dict",
+    url: "/api/v1/dict/types",
     method: "post",
     data: data,
   });
@@ -131,7 +131,7 @@ export function addDict(data: DictForm) {
  */
 export function updateDict(id: number, data: DictForm) {
   return request({
-    url: "/api/v1/dict/" + id,
+    url: "/api/v1/dict/types/" + id,
     method: "put",
     data: data,
   });
@@ -144,7 +144,7 @@ export function updateDict(id: number, data: DictForm) {
  */
 export function deleteDict(ids: string) {
   return request({
-    url: "/api/v1/dict/" + ids,
+    url: "/api/v1/dict/types/" + ids,
     method: "delete",
   });
 }

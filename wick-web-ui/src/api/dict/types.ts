@@ -3,9 +3,13 @@
  */
 export interface DictTypeQuery extends PageQuery {
   /**
-   * 关键字(字典类型名称/编码)
+   * 字典类型名称
    */
-  keywords?: string;
+  name?: string;
+  /**
+   * 字典类型编码
+   */
+  code?: string;
 }
 
 /**
@@ -98,7 +102,7 @@ export interface DictPageVO {
   /**
    * 字典值
    */
-  value?: string;
+  code?: string;
 }
 
 /**
