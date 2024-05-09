@@ -91,4 +91,8 @@ public class SystemRoleServiceImpl extends AbstractSystemRoleAppService implemen
         return new PageResult<>(roleDTOList, pageResult.getTotal());
     }
 
+    @Override
+    public List<Long> getRoleMenuIds(Long roleId) {
+        return roleMapper.selectRoleMenuIds(roleId);
+    }
 }

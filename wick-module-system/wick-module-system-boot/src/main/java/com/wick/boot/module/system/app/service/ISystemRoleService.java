@@ -46,4 +46,12 @@ public interface ISystemRoleService {
      */
     PageResult<SystemRoleDTO> getRolePage(QueryRolePageReqVO reqVO);
 
+    /**
+     * 获取角色的菜单ID集合
+     *
+     * @param roleId 角色id
+     * @return 菜单ID集合
+     */
+    List<Long> getRoleMenuIds(Long roleId);
+
 }

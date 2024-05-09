@@ -58,4 +58,11 @@ public class SystemRoleController {
         return ResultUtil.success(systemRoleService.getRolePage(reqVO));
     }
 
+    @GetMapping("/{roleId}/menuIds")
+    @ApiOperation(value = "获取角色的菜单ID集合", notes = "角色信息")
+    @ApiImplicitParam(name = "roleId", value = "角色ID", required = true)
+    public ResultUtil<List<Long>> getRoleMenuIds(@PathVariable("roleId") Long roleId) {
+        return ResultUtil.success(systemRoleService.getRoleMenuIds(roleId));
+    }
+
 }

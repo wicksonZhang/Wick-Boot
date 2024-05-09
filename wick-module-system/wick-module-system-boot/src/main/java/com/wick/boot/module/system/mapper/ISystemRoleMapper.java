@@ -9,6 +9,8 @@ import com.wick.boot.common.mybatis.mapper.BaseMapperX;
 import com.wick.boot.module.system.model.entity.SystemRole;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * 后台管理 - 角色Mapper
  *
@@ -52,4 +54,12 @@ public interface ISystemRoleMapper extends BaseMapperX<SystemRole> {
     default SystemRole selectRoleByCode(String code) {
         return selectOne(new LambdaQueryWrapper<SystemRole>().eq(SystemRole::getCode, code));
     }
+
+    /**
+     * 获取角色的菜单ID集合
+     *
+     * @param roleId 角色ID
+     * @return 菜单集合
+     */
+    List<Long> selectRoleMenuIds(Long roleId);
 }
