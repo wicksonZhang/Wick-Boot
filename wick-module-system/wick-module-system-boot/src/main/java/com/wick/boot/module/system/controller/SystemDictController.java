@@ -71,7 +71,7 @@ public class SystemDictController {
     }
 
     @GetMapping("/types/{id}")
-    @ApiOperation(value = "获取字典类型ById", notes = "字典信息")
+    @ApiOperation(value = "获取字典类型数据ById", notes = "字典信息")
     @ApiImplicitParam(name = "id", value = "字典类型ID", required = true)
     public ResultUtil<SystemDictTypeDTO> getDictType(@NotNull(message = "字典类型主键不能为空")
                                                      @PathVariable("id") Long id) {
