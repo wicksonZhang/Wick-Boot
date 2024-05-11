@@ -1,5 +1,6 @@
 package com.wick.boot.module.system.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wick.boot.common.core.model.entity.BaseDO;
@@ -23,7 +24,7 @@ import java.time.LocalDateTime;
 @TableName("system_user")
 public class SystemUser extends BaseDO {
 
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
@@ -49,7 +50,7 @@ public class SystemUser extends BaseDO {
     /**
      * 部门ID
      */
-    private Integer deptId;
+    private Long deptId;
 
     /**
      * 用户头像

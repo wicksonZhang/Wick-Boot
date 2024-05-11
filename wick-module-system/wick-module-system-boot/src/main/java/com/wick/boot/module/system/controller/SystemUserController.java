@@ -3,16 +3,14 @@ package com.wick.boot.module.system.controller;
 import com.wick.boot.module.system.app.service.ISystemUserService;
 import com.wick.boot.module.system.model.dto.SystemUserDTO;
 import com.wick.boot.module.system.model.dto.SystemUserInfoDTO;
-import com.wick.boot.module.system.model.vo.QueryUserPageReqVO;
+import com.wick.boot.module.system.model.vo.user.AddUserVO;
+import com.wick.boot.module.system.model.vo.user.QueryUserPageReqVO;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Parameter;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -48,6 +46,13 @@ public class SystemUserController {
     @ApiOperation(value = "获取用户分页", notes = "用户信息")
     public ResultUtil<PageResult<SystemUserDTO>> getUserPage(@Valid QueryUserPageReqVO reqVO) {
         return ResultUtil.success(userService.getUserPage(reqVO));
+    }
+
+    @PostMapping
+    @ApiOperation(value = "新增用户信息", notes = "用户信息")
+    public ResultUtil<Long> addUser(@Valid @RequestBody AddUserVO reqVO) {
+        userService.addUser(reqVO);
+        return ResultUtil.success();
     }
 
 }

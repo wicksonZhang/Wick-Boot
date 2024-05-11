@@ -3,7 +3,8 @@ package com.wick.boot.module.system.app.service;
 
 import com.wick.boot.module.system.model.dto.SystemUserInfoDTO;
 import com.wick.boot.module.system.model.dto.SystemUserDTO;
-import com.wick.boot.module.system.model.vo.QueryUserPageReqVO;
+import com.wick.boot.module.system.model.vo.user.AddUserVO;
+import com.wick.boot.module.system.model.vo.user.QueryUserPageReqVO;
 import com.wick.boot.common.core.result.PageResult;
 
 /**
@@ -34,4 +35,10 @@ public interface ISystemUserService {
      */
     PageResult<SystemUserDTO> getUserPage(QueryUserPageReqVO reqVO);
 
+    /**
+     * 新增用户信息
+     *
+     * @param reqVO 用户新增参数
+     */
+    void addUser(AddUserVO reqVO);
 }

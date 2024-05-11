@@ -1,7 +1,11 @@
 package com.wick.boot.module.system.enums;
 
+import com.wick.boot.common.core.enums.CommonStatusEnum;
+import com.wick.boot.common.core.validator.IntArrayValuable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.util.Arrays;
 
 /**
  * @author ZhangZiHeng
@@ -9,7 +13,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum GenderTypeEnum {
+public enum GenderTypeEnum implements IntArrayValuable {
 
     /**
      * 男
@@ -35,5 +39,12 @@ public enum GenderTypeEnum {
      * 性别名称
      */
     private final String sex;
+
+    public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(GenderTypeEnum::getCode).toArray();
+
+    @Override
+    public int[] array() {
+        return ARRAYS;
+    }
 
 }

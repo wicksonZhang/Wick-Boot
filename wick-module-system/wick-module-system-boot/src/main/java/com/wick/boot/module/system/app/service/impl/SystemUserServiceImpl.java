@@ -3,23 +3,33 @@ package com.wick.boot.module.system.app.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.wick.boot.common.core.constant.GlobalCacheConstants;
+import com.wick.boot.common.core.constant.GlobalConstants;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.redis.service.RedisService;
 import com.wick.boot.common.security.util.SecurityUtils;
-import com.wick.boot.module.system.model.dto.SystemUserInfoDTO;
-import com.wick.boot.module.system.model.entity.SystemUser;
+import com.wick.boot.module.system.app.service.AbstractSystemUserAppService;
 import com.wick.boot.module.system.app.service.ISystemUserService;
 import com.wick.boot.module.system.convert.SystemUserConvert;
 import com.wick.boot.module.system.mapper.ISystemUserMapper;
+import com.wick.boot.module.system.mapper.ISystemUserRoleMapper;
 import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import com.wick.boot.module.system.model.dto.SystemUserDTO;
-import com.wick.boot.module.system.model.vo.QueryUserPageReqVO;
+import com.wick.boot.module.system.model.dto.SystemUserInfoDTO;
+import com.wick.boot.module.system.model.entity.SystemUser;
+import com.wick.boot.module.system.model.entity.SystemUserRole;
+import com.wick.boot.module.system.model.vo.user.AddUserVO;
+import com.wick.boot.module.system.model.vo.user.QueryUserPageReqVO;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 用户管理-服务实现层
@@ -28,13 +38,19 @@ import java.util.Set;
  * @date 2024-04-02
  */
 @Service
-public class SystemUserServiceImpl implements ISystemUserService {
+public class SystemUserServiceImpl extends AbstractSystemUserAppService implements ISystemUserService {
 
     @Resource
     private ISystemUserMapper userMapper;
 
     @Resource
+    private ISystemUserRoleMapper userRoleMapper;
+
+    @Resource
     private RedisService redisService;
+
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -89,6 +105,26 @@ public class SystemUserServiceImpl implements ISystemUserService {
             return PageResult.empty();
         }
         return new PageResult<>(pageResult.getRecords(), pageResult.getTotal());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void addUser(AddUserVO reqVO) {
+        /* Step-1: 验证新增参数信息 */
+        this.validateAddParams(reqVO);
+
+        /* Step-2：新增用户信息 */
+        SystemUser systemUser = SystemUserConvert.INSTANCE.addVoToEntity(reqVO);
+        String password = passwordEncoder.encode(GlobalConstants.DEFAULT_USER_PASSWORD);
+        systemUser.setPassword(password);
+        this.userMapper.insert(systemUser);
+
+        /* Step-3: 新增用户-角色信息 */
+        Long userId = systemUser.getId();
+        List<SystemUserRole> userRoleList = reqVO.getRoleIds().stream()
+                .map(roleId -> new SystemUserRole(userId, roleId))
+                .collect(Collectors.toList());
+        this.userRoleMapper.insertBatch(userRoleList);
     }
 
 }

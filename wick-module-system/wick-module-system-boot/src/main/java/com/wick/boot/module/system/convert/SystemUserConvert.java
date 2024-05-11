@@ -3,6 +3,7 @@ package com.wick.boot.module.system.convert;
 import com.wick.boot.module.system.model.dto.SystemUserDTO;
 import com.wick.boot.module.system.model.dto.SystemUserInfoDTO;
 import com.wick.boot.module.system.model.entity.SystemUser;
+import com.wick.boot.module.system.model.vo.user.AddUserVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -35,4 +36,11 @@ public interface SystemUserConvert {
     @Mapping(target = "userId", source = "id")
     SystemUserInfoDTO entityToDTO1(SystemUser systemUser);
 
+    /**
+     * Convert addVO To SystemUser
+     *
+     * @param reqVO 新增请求参数
+     * @return SystemUser
+     */
+    SystemUser addVoToEntity(AddUserVO reqVO);
 }
