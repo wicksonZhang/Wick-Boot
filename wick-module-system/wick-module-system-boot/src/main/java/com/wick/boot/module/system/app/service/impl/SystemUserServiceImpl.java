@@ -127,4 +127,9 @@ public class SystemUserServiceImpl extends AbstractSystemUserAppService implemen
         this.userRoleMapper.insertBatch(userRoleList);
     }
 
+    @Override
+    public SystemUserDTO getUserById(Long id) {
+        SystemUser systemUser = userMapper.selectById(id);
+        return SystemUserConvert.INSTANCE.entityToDTO(systemUser);
+    }
 }

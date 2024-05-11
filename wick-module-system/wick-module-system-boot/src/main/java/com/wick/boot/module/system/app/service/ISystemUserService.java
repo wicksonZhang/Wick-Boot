@@ -41,4 +41,12 @@ public interface ISystemUserService {
      * @param reqVO 用户新增参数
      */
     void addUser(AddUserVO reqVO);
+
+    /**
+     * 通过用户ID获取用户信息
+     *
+     * @param id 用户id
+     * @return SystemUserDTO
+     */
+    SystemUserDTO getUserById(Long id);
 }

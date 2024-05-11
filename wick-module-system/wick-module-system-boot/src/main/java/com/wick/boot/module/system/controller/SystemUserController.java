@@ -8,6 +8,7 @@ import com.wick.boot.module.system.model.vo.user.QueryUserPageReqVO;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +54,13 @@ public class SystemUserController {
     public ResultUtil<Long> addUser(@Valid @RequestBody AddUserVO reqVO) {
         userService.addUser(reqVO);
         return ResultUtil.success();
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation(value = "查询用户信息", notes = "用户信息")
+    @ApiImplicitParam(name = "id", value = "用户ID", required = true)
+    public ResultUtil<SystemUserDTO> getUserById(@PathVariable("id") Long id) {
+        return ResultUtil.success(userService.getUserById(id));
     }
 
 }

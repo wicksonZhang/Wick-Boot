@@ -65,10 +65,10 @@ public class SystemUserDTO {
     private Integer status;
 
     /**
-     * 部门名称
+     * 部门Id
      */
     @ApiModelProperty(value = "部门名称", example = "1")
-    private String deptName;
+    private Long deptId;
 
     /**
      * 创建时间
