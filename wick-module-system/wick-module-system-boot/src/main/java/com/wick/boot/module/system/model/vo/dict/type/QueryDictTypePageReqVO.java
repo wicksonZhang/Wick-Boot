@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
+ * 字典类型查询VO
+ *
  * @author ZhangZiHeng
  * @date 2024-04-08
  */
