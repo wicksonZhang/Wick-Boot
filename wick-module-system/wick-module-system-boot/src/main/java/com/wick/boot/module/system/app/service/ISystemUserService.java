@@ -6,6 +6,9 @@ import com.wick.boot.module.system.model.dto.SystemUserDTO;
 import com.wick.boot.module.system.model.vo.user.AddUserVO;
 import com.wick.boot.module.system.model.vo.user.QueryUserPageReqVO;
 import com.wick.boot.common.core.result.PageResult;
+import com.wick.boot.module.system.model.vo.user.UpdateUserVO;
+
+import java.util.List;
 
 /**
  * 用户管理-服务层
@@ -43,10 +46,18 @@ public interface ISystemUserService {
     void addUser(AddUserVO reqVO);
 
     /**
+     * 更新用户信息
+     *
+     * @param reqVO 用户更新参数
+     */
+    void updateUser(UpdateUserVO reqVO);
+
+    /**
      * 通过用户ID获取用户信息
      *
      * @param id 用户id
      * @return SystemUserDTO
      */
     SystemUserDTO getUserById(Long id);
+
 }

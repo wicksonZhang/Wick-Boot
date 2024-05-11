@@ -44,4 +44,24 @@ public interface ISystemUserMapper extends BaseMapperX<SystemUser> {
      * @return LoginUserInfoDTO
      */
     LoginUserInfoDTO selectAuthUserInfo(String username);
+
+    /**
+     * 查询手机号是否重复
+     *
+     * @param mobile 手机号
+     * @return 手机号数量
+     */
+    default Long selectCountByMobile(String mobile) {
+        return selectCount(new LambdaQueryWrapper<SystemUser>().eq(SystemUser::getMobile, mobile));
+    }
+
+    /**
+     * 查询邮箱是否重复
+     *
+     * @param email 邮箱
+     * @return 邮箱数量
+     */
+    default Long selectCountByEmail(String email) {
+        return selectCount(new LambdaQueryWrapper<SystemUser>().eq(SystemUser::getEmail, email));
+    }
 }

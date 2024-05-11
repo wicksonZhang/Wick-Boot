@@ -1,6 +1,7 @@
 package com.wick.boot.module.system.app.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
@@ -13,8 +14,6 @@ import com.wick.boot.common.security.util.SecurityUtils;
 import com.wick.boot.module.system.app.service.AbstractSystemUserAppService;
 import com.wick.boot.module.system.app.service.ISystemUserService;
 import com.wick.boot.module.system.convert.SystemUserConvert;
-import com.wick.boot.module.system.mapper.ISystemUserMapper;
-import com.wick.boot.module.system.mapper.ISystemUserRoleMapper;
 import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import com.wick.boot.module.system.model.dto.SystemUserDTO;
 import com.wick.boot.module.system.model.dto.SystemUserInfoDTO;
@@ -22,11 +21,14 @@ import com.wick.boot.module.system.model.entity.SystemUser;
 import com.wick.boot.module.system.model.entity.SystemUserRole;
 import com.wick.boot.module.system.model.vo.user.AddUserVO;
 import com.wick.boot.module.system.model.vo.user.QueryUserPageReqVO;
+import com.wick.boot.module.system.model.vo.user.UpdateUserVO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -39,12 +41,6 @@ import java.util.stream.Collectors;
  */
 @Service
 public class SystemUserServiceImpl extends AbstractSystemUserAppService implements ISystemUserService {
-
-    @Resource
-    private ISystemUserMapper userMapper;
-
-    @Resource
-    private ISystemUserRoleMapper userRoleMapper;
 
     @Resource
     private RedisService redisService;
@@ -68,7 +64,7 @@ public class SystemUserServiceImpl extends AbstractSystemUserAppService implemen
         }
 
         /* Step-2: 通过用户名称获取用户信息 */
-        SystemUser systemUser = this.userMapper.selectByUsername(userDetails.getUsername());
+        SystemUser systemUser = userMapper.selectByUsername(userDetails.getUsername());
         // 封装用户信息
         SystemUserInfoDTO userInfoDTO = SystemUserConvert.INSTANCE.entityToDTO1(systemUser);
 
@@ -120,11 +116,55 @@ public class SystemUserServiceImpl extends AbstractSystemUserAppService implemen
         this.userMapper.insert(systemUser);
 
         /* Step-3: 新增用户-角色信息 */
-        Long userId = systemUser.getId();
-        List<SystemUserRole> userRoleList = reqVO.getRoleIds().stream()
-                .map(roleId -> new SystemUserRole(userId, roleId))
-                .collect(Collectors.toList());
-        this.userRoleMapper.insertBatch(userRoleList);
+        assignUserRole(systemUser.getId(), reqVO.getRoleIds());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateUser(UpdateUserVO reqVO) {
+        /* Step-1: 验证更新用户信息是否正确 */
+        this.validateUpdateParams(reqVO);
+
+        /* Step-2: 更新用户信息  */
+        SystemUser systemUser = SystemUserConvert.INSTANCE.updateVoToEntity(reqVO);
+        this.userMapper.updateById(systemUser);
+
+        /* Step-3: 更新用户-角色信息 */
+        assignUserRole(systemUser.getId(), reqVO.getRoleIds());
+    }
+
+    /**
+     * 分配用户-角色信息
+     *
+     * @param userId    用户Id
+     * @param targetIds 角色Id集合
+     */
+    private void assignUserRole(Long userId, Set<Long> targetIds) {
+        // 注意：这里做新增和保存可能存在的问题，之前已经存在了用户-角色信息，之前不存在用户-角色信息，之前存在现在有需要删除的用户-角色信息。
+        // case1：保存之前没有的 用户-角色 信息
+        // case2：删除之前有的 用户-角色 信息
+
+        // 查询用户已有的角色信息
+        List<SystemUserRole> userRoles = this.userRoleMapper.selectListByUserId(userId);
+        userRoles = CollUtil.emptyIfNull(userRoles);
+
+        // 提取用户已有的角色 ID
+        Set<Long> sourceIds = userRoles.stream().map(SystemUserRole::getRoleId).collect(Collectors.toSet());
+        // 保存之前没有的 用户-角色 信息
+        Collection<Long> saveIds = CollectionUtil.subtract(targetIds, sourceIds);
+        if (CollUtil.isNotEmpty(saveIds)) {
+            List<SystemUserRole> saveUserRoleList = saveIds.stream()
+                    .map(roleId -> new SystemUserRole(userId, roleId))
+                    .collect(Collectors.toList());
+            this.userRoleMapper.insertBatch(saveUserRoleList);
+        }
+
+        // 删除之前有的 用户-角色 信息
+        Collection<Long> deleteIds = CollectionUtil.subtract(sourceIds, targetIds);
+        if (CollUtil.isNotEmpty(deleteIds)) {
+            Set<Long> roleIds = Sets.newHashSet(deleteIds);
+            this.userRoleMapper.deleteBatchByUserIdAndRoleIds(userId, roleIds);
+        }
     }
 
     @Override

@@ -14,6 +14,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 新增用户信息VO
@@ -56,6 +57,6 @@ public class AddUserVO {
 
     @ApiModelProperty(value = "角色", required = true, example = "[1,2]")
     @NotEmpty(message = "用户所属角色不能为空")
-    private List<Long> roleIds;
+    private Set<Long> roleIds;
 
 }

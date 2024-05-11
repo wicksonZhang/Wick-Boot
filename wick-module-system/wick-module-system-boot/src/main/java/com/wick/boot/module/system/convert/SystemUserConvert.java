@@ -4,6 +4,7 @@ import com.wick.boot.module.system.model.dto.SystemUserDTO;
 import com.wick.boot.module.system.model.dto.SystemUserInfoDTO;
 import com.wick.boot.module.system.model.entity.SystemUser;
 import com.wick.boot.module.system.model.vo.user.AddUserVO;
+import com.wick.boot.module.system.model.vo.user.UpdateUserVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -43,4 +44,12 @@ public interface SystemUserConvert {
      * @return SystemUser
      */
     SystemUser addVoToEntity(AddUserVO reqVO);
+
+    /**
+     * Convert updateVO To SystemUser
+     *
+     * @param reqVO 更新请求参数
+     * @return SystemUser
+     */
+    SystemUser updateVoToEntity(UpdateUserVO reqVO);
 }
