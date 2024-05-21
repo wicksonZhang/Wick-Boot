@@ -7,6 +7,7 @@ import com.wick.boot.module.system.model.vo.user.AddUserVO;
 import com.wick.boot.module.system.model.vo.user.QueryUserPageReqVO;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
+import com.wick.boot.module.system.model.vo.user.UpdateUserPwdVO;
 import com.wick.boot.module.system.model.vo.user.UpdateUserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -70,7 +71,7 @@ public class SystemUserController {
     @PutMapping
     @PreAuthorize("@ss.hasPerm('sys:user:edit')")
     @ApiOperation(value = "修改用户信息", notes = "用户信息")
-    public ResultUtil<Boolean> updateUser(@RequestBody UpdateUserVO reqVO) {
+    public ResultUtil<Boolean> updateUser(@Valid @RequestBody UpdateUserVO reqVO) {
         userService.updateUser(reqVO);
         return ResultUtil.success();
     }
@@ -81,6 +82,14 @@ public class SystemUserController {
     @ApiImplicitParam(name = "id", value = "用户ID", required = true)
     public ResultUtil<Boolean> deleteUser(@PathVariable("ids") List<Long> ids) {
         userService.deleteUser(ids);
+        return ResultUtil.success();
+    }
+
+    @PutMapping("/resetPwd")
+    @PreAuthorize("@ss.hasPerm('sys:user:reset_pwd')")
+    @ApiOperation(value = "重置密码", notes = "用户信息")
+    public ResultUtil<Boolean> resetPwd(@Valid @RequestBody UpdateUserPwdVO reqVO) {
+        userService.resetPwd(reqVO);
         return ResultUtil.success();
     }
 

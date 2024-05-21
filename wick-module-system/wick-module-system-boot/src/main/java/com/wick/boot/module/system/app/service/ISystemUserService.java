@@ -6,6 +6,7 @@ import com.wick.boot.module.system.model.dto.SystemUserDTO;
 import com.wick.boot.module.system.model.vo.user.AddUserVO;
 import com.wick.boot.module.system.model.vo.user.QueryUserPageReqVO;
 import com.wick.boot.common.core.result.PageResult;
+import com.wick.boot.module.system.model.vo.user.UpdateUserPwdVO;
 import com.wick.boot.module.system.model.vo.user.UpdateUserVO;
 
 import java.util.List;
@@ -66,4 +67,11 @@ public interface ISystemUserService {
      * @return SystemUserDTO
      */
     SystemUserDTO getUserById(Long id);
+
+    /**
+     * 更新用户密码信息
+     *
+     * @param reqVO 更新用户密码参数信息
+     */
+    void resetPwd(UpdateUserPwdVO reqVO);
 }

@@ -20,6 +20,7 @@ import com.wick.boot.module.system.model.entity.SystemUser;
 import com.wick.boot.module.system.model.entity.SystemUserRole;
 import com.wick.boot.module.system.model.vo.user.AddUserVO;
 import com.wick.boot.module.system.model.vo.user.QueryUserPageReqVO;
+import com.wick.boot.module.system.model.vo.user.UpdateUserPwdVO;
 import com.wick.boot.module.system.model.vo.user.UpdateUserVO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -183,5 +184,18 @@ public class SystemUserServiceImpl extends AbstractSystemUserAppService implemen
     public SystemUserDTO getUserById(Long id) {
         SystemUser systemUser = userMapper.selectById(id);
         return SystemUserConvert.INSTANCE.entityToDTO(systemUser);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void resetPwd(UpdateUserPwdVO reqVO) {
+        /* Step-1: 验证更新参数是否正确 */
+        SystemUser systemUser = this.userMapper.selectById(reqVO.getUserId());
+        this.validateUpdateByPwdParams(systemUser);
+
+        /* Step-2: 更新用户密码信息 */
+        String password = passwordEncoder.encode(reqVO.getPassword());
+        systemUser.setPassword(password);
+        this.userMapper.updateById(systemUser);
     }
 }

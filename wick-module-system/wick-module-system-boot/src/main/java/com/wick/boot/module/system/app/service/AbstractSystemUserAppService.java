@@ -256,4 +256,11 @@ public abstract class AbstractSystemUserAppService {
         }
     }
 
+    // ============================================== 修改密码参数校验 ==============================================
+
+    protected void validateUpdateByPwdParams(SystemUser systemUser) {
+        // 验证用户信息是否存在
+        this.validateUser(systemUser);
+    }
+
 }
