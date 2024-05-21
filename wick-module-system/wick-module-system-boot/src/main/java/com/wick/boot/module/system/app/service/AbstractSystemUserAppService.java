@@ -6,6 +6,8 @@ import cn.hutool.core.util.ObjUtil;
 import com.wick.boot.common.core.constant.GlobalConstants;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.exception.ParameterException;
+import com.wick.boot.common.core.exception.ServiceException;
+import com.wick.boot.module.system.enums.ErrorCodeSystem;
 import com.wick.boot.module.system.mapper.ISystemDeptMapper;
 import com.wick.boot.module.system.mapper.ISystemRoleMapper;
 import com.wick.boot.module.system.mapper.ISystemUserMapper;
@@ -197,6 +199,61 @@ public abstract class AbstractSystemUserAppService {
             return;
         }
         this.validateEmail(targetEmail);
+    }
+
+    // ============================================== 删除参数校验 ==============================================
+
+    protected void validateDeleteParams(List<SystemUser> userList, List<Long> ids) {
+        // 验证用户是否存在
+        this.validateUserList(userList);
+        // 验证用户集合和 ids 是否匹配
+        this.validateUserByIds(userList, ids);
+        // 验证用户是否是 ROOT 用户
+        this.validateUserByRoot(userList);
+    }
+
+    /**
+     * 验证用户集合是否存在
+     *
+     * @param userList 用户集合
+     */
+    private void validateUserList(List<SystemUser> userList) {
+        if (CollUtil.isEmpty(userList)) {
+            throw ServiceException.getInstance(ErrorCodeSystem.USER_NOT_EXIST);
+        }
+    }
+
+    /**
+     * 验证用户集合和 ids 是否匹配
+     *
+     * @param userList 用户集合
+     * @param ids      用户IDS
+     */
+    private void validateUserByIds(List<SystemUser> userList, List<Long> ids) {
+        // 校验不存在的用户ID
+        List<Long> userIds = userList.stream().map(SystemUser::getId).collect(Collectors.toList());
+        // 验证是否存在
+        Collection<Long> errorIds = CollectionUtil.subtract(ids, userIds);
+        if (CollUtil.isNotEmpty(errorIds)) {
+            String errorMsg = "请确认用户主键 " + errorIds + " 是否存在";
+            throw ServiceException.getInstance(ErrorCodeSystem.USER_NOT_EXIST.getCode(), errorMsg);
+        }
+    }
+
+    /**
+     * 验证用户是否是 ROOT 用户
+     *
+     * @param userList 用户集合
+     */
+    private void validateUserByRoot(List<SystemUser> userList) {
+        List<String> codes = userList.stream()
+                .map(SystemUser::getUsername)
+                .map(String::toUpperCase)
+                .collect(Collectors.toList());
+        boolean containsRoot = CollectionUtil.contains(codes, GlobalConstants.ROOT_ROLE_CODE);
+        if (containsRoot) {
+            throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "ROOT 用户不能被删除");
+        }
     }
 
 }

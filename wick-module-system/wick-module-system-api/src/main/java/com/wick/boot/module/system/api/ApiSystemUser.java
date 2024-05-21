@@ -4,6 +4,8 @@ package com.wick.boot.module.system.api;
 import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 
 /**
+ * 系统模块-用户信息
+ *
  * @author ZhangZiHeng
  * @date 2024-04-13
  */
@@ -20,7 +22,7 @@ public interface ApiSystemUser {
     /**
      * 判断密码是否匹配
      *
-     * @param rawPassword 未加密的密码
+     * @param rawPassword     未加密的密码
      * @param encodedPassword 加密后的密码
      * @return 是否匹配
      */

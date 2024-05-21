@@ -53,11 +53,17 @@ public interface ISystemUserService {
     void updateUser(UpdateUserVO reqVO);
 
     /**
+     * 删除用户信息
+     *
+     * @param ids 用户id
+     */
+    void deleteUser(List<Long> ids);
+
+    /**
      * 通过用户ID获取用户信息
      *
      * @param id 用户id
      * @return SystemUserDTO
      */
     SystemUserDTO getUserById(Long id);
-
 }

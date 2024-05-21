@@ -34,6 +34,7 @@ import com.wick.boot.common.core.result.ResultCode;
 public interface ErrorCodeSystem {
 
     // ======================================== System-用户管理 1-002-001-000 ========================================
+    ResultCode USER_NOT_EXIST = new ResultCode(1002001001, "用户不存在");
 
     // ======================================== System-角色管理 1-002-002-000 ========================================
 

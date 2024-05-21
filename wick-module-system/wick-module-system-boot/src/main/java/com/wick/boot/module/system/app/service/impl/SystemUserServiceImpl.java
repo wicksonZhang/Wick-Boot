@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.wick.boot.common.core.constant.GlobalCacheConstants;
 import com.wick.boot.common.core.constant.GlobalConstants;
@@ -27,7 +26,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -165,6 +163,20 @@ public class SystemUserServiceImpl extends AbstractSystemUserAppService implemen
             Set<Long> roleIds = Sets.newHashSet(deleteIds);
             this.userRoleMapper.deleteBatchByUserIdAndRoleIds(userId, roleIds);
         }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteUser(List<Long> ids) {
+        /* Step-1: 校验删除用户参数 */
+        List<SystemUser> systemUsers = this.userMapper.selectBatchIds(ids);
+        this.validateDeleteParams(systemUsers, ids);
+
+        /* Step-2: 删除用户信息 */
+        this.userMapper.deleteBatchIds(systemUsers);
+
+        /* Step-3: 删除用户-角色信息 */
+        this.userRoleMapper.deleteBatchByUserIds(ids);
     }
 
     @Override

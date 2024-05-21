@@ -75,4 +75,13 @@ public class SystemUserController {
         return ResultUtil.success();
     }
 
+    @DeleteMapping("/{ids}")
+    @PreAuthorize("@ss.hasPerm('sys:user:del')")
+    @ApiOperation(value = "删除用户信息", notes = "用户信息")
+    @ApiImplicitParam(name = "id", value = "用户ID", required = true)
+    public ResultUtil<Boolean> deleteUser(@PathVariable("ids") List<Long> ids) {
+        userService.deleteUser(ids);
+        return ResultUtil.success();
+    }
+
 }

@@ -3,6 +3,7 @@ package com.wick.boot.module.system.mapper;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
+import com.wick.boot.module.system.model.entity.SystemUser;
 import com.wick.boot.module.system.model.entity.SystemUserRole;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -53,5 +54,14 @@ public interface ISystemUserRoleMapper extends BaseMapperX<SystemUserRole> {
                 .eq(SystemUserRole::getUserId, userId)
                 .in(SystemUserRole::getRoleId, roleIds)
         );
+    }
+
+    /**
+     * 删除用户集合信息
+     *
+     * @param userIds 用户集合Ids
+     */
+    default void deleteBatchByUserIds(List<Long> userIds) {
+        this.delete(new LambdaQueryWrapper<SystemUserRole>().in(SystemUserRole::getUserId, userIds));
     }
 }
