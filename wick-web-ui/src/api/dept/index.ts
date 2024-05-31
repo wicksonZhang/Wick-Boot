@@ -53,12 +53,11 @@ export function addDept(data: DeptForm) {
 /**
  *  修改部门
  *
- * @param id
  * @param data
  */
-export function updateDept(id: number, data: DeptForm) {
+export function updateDept(data: DeptForm) {
   return request({
-    url: "/api/v1/dept/" + id,
+    url: "/api/v1/dept/",
     method: "PUT",
     data: data,
   });

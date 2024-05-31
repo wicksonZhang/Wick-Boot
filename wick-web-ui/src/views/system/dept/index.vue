@@ -4,9 +4,10 @@
       <el-form ref="queryFormRef" :model="queryParams" :inline="true">
         <el-form-item label="关键字" prop="keywords">
           <el-input
-            v-model="queryParams.keywords"
+            v-model="queryParams.name"
             placeholder="部门名称"
             @keyup.enter="handleQuery"
+            clearable
           />
         </el-form-item>
 
@@ -254,7 +255,7 @@ function handleSubmit() {
       const deptId = formData.id;
       loading.value = true;
       if (deptId) {
-        updateDept(deptId, formData)
+        updateDept(formData)
           .then(() => {
             ElMessage.success("修改成功");
             closeDialog();
