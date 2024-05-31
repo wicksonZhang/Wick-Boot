@@ -29,6 +29,14 @@ public interface SystemRoleConvert {
     List<SystemRoleDTO> entityToDTOS(List<SystemRole> systemRoles);
 
     /**
+     * Convert entity To DTO
+     *
+     * @param systemRoles 系统角色
+     * @return SystemRoleDTO
+     */
+    SystemRoleDTO entityToDTO(SystemRole systemRoles);
+
+    /**
      * Convert addVO To Entity
      *
      * @param reqVO 新增请求参数

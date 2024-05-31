@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -33,6 +34,7 @@ public class SystemRoleController {
     private ISystemRoleService systemRoleService;
 
     @PostMapping
+    @PreAuthorize("@ss.hasPerm('sys:role:add')")
     @ApiOperation(value = "新增角色信息", notes = "角色信息")
     public ResultUtil<Long> addRole(@Valid @RequestBody AddRoleVo reqVO) {
         this.systemRoleService.addRole(reqVO);
@@ -40,6 +42,7 @@ public class SystemRoleController {
     }
 
     @PutMapping
+    @PreAuthorize("@ss.hasPerm('sys:role:edit')")
     @ApiOperation(value = "编辑角色信息", notes = "角色信息")
     public ResultUtil<Boolean> updateRole(@Valid @RequestBody UpdateRoleVo reqVO) {
         this.systemRoleService.updateRole(reqVO);
@@ -47,11 +50,20 @@ public class SystemRoleController {
     }
 
     @DeleteMapping("/{ids}")
+    @PreAuthorize("@ss.hasPerm('sys:role:delete')")
     @ApiOperation(value = "删除角色信息", notes = "角色信息")
     @ApiImplicitParam(name = "ids", value = "角色数据ID", required = true)
     public ResultUtil<Long> deleteRole(@PathVariable("ids") List<Long> ids) {
         this.systemRoleService.deleteRole(ids);
         return ResultUtil.success();
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation(value = "获取角色信息ById", notes = "角色信息")
+    @ApiImplicitParam(name = "id", value = "角色信息ID", required = true)
+    public ResultUtil<SystemRoleDTO> getRoleById(@NotNull(message = "角色信息主键不能为空")
+                                                 @PathVariable("id") Long id) {
+        return ResultUtil.success(systemRoleService.getRoleById(id));
     }
 
     @GetMapping("/page")
@@ -67,7 +79,8 @@ public class SystemRoleController {
         return ResultUtil.success(systemRoleService.getRoleMenuIds(roleId));
     }
 
-    @GetMapping("/{roleId}/menus")
+    @PutMapping("/{roleId}/menus")
+    @PreAuthorize("@ss.hasPerm('sys:role:edit')")
     @ApiOperation(value = "分配菜单(包括按钮权限)给角色", notes = "角色信息")
     @ApiImplicitParam(name = "roleId", value = "角色ID", required = true)
     public ResultUtil<Long> assignMenusToRole(@PathVariable("roleId") Long roleId,

@@ -39,6 +39,14 @@ public interface ISystemRoleService {
     void deleteRole(List<Long> ids);
 
     /**
+     * 获取角色信息ById
+     *
+     * @param id 角色Id
+     * @return
+     */
+    SystemRoleDTO getRoleById(Long id);
+
+    /**
      * 角色分页
      *
      * @param reqVO 请求参数

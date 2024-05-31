@@ -105,7 +105,7 @@ function handleSubmit() {
       loading.value = true;
       const roleId = formData.id;
       if (roleId) {
-        updateRole(roleId, formData)
+        updateRole(formData)
           .then(() => {
             ElMessage.success("修改成功");
             closeDialog();
@@ -223,10 +223,18 @@ onMounted(() => {
   <div class="app-container">
     <div class="search-container">
       <el-form ref="queryFormRef" :model="queryParams" :inline="true">
-        <el-form-item prop="keywords" label="关键字">
+        <el-form-item prop="name" label="角色名称">
           <el-input
-            v-model="queryParams.keywords"
+            v-model="queryParams.name"
             placeholder="角色名称"
+            clearable
+            @keyup.enter="handleQuery"
+          />
+        </el-form-item>
+        <el-form-item prop="code" label="角色编码">
+          <el-input
+            v-model="queryParams.code"
+            placeholder="角色编码"
             clearable
             @keyup.enter="handleQuery"
           />
@@ -337,10 +345,11 @@ onMounted(() => {
 
         <el-form-item label="数据权限" prop="dataScope">
           <el-select v-model="formData.dataScope">
-            <el-option :key="0" label="全部数据" :value="0" />
-            <el-option :key="1" label="部门及子部门数据" :value="1" />
-            <el-option :key="2" label="本部门数据" :value="2" />
-            <el-option :key="3" label="本人数据" :value="3" />
+            <el-option :key="1" label="全部数据" :value="1" />
+            <el-option :key="2" label="自定数据权限" :value="2" />
+            <el-option :key="3" label="本部门数据" :value="3" />
+            <el-option :key="4" label="部门及子部门数据" :value="4" />
+            <el-option :key="5" label="本人数据" :value="5" />
           </el-select>
         </el-form-item>
 

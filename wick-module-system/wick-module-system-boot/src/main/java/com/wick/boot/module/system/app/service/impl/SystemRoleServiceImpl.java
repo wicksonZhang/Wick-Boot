@@ -6,8 +6,10 @@ import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.app.service.AbstractSystemRoleAppService;
 import com.wick.boot.module.system.app.service.ISystemRoleMenuService;
 import com.wick.boot.module.system.app.service.ISystemRoleService;
+import com.wick.boot.module.system.convert.SystemDictTypeConvert;
 import com.wick.boot.module.system.convert.SystemRoleConvert;
 import com.wick.boot.module.system.model.dto.SystemRoleDTO;
+import com.wick.boot.module.system.model.entity.SystemDictType;
 import com.wick.boot.module.system.model.entity.SystemRole;
 import com.wick.boot.module.system.model.entity.SystemRoleMenu;
 import com.wick.boot.module.system.model.vo.role.AddRoleVo;
@@ -77,6 +79,13 @@ public class SystemRoleServiceImpl extends AbstractSystemRoleAppService implemen
         // 刷新角色-权限菜单缓存
         Set<String> codes = systemRoleList.stream().map(SystemRole::getCode).collect(Collectors.toSet());
         this.roleMenuService.refreshRolePermsCache(codes);
+    }
+
+    @Override
+    public SystemRoleDTO getRoleById(Long id) {
+        /* Step-1: 通过ID获取字典类型数据 */
+        SystemRole systemRole = this.roleMapper.selectById(id);
+        return SystemRoleConvert.INSTANCE.entityToDTO(systemRole);
     }
 
     @Override
