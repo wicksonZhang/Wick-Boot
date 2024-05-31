@@ -128,7 +128,7 @@ function handleSubmit() {
       loading.value = false;
       const dictId = formData.id;
       if (dictId) {
-        updateDict(dictId, formData)
+        updateDict(formData)
           .then(() => {
             ElMessage.success("修改成功");
             closeDialog();
@@ -219,13 +219,13 @@ onMounted(() => {
     <el-card shadow="never">
       <template #header>
         <el-button
-          v-hasPerm="['sys:dict_type:add']"
+          v-hasPerm="['sys:dict_data:add']"
           type="success"
           @click="openDialog()"
           ><i-ep-plus />新增</el-button
         >
         <el-button
-          v-hasPerm="['sys:dict_type:delete']"
+          v-hasPerm="['sys:dict_data:delete']"
           type="danger"
           :disabled="ids.length === 0"
           @click="handleDelete()"
@@ -242,7 +242,7 @@ onMounted(() => {
       >
         <el-table-column type="selection" width="50" />
         <el-table-column label="字典名称" prop="name" />
-        <el-table-column label="字典值" prop="code" />
+        <el-table-column label="字典值" prop="value" />
         <el-table-column label="状态" align="center">
           <template #default="scope">
             <el-tag v-if="scope.row.status === 1" type="success">启用</el-tag>

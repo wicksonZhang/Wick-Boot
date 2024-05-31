@@ -94,7 +94,7 @@ function handleSubmit() {
       loading.value = false;
       const dictTypeId = formData.id;
       if (dictTypeId) {
-        updateDictType(dictTypeId, formData)
+        updateDictType(formData)
           .then(() => {
             ElMessage.success("修改成功");
             closeDialog();

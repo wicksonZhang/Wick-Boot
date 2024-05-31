@@ -32,7 +32,7 @@ export function getDeptOptions(): AxiosPromise<OptionType[]> {
  */
 export function getDeptForm(id: number): AxiosPromise<DeptForm> {
   return request({
-    url: "/api/v1/dept/" + id + "/form",
+    url: "/api/v1/dept/" + id,
     method: "get",
   });
 }
@@ -59,7 +59,7 @@ export function addDept(data: DeptForm) {
 export function updateDept(id: number, data: DeptForm) {
   return request({
     url: "/api/v1/dept/" + id,
-    method: "put",
+    method: "PUT",
     data: data,
   });
 }

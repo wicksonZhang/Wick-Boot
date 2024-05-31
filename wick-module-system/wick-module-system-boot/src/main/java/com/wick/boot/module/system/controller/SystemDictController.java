@@ -51,7 +51,6 @@ public class SystemDictController {
         return ResultUtil.success(dictTypeService.addDictType(reqVO));
     }
 
-    // TODO 修改前端传递参数
     @PutMapping("/types/update")
     @ApiOperation(value = "编辑字典类型数据", notes = "字典信息")
     @PreAuthorize("@ss.hasPerm('sys:dict_type:edit')")
@@ -93,7 +92,6 @@ public class SystemDictController {
         return ResultUtil.success(dictDataService.addDictData(reqVO));
     }
 
-    // TODO 修改前端传递参数
     @PutMapping("/data/update")
     @ApiOperation(value = "编辑字典数据", notes = "字典信息")
     @PreAuthorize("@ss.hasPerm('sys:dict_data:edit')")

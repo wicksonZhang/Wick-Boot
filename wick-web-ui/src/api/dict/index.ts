@@ -55,9 +55,9 @@ export function addDictType(data: DictTypeForm) {
  * @param id
  * @param data
  */
-export function updateDictType(id: number, data: DictTypeForm) {
+export function updateDictType(data: DictTypeForm) {
   return request({
-    url: "/api/v1/dict/types/update" + id,
+    url: "/api/v1/dict/types/update",
     method: "put",
     data: data,
   });
@@ -92,7 +92,7 @@ export function getDictPage(
   queryParams: DictQuery
 ): AxiosPromise<DictPageResult> {
   return request({
-    url: "/api/v1/dict/types/page",
+    url: "/api/v1/dict/data/page",
     method: "get",
     params: queryParams,
   });
@@ -117,7 +117,7 @@ export function getDictFormData(id: number): AxiosPromise<DictForm> {
  */
 export function addDict(data: DictForm) {
   return request({
-    url: "/api/v1/dict/types",
+    url: "/api/v1/dict/data",
     method: "post",
     data: data,
   });
@@ -129,9 +129,9 @@ export function addDict(data: DictForm) {
  * @param id
  * @param data
  */
-export function updateDict(id: number, data: DictForm) {
+export function updateDict(data: DictForm) {
   return request({
-    url: "/api/v1/dict/types/" + id,
+    url: "/api/v1/dict/data/update",
     method: "put",
     data: data,
   });
@@ -144,7 +144,7 @@ export function updateDict(id: number, data: DictForm) {
  */
 export function deleteDict(ids: string) {
   return request({
-    url: "/api/v1/dict/types/" + ids,
+    url: "/api/v1/dict/data/" + ids,
     method: "delete",
   });
 }

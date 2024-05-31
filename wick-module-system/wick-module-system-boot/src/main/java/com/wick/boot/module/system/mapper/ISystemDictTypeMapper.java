@@ -1,6 +1,6 @@
 package com.wick.boot.module.system.mapper;
 
-import cn.hutool.core.util.ObjUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
@@ -15,9 +15,14 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ISystemDictTypeMapper extends BaseMapperX<SystemDictType> {
 
     default Page<SystemDictType> selectDictTypePage(Page<SystemDictType> page, String name, String code) {
-        return this.selectPage(page, new LambdaQueryWrapper<SystemDictType>()
-                .like(ObjUtil.isNotNull(name), SystemDictType::getName, name)
-                .like(ObjUtil.isNotNull(code), SystemDictType::getCode, code));
+        LambdaQueryWrapper<SystemDictType> queryWrapper = new LambdaQueryWrapper<>();
+        if (StrUtil.isNotBlank(name)) {
+            queryWrapper.likeRight(SystemDictType::getName, name);
+        }
+        if (StrUtil.isNotBlank(code)) {
+            queryWrapper.likeRight(SystemDictType::getCode, code);
+        }
+        return this.selectPage(page, queryWrapper);
     }
 
     default SystemDictType selectDictTypeByCode(String typeCode) {
