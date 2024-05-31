@@ -3,6 +3,7 @@ package com.wick.boot.module.system.app.service;
 import com.wick.boot.module.system.model.dto.SystemMenuDTO;
 import com.wick.boot.module.system.model.dto.SystemMenuOptionsDTO;
 import com.wick.boot.module.system.model.dto.SystemRouteDTO;
+import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
 import com.wick.boot.module.system.model.vo.menu.QueryMenuListReqVO;
 import com.wick.boot.module.system.model.vo.menu.UpdateMenuReqVO;
@@ -38,6 +39,14 @@ public interface ISystemMenuService {
      * @param ids 菜单集合
      */
     void deleteMenu(List<Long> ids);
+
+    /**
+     * 通过菜单ID获取菜单数据
+     *
+     * @param id 菜单ID
+     * @return
+     */
+    SystemMenu getMenuById(Long id);
 
     /**
      * 获取菜单列表

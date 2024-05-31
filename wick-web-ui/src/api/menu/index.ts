@@ -42,7 +42,7 @@ export function getMenuOptions(): AxiosPromise<OptionType[]> {
  */
 export function getMenuForm(id: number): AxiosPromise<MenuForm> {
   return request({
-    url: "/api/v1/menus/" + id + "/form",
+    url: "/api/v1/menus/" + id,
     method: "get",
   });
 }
@@ -63,12 +63,11 @@ export function addMenu(data: MenuForm) {
 /**
  * 修改菜单
  *
- * @param id
  * @param data
  */
-export function updateMenu(id: string, data: MenuForm) {
+export function updateMenu(data: MenuForm) {
   return request({
-    url: "/api/v1/menus/" + id,
+    url: "/api/v1/menus",
     method: "put",
     data: data,
   });

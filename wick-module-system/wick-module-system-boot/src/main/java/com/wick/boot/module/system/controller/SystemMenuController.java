@@ -5,6 +5,7 @@ import com.wick.boot.module.system.app.service.ISystemMenuService;
 import com.wick.boot.module.system.model.dto.SystemMenuDTO;
 import com.wick.boot.module.system.model.dto.SystemMenuOptionsDTO;
 import com.wick.boot.module.system.model.dto.SystemRouteDTO;
+import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
 import com.wick.boot.module.system.model.vo.menu.QueryMenuListReqVO;
 import com.wick.boot.module.system.model.vo.menu.UpdateMenuReqVO;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -57,6 +59,14 @@ public class SystemMenuController {
                                        @PathVariable("ids") List<Long> ids) {
         systemMenuService.deleteMenu(ids);
         return ResultUtil.success();
+    }
+
+    @GetMapping("/{id}")
+    @ApiOperation(value = "通过菜单ID获取菜单数据", notes = "菜单信息")
+    @ApiImplicitParam(name = "id", value = "菜单ID", required = true)
+    public ResultUtil<SystemMenu> getMenuById(@NotNull(message = "菜单ID不能为空")
+                                                   @PathVariable("id") Long id) {
+        return ResultUtil.success(systemMenuService.getMenuById(id));
     }
 
     @GetMapping("/options")

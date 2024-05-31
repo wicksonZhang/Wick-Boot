@@ -4,7 +4,7 @@
       <el-form ref="queryFormRef" :model="queryParams" :inline="true">
         <el-form-item label="关键字" prop="keywords">
           <el-input
-            v-model="queryParams.keywords"
+            v-model="queryParams.name"
             placeholder="菜单名称"
             clearable
             @keyup.enter="handleQuery"
@@ -439,7 +439,7 @@ function submitForm() {
     if (isValid) {
       const menuId = formData.id;
       if (menuId) {
-        updateMenu(menuId, formData).then(() => {
+        updateMenu(formData).then(() => {
           ElMessage.success("修改成功");
           closeDialog();
           handleQuery();

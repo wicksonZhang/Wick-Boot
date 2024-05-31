@@ -1,6 +1,7 @@
 package com.wick.boot.module.system.app.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Lists;
@@ -110,6 +111,18 @@ public class SystemMenuServiceImpl extends AbstractSystemMenuAppService implemen
     }
 
     @Override
+    public SystemMenu getMenuById(Long id) {
+        /* Step-1: 通过菜单ID获取菜单信息 */
+        SystemMenu systemMenu = systemMenuMapper.selectById(id);
+        if (ObjUtil.isNull(systemMenu)) {
+            return SystemMenu.builder().build();
+        }
+
+        /* Step-2: 返回结果集 */
+        return systemMenu;
+    }
+
+    @Override
     public List<SystemMenuDTO> listMenus(QueryMenuListReqVO queryParams) {
         /* Step-1: 获取菜单信息 */
         List<SystemMenu> menuList = systemMenuMapper.selectList(queryParams);
@@ -149,9 +162,13 @@ public class SystemMenuServiceImpl extends AbstractSystemMenuAppService implemen
         }
 
         /* Step-2: 返回根节点结果集 */
-        return menuMap.values().stream()
+        List<SystemMenuDTO> rootMenus = menuMap.values().stream()
                 .filter(deptDTO -> Objects.equals(rootNodeId, deptDTO.getParentId()))
                 .collect(Collectors.toList());
+        if (CollUtil.isEmpty(rootMenus)) {
+            return new ArrayList<>(menuMap.values());
+        }
+        return rootMenus;
     }
 
     @Override
