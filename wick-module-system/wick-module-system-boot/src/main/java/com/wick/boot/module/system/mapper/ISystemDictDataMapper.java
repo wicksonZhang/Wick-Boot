@@ -5,7 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
 import com.wick.boot.module.system.model.entity.SystemDictData;
+import com.wick.boot.module.system.model.entity.SystemDictType;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * 系统管理-字典数据持久层
@@ -55,6 +58,19 @@ public interface ISystemDictDataMapper extends BaseMapperX<SystemDictData> {
         return this.selectOne(new LambdaQueryWrapper<SystemDictData>()
                 .eq(SystemDictData::getDictType, typeCode)
                 .eq(SystemDictData::getValue, value)
+        );
+    }
+
+    /**
+     * 获取字典数据信息
+     *
+     * @param typeCode 类型Code
+     * @return List<SystemDictData>
+     */
+    default List<SystemDictData> selectDictDataOption(String typeCode) {
+        return this.selectList(new LambdaQueryWrapper<SystemDictData>()
+                .select(SystemDictData::getValue, SystemDictData::getLabel)
+                .eq(SystemDictData::getDictType, typeCode)
         );
     }
 }

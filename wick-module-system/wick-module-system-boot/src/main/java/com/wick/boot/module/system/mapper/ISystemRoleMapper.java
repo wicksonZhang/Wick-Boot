@@ -56,10 +56,25 @@ public interface ISystemRoleMapper extends BaseMapperX<SystemRole> {
     }
 
     /**
+     * 查询角色信息
+     *
+     * @return 角色信息集合
+     */
+    default List<SystemRole> selectRoleOption() {
+        return selectList(
+                new LambdaQueryWrapper<SystemRole>()
+                        .select(SystemRole::getId, SystemRole::getName)
+                        .ne(SystemRole::getCode, GlobalConstants.ROOT_ROLE_CODE)
+                        .orderByAsc(SystemRole::getSort)
+        );
+    }
+
+    /**
      * 获取角色的菜单ID集合
      *
      * @param roleId 角色ID
      * @return 菜单集合
      */
     List<Long> selectRoleMenuIds(Long roleId);
+
 }

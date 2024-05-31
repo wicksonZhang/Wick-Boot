@@ -7,6 +7,8 @@ import com.wick.boot.common.mybatis.mapper.BaseMapperX;
 import com.wick.boot.module.system.model.entity.SystemDictType;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * @author ZhangZiHeng
  * @date 2024-04-08

@@ -5,6 +5,7 @@ import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.module.system.app.service.ISystemDictDataService;
 import com.wick.boot.module.system.app.service.ISystemDictTypeService;
 import com.wick.boot.module.system.model.dto.SystemDictDataDTO;
+import com.wick.boot.module.system.model.dto.SystemDictDataOptionsDTO;
 import com.wick.boot.module.system.model.dto.SystemDictTypeDTO;
 import com.wick.boot.module.system.model.vo.dict.data.AddDictDataReqVO;
 import com.wick.boot.module.system.model.vo.dict.data.QueryDictDataPageReqVO;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -63,8 +63,7 @@ public class SystemDictController {
     @ApiOperation(value = "删除字典类型数据", notes = "字典信息")
     @PreAuthorize("@ss.hasPerm('sys:dict_type:delete')")
     @ApiImplicitParam(name = "ids", value = "字典类型ID", required = true)
-    public ResultUtil<Long> deleteDictType(@NotEmpty(message = "字典类型主键不能为空")
-                                           @PathVariable("ids") List<Long> ids) {
+    public ResultUtil<Long> deleteDictType(@NotEmpty(message = "字典类型主键不能为空") @PathVariable("ids") List<Long> ids) {
         dictTypeService.deleteDictType(ids);
         return ResultUtil.success();
     }
@@ -72,8 +71,7 @@ public class SystemDictController {
     @GetMapping("/types/{id}")
     @ApiOperation(value = "获取字典类型数据ById", notes = "字典信息")
     @ApiImplicitParam(name = "id", value = "字典类型ID", required = true)
-    public ResultUtil<SystemDictTypeDTO> getDictType(@NotNull(message = "字典类型主键不能为空")
-                                                     @PathVariable("id") Long id) {
+    public ResultUtil<SystemDictTypeDTO> getDictType(@NotNull(message = "字典类型主键不能为空") @PathVariable("id") Long id) {
         return ResultUtil.success(dictTypeService.getDictTypeById(id));
     }
 
@@ -104,8 +102,7 @@ public class SystemDictController {
     @ApiOperation(value = "删除字典数据", notes = "字典信息")
     @PreAuthorize("@ss.hasPerm('sys:dict_data:delete')")
     @ApiImplicitParam(name = "ids", value = "字典数据ID", required = true)
-    public ResultUtil<Long> deleteDictData(@NotEmpty(message = "字典类型主键不能为空")
-                                           @PathVariable("ids") List<Long> ids) {
+    public ResultUtil<Long> deleteDictData(@NotEmpty(message = "字典类型主键不能为空") @PathVariable("ids") List<Long> ids) {
         dictDataService.deleteDictData(ids);
         return ResultUtil.success();
     }
@@ -113,9 +110,15 @@ public class SystemDictController {
     @GetMapping("/data/{id}")
     @ApiOperation(value = "获取字典数据ById", notes = "字典信息")
     @ApiImplicitParam(name = "id", value = "字典数据ID", required = true)
-    public ResultUtil<SystemDictDataDTO> getDictData(@NotNull(message = "字典数据ID不能为空")
-                                                     @PathVariable("id") Long id) {
+    public ResultUtil<SystemDictDataDTO> getDictData(@NotNull(message = "字典数据ID不能为空") @PathVariable("id") Long id) {
         return ResultUtil.success(dictDataService.getDictData(id));
+    }
+
+    @GetMapping("/data/{typeCode}/options")
+    @ApiImplicitParam(name = "typeCode", value = "字典类型编码", required = true)
+    public ResultUtil<List<SystemDictDataOptionsDTO>> listDictOptions(@NotNull(message = "字典类型编码不能为空")
+                                                                      @PathVariable("typeCode") String typeCode) {
+        return ResultUtil.success(dictDataService.listDictDataOptions(typeCode));
     }
 
     @GetMapping("/data/page")

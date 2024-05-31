@@ -1,10 +1,13 @@
 package com.wick.boot.module.system.convert;
 
 import com.wick.boot.module.system.model.dto.SystemRoleDTO;
+import com.wick.boot.module.system.model.dto.SystemRoleOptionsDTO;
 import com.wick.boot.module.system.model.entity.SystemRole;
 import com.wick.boot.module.system.model.vo.role.AddRoleVo;
 import com.wick.boot.module.system.model.vo.role.UpdateRoleVo;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -51,4 +54,18 @@ public interface SystemRoleConvert {
      * @return 角色信息
      */
     SystemRole updateVoToEntity(UpdateRoleVo reqVO);
+
+    /**
+     * Convert entity To Options
+     *
+     * @param roles 角色集合
+     * @return List<SystemRoleOptionsDTO>
+     */
+    List<SystemRoleOptionsDTO> entityToOptions(List<SystemRole> roles);
+
+    @Mappings({
+            @Mapping(target = "value", source = "id"),
+            @Mapping(target = "label", source = "name")
+    })
+    SystemRoleOptionsDTO entityToOption(SystemRole role);
 }

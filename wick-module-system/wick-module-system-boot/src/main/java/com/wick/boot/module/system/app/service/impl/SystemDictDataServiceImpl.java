@@ -9,6 +9,7 @@ import com.wick.boot.module.system.app.service.ISystemDictTypeService;
 import com.wick.boot.module.system.convert.SystemDictDataConvert;
 import com.wick.boot.module.system.convert.SystemDictTypeConvert;
 import com.wick.boot.module.system.model.dto.SystemDictDataDTO;
+import com.wick.boot.module.system.model.dto.SystemDictDataOptionsDTO;
 import com.wick.boot.module.system.model.entity.SystemDictData;
 import com.wick.boot.module.system.model.entity.SystemDictType;
 import com.wick.boot.module.system.model.vo.dict.data.AddDictDataReqVO;
@@ -71,6 +72,14 @@ public class SystemDictDataServiceImpl extends AbstractSystemDictDataAppService 
         SystemDictData systemDictData = this.dictDataMapper.selectById(id);
 
         return SystemDictDataConvert.INSTANCE.entityToDictDataDTO(systemDictData);
+    }
+
+    @Override
+    public List<SystemDictDataOptionsDTO> listDictDataOptions(String typeCode) {
+        /* Step-1: 获取字典类型列表 */
+        List<SystemDictData> systemDictTypes = this.dictDataMapper.selectDictDataOption(typeCode);
+        /* Step-2: 返回结果集 */
+        return SystemDictDataConvert.INSTANCE.entityToDictDataOptions(systemDictTypes);
     }
 
     @Override

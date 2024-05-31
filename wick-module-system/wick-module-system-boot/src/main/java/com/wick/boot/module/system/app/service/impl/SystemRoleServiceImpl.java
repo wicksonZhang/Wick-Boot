@@ -9,6 +9,7 @@ import com.wick.boot.module.system.app.service.ISystemRoleService;
 import com.wick.boot.module.system.convert.SystemDictTypeConvert;
 import com.wick.boot.module.system.convert.SystemRoleConvert;
 import com.wick.boot.module.system.model.dto.SystemRoleDTO;
+import com.wick.boot.module.system.model.dto.SystemRoleOptionsDTO;
 import com.wick.boot.module.system.model.entity.SystemDictType;
 import com.wick.boot.module.system.model.entity.SystemRole;
 import com.wick.boot.module.system.model.entity.SystemRoleMenu;
@@ -101,6 +102,15 @@ public class SystemRoleServiceImpl extends AbstractSystemRoleAppService implemen
 
         List<SystemRoleDTO> roleDTOList = SystemRoleConvert.INSTANCE.entityToDTOS(pageResult.getRecords());
         return new PageResult<>(roleDTOList, pageResult.getTotal());
+    }
+
+    @Override
+    public List<SystemRoleOptionsDTO> listRoleOptions() {
+        /* Step-1: 查询所有角色信息 */
+        List<SystemRole> roles =  this.roleMapper.selectRoleOption();
+
+        /* Step-2: 返回结果集 */
+        return SystemRoleConvert.INSTANCE.entityToOptions(roles);
     }
 
     @Override

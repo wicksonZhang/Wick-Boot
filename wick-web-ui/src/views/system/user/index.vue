@@ -11,10 +11,19 @@
       <el-col :lg="20" :xs="24">
         <div class="search-container">
           <el-form ref="queryFormRef" :model="queryParams" :inline="true">
-            <el-form-item label="关键字" prop="keywords">
+            <el-form-item label="用户名" prop="username">
               <el-input
-                v-model="queryParams.keywords"
-                placeholder="用户名/昵称/手机号"
+                v-model="queryParams.username"
+                placeholder="用户名"
+                clearable
+                style="width: 200px"
+                @keyup.enter="handleQuery"
+              />
+            </el-form-item>
+            <el-form-item label="手机号码" prop="mobile">
+              <el-input
+                v-model="queryParams.mobile"
+                placeholder="手机号码"
                 clearable
                 style="width: 200px"
                 @keyup.enter="handleQuery"
@@ -31,18 +40,6 @@
                 <el-option label="启用" value="1" />
                 <el-option label="禁用" value="0" />
               </el-select>
-            </el-form-item>
-
-            <el-form-item label="创建时间">
-              <el-date-picker
-                class="!w-[240px]"
-                v-model="dateTimeRange"
-                type="daterange"
-                range-separator="~"
-                start-placeholder="开始时间"
-                end-placeholder="截止时间"
-                value-format="YYYY-MM-DD"
-              />
             </el-form-item>
 
             <el-form-item>
@@ -535,7 +532,7 @@ const handleSubmit = useThrottleFn(() => {
         const userId = formData.id;
         loading.value = true;
         if (userId) {
-          updateUser(userId, formData)
+          updateUser(formData)
             .then(() => {
               ElMessage.success("修改用户成功");
               closeDialog();

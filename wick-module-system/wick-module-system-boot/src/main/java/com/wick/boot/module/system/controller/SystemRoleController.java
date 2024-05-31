@@ -4,6 +4,7 @@ import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.module.system.app.service.ISystemRoleService;
 import com.wick.boot.module.system.model.dto.SystemRoleDTO;
+import com.wick.boot.module.system.model.dto.SystemRoleOptionsDTO;
 import com.wick.boot.module.system.model.vo.role.AddRoleVo;
 import com.wick.boot.module.system.model.vo.role.QueryRolePageReqVO;
 import com.wick.boot.module.system.model.vo.role.UpdateRoleVo;
@@ -70,6 +71,12 @@ public class SystemRoleController {
     @ApiOperation(value = "获取角色分页", notes = "角色信息")
     public ResultUtil<PageResult<SystemRoleDTO>> getUserPage(@Valid QueryRolePageReqVO reqVO) {
         return ResultUtil.success(systemRoleService.getRolePage(reqVO));
+    }
+
+    @ApiOperation(value = "获取角色下拉选项", notes = "角色信息")
+    @GetMapping("/options")
+    public ResultUtil<List<SystemRoleOptionsDTO>> listRoleOptions() {
+        return ResultUtil.success(systemRoleService.listRoleOptions());
     }
 
     @GetMapping("/{roleId}/menuIds")

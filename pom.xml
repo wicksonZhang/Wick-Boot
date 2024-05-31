@@ -29,6 +29,9 @@
         <flyway.core.version>7.15.0</flyway.core.version>
         <mybatis.plus.version>3.5.3.1</mybatis.plus.version>
 
+        <!-- easy-excel-->
+        <easyexcel.version>3.3.4</easyexcel.version>
+
         <!-- api doc -->
         <knife4j.version>3.0.3</knife4j.version>
         <swagger.version>1.5.22</swagger.version>
@@ -159,6 +162,13 @@
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct-processor</artifactId>
                 <version>${mapstruct.version}</version>
+            </dependency>
+
+            <!-- easy excel -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>${easyexcel.version}</version>
             </dependency>
 
             <!--兼容Swagger3.0.0的依赖包-->

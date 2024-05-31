@@ -2,12 +2,15 @@ package com.wick.boot.module.system.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -69,6 +72,12 @@ public class SystemUserDTO {
      */
     @ApiModelProperty(value = "部门名称", example = "1")
     private Long deptId;
+
+    /**
+     * 角色id集合
+     */
+    @ApiModelProperty(value = "角色ID集合", example = "1,2")
+    private List<Long> roleIds;
 
     /**
      * 创建时间

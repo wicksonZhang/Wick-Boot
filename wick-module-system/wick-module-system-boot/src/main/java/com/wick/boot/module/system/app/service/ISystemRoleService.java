@@ -1,6 +1,7 @@
 package com.wick.boot.module.system.app.service;
 
 import com.wick.boot.module.system.model.dto.SystemRoleDTO;
+import com.wick.boot.module.system.model.dto.SystemRoleOptionsDTO;
 import com.wick.boot.module.system.model.vo.role.AddRoleVo;
 import com.wick.boot.module.system.model.vo.role.QueryRolePageReqVO;
 import com.wick.boot.common.core.result.PageResult;
@@ -53,6 +54,13 @@ public interface ISystemRoleService {
      * @return PageResult<SystemRoleDTO>
      */
     PageResult<SystemRoleDTO> getRolePage(QueryRolePageReqVO reqVO);
+
+    /**
+     * 获取角色下拉选项
+     *
+     * @return List<SystemRoleOptionsDTO>
+     */
+    List<SystemRoleOptionsDTO> listRoleOptions();
 
     /**
      * 获取角色的菜单ID集合

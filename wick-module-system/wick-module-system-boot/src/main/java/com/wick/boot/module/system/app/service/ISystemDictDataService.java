@@ -2,6 +2,7 @@ package com.wick.boot.module.system.app.service;
 
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.model.dto.SystemDictDataDTO;
+import com.wick.boot.module.system.model.dto.SystemDictDataOptionsDTO;
 import com.wick.boot.module.system.model.vo.dict.data.AddDictDataReqVO;
 import com.wick.boot.module.system.model.vo.dict.data.QueryDictDataPageReqVO;
 import com.wick.boot.module.system.model.vo.dict.data.UpdateDictDataReqVO;
@@ -47,11 +48,18 @@ public interface ISystemDictDataService {
     SystemDictDataDTO getDictData(Long id);
 
     /**
+     * 获取字典选项
+     *
+     * @param typeCode 字典Code
+     * @return List<SystemDictDataOptionsDTO>
+     */
+    List<SystemDictDataOptionsDTO> listDictDataOptions(String typeCode);
+
+    /**
      * 获取字典数据分页
      *
      * @param reqVO 字典数据请求参数
      * @return PageResult<SystemDictDataDTO>
      */
     PageResult<SystemDictDataDTO> getDictDataPage(QueryDictDataPageReqVO reqVO);
-
 }

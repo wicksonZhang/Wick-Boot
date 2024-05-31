@@ -80,7 +80,7 @@ export function deleteDictTypes(ids: string) {
  */
 export function getDictOptions(typeCode: string): AxiosPromise<OptionType[]> {
   return request({
-    url: "/api/v1/dict/" + typeCode + "/options",
+    url: "/api/v1/dict/data/" + typeCode + "/options",
     method: "get",
   });
 }

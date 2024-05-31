@@ -34,7 +34,7 @@ export function getUserPage(
  */
 export function getUserForm(userId: number): AxiosPromise<UserForm> {
   return request({
-    url: "/api/v1/users/" + userId + "/form",
+    url: "/api/v1/users/" + userId,
     method: "get",
   });
 }
@@ -58,9 +58,9 @@ export function addUser(data: any) {
  * @param id
  * @param data
  */
-export function updateUser(id: number, data: UserForm) {
+export function updateUser(data: UserForm) {
   return request({
-    url: "/api/v1/users/" + id,
+    url: "/api/v1/users" ,
     method: "put",
     data: data,
   });
@@ -74,9 +74,9 @@ export function updateUser(id: number, data: UserForm) {
  */
 export function updateUserPassword(id: number, password: string) {
   return request({
-    url: "/api/v1/users/" + id + "/password",
+    url: "/api/v1/users/resetPwd",
     method: "patch",
-    params: { password: password },
+    data: { userId: id, password: password },
   });
 }
 

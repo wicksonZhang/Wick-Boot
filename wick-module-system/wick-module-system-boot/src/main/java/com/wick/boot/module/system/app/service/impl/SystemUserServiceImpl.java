@@ -182,8 +182,15 @@ public class SystemUserServiceImpl extends AbstractSystemUserAppService implemen
 
     @Override
     public SystemUserDTO getUserById(Long id) {
+        /* Step-1: 通过用户id获取角色信息 */
         SystemUser systemUser = userMapper.selectById(id);
-        return SystemUserConvert.INSTANCE.entityToDTO(systemUser);
+        SystemUserDTO systemUserDTO = SystemUserConvert.INSTANCE.entityToDTO(systemUser);
+
+        /* Step-2: 通过用户id获取角色id集合 */
+        List<SystemUserRole> userRoles = this.userRoleMapper.selectListByUserId(systemUser.getId());
+        List<Long> roleIds = userRoles.stream().map(SystemUserRole::getRoleId).collect(Collectors.toList());
+        systemUserDTO.setRoleIds(roleIds);
+        return systemUserDTO;
     }
 
     @Override
