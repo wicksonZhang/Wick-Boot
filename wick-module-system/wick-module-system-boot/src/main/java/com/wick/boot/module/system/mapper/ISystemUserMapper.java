@@ -7,8 +7,11 @@ import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import com.wick.boot.module.system.model.dto.SystemUserDTO;
 import com.wick.boot.module.system.model.entity.SystemUser;
 import com.wick.boot.module.system.model.vo.user.QueryUserPageReqVO;
+import com.wick.boot.module.system.model.vo.user.UserExportVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 后台管理 - 部门Mapper
@@ -64,4 +67,12 @@ public interface ISystemUserMapper extends BaseMapperX<SystemUser> {
     default Long selectCountByEmail(String email) {
         return selectCount(new LambdaQueryWrapper<SystemUser>().eq(SystemUser::getEmail, email));
     }
+
+    /**
+     * 导出用户
+     *
+     * @param queryParams 分页查询条件
+     * @return List<UserExportVO>
+     */
+    List<UserExportVO> listExportUsers(@Param("reqVO") QueryUserPageReqVO queryParams);
 }

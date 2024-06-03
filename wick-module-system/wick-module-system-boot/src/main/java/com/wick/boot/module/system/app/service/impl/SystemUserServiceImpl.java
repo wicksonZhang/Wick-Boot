@@ -3,30 +3,39 @@ package com.wick.boot.module.system.app.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjUtil;
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelWriter;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Sets;
 import com.wick.boot.common.core.constant.GlobalCacheConstants;
 import com.wick.boot.common.core.constant.GlobalConstants;
+import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.redis.service.RedisService;
 import com.wick.boot.common.security.util.SecurityUtils;
 import com.wick.boot.module.system.app.service.AbstractSystemUserAppService;
 import com.wick.boot.module.system.app.service.ISystemUserService;
 import com.wick.boot.module.system.convert.SystemUserConvert;
+import com.wick.boot.module.system.enums.ErrorCodeSystem;
+import com.wick.boot.module.system.listener.user.UserImportListener;
 import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import com.wick.boot.module.system.model.dto.SystemUserDTO;
 import com.wick.boot.module.system.model.dto.SystemUserInfoDTO;
 import com.wick.boot.module.system.model.entity.SystemUser;
 import com.wick.boot.module.system.model.entity.SystemUserRole;
-import com.wick.boot.module.system.model.vo.user.AddUserVO;
-import com.wick.boot.module.system.model.vo.user.QueryUserPageReqVO;
-import com.wick.boot.module.system.model.vo.user.UpdateUserPwdVO;
-import com.wick.boot.module.system.model.vo.user.UpdateUserVO;
+import com.wick.boot.module.system.model.vo.user.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -205,4 +214,46 @@ public class SystemUserServiceImpl extends AbstractSystemUserAppService implemen
         systemUser.setPassword(password);
         this.userMapper.updateById(systemUser);
     }
+
+    @Override
+    public void downloadTemplate(HttpServletResponse response) {
+        String fileName = "用户导入模板.xlsx";
+        try {
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, "UTF-8"));
+            String fileClassPath = "excel-templates" + File.separator + fileName;
+            InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(fileClassPath);
+            ServletOutputStream outputStream = response.getOutputStream();
+            ExcelWriter excelWriter = EasyExcel.write(outputStream).withTemplate(inputStream).build();
+            excelWriter.finish();
+        } catch (IOException e) {
+            throw ServiceException.getInstance(ErrorCodeSystem.USER_DOWNLOAD_ERROR);
+        }
+    }
+
+    @Override
+    public void exportUsers(QueryUserPageReqVO queryParams, HttpServletResponse response) {
+        String fileName = "用户列表.xlsx";
+        try {
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, "UTF-8"));
+
+            List<UserExportVO> exportUserList = this.userMapper.listExportUsers(queryParams);
+            EasyExcel.write(response.getOutputStream(), UserExportVO.class).sheet("用户列表").doWrite(exportUserList);
+        } catch (IOException e) {
+            throw ServiceException.getInstance(ErrorCodeSystem.USER_EXPORT_ERROR);
+        }
+    }
+
+    @Override
+    public void importUsers(Long deptId, MultipartFile file) {
+        UserImportListener listener = new UserImportListener(deptId);
+        try {
+            // TODO 后续会通过邮件形式通知
+            EasyExcel.read(file.getInputStream(), UserImportVO.class, listener);
+        } catch (IOException e) {
+            throw ServiceException.getInstance(ErrorCodeSystem.USER_IMPORT_ERROR);
+        }
+    }
+
 }

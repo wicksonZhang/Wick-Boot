@@ -3,12 +3,11 @@ package com.wick.boot.module.system.app.service;
 
 import com.wick.boot.module.system.model.dto.SystemUserInfoDTO;
 import com.wick.boot.module.system.model.dto.SystemUserDTO;
-import com.wick.boot.module.system.model.vo.user.AddUserVO;
-import com.wick.boot.module.system.model.vo.user.QueryUserPageReqVO;
+import com.wick.boot.module.system.model.vo.user.*;
 import com.wick.boot.common.core.result.PageResult;
-import com.wick.boot.module.system.model.vo.user.UpdateUserPwdVO;
-import com.wick.boot.module.system.model.vo.user.UpdateUserVO;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -74,4 +73,28 @@ public interface ISystemUserService {
      * @param reqVO 更新用户密码参数信息
      */
     void resetPwd(UpdateUserPwdVO reqVO);
+
+    /**
+     * 用户导入模板下载
+     *
+     * @param response resp 响应结果集
+     */
+    void downloadTemplate(HttpServletResponse response);
+
+    /**
+     * 导出用户
+     *
+     * @param queryParams 用户分页查询请求数据
+     * @param response    响应结果集
+     */
+    void exportUsers(QueryUserPageReqVO queryParams, HttpServletResponse response);
+
+    /**
+     * 导入用户
+     *
+     * @param deptId 部门Id
+     * @param file   文件信息
+     * @return 响应信息
+     */
+    void importUsers(Long deptId, MultipartFile file);
 }

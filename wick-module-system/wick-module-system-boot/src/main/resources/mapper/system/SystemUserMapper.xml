@@ -26,7 +26,7 @@
                 AND u.mobile LIKE CONCAT('%', #{reqVO.mobile} ,'%')
             </if>
             <if test='reqVO.deptId != null'>
-                AND u.dept_id = #{reqVO.deptId}
+                AND concat(',',concat(d.tree_path,',',d.id),',') like concat('%,',#{reqVO.deptId},',%')
             </if>
             <if test='reqVO.status != null'>
                 AND u.status = #{reqVO.status}
@@ -66,6 +66,34 @@
             LEFT JOIN system_role t3 ON t3.id = t2.role_id
         WHERE
             t1.username = #{username}
+    </select>
+
+    <select id="listExportUsers" resultType="com.wick.boot.module.system.model.vo.user.UserExportVO">
+        SELECT
+        u.username,
+        u.nickname,
+        u.mobile,
+        CASE u.gender WHEN 1 THEN '男' WHEN 2 THEN '女' ELSE '未知' END gender,
+        d.name AS dept_name,
+        u.create_time
+        FROM
+        system_user u LEFT JOIN system_dept d ON u.dept_id = d.id
+        <where>
+            u.deleted = 0 AND u.username != 'root'
+            <if test='reqVO.username != null'>
+                AND u.username LIKE CONCAT('%', #{reqVO.username} ,'%')
+            </if>
+            <if test='reqVO.mobile != null'>
+                AND u.mobile LIKE CONCAT('%', #{reqVO.mobile} ,'%')
+            </if>
+            <if test='reqVO.deptId != null'>
+                AND concat(',',concat(d.tree_path,',',d.id),',') like concat('%,',#{reqVO.deptId},',%')
+            </if>
+            <if test='reqVO.status != null'>
+                AND u.status = #{reqVO.status}
+            </if>
+        </where>
+        ORDER BY u.id ASC
     </select>
 
 </mapper>

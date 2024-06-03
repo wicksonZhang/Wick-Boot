@@ -39,15 +39,15 @@ public class AddUserVO {
     @NotNull(message = "所属部门不能为空")
     private Long deptId;
 
-    @ApiModelProperty(value = "性别", required = false, example = "1")
+    @ApiModelProperty(value = "性别", example = "1")
     @InEnum(value = GenderTypeEnum.class, message = "性别状态必须是 {value}")
     private Integer gender;
 
-    @ApiModelProperty(value = "手机号码", required = false, example = "13912345689")
+    @ApiModelProperty(value = "手机号码", example = "13912345689")
     @Mobile
     private String mobile;
 
-    @ApiModelProperty(value = "邮箱", required = false, example = "123456@qq.com")
+    @ApiModelProperty(value = "邮箱", example = "123456@qq.com")
     @Email(message = "邮箱格式不正确")
     private String email;
 

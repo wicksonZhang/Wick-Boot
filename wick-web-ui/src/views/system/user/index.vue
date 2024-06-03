@@ -171,7 +171,7 @@
                   ><i-ep-edit />编辑</el-button
                 >
                 <el-button
-                  v-hasPerm="['sys:user:delete']"
+                  v-hasPerm="['sys:user:del']"
                   type="primary"
                   link
                   size="small"

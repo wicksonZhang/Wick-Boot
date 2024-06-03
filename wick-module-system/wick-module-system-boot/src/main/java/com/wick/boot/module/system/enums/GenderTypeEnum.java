@@ -42,6 +42,24 @@ public enum GenderTypeEnum implements IntArrayValuable {
 
     public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(GenderTypeEnum::getCode).toArray();
 
+    /**
+     * 根据状态码返回状态码描述的值
+     *
+     * @param code 性别Code
+     * @return 性别名称
+     */
+    public static String valueOf(int code) {
+        String sex = null;
+
+        for (GenderTypeEnum genderTypeEnum : GenderTypeEnum.values()) {
+            if (genderTypeEnum.getCode() == code) {
+                sex = genderTypeEnum.getSex();
+                break;
+            }
+        }
+        return sex;
+    }
+
     @Override
     public int[] array() {
         return ARRAYS;

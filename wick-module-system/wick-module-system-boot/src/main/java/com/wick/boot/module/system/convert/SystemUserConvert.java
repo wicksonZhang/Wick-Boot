@@ -5,6 +5,7 @@ import com.wick.boot.module.system.model.dto.SystemUserInfoDTO;
 import com.wick.boot.module.system.model.entity.SystemUser;
 import com.wick.boot.module.system.model.vo.user.AddUserVO;
 import com.wick.boot.module.system.model.vo.user.UpdateUserVO;
+import com.wick.boot.module.system.model.vo.user.UserImportVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -15,7 +16,7 @@ import org.mapstruct.factory.Mappers;
  * @author ZhangZiHeng
  * @date 2024-04-02
  */
-@Mapper
+@Mapper(componentModel = "spring")
 public interface SystemUserConvert {
 
     SystemUserConvert INSTANCE = Mappers.getMapper(SystemUserConvert.class);
@@ -52,4 +53,7 @@ public interface SystemUserConvert {
      * @return SystemUser
      */
     SystemUser updateVoToEntity(UpdateUserVO reqVO);
+
+
+    SystemUser importVo2Entity(UserImportVO userImportVO);
 }

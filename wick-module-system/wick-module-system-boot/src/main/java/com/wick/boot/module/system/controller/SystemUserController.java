@@ -7,21 +7,21 @@ import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.module.system.app.service.ISystemUserService;
 import com.wick.boot.module.system.model.dto.SystemUserDTO;
 import com.wick.boot.module.system.model.dto.SystemUserInfoDTO;
-import com.wick.boot.module.system.model.vo.user.AddUserVO;
-import com.wick.boot.module.system.model.vo.user.QueryUserPageReqVO;
-import com.wick.boot.module.system.model.vo.user.UpdateUserPwdVO;
-import com.wick.boot.module.system.model.vo.user.UpdateUserVO;
+import com.wick.boot.module.system.model.vo.user.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -103,15 +103,22 @@ public class SystemUserController {
 
     @GetMapping("/template")
     @ApiOperation(value = "用户导入模板下载", notes = "用户信息")
-    public void downloadTemplate(HttpServletResponse response) throws IOException {
-        String fileName = "用户导入模板.xlsx";
-        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-        response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, "UTF-8"));
-        String fileClassPath = "excel-templates" + File.separator + fileName;
-        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(fileClassPath);
-        ServletOutputStream outputStream = response.getOutputStream();
-        ExcelWriter excelWriter = EasyExcel.write(outputStream).withTemplate(inputStream).build();
-        excelWriter.finish();
+    public void downloadTemplate(HttpServletResponse response) {
+        userService.downloadTemplate(response);
+    }
+
+    @GetMapping("/export")
+    @ApiOperation(value = "导出用户", notes = "用户信息")
+    public void exportUsers(@Valid QueryUserPageReqVO queryParams, HttpServletResponse response) {
+        userService.exportUsers(queryParams, response);
+    }
+
+    @PostMapping("/import")
+    @ApiOperation(value = "导入用户", notes = "用户信息")
+    @ApiImplicitParam(name = "deptId", value = "部门ID", required = true)
+    public ResultUtil<Boolean> importUsers(@NotNull(message = "部门Id不能为空") Long deptId, MultipartFile file) {
+        userService.importUsers(deptId, file);
+        return ResultUtil.success();
     }
 
 }
