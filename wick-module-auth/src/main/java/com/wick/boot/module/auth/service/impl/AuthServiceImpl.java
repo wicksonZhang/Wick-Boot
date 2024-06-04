@@ -31,6 +31,8 @@ import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 认证中心-实现类
+ *
  * @author ZhangZiHeng
  * @date 2024-04-08
  */
@@ -141,6 +143,11 @@ public class AuthServiceImpl implements IAuthService {
         }
     }
 
+    /**
+     * 用户登出
+     *
+     * @param token token
+     */
     @Override
     public void logout(String token) {
         /* Step-1：获取 token */
