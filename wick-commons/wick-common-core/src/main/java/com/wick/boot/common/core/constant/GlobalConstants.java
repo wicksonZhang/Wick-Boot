@@ -28,4 +28,9 @@ public interface GlobalConstants {
      */
     Long EXPIRATION_TIME = 7200L;
 
+    /**
+     * Token 前缀
+     */
+    String TOKEN_TYPE_BEARER = "Bearer ";
+
 }

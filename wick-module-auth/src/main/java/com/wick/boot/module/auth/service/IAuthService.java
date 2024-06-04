@@ -27,4 +27,11 @@ public interface IAuthService {
      * @return AuthUserLoginRespDTO
      */
     AuthUserLoginRespDTO login(AuthUserLoginReqVO reqVO);
+
+    /**
+     * 注销用户
+     *
+     * @param token token
+     */
+    void logout(String token);
 }

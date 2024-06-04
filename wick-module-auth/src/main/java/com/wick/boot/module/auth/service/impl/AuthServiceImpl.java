@@ -5,6 +5,7 @@ import cn.hutool.captcha.GifCaptcha;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.Header;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.exception.ParameterException;
 import com.wick.boot.common.core.result.ResultUtil;
@@ -21,7 +22,9 @@ import com.wick.boot.module.system.model.dto.AuthUserLoginRespDTO;
 import com.wick.boot.module.system.model.dto.CaptchaImageRespDTO;
 import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import com.wick.boot.module.system.model.vo.AuthUserLoginReqVO;
+import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -138,4 +141,23 @@ public class AuthServiceImpl implements IAuthService {
         }
     }
 
+    @Override
+    public void logout(String token) {
+        /* Step-1：获取 token */
+        String bearer = GlobalConstants.TOKEN_TYPE_BEARER;
+        if (token.startsWith(bearer)) {
+            token = token.replace(bearer, "").trim();
+        }
+
+        /* Step-2: 从 Redis 中清除token */
+        String accessTokenKey = GlobalCacheConstants.getLoginAccessToken(token);
+        LoginUserInfoDTO userInfoDTO = redisService.getCacheObject(accessTokenKey);
+        if (ObjUtil.isNull(userInfoDTO)) {
+            return;
+        }
+        redisService.deleteObject(accessTokenKey);
+
+        /* Step-3：清除 SecurityContextHolder */
+        SecurityContextHolder.clearContext();
+    }
 }

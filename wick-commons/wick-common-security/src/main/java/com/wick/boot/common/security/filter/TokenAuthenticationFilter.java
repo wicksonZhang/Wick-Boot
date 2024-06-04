@@ -3,6 +3,7 @@ package com.wick.boot.common.security.filter;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.wick.boot.common.core.constant.GlobalCacheConstants;
+import com.wick.boot.common.core.constant.GlobalConstants;
 import com.wick.boot.common.redis.service.RedisService;
 import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import org.springframework.http.HttpHeaders;
@@ -27,9 +28,6 @@ import java.util.stream.Collectors;
  */
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
-    // 系统 Token 类型
-    private static final String TOKEN_TYPE_BEARER = "Bearer ";
-
     @Resource
     private RedisService redisService;
 
@@ -41,8 +39,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         /* Step-1: 解析 token */
         if (StrUtil.isNotBlank(token)) {
             // 替换掉 Token type
-            if (token.startsWith(TOKEN_TYPE_BEARER)) {
-                token = token.replace(TOKEN_TYPE_BEARER, "").trim();
+            if (token.startsWith(GlobalConstants.TOKEN_TYPE_BEARER)) {
+                token = token.replace(GlobalConstants.TOKEN_TYPE_BEARER, "").trim();
             }
             // 获取 Token, 校验 Token 是否正确
             String accessToken = GlobalCacheConstants.getLoginAccessToken(token);
