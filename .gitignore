@@ -12,6 +12,7 @@
 .mtj.tmp/
 target/
 classes/
+.flattened-pom.xml
 
 # Package Files #
 *.jar
