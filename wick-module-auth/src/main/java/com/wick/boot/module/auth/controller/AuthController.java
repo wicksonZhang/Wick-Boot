@@ -51,6 +51,4 @@ public class AuthController {
         return ResultUtil.success();
     }
 
-
-
 }

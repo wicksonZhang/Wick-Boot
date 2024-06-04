@@ -5,24 +5,27 @@ import cn.hutool.captcha.GifCaptcha;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.Header;
+import com.wick.boot.common.core.constant.GlobalCacheConstants;
+import com.wick.boot.common.core.constant.GlobalConstants;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
+import com.wick.boot.common.core.enums.CommonStatusEnum;
+import com.wick.boot.common.core.enums.UserTypeEnum;
 import com.wick.boot.common.core.exception.ParameterException;
-import com.wick.boot.common.core.result.ResultUtil;
+import com.wick.boot.common.core.exception.ServiceException;
+import com.wick.boot.common.core.utils.ServletUtils;
+import com.wick.boot.common.redis.service.RedisService;
 import com.wick.boot.module.auth.constant.CaptchaConstants;
 import com.wick.boot.module.auth.enums.ErrorCodeAuth;
 import com.wick.boot.module.auth.service.IAuthService;
-import com.wick.boot.common.core.constant.GlobalCacheConstants;
-import com.wick.boot.common.core.constant.GlobalConstants;
-import com.wick.boot.common.core.enums.CommonStatusEnum;
-import com.wick.boot.common.core.exception.ServiceException;
-import com.wick.boot.common.redis.service.RedisService;
+import com.wick.boot.module.system.api.ApiSystemLoginLog;
 import com.wick.boot.module.system.api.ApiSystemUser;
+import com.wick.boot.module.system.enums.LoginLogTypeEnum;
+import com.wick.boot.module.system.enums.LoginResultEnum;
 import com.wick.boot.module.system.model.dto.AuthUserLoginRespDTO;
 import com.wick.boot.module.system.model.dto.CaptchaImageRespDTO;
+import com.wick.boot.module.system.model.dto.LoginLogReqDTO;
 import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import com.wick.boot.module.system.model.vo.AuthUserLoginReqVO;
-import io.swagger.annotations.Authorization;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -39,7 +42,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class AuthServiceImpl implements IAuthService {
 
-    @Value("${captcha.enable:false}")
+    @Value("${captcha.enable:true}")
     private Boolean enable;
 
     @Resource
@@ -47,6 +50,9 @@ public class AuthServiceImpl implements IAuthService {
 
     @Resource
     private ApiSystemUser systemUser;
+
+    @Resource
+    private ApiSystemLoginLog systemLoginLog;
 
     @Override
     public CaptchaImageRespDTO getCaptchaImage() {
@@ -71,7 +77,7 @@ public class AuthServiceImpl implements IAuthService {
     @Override
     public AuthUserLoginRespDTO login(AuthUserLoginReqVO reqVO) {
         /* Step-1: 验证验证码信息 */
-        this.validateCaptcha(reqVO.getCaptchaKey(), reqVO.getCaptchaCode());
+        this.validateCaptcha(reqVO.getUsername(), reqVO.getCaptchaKey(), reqVO.getCaptchaCode());
 
         /* Step-2: 验证用户名和密码 */
         LoginUserInfoDTO userInfoDTO = systemUser.getUserByName(reqVO.getUsername());
@@ -81,6 +87,9 @@ public class AuthServiceImpl implements IAuthService {
         String accessTokenKey = IdUtil.fastSimpleUUID();
         String accessToken = GlobalCacheConstants.getLoginAccessToken(accessTokenKey);
         redisService.setCacheObject(accessToken, userInfoDTO, GlobalConstants.EXPIRATION_TIME, TimeUnit.SECONDS);
+
+        /* Step-4: 创建登录日志 */
+        createLoginLog(userInfoDTO.getUserId(), userInfoDTO.getUsername(), LoginResultEnum.SUCCESS);
 
         return AuthUserLoginRespDTO.builder()
                 .accessToken(accessTokenKey)
@@ -94,7 +103,7 @@ public class AuthServiceImpl implements IAuthService {
      * @param captchaKey  验证码Key
      * @param captchaCode 验证码Code
      */
-    private void validateCaptcha(String captchaKey, String captchaCode) {
+    private void validateCaptcha(String username, String captchaKey, String captchaCode) {
         /* Step-1：判断是否开启验证码 */
         if (!Boolean.TRUE.equals(enable)) {
             return;
@@ -111,11 +120,13 @@ public class AuthServiceImpl implements IAuthService {
         String redisKey = GlobalCacheConstants.getCaptchaCodeKey(captchaKey);
         String verifyCode = redisService.getCacheObject(redisKey);
         if (StrUtil.isBlankIfStr(verifyCode)) {
+            createLoginLog(null, username, LoginResultEnum.CAPTCHA_CODE_ERROR);
             throw ServiceException.getInstance(ErrorCodeAuth.AUTH_CAPTCHA_CODE_ERROR);
         }
         // 验证码Code不能为空 || 验证码Code是否正确
         if (!captchaCode.equalsIgnoreCase(verifyCode)) {
             redisService.deleteObject(redisKey);
+            createLoginLog(null, username, LoginResultEnum.CAPTCHA_CODE_ERROR);
             throw ServiceException.getInstance(ErrorCodeAuth.AUTH_CAPTCHA_CODE_ERROR);
         }
         // 验证成功之后删除验证码
@@ -141,6 +152,26 @@ public class AuthServiceImpl implements IAuthService {
         if (CommonStatusEnum.DISABLE.getValue().equals(userInfoDTO.getStatus())) {
             throw ServiceException.getInstance(ErrorCodeAuth.AUTH_USER_STATUS_DISABLE);
         }
+    }
+
+    /**
+     * 记录登录日志
+     *
+     * @param userId     用户id
+     * @param username   用户名称
+     * @param resultEnum 结果集枚举
+     */
+    private void createLoginLog(Long userId, String username, LoginResultEnum resultEnum) {
+        LoginLogReqDTO logReqDTO = new LoginLogReqDTO();
+        logReqDTO.setLogType(LoginLogTypeEnum.LOGIN_USERNAME.getType());
+        logReqDTO.setTraceId(IdUtil.fastSimpleUUID());
+        logReqDTO.setUserId(userId);
+        logReqDTO.setUserType(UserTypeEnum.ADMIN.getValue());
+        logReqDTO.setUsername(username);
+        logReqDTO.setResult(resultEnum.getResult());
+        logReqDTO.setUserIp(ServletUtils.getClientIP());
+        logReqDTO.setUserAgent(ServletUtils.getUserAgent());
+        this.systemLoginLog.saveLoginLog(logReqDTO);
     }
 
     /**
