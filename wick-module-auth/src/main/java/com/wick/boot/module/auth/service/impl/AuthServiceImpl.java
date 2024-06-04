@@ -4,6 +4,7 @@ import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.GifCaptcha;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.wick.boot.common.core.constant.GlobalCacheConstants;
 import com.wick.boot.common.core.constant.GlobalConstants;
@@ -195,7 +196,27 @@ public class AuthServiceImpl implements IAuthService {
         }
         redisService.deleteObject(accessTokenKey);
 
-        /* Step-3：清除 SecurityContextHolder */
+        /* Step-3：新增注销日志 */
+        createLogoutLog(userInfoDTO.getUserId(), UserTypeEnum.ADMIN.getValue(), LoginLogTypeEnum.LOGOUT_SELF.getType());
+
+        /* Step-4：清除 SecurityContextHolder */
         SecurityContextHolder.clearContext();
+    }
+
+    private void createLogoutLog(Long userId, Integer userType, Integer logType) {
+        LoginLogReqDTO reqDTO = new LoginLogReqDTO();
+        reqDTO.setLogType(logType);
+        reqDTO.setTraceId(IdUtil.fastSimpleUUID());
+        reqDTO.setUserId(userId);
+        reqDTO.setUserType(userType);
+//        if (ObjectUtil.equal(getUserType().getValue(), userType)) {
+//            reqDTO.setUsername(getUsername(userId));
+//        } else {
+//            reqDTO.setUsername(memberService.getMemberUserMobile(userId));
+//        }
+        reqDTO.setUserAgent(ServletUtils.getUserAgent());
+        reqDTO.setUserIp(ServletUtils.getClientIP());
+        reqDTO.setResult(LoginResultEnum.SUCCESS.getResult());
+        this.systemLoginLog.saveLoginLog(reqDTO);
     }
 }
