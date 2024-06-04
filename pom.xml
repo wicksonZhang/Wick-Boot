@@ -7,13 +7,15 @@
     <groupId>com.wick.boot</groupId>
     <artifactId>wick-boot</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>${revision}</version>
 
     <!-- 子模块信息 -->
     <properties>
+        <revision>1.0.0-JDK8-SNAPSHOT</revision>
         <java.version>1.8</java.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <flatten-maven-plugin.version>1.5.0</flatten-maven-plugin.version>
         <!-- 插件版本 -->
         <maven.jar.plugin.version>3.2.2</maven.jar.plugin.version>
         <maven.war.plugin.version>3.2.2</maven.war.plugin.version>
@@ -195,81 +197,116 @@
             <dependency>
                 <groupId>com.wick.boot</groupId>
                 <artifactId>wick-common-core</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <!-- common-redis -->
             <dependency>
                 <groupId>com.wick.boot</groupId>
                 <artifactId>wick-common-redis</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <!-- common-mybatis -->
             <dependency>
                 <groupId>com.wick.boot</groupId>
                 <artifactId>wick-common-mybatis</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <!-- common-mybatis -->
             <dependency>
                 <groupId>com.wick.boot</groupId>
                 <artifactId>wick-common-security</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <!-- common-web -->
             <dependency>
                 <groupId>com.wick.boot</groupId>
                 <artifactId>wick-common-web</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <!-- auth -->
             <dependency>
                 <groupId>com.wick.boot</groupId>
                 <artifactId>wick-module-auth</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <!-- system-api -->
             <dependency>
                 <groupId>com.wick.boot</groupId>
                 <artifactId>wick-module-system-api</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
 
             <!-- system-boot -->
             <dependency>
                 <groupId>com.wick.boot</groupId>
                 <artifactId>wick-module-system-boot</artifactId>
-                <version>${project.version}</version>
+                <version>${revision}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
     <build>
+        <pluginManagement>
+            <plugins>
+                <!-- maven-compiler-plugin 插件，解决 Lombok + MapStruct 组合 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                            <path>
+                                <groupId>org.mapstruct</groupId>
+                                <artifactId>mapstruct-processor</artifactId>
+                                <version>${mapstruct.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <plugins>
-            <!-- maven-compiler-plugin 插件，解决 Lombok + MapStruct 组合 -->
+            <!-- 统一 revision 版本 -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>${flatten-maven-plugin.version}</version>
                 <configuration>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
-                        </path>
-                        <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${mapstruct.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                    <updatePomFile>true</updatePomFile>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                    </execution>
+                    <execution>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
