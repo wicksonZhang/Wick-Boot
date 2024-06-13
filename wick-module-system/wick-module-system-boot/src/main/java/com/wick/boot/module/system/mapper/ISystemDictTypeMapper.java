@@ -10,6 +10,8 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
+ * 字典类型Mapper
+ *
  * @author ZhangZiHeng
  * @date 2024-04-08
  */

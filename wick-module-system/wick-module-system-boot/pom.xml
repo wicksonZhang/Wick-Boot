@@ -20,6 +20,12 @@
             <artifactId>wick-common-mybatis</artifactId>
         </dependency>
 
+        <!-- common log -->
+        <dependency>
+            <groupId>com.wick.boot</groupId>
+            <artifactId>wick-common-log</artifactId>
+        </dependency>
+
         <!-- common security -->
         <dependency>
             <groupId>com.wick.boot</groupId>

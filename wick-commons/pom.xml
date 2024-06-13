@@ -22,6 +22,7 @@
         <module>wick-common-redis</module>
         <module>wick-common-security</module>
         <module>wick-common-web</module>
+        <module>wick-common-log</module>
     </modules>
 
 </project>

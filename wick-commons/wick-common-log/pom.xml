@@ -3,26 +3,34 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
+        <artifactId>wick-commons</artifactId>
         <groupId>com.wick.boot</groupId>
-        <artifactId>wick-boot</artifactId>
         <version>${revision}</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>wick-module-auth</artifactId>
+    <artifactId>wick-common-log</artifactId>
+    <packaging>jar</packaging>
 
     <dependencies>
-        <!-- common security -->
         <dependency>
             <groupId>com.wick.boot</groupId>
-            <artifactId>wick-common-security</artifactId>
+            <artifactId>wick-common-core</artifactId>
         </dependency>
 
-        <!-- common log -->
+        <!-- Spring 核心 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!-- 业务组件 -->
         <dependency>
             <groupId>com.wick.boot</groupId>
-            <artifactId>wick-common-log</artifactId>
+            <artifactId>wick-module-system-api</artifactId>
+            <version>${revision}</version>
         </dependency>
+
     </dependencies>
 
 </project>

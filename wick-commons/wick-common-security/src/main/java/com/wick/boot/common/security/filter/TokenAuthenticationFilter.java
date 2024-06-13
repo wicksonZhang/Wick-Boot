@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.wick.boot.common.core.constant.GlobalCacheConstants;
 import com.wick.boot.common.core.constant.GlobalConstants;
 import com.wick.boot.common.redis.service.RedisService;
+import com.wick.boot.common.web.util.WebFrameworkUtils;
 import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -49,6 +50,9 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                 /* Step-2: 获取用户信息， 存入 SecurityContextHolder  */
                 Authentication authentication = this.getAuthentication(loginUserInfoDTO, request);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                // 原因是，Spring Security 的 Filter 在 ApiAccessLogFilter 后面，在它记录访问日志时，线上上下文已经没有用户编号等信息
+                WebFrameworkUtils.setLoginUserId(request, loginUserInfoDTO.getUserId());
+                WebFrameworkUtils.setLoginUserType(request, loginUserInfoDTO.getUserType());
             }
         }
         filterChain.doFilter(request, response);

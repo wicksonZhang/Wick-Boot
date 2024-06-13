@@ -1,5 +1,6 @@
 package com.wick.boot.module.system.model.dto;
 
+import com.wick.boot.common.core.enums.UserTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +22,13 @@ public class LoginUserInfoDTO {
      * 用户id
      */
     private Long userId;
+
+    /**
+     * 用户类型
+     *
+     * 关联 {@link UserTypeEnum}
+     */
+    private Integer userType;
 
     /**
      * 部门id
