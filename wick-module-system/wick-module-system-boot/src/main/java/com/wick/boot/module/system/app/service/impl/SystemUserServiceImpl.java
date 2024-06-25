@@ -17,7 +17,7 @@ import com.wick.boot.module.system.app.service.AbstractSystemUserAppService;
 import com.wick.boot.module.system.app.service.ISystemUserService;
 import com.wick.boot.module.system.convert.SystemUserConvert;
 import com.wick.boot.module.system.enums.ErrorCodeSystem;
-import com.wick.boot.module.system.listener.user.UserImportListener;
+import com.wick.boot.module.system.enums.user.UserImportListener;
 import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import com.wick.boot.module.system.model.dto.SystemUserDTO;
 import com.wick.boot.module.system.model.dto.SystemUserInfoDTO;

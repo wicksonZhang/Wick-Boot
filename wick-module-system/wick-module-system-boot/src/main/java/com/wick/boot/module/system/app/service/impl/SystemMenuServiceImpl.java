@@ -207,7 +207,6 @@ public class SystemMenuServiceImpl extends AbstractSystemMenuAppService implemen
      */
     private List<SystemRouteDTO> buildRouteTree(List<SystemMenuDTO> menuDTOs) {
         // 创建结果Map，以父菜单ID为键
-        Map<Long, SystemRouteDTO> resultMap = Maps.newLinkedHashMap();
         Long rootNodeId = GlobalConstants.ROOT_NODE_ID;
 
         // Step-1: 构建路由树并将菜单存入Map
@@ -216,47 +215,23 @@ public class SystemMenuServiceImpl extends AbstractSystemMenuAppService implemen
         // 将子菜单添加到父菜单的children属性中
         for (SystemMenuDTO menuDTO : menuMap.values()) {
             Long parentId = menuDTO.getParentId();
-            if (Objects.equals(rootNodeId, parentId) || !menuMap.containsKey(parentId)) {
+            if (Objects.equals(rootNodeId, menuDTO.getParentId())) {
                 continue;
             }
             // 获取或创建父菜单对应的路由
-            SystemMenuDTO parentDTO = menuMap.get(parentId);
-            SystemRouteDTO systemRouteDTO = resultMap.computeIfAbsent(parentDTO.getId(), route -> getRoute(parentDTO));
-            // 设置 children 属性
-            systemRouteDTO.getChildren().add(getRoute(menuDTO));
+            SystemMenuDTO parentMenuDTO = menuMap.get(parentId);
+            if (parentMenuDTO != null) {
+                parentMenuDTO.getChildren().add(menuDTO);
+            }
         }
+
+        /* Step-2: 返回根节点结果集 */
+        List<SystemMenuDTO> rootMenus = menuMap.values().stream()
+                .filter(deptDTO -> Objects.equals(rootNodeId, deptDTO.getParentId()))
+                .collect(Collectors.toList());
 
         /* Step-2: 返回结果集 */
-        return new ArrayList<>(resultMap.values());
-    }
-
-    private SystemRouteDTO getRoute(SystemMenuDTO menuDTO) {
-        SystemRouteDTO routeVO = new SystemRouteDTO();
-
-        // 设置 SystemRouteDTO 属性
-        String routeName = StringUtils.capitalize(StrUtil.toCamelCase(menuDTO.getPath(), '-'));  // 路由 name 需要驼峰，首字母大写
-        routeVO.setName(routeName); // 根据name路由跳转 this.$router.push({name:xxx})
-        routeVO.setPath(menuDTO.getPath()); // 根据path路由跳转 this.$router.push({path:xxx})
-        routeVO.setRedirect(menuDTO.getRedirect());
-        routeVO.setComponent(menuDTO.getComponent());
-
-        // 设置 SystemRouteDTO.Meta 属性
-        SystemRouteDTO.Meta meta = new SystemRouteDTO.Meta();
-        meta.setTitle(menuDTO.getName());
-        meta.setIcon(menuDTO.getIcon());
-        meta.setRoles(menuDTO.getRoles());
-        meta.setHidden(CommonStatusEnum.DISABLE.getValue().equals(menuDTO.getVisible()));
-
-        // 【菜单】是否开启页面缓存
-        if (MenuTypeEnum.MENU.equals(menuDTO.getType()) && ObjectUtil.equals(menuDTO.getKeepAlive(), 1)) {
-            meta.setKeepAlive(true);
-        }
-        // 【目录】只有一个子路由是否始终显示
-        if (MenuTypeEnum.CATALOG.equals(menuDTO.getType()) && ObjectUtil.equals(menuDTO.getAlwaysShow(), 1)) {
-            meta.setAlwaysShow(true);
-        }
-        routeVO.setMeta(meta);
-        return routeVO;
+        return SystemMenuConvert.INSTANCE.convertToRoute(rootMenus);
     }
 
 }

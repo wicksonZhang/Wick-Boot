@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,9 +21,9 @@ import java.util.List;
 public class SystemMenuDTO extends SystemMenu {
 
     @ApiModelProperty(value = "子菜单集合", example = "")
-    private List<SystemMenuDTO> children;
+    private List<SystemMenuDTO> children = new ArrayList<>();
 
     @ApiModelProperty(value = "路由权限", example = "ADMIN")
-    private List<String> roles;
+    private List<String> roles = new ArrayList<>();
 
 }

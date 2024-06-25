@@ -1,4 +1,4 @@
-package com.wick.boot.module.system.listener.user;
+package com.wick.boot.module.system.enums.user;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Validator;
