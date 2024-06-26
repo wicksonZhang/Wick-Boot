@@ -144,3 +144,17 @@ export interface DictForm {
    */
   remark?: string;
 }
+
+/**
+ * 获取 dictType 对应的数据字典数组
+ *
+ * @param dictType 数据类型
+ * @returns {*|Array} 数据字典数组
+ */
+export interface DictDataType {
+  dictType: string
+  label: string
+  value: string | number | boolean
+  colorType: string | ''
+  cssClass: string
+}
