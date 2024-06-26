@@ -1,6 +1,5 @@
 package com.wick.boot.module.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.KeySequence;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wick.boot.common.core.model.entity.BaseDO;
 import lombok.Data;

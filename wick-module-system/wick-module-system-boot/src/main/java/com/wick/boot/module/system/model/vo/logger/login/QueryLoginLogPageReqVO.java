@@ -1,0 +1,32 @@
+package com.wick.boot.module.system.model.vo.logger.login;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.wick.boot.common.core.model.vo.CommonPageParamVO;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+
+/**
+ * 系统管理 - 登录日志查询条件
+ *
+ * @author ZhangZiHeng
+ * @date 2024-06-26
+ */
+@Setter
+@Getter
+@ApiModel(value = "QueryLoginLogPageReqVO", description = "登录日志查询条件参数")
+public class QueryLoginLogPageReqVO extends CommonPageParamVO {
+
+    @ApiModelProperty(value = "用户名称", example = "系统管理员")
+    private String username;
+
+    @ApiModelProperty(value = "登录地址", example = "127.0.0.1")
+    private String userIp;
+
+    @ApiModelProperty(value = "登录时间", example = "[2022-07-01 00:00:00,2022-07-01 23:59:59]")
+    private LocalDateTime[] createTime;
+
+}
