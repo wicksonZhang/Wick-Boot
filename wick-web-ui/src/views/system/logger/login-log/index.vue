@@ -80,7 +80,7 @@
                 type="primary"
                 link
                 @click="openDetail(scope.row)"
-              ><i-ep-refresh-left />详情
+              > 详情
               </el-button>
           </template>
         </el-table-column>
@@ -96,16 +96,16 @@
       />
     </el-card>
 
+    <!-- 表单弹窗：详情 -->
+    <login-log-detail ref="detailRef"/>
   </div>
 </template>
 
 <script setup lang="ts">
-import { getLoginLogPage } from "@/api/logger"
-
+import {getLoginLogPage} from "@/api/logger"
 import {LoginLogPageVO, LoginLogQuery} from "@/api/logger/type";
 
 const queryFormRef = ref(ElForm);
-
 const loading = ref(false);
 
 const queryParams = reactive<LoginLogQuery>({
@@ -126,6 +126,7 @@ function handleQuery() {
   loading.value = true;
   getLoginLogPage(queryParams)
     .then(({ data }) => {
+      console.log(queryParams);
       pageData.value = data.list;
       total.value = data.total;
     })
@@ -142,8 +143,10 @@ function resetQuery() {
   handleQuery();
 }
 
-function openDetail() {
-
+/** 详情操作 */
+const detailRef = ref()
+function openDetail(row: LoginLogPageVO) {
+  detailRef.value.open(row);
 }
 
 /**

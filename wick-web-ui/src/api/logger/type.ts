@@ -5,15 +5,15 @@ export interface LoginLogQuery extends PageQuery {
   /**
    * 用户名称
    */
-  username?: string;
+  username: string;
   /**
    * 用户ip
    */
-  userIp?: string;
+  userIp: string;
   /**
    * 登录日期
    */
-  createTime?: Date[];
+  createTime: [];
 }
 
 /**
