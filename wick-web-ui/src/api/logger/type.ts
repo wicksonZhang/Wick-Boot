@@ -1,20 +1,9 @@
 /**
  * 登录日志查询对象类型
  */
-export interface LoginLogQuery extends PageQuery {
-  /**
-   * 用户名称
-   */
-  username: string;
-  /**
-   * 用户ip
-   */
-  userIp: string;
-  /**
-   * 登录日期
-   */
-  createTime: [];
-}
+// export interface LoginLogQuery extends PageQuery {
+//
+// }
 
 /**
  * 登录日志分页对象

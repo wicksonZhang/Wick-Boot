@@ -23,9 +23,9 @@
         </el-form-item>
         <el-form-item label="登录日期" prop="createTime">
           <el-date-picker
-            v-model="queryParams.createTime"
-            value-format="YYYY-MM-DD HH:mm:ss"
+            v-model="createTime"
             type="daterange"
+            value-format="YYYY-MM-DD HH:mm:ss"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             :default-time="[new Date('1 00:00:00'), new Date('1 23:59:59')]"
@@ -33,9 +33,18 @@
           />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="handleQuery()"><i-ep-search />搜索</el-button>
-          <el-button @click="resetQuery()"><i-ep-refresh />重置</el-button>
-          <el-button type="success" @click="handleExport()"> <i-ep-download /> 导出 </el-button>
+          <el-button type="primary" @click="handleQuery()">
+            <i-ep-search/>
+            搜索
+          </el-button>
+          <el-button @click="resetQuery()">
+            <i-ep-refresh/>
+            重置
+          </el-button>
+          <el-button type="success" @click="handleExport()">
+            <i-ep-download/>
+            导出
+          </el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -44,8 +53,8 @@
     <el-card shadow="never" class="table-container">
       <!--   数据表格   -->
       <el-table v-loading="loading" :data="pageData">
-        <el-table-column label="日志编号" align="center" prop="id" />
-        <el-table-column label="操作类型" align="center" >
+        <el-table-column label="日志编号" align="center" prop="id"/>
+        <el-table-column label="操作类型" align="center">
           <template #default="scope">
             <el-tag v-if="scope.row.logType === 100" type="primary">账号登录</el-tag>
             <el-tag v-if="scope.row.logType === 101" type="info">社交登录</el-tag>
@@ -54,9 +63,9 @@
             <el-tag v-if="scope.row.logType === 202" type="danger">强制登出</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="用户名称" align="center" prop="username" width="180" />
-        <el-table-column label="登录地址" align="center" prop="userIp" width="180" />
-        <el-table-column label="浏览器" align="center" prop="userAgent" />
+        <el-table-column label="用户名称" align="center" prop="username" width="180"/>
+        <el-table-column label="登录地址" align="center" prop="userIp" width="180"/>
+        <el-table-column label="浏览器" align="center" prop="userAgent"/>
         <el-table-column label="登陆结果" align="center" prop="result">
           <template #default="scope">
             <el-tag v-if="scope.row.result === 0" type="success">成功</el-tag>
@@ -74,14 +83,14 @@
           width="180"
           value-format="YYYY-MM-DD HH:mm:ss"
         />
-        <el-table-column label="操作"  align="center">
+        <el-table-column label="操作" align="center">
           <template #default="scope">
-              <el-button
-                type="primary"
-                link
-                @click="openDetail(scope.row)"
-              > 详情
-              </el-button>
+            <el-button
+              type="primary"
+              link
+              @click="openDetail(scope.row)"
+            > 详情
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -103,30 +112,31 @@
 
 <script setup lang="ts">
 import {getLoginLogPage} from "@/api/logger"
-import {LoginLogPageVO, LoginLogQuery} from "@/api/logger/type";
+import {LoginLogPageVO} from "@/api/logger/type";
 
 const queryFormRef = ref(ElForm);
 const loading = ref(false);
-
-const queryParams = reactive<LoginLogQuery>({
+const createTime = ref([]);
+const queryParams = reactive({
   pageNumber: 1,
   pageSize: 10,
+  username: undefined,
+  userIp: undefined,
+  startTime: undefined,
+  endTime: undefined
 });
 const total = ref(0); // 数据总数
 const pageData = ref<LoginLogPageVO[]>();
 
-if (onMounted) {
-  onMounted(() => {
-    handleQuery();
-  });
-}
-
 /** 查询 */
 function handleQuery() {
   loading.value = true;
+  if (createTime.value !== null && createTime.value.length > 0){
+    queryParams.startTime = createTime.value[0];
+    queryParams.endTime = createTime.value[1];
+  }
   getLoginLogPage(queryParams)
-    .then(({ data }) => {
-      console.log(queryParams);
+    .then(({data}) => {
       pageData.value = data.list;
       total.value = data.total;
     })
@@ -140,6 +150,9 @@ function handleQuery() {
  */
 function resetQuery() {
   queryFormRef.value.resetFields();
+  createTime.value = []
+  queryParams.startTime = undefined;
+  queryParams.endTime = undefined;
   handleQuery();
 }
 
@@ -155,5 +168,9 @@ function openDetail(row: LoginLogPageVO) {
 function handleExport() {
 
 }
+
+onMounted(() => {
+  handleQuery();
+});
 
 </script>

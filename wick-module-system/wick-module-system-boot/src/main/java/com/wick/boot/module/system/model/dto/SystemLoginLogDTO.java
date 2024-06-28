@@ -38,7 +38,7 @@ public class SystemLoginLogDTO {
     @ApiModelProperty(value = "链路追踪编号", example = "89aca178-a370-411c-ae02-3f0d672be4ab")
     private String traceId;
 
-    @ApiModelProperty(value = "用户账号", example = "yudao")
+    @ApiModelProperty(value = "用户账号", example = "wick")
     @ExcelProperty("用户账号")
     private String username;
 

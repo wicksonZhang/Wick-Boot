@@ -32,13 +32,10 @@ public interface ISystemLoginLogMapper extends BaseMapperX<SystemLoginLog> {
         if (StrUtil.isNotBlank(userIp)) {
             queryWrapper.likeRight(SystemLoginLog::getUserIp, userIp);
         }
-        LocalDateTime[] createTime = reqVO.getCreateTime();
-        if (createTime != null) {
-            LocalDateTime startTime = createTime[0];
-            LocalDateTime endTime = createTime[1];
-            if (startTime != null && endTime != null) {
-                queryWrapper.between(SystemLoginLog::getCreateTime, startTime, endTime);
-            }
+        String startTime = reqVO.getStartTime();
+        String endTime = reqVO.getEndTime();
+        if (startTime != null && endTime != null) {
+            queryWrapper.between(SystemLoginLog::getCreateTime, startTime, endTime);
         }
         queryWrapper.orderByDesc(SystemLoginLog::getCreateTime);
         return this.selectPage(page, queryWrapper);
