@@ -5,6 +5,8 @@ import com.wick.boot.module.system.model.dto.OperateLogCreateReqDTO;
 import com.wick.boot.module.system.model.dto.SystemOperateLogDTO;
 import com.wick.boot.module.system.model.vo.logger.operate.QueryOperateLogPageReqVO;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * 登录日志-服务层
  *
@@ -27,4 +29,12 @@ public interface ISystemOperateLogService {
      * @return
      */
     PageResult<SystemOperateLogDTO> getOperateLogPage(QueryOperateLogPageReqVO reqVO);
+
+    /**
+     * 导出用户操作日志
+     *
+     * @param queryParams 请求参数VO
+     * @param response    响应结果集
+     */
+    void exportOperateLog(QueryOperateLogPageReqVO queryParams, HttpServletResponse response);
 }

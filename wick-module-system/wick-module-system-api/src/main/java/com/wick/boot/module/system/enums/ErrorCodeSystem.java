@@ -62,5 +62,6 @@ public interface ErrorCodeSystem {
 
     // ======================================== System-日志管理 1-002-006-000 ========================================
     ResultCode LOGIN_LOG_EXPORT_ERROR = new ResultCode(1002006001, "用户登录日志导出失败");
+    ResultCode OPERATE_LOG_EXPORT_ERROR = new ResultCode(1002006002, "用户操作日志导出失败");
 
 }

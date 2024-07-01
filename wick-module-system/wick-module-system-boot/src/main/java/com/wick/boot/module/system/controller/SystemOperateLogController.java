@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 /**
@@ -32,6 +33,12 @@ public class SystemOperateLogController {
     @ApiOperation(value = "获取操作日志分页", notes = "操作日志")
     public ResultUtil<PageResult<SystemOperateLogDTO>> getOperateLogPage(@Valid QueryOperateLogPageReqVO reqVO) {
         return ResultUtil.success(operateLogService.getOperateLogPage(reqVO));
+    }
+
+    @GetMapping("/export")
+    @ApiOperation(value = "导出操作日志分页", notes = "登录日志")
+    public void exportOperateLog(@Valid QueryOperateLogPageReqVO queryParams, HttpServletResponse response) {
+        operateLogService.exportOperateLog(queryParams, response);
     }
 
 }

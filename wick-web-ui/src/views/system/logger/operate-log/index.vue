@@ -12,22 +12,8 @@
             placeholder="请输入操作人员"
             class="!w-240px"
           >
-            <el-option
-              v-for="user in userList"
-              :key="user.id"
-              :label="user.nickname"
-              :value="user.id"
-            />
+            <el-option label="系统管理员" value="2"/>
           </el-select>
-        </el-form-item>
-        <el-form-item label="操作分类" prop="type">
-          <el-input
-            v-model="queryParams.type"
-            placeholder="请输入操作模块"
-            clearable
-            @keyup.enter="handleQuery"
-            class="!w-240px"
-          />
         </el-form-item>
         <el-form-item label="操作模块" prop="subType">
           <el-input
@@ -38,14 +24,22 @@
             class="!w-240px"
           />
         </el-form-item>
-        <el-form-item label="操作内容" prop="action">
-          <el-input
-            v-model="queryParams.content"
-            placeholder="请输入操作名"
+        <el-form-item label="操作类型" prop="type">
+          <el-select
+            v-model="queryParams.type"
             clearable
-            @keyup.enter="handleQuery"
+            filterable
+            placeholder="请输入操作类型"
             class="!w-240px"
-          />
+          >
+            <el-option label="其他" value="0" />
+            <el-option label="查询" value="1" />
+            <el-option label="新增" value="2" />
+            <el-option label="修改" value="3" />
+            <el-option label="删除" value="4" />
+            <el-option label="导入" value="5" />
+            <el-option label="导出" value="6" />
+          </el-select>
         </el-form-item>
         <el-form-item label="操作时间" prop="createTime">
           <el-date-picker
@@ -55,7 +49,7 @@
             start-placeholder="开始日期"
             end-placeholder="结束日期"
             :default-time="[new Date('1 00:00:00'), new Date('1 23:59:59')]"
-            class="!w-220px"
+            class="!w-240px"
           />
         </el-form-item>
         <el-form-item>
@@ -123,14 +117,18 @@
         @pagination="handleQuery"
       />
     </el-card>
+
+    <!-- 详细数据 -->
+    <operate-log-detail ref="detailRef"/>
   </div>
 
 </template>
 
 <script setup lang="ts">
 import {OperateLogPageVO} from "@/api/logger/type";
-import {getOperateLogPage} from "@/api/logger";
+import {exportOperateLog, getOperateLogPage} from "@/api/logger";
 import {getSimpleUserList} from "@/api/user";
+import OperateLogDetail from "@/views/system/logger/operate-log/components/operate-log-detail.vue";
 
 const loading = ref(false); // 列表的加载中
 const queryFormRef = ref() // 搜索的表单
@@ -142,7 +140,7 @@ const userList = ref<[]>(); // 用户列表
 const queryParams = reactive({
   pageNumber: 1,
   pageSize: 10,
-  userId: undefined,
+  userId: '',
   type: undefined,
   subType: undefined,
   action: undefined,
@@ -176,7 +174,27 @@ function openDetail(row: OperateLogPageVO) {
 
 /** 导出按钮操作 */
 function handleExport() {
+  exportOperateLog(queryParams).then((response: any) => {
+    const fileData = response.data;
+    const fileName = decodeURI(
+      response.headers["content-disposition"].split(";")[1].split("=")[1]
+    );
+    const fileType =
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8";
 
+    const blob = new Blob([fileData], { type: fileType });
+    const downloadUrl = window.URL.createObjectURL(blob);
+
+    const downloadLink = document.createElement("a");
+    downloadLink.href = downloadUrl;
+    downloadLink.download = fileName;
+
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+
+    document.body.removeChild(downloadLink);
+    window.URL.revokeObjectURL(downloadUrl);
+  });
 }
 
 onMounted(async () => {

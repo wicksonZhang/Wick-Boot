@@ -16,7 +16,7 @@ export function getLoginLogPage(queryParams: PageQuery): AxiosPromise<PageResult
 }
 
 /**
- * 导出用户
+ * 导出用户登录日志
  *
  * @param queryParams
  * @returns
@@ -40,5 +40,18 @@ export function getOperateLogPage(queryParams: PageQuery): AxiosPromise<PageResu
     url: "/api/v1/operate-log/page",
     method: "get",
     params: queryParams,
+  });
+}
+
+/**
+ * 导出用户操作日志
+ * @param queryParams
+ */
+export function exportOperateLog(queryParams: PageQuery) {
+  return request({
+    url: "/api/v1/operate-log/export",
+    method: "get",
+    params: queryParams,
+    responseType: "arraybuffer",
   });
 }

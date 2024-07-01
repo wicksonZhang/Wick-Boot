@@ -1,11 +1,15 @@
 package com.wick.boot.module.system.app.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.app.service.ISystemOperateLogService;
 import com.wick.boot.module.system.convert.SystemLoggerConvert;
 import com.wick.boot.module.system.convert.SystemOperateLogConvert;
+import com.wick.boot.module.system.enums.ErrorCodeSystem;
 import com.wick.boot.module.system.mapper.ISystemOperateLogMapper;
 import com.wick.boot.module.system.mapper.ISystemUserMapper;
 import com.wick.boot.module.system.model.dto.OperateLogCreateReqDTO;
@@ -17,9 +21,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -65,5 +71,21 @@ public class SystemOperateLogServiceImpl implements ISystemOperateLogService {
             }
         });
         return new PageResult<>(operateLogDTOS, pageResult.getTotal());
+    }
+
+    @Override
+    public void exportOperateLog(QueryOperateLogPageReqVO queryParams, HttpServletResponse response) {
+        String fileName = "用户操作日志.xlsx";
+        try {
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, "UTF-8"));
+
+            List<SystemOperateLog> exportOperateLog = this.operateLogMapper.selectOperateLogPage(queryParams).getRecords();
+            EasyExcel.write(response.getOutputStream(), OperateLogExportVO.class)
+                    .sheet("用户操作日志")
+                    .doWrite(BeanUtil.copyToList(exportOperateLog, OperateLogExportVO.class));
+        } catch (IOException e) {
+            throw ServiceException.getInstance(ErrorCodeSystem.OPERATE_LOG_EXPORT_ERROR);
+        }
     }
 }
