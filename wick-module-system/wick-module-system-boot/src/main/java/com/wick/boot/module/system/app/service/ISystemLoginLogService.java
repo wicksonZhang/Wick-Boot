@@ -5,6 +5,8 @@ import com.wick.boot.module.system.model.dto.LoginLogReqDTO;
 import com.wick.boot.module.system.model.dto.SystemLoginLogDTO;
 import com.wick.boot.module.system.model.vo.logger.login.QueryLoginLogPageReqVO;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * 登录日志-服务层
  *
@@ -27,4 +29,12 @@ public interface ISystemLoginLogService {
      * @return 分页结果集
      */
     PageResult<SystemLoginLogDTO> getLoginLogPage(QueryLoginLogPageReqVO reqVO);
+
+    /**
+     * 导出用户登录日志
+     *
+     * @param queryParams 登录日志请求VO
+     * @param response    响应结果集
+     */
+    void exportLoginLog(QueryLoginLogPageReqVO queryParams, HttpServletResponse response);
 }

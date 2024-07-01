@@ -10,6 +10,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * 后台管理 - 用户信息
  *
@@ -56,4 +58,6 @@ public interface SystemUserConvert {
 
 
     SystemUser importVo2Entity(UserImportVO userImportVO);
+
+    List<SystemUserDTO> entityToDTOList(List<SystemUser> systemUsers);
 }

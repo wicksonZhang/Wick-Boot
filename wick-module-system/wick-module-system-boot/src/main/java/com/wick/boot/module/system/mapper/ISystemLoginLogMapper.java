@@ -1,16 +1,13 @@
 package com.wick.boot.module.system.mapper;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
-import com.wick.boot.module.system.model.dto.SystemLoginLogDTO;
-import com.wick.boot.module.system.model.entity.SystemDictType;
 import com.wick.boot.module.system.model.entity.SystemLoginLog;
 import com.wick.boot.module.system.model.vo.logger.login.QueryLoginLogPageReqVO;
 import org.apache.ibatis.annotations.Mapper;
-
-import java.time.LocalDateTime;
 
 /**
  * 系统给登录日志Mapper
@@ -22,7 +19,7 @@ import java.time.LocalDateTime;
 public interface ISystemLoginLogMapper extends BaseMapperX<SystemLoginLog> {
 
 
-    default Page<SystemLoginLog> selectLoginLogPage(Page<SystemLoginLog> page, QueryLoginLogPageReqVO reqVO) {
+    default Page<SystemLoginLog> selectLoginLogPage(QueryLoginLogPageReqVO reqVO) {
         LambdaQueryWrapper<SystemLoginLog> queryWrapper = new LambdaQueryWrapper<>();
         String username = reqVO.getUsername();
         if (StrUtil.isNotBlank(username)) {
@@ -32,12 +29,12 @@ public interface ISystemLoginLogMapper extends BaseMapperX<SystemLoginLog> {
         if (StrUtil.isNotBlank(userIp)) {
             queryWrapper.likeRight(SystemLoginLog::getUserIp, userIp);
         }
-        String startTime = reqVO.getStartTime();
-        String endTime = reqVO.getEndTime();
+        Object startTime = ArrayUtil.get(reqVO.getCreateTime(), 0);
+        Object endTime = ArrayUtil.get(reqVO.getCreateTime(), 1);
         if (startTime != null && endTime != null) {
             queryWrapper.between(SystemLoginLog::getCreateTime, startTime, endTime);
         }
         queryWrapper.orderByDesc(SystemLoginLog::getCreateTime);
-        return this.selectPage(page, queryWrapper);
+        return this.selectPage(new Page<>(reqVO.getPageNumber(), reqVO.getPageSize()), queryWrapper);
     }
 }

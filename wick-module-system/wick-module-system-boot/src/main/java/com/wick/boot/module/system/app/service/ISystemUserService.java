@@ -1,6 +1,7 @@
 package com.wick.boot.module.system.app.service;
 
 
+import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.module.system.model.dto.SystemUserInfoDTO;
 import com.wick.boot.module.system.model.dto.SystemUserDTO;
 import com.wick.boot.module.system.model.vo.user.*;
@@ -73,6 +74,13 @@ public interface ISystemUserService {
      * @param reqVO 更新用户密码参数信息
      */
     void resetPwd(UpdateUserPwdVO reqVO);
+
+    /**
+     * 获得用户列表
+     *
+     * @return
+     */
+    List<SystemUserDTO> simpleList();
 
     /**
      * 用户导入模板下载

@@ -5,6 +5,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Sets;
 import com.wick.boot.common.core.constant.GlobalCacheConstants;
@@ -24,6 +25,7 @@ import com.wick.boot.module.system.model.dto.SystemUserInfoDTO;
 import com.wick.boot.module.system.model.entity.SystemUser;
 import com.wick.boot.module.system.model.entity.SystemUserRole;
 import com.wick.boot.module.system.model.vo.user.*;
+import org.apache.commons.compress.utils.Lists;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -213,6 +216,13 @@ public class SystemUserServiceImpl extends AbstractSystemUserAppService implemen
         String password = passwordEncoder.encode(reqVO.getPassword());
         systemUser.setPassword(password);
         this.userMapper.updateById(systemUser);
+    }
+
+    @Override
+    public List<SystemUserDTO> simpleList() {
+        // TODO
+        List<SystemUser> systemUsers = this.userMapper.selectList(new LambdaQueryWrapper<>());
+        return SystemUserConvert.INSTANCE.entityToDTOList(systemUsers);
     }
 
     @Override

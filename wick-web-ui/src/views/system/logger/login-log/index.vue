@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <!-- 搜索栏-start -->
+    <!-- 搜索栏 -->
     <div class="search-container">
       <el-form ref="queryFormRef" :model="queryParams" :inline="true">
         <el-form-item label="用户名称" prop="username">
@@ -23,7 +23,7 @@
         </el-form-item>
         <el-form-item label="登录日期" prop="createTime">
           <el-date-picker
-            v-model="createTime"
+            v-model="queryParams.createTime"
             type="daterange"
             value-format="YYYY-MM-DD HH:mm:ss"
             start-placeholder="开始日期"
@@ -33,25 +33,24 @@
           />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="handleQuery()">
+          <el-button type="primary" @click="handleQuery">
             <i-ep-search/>
             搜索
           </el-button>
-          <el-button @click="resetQuery()">
+          <el-button @click="resetQuery">
             <i-ep-refresh/>
             重置
           </el-button>
-          <el-button type="success" @click="handleExport()">
+          <el-button type="success" @click="handleExport">
             <i-ep-download/>
             导出
           </el-button>
         </el-form-item>
       </el-form>
     </div>
-    <!-- 搜索栏-end -->
 
+    <!-- 数据表格 -->
     <el-card shadow="never" class="table-container">
-      <!--   数据表格   -->
       <el-table v-loading="loading" :data="pageData">
         <el-table-column label="日志编号" align="center" prop="id"/>
         <el-table-column label="操作类型" align="center">
@@ -105,13 +104,13 @@
       />
     </el-card>
 
-    <!-- 表单弹窗：详情 -->
+    <!-- 表单弹窗 -->
     <login-log-detail ref="detailRef"/>
   </div>
 </template>
 
 <script setup lang="ts">
-import {getLoginLogPage} from "@/api/logger"
+import {exportLoginLog, getLoginLogPage} from "@/api/logger"
 import {LoginLogPageVO} from "@/api/logger/type";
 
 const queryFormRef = ref(ElForm);
@@ -122,8 +121,7 @@ const queryParams = reactive({
   pageSize: 10,
   username: undefined,
   userIp: undefined,
-  startTime: undefined,
-  endTime: undefined
+  createTime: [] as any
 });
 const total = ref(0); // 数据总数
 const pageData = ref<LoginLogPageVO[]>();
@@ -131,10 +129,6 @@ const pageData = ref<LoginLogPageVO[]>();
 /** 查询 */
 function handleQuery() {
   loading.value = true;
-  if (createTime.value !== null && createTime.value.length > 0){
-    queryParams.startTime = createTime.value[0];
-    queryParams.endTime = createTime.value[1];
-  }
   getLoginLogPage(queryParams)
     .then(({data}) => {
       pageData.value = data.list;
@@ -166,7 +160,27 @@ function openDetail(row: LoginLogPageVO) {
  * 导出
  */
 function handleExport() {
+  exportLoginLog(queryParams).then((response: any) => {
+      const fileData = response.data;
+      const fileName = decodeURI(
+        response.headers["content-disposition"].split(";")[1].split("=")[1]
+      );
+      const fileType =
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8";
 
+      const blob = new Blob([fileData], { type: fileType });
+      const downloadUrl = window.URL.createObjectURL(blob);
+
+      const downloadLink = document.createElement("a");
+      downloadLink.href = downloadUrl;
+      downloadLink.download = fileName;
+
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+
+      document.body.removeChild(downloadLink);
+      window.URL.revokeObjectURL(downloadUrl);
+    });
 }
 
 onMounted(() => {

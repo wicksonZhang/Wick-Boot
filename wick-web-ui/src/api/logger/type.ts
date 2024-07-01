@@ -1,11 +1,4 @@
 /**
- * 登录日志查询对象类型
- */
-// export interface LoginLogQuery extends PageQuery {
-//
-// }
-
-/**
  * 登录日志分页对象
  */
 export interface LoginLogPageVO {
@@ -49,4 +42,70 @@ export interface LoginLogPageVO {
    * 登录日期
    */
   createTime: Date
+}
+
+/**
+ * 操作日志分页对象
+ */
+export interface OperateLogPageVO{
+  /**
+   * 主键id
+   */
+  id: number;
+  /**
+   * 链路追踪编号
+   */
+  traceId: string;
+  /**
+   * 用户类型
+   */
+  userType: number;
+  /**
+   * 用户id
+   */
+  userId: number;
+  /**
+   * 用户名称
+   */
+  userName: string;
+  /**
+   * 操作模块
+   */
+  type: string;
+  /**
+   * 操作模块
+   */
+  subType: string;
+  /**
+   * 操作内容
+   */
+  action: string;
+  /**
+   * 详细内容
+   */
+  extra: string;
+  /**
+   * 请求方式
+   */
+  requestMethod: string;
+  /**
+   * 请求URL
+   */
+  requestUrl: string;
+  /**
+   * 用户ip
+   */
+  userIp: string;
+  /**
+   * 浏览器
+   */
+  userAgent: string;
+  /**
+   * 创建者
+   */
+  createBy: string;
+  /**
+   * 创建时间
+   */
+  createTime: Date;
 }

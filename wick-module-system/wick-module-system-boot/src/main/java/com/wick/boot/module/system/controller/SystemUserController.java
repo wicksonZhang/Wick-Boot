@@ -96,6 +96,12 @@ public class SystemUserController {
         return ResultUtil.success();
     }
 
+    @GetMapping("/simple-list")
+    @ApiOperation(value = "获得用户列表", notes = "用户信息")
+    public ResultUtil<List<SystemUserDTO>> simpleList() {
+        return  ResultUtil.success(userService.simpleList());
+    }
+
     @GetMapping("/template")
     @ApiOperation(value = "用户导入模板下载", notes = "用户信息")
     public void downloadTemplate(HttpServletResponse response) {

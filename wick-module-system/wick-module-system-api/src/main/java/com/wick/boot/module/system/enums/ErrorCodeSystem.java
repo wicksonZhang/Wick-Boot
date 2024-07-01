@@ -60,4 +60,7 @@ public interface ErrorCodeSystem {
     ResultCode DICT_DATA_LABEL_ALREADY_EXIST = new ResultCode(1002005005, "字典标签已存在");
     ResultCode DICT_DATA_VALUE_ALREADY_EXIST = new ResultCode(1002005006, "字典键值已存在");
 
+    // ======================================== System-日志管理 1-002-006-000 ========================================
+    ResultCode LOGIN_LOG_EXPORT_ERROR = new ResultCode(1002006001, "用户登录日志导出失败");
+
 }

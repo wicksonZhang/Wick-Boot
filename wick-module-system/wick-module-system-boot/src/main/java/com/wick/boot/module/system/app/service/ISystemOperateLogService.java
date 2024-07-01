@@ -1,6 +1,9 @@
 package com.wick.boot.module.system.app.service;
 
+import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.model.dto.OperateLogCreateReqDTO;
+import com.wick.boot.module.system.model.dto.SystemOperateLogDTO;
+import com.wick.boot.module.system.model.vo.logger.operate.QueryOperateLogPageReqVO;
 
 /**
  * 登录日志-服务层
@@ -17,4 +20,11 @@ public interface ISystemOperateLogService {
      */
     void createOperateLog(OperateLogCreateReqDTO createReqDTO);
 
+    /**
+     * 获取操作日志分页
+     *
+     * @param reqVO 请求参数VO
+     * @return
+     */
+    PageResult<SystemOperateLogDTO> getOperateLogPage(QueryOperateLogPageReqVO reqVO);
 }

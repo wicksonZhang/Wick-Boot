@@ -139,3 +139,13 @@ export function importUser(deptId: number, file: File) {
     },
   });
 }
+
+/**
+ * 获取用户精简信息列表
+ */
+export function getSimpleUserList(): AxiosPromise<UserPageVO[]> {
+    return request({
+      url: "/api/v1/users/simple-list",
+      method: "get",
+    });
+  }

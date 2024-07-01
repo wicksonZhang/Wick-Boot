@@ -1,7 +1,13 @@
 package com.wick.boot.module.system.mapper;
 
+import cn.hutool.core.util.ObjUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
 import com.wick.boot.module.system.model.entity.SystemOperateLog;
+import com.wick.boot.module.system.model.vo.logger.operate.QueryOperateLogPageReqVO;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -12,4 +18,18 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface ISystemOperateLogMapper extends BaseMapperX<SystemOperateLog> {
+
+    default Page<SystemOperateLog> selectOperateLogPage(QueryOperateLogPageReqVO reqVO) {
+        LambdaQueryWrapper<SystemOperateLog> wrapper = new LambdaQueryWrapper<>();
+        Object startTime = ArrayUtils.get(reqVO.getCreateTime(), 0);
+        Object endTime = ArrayUtils.get(reqVO.getCreateTime(), 1);
+        wrapper.eq(ObjUtil.isNotEmpty(reqVO.getUserId()), SystemOperateLog::getUserId, reqVO.getUserId())
+                .likeRight(ObjUtil.isNotEmpty(reqVO.getType()), SystemOperateLog::getType, reqVO.getType())
+                .likeRight(ObjUtil.isNotEmpty(reqVO.getModule()), SystemOperateLog::getModule, reqVO.getModule())
+                .likeRight(ObjUtil.isNotEmpty(reqVO.getContent()), SystemOperateLog::getContent, reqVO.getContent())
+                .between(ObjUtil.isAllNotEmpty(startTime, endTime), SystemOperateLog::getCreateTime, startTime, endTime)
+                .orderByDesc(SystemOperateLog::getId);
+        return selectPage(new Page<>(reqVO.getPageNumber(), reqVO.getPageSize()), wrapper);
+    }
+
 }

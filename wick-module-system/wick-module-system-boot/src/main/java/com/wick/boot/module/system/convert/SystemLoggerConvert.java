@@ -1,7 +1,9 @@
 package com.wick.boot.module.system.convert;
 
 import com.wick.boot.module.system.model.dto.SystemLoginLogDTO;
+import com.wick.boot.module.system.model.dto.SystemOperateLogDTO;
 import com.wick.boot.module.system.model.entity.SystemLoginLog;
+import com.wick.boot.module.system.model.entity.SystemOperateLog;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -26,4 +28,11 @@ public interface SystemLoggerConvert {
      */
     List<SystemLoginLogDTO> entityToLoginLogDTOS(List<SystemLoginLog> records);
 
+    /**
+     * Convert entity to Dto
+     *
+     * @param records 操作日志集合
+     * @return
+     */
+    List<SystemOperateLogDTO> entityToOperateLogDTOS(List<SystemOperateLog> records);
 }

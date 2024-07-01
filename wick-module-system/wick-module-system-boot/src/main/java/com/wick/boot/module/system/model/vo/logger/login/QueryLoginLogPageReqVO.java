@@ -5,6 +5,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
 
 /**
  * 系统管理 - 登录日志查询条件
@@ -23,10 +26,8 @@ public class QueryLoginLogPageReqVO extends CommonPageParamVO {
     @ApiModelProperty(value = "登录地址", example = "127.0.0.1")
     private String userIp;
 
-    @ApiModelProperty(value = "开始时间", example = "2022-07-01 00:00:00")
-    private String startTime;
-
-    @ApiModelProperty(value = "结束时间", example = "2022-07-01 23:59:59")
-    private String endTime;
+    @ApiModelProperty(value = "开始时间", example = "[2024-06-01 00:00:00, 2024-06-01 23:59:59]")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime[] createTime;
 
 }
