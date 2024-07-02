@@ -52,7 +52,7 @@ public class SystemDeptController {
     @ApiOperation(value = "删除部门数据", notes = "部门信息")
     @DeleteMapping("/{ids}")
     @PreAuthorize("@ss.hasPerm('sys:dept:delete')")
-    @ApiImplicitParam(name = "ids", value = "部门ID", required = true)
+    @ApiImplicitParam(name = "ids", value = "部门ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<Long> deleteDept(@NotEmpty(message = "部门信息主键不能为空")
                                        @PathVariable("ids") List<Long> ids) {
         systemDeptService.deleteDept(ids);
@@ -61,7 +61,7 @@ public class SystemDeptController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "通过部门ID获取部门数据", notes = "部门信息")
-    @ApiImplicitParam(name = "id", value = "部门ID", required = true)
+    @ApiImplicitParam(name = "id", value = "部门ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<SystemDeptDTO> getDepartment(@NotNull(message = "部门ID不能为空")
                                                    @PathVariable("id") Long id) {
         return ResultUtil.success(systemDeptService.getDepartmentById(id));

@@ -53,7 +53,7 @@ public class SystemRoleController {
     @DeleteMapping("/{ids}")
     @PreAuthorize("@ss.hasPerm('sys:role:delete')")
     @ApiOperation(value = "删除角色信息", notes = "角色信息")
-    @ApiImplicitParam(name = "ids", value = "角色数据ID", required = true)
+    @ApiImplicitParam(name = "ids", value = "角色数据ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<Long> deleteRole(@PathVariable("ids") List<Long> ids) {
         this.systemRoleService.deleteRole(ids);
         return ResultUtil.success();
@@ -61,7 +61,7 @@ public class SystemRoleController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "获取角色信息ById", notes = "角色信息")
-    @ApiImplicitParam(name = "id", value = "角色信息ID", required = true)
+    @ApiImplicitParam(name = "id", value = "角色信息ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<SystemRoleDTO> getRoleById(@NotNull(message = "角色信息主键不能为空")
                                                  @PathVariable("id") Long id) {
         return ResultUtil.success(systemRoleService.getRoleById(id));
@@ -81,7 +81,7 @@ public class SystemRoleController {
 
     @GetMapping("/{roleId}/menuIds")
     @ApiOperation(value = "获取角色的菜单ID集合", notes = "角色信息")
-    @ApiImplicitParam(name = "roleId", value = "角色ID", required = true)
+    @ApiImplicitParam(name = "roleId", value = "角色ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<List<Long>> getRoleMenuIds(@PathVariable("roleId") Long roleId) {
         return ResultUtil.success(systemRoleService.getRoleMenuIds(roleId));
     }
@@ -89,7 +89,7 @@ public class SystemRoleController {
     @PutMapping("/{roleId}/menus")
     @PreAuthorize("@ss.hasPerm('sys:role:edit')")
     @ApiOperation(value = "分配菜单(包括按钮权限)给角色", notes = "角色信息")
-    @ApiImplicitParam(name = "roleId", value = "角色ID", required = true)
+    @ApiImplicitParam(name = "roleId", value = "角色ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<Long> assignMenusToRole(@PathVariable("roleId") Long roleId,
                                               @NotEmpty(message = "菜单集合不能为空")
                                               @RequestBody List<Long> menuIds) {

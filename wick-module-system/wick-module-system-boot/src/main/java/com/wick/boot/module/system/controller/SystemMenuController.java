@@ -54,7 +54,7 @@ public class SystemMenuController {
     @DeleteMapping("/{ids}")
     @ApiOperation(value = "删除菜单信息", notes = "菜单信息")
     @PreAuthorize("@ss.hasPerm('sys:menu:delete')")
-    @ApiImplicitParam(name = "ids", value = "菜单数据ID", required = true)
+    @ApiImplicitParam(name = "ids", value = "菜单数据ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<Long> deleteMenu(@NotEmpty(message = "菜单主键不能为空")
                                        @PathVariable("ids") List<Long> ids) {
         systemMenuService.deleteMenu(ids);
@@ -63,7 +63,7 @@ public class SystemMenuController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "通过菜单ID获取菜单数据", notes = "菜单信息")
-    @ApiImplicitParam(name = "id", value = "菜单ID", required = true)
+    @ApiImplicitParam(name = "id", value = "菜单ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<SystemMenu> getMenuById(@NotNull(message = "菜单ID不能为空")
                                                    @PathVariable("id") Long id) {
         return ResultUtil.success(systemMenuService.getMenuById(id));

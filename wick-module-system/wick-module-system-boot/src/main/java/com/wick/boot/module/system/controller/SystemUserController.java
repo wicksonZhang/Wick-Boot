@@ -66,7 +66,7 @@ public class SystemUserController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "查询用户信息", notes = "用户信息")
-    @ApiImplicitParam(name = "id", value = "用户ID", required = true)
+    @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<SystemUserDTO> getUserById(@PathVariable("id") Long id) {
         return ResultUtil.success(userService.getUserById(id));
     }
@@ -82,7 +82,7 @@ public class SystemUserController {
     @DeleteMapping("/{ids}")
     @PreAuthorize("@ss.hasPerm('sys:user:del')")
     @ApiOperation(value = "删除用户信息", notes = "用户信息")
-    @ApiImplicitParam(name = "id", value = "用户ID", required = true)
+    @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<Boolean> deleteUser(@PathVariable("ids") List<Long> ids) {
         userService.deleteUser(ids);
         return ResultUtil.success();
@@ -116,7 +116,7 @@ public class SystemUserController {
 
     @PostMapping("/import")
     @ApiOperation(value = "导入用户", notes = "用户信息")
-    @ApiImplicitParam(name = "deptId", value = "部门ID", required = true)
+    @ApiImplicitParam(name = "deptId", value = "部门ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<Boolean> importUsers(@NotNull(message = "部门Id不能为空") Long deptId, MultipartFile file) {
         userService.importUsers(deptId, file);
         return ResultUtil.success();
