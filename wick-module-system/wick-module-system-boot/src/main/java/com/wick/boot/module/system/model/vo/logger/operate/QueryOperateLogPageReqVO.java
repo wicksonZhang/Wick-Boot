@@ -32,9 +32,6 @@ public class QueryOperateLogPageReqVO extends CommonPageParamVO {
     @ApiModelProperty(value = "操作名，模拟匹配", example = "创建订单")
     private String name;
 
-    @ApiModelProperty(value = "操作明细，模拟匹配", example = "修改编号为 1 的用户信息")
-    private String content;
-
     @ApiModelProperty(value = "开始时间", example = "[2024-06-01 00:00:00, 2024-06-01 23:59:59]")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime[] createTime;

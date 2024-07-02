@@ -1,7 +1,7 @@
 package com.wick.boot.module.system.convert;
 
-import com.wick.boot.module.system.model.dto.SystemLoginLogDTO;
-import com.wick.boot.module.system.model.dto.SystemOperateLogDTO;
+import com.wick.boot.module.system.model.dto.logger.login.SystemLoginLogDTO;
+import com.wick.boot.module.system.model.dto.logger.operate.SystemOperateLogDTO;
 import com.wick.boot.module.system.model.entity.SystemLoginLog;
 import com.wick.boot.module.system.model.entity.SystemOperateLog;
 import org.mapstruct.Mapper;

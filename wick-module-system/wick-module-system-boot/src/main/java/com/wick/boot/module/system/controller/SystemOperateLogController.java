@@ -3,7 +3,7 @@ package com.wick.boot.module.system.controller;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.module.system.app.service.ISystemOperateLogService;
-import com.wick.boot.module.system.model.dto.SystemOperateLogDTO;
+import com.wick.boot.module.system.model.dto.logger.operate.SystemOperateLogDTO;
 import com.wick.boot.module.system.model.vo.logger.operate.QueryOperateLogPageReqVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

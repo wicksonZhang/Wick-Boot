@@ -2,9 +2,9 @@ package com.wick.boot.module.system.controller;
 
 import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.module.system.app.service.ISystemMenuService;
-import com.wick.boot.module.system.model.dto.SystemMenuDTO;
-import com.wick.boot.module.system.model.dto.SystemMenuOptionsDTO;
-import com.wick.boot.module.system.model.dto.SystemRouteDTO;
+import com.wick.boot.module.system.model.dto.menu.SystemMenuDTO;
+import com.wick.boot.module.system.model.dto.menu.SystemMenuOptionsDTO;
+import com.wick.boot.module.system.model.dto.menu.SystemRouteDTO;
 import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
 import com.wick.boot.module.system.model.vo.menu.QueryMenuListReqVO;

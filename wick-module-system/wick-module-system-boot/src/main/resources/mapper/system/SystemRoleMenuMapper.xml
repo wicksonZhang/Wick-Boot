@@ -5,7 +5,7 @@
 <mapper namespace="com.wick.boot.module.system.mapper.ISystemRoleMenuMapper">
 
     <!-- 权限和拥有权限的角色集合的Map -->
-    <resultMap id="rolesPermMap" type="com.wick.boot.module.system.model.dto.SystemRolePermsDTO">
+    <resultMap id="rolesPermMap" type="com.wick.boot.module.system.model.dto.role.SystemRolePermsDTO">
         <result property="roleCode" column="role_code"/>
         <collection property="perms" ofType="string" javaType="java.util.Set">
             <result column="perm"/>

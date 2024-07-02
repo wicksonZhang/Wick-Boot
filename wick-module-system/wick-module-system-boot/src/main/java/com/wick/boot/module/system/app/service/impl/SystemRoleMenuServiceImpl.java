@@ -1,19 +1,17 @@
 package com.wick.boot.module.system.app.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.wick.boot.common.core.constant.GlobalCacheConstants;
 import com.wick.boot.common.redis.service.RedisService;
 import com.wick.boot.module.system.app.service.ISystemRoleMenuService;
 import com.wick.boot.module.system.mapper.ISystemRoleMenuMapper;
-import com.wick.boot.module.system.model.dto.SystemRolePermsDTO;
+import com.wick.boot.module.system.model.dto.role.SystemRolePermsDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;

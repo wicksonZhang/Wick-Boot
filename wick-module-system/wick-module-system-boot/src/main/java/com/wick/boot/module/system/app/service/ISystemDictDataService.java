@@ -1,8 +1,8 @@
 package com.wick.boot.module.system.app.service;
 
 import com.wick.boot.common.core.result.PageResult;
-import com.wick.boot.module.system.model.dto.SystemDictDataDTO;
-import com.wick.boot.module.system.model.dto.SystemDictDataOptionsDTO;
+import com.wick.boot.module.system.model.dto.dict.data.SystemDictDataDTO;
+import com.wick.boot.module.system.model.dto.dict.data.SystemDictDataOptionsDTO;
 import com.wick.boot.module.system.model.vo.dict.data.AddDictDataReqVO;
 import com.wick.boot.module.system.model.vo.dict.data.QueryDictDataPageReqVO;
 import com.wick.boot.module.system.model.vo.dict.data.UpdateDictDataReqVO;

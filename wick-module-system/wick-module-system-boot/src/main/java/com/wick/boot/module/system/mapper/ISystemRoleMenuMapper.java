@@ -1,8 +1,7 @@
 package com.wick.boot.module.system.mapper;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
-import com.wick.boot.module.system.model.dto.SystemRolePermsDTO;
+import com.wick.boot.module.system.model.dto.role.SystemRolePermsDTO;
 import com.wick.boot.module.system.model.entity.SystemRoleMenu;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

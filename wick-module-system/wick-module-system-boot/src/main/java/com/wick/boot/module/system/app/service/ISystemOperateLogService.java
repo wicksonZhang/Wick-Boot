@@ -2,7 +2,7 @@ package com.wick.boot.module.system.app.service;
 
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.model.dto.OperateLogCreateReqDTO;
-import com.wick.boot.module.system.model.dto.SystemOperateLogDTO;
+import com.wick.boot.module.system.model.dto.logger.operate.SystemOperateLogDTO;
 import com.wick.boot.module.system.model.vo.logger.operate.QueryOperateLogPageReqVO;
 
 import javax.servlet.http.HttpServletResponse;

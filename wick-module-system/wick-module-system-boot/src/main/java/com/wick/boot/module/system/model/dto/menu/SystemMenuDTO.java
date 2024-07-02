@@ -1,4 +1,4 @@
-package com.wick.boot.module.system.model.dto;
+package com.wick.boot.module.system.model.dto.menu;
 
 import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.fasterxml.jackson.annotation.JsonInclude;

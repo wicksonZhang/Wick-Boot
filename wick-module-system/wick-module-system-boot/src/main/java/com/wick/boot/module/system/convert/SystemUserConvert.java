@@ -1,7 +1,7 @@
 package com.wick.boot.module.system.convert;
 
-import com.wick.boot.module.system.model.dto.SystemUserDTO;
-import com.wick.boot.module.system.model.dto.SystemUserInfoDTO;
+import com.wick.boot.module.system.model.dto.user.SystemUserDTO;
+import com.wick.boot.module.system.model.dto.user.SystemUserInfoDTO;
 import com.wick.boot.module.system.model.entity.SystemUser;
 import com.wick.boot.module.system.model.vo.user.AddUserVO;
 import com.wick.boot.module.system.model.vo.user.UpdateUserVO;

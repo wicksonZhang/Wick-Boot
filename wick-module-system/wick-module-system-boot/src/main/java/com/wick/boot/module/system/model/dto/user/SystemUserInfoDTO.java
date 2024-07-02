@@ -1,4 +1,4 @@
-package com.wick.boot.module.system.model.dto;
+package com.wick.boot.module.system.model.dto.user;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

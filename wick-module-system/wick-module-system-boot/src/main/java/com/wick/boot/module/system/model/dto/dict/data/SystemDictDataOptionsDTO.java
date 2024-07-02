@@ -1,4 +1,4 @@
-package com.wick.boot.module.system.model.dto;
+package com.wick.boot.module.system.model.dto.dict.data;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;

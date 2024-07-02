@@ -1,4 +1,4 @@
-package com.wick.boot.module.system.model.dto;
+package com.wick.boot.module.system.model.dto.dept;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;

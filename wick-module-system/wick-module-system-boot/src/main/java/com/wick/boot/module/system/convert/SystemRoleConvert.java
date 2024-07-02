@@ -1,7 +1,7 @@
 package com.wick.boot.module.system.convert;
 
-import com.wick.boot.module.system.model.dto.SystemRoleDTO;
-import com.wick.boot.module.system.model.dto.SystemRoleOptionsDTO;
+import com.wick.boot.module.system.model.dto.role.SystemRoleDTO;
+import com.wick.boot.module.system.model.dto.role.SystemRoleOptionsDTO;
 import com.wick.boot.module.system.model.entity.SystemRole;
 import com.wick.boot.module.system.model.vo.role.AddRoleVo;
 import com.wick.boot.module.system.model.vo.role.UpdateRoleVo;

@@ -1,7 +1,7 @@
 package com.wick.boot.module.system.convert;
 
-import com.wick.boot.module.system.model.dto.SystemDictDataDTO;
-import com.wick.boot.module.system.model.dto.SystemDictTypeDTO;
+import com.wick.boot.module.system.model.dto.dict.data.SystemDictDataDTO;
+import com.wick.boot.module.system.model.dto.dict.type.SystemDictTypeDTO;
 import com.wick.boot.module.system.model.entity.SystemDictData;
 import com.wick.boot.module.system.model.entity.SystemDictType;
 import com.wick.boot.module.system.model.vo.dict.type.AddDictTypeReqVO;

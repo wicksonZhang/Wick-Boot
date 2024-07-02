@@ -26,7 +26,6 @@ public interface ISystemOperateLogMapper extends BaseMapperX<SystemOperateLog> {
         wrapper.eq(ObjUtil.isNotEmpty(reqVO.getUserId()), SystemOperateLog::getUserId, reqVO.getUserId())
                 .likeRight(ObjUtil.isNotEmpty(reqVO.getType()), SystemOperateLog::getType, reqVO.getType())
                 .likeRight(ObjUtil.isNotEmpty(reqVO.getModule()), SystemOperateLog::getModule, reqVO.getModule())
-                .likeRight(ObjUtil.isNotEmpty(reqVO.getContent()), SystemOperateLog::getContent, reqVO.getContent())
                 .between(ObjUtil.isAllNotEmpty(startTime, endTime), SystemOperateLog::getCreateTime, startTime, endTime)
                 .orderByDesc(SystemOperateLog::getId);
         return selectPage(new Page<>(reqVO.getPageNumber(), reqVO.getPageSize()), wrapper);

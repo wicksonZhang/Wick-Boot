@@ -1,9 +1,8 @@
 package com.wick.boot.module.system.app.service;
 
 
-import com.wick.boot.common.core.result.ResultUtil;
-import com.wick.boot.module.system.model.dto.SystemUserInfoDTO;
-import com.wick.boot.module.system.model.dto.SystemUserDTO;
+import com.wick.boot.module.system.model.dto.user.SystemUserInfoDTO;
+import com.wick.boot.module.system.model.dto.user.SystemUserDTO;
 import com.wick.boot.module.system.model.vo.user.*;
 import com.wick.boot.common.core.result.PageResult;
 import org.springframework.web.multipart.MultipartFile;

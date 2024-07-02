@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
 import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
-import com.wick.boot.module.system.model.dto.SystemUserDTO;
+import com.wick.boot.module.system.model.dto.user.SystemUserDTO;
 import com.wick.boot.module.system.model.entity.SystemUser;
 import com.wick.boot.module.system.model.vo.user.QueryUserPageReqVO;
 import com.wick.boot.module.system.model.vo.user.UserExportVO;

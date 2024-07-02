@@ -2,8 +2,8 @@ package com.wick.boot.module.system.controller;
 
 import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.module.system.app.service.ISystemDeptService;
-import com.wick.boot.module.system.model.dto.SystemDeptDTO;
-import com.wick.boot.module.system.model.dto.SystemDeptOptionsDTO;
+import com.wick.boot.module.system.model.dto.dept.SystemDeptDTO;
+import com.wick.boot.module.system.model.dto.dept.SystemDeptOptionsDTO;
 import com.wick.boot.module.system.model.vo.dept.AddDeptReqVO;
 import com.wick.boot.module.system.model.vo.dept.QueryDeptListReqVO;
 import com.wick.boot.module.system.model.vo.dept.UpdateDeptReqVO;
