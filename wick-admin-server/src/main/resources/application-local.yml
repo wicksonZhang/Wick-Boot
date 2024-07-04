@@ -43,6 +43,19 @@ spring:
         max-wait: 10000ms
         # 最大连接阻塞等待时间
         min-idle: 1
+  # flyway
+  flyway:
+    enabled: true
+    encoding: UTF-8
+    table: flyway_schema_history
+    # 禁止清理数据库表
+    clean-disabled: true
+    # 如果数据库不是空表，需要设置成 true，否则启动报错
+    baseline-on-migrate: true
+    # 与 baseline-on-migrate: true 搭配使用
+    baseline-version: 1.0.0
+    locations:
+      - classpath:db/migration
 
 # mybatis-plus
 mybatis-plus:

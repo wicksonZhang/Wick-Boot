@@ -33,4 +33,9 @@ public interface GlobalConstants {
      */
     String TOKEN_TYPE_BEARER = "Bearer ";
 
+    /**
+     * 在 Flyway 启动之后执行
+     */
+    String FLYWAY_INITIALIZER = "flywayInitializer";
+
 }

@@ -37,6 +37,12 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- flyway-core -->
+        <dependency>
+            <groupId>com.wick.boot</groupId>
+            <artifactId>wick-sync-db-flyway</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

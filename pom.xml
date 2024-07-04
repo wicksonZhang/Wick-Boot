@@ -257,6 +257,13 @@
                 <artifactId>wick-module-system-boot</artifactId>
                 <version>${revision}</version>
             </dependency>
+
+            <!-- flyway sync -->
+            <dependency>
+                <groupId>com.wick.boot</groupId>
+                <artifactId>wick-sync-db-flyway</artifactId>
+                <version>${revision}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

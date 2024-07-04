@@ -1,5 +1,5 @@
 spring:
   application:
-    name: system
+    name: admin-server
   profiles:
     active: local

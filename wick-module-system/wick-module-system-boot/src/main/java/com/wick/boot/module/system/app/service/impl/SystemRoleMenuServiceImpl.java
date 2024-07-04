@@ -3,10 +3,12 @@ package com.wick.boot.module.system.app.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import com.google.common.collect.Sets;
 import com.wick.boot.common.core.constant.GlobalCacheConstants;
+import com.wick.boot.common.core.constant.GlobalConstants;
 import com.wick.boot.common.redis.service.RedisService;
 import com.wick.boot.module.system.app.service.ISystemRoleMenuService;
 import com.wick.boot.module.system.mapper.ISystemRoleMenuMapper;
 import com.wick.boot.module.system.model.dto.role.SystemRolePermsDTO;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@DependsOn(GlobalConstants.FLYWAY_INITIALIZER)
 public class SystemRoleMenuServiceImpl implements ISystemRoleMenuService {
 
     @Resource
