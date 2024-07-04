@@ -68,6 +68,8 @@ public class AuthServiceImpl implements IAuthService {
         /* Step-3: 将验证码存入redis */
         String captchaKey = IdUtil.fastSimpleUUID();
         String redisKey = GlobalCacheConstants.getCaptchaCodeKey(captchaKey);
+        System.out.println("redisService = " + redisService);
+        System.out.println("captcha.getCode() = " + captcha.getCode());
         redisService.setCacheObject(redisKey, captcha.getCode(), CaptchaConstants.CAPTCHA_TIME_OUT, TimeUnit.SECONDS);
 
         /* Step-4: 返回结果集 */
