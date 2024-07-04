@@ -64,7 +64,7 @@ public class AuthServiceImpl implements IAuthService {
         /* Step-2: 生成验证码信息 */
         GifCaptcha captcha =
                 CaptchaUtil.createGifCaptcha(CaptchaConstants.CAPTCHA_WIDTH, CaptchaConstants.CAPTCHA_HEIGHT, CaptchaConstants.CAPTCHA_COUNT);
-
+        System.out.println("captcha = " + captcha);
         /* Step-3: 将验证码存入redis */
         String captchaKey = IdUtil.fastSimpleUUID();
         String redisKey = GlobalCacheConstants.getCaptchaCodeKey(captchaKey);
