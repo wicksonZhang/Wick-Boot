@@ -1,8 +1,8 @@
 # 使用更小的基础镜像
-FROM openjdk:8-jdk-alpine
+FROM openjdk:8-jre
 
 # 维护者信息
-MAINTAINER Wickson wickson_zhang@163.com
+MAINTAINER Wickson <wickson_zhang@163.com>
 
 # 时区设置
 RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \&& echo 'Asia/Shanghai' >/etc/timezone
