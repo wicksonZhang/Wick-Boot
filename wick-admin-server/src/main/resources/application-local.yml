@@ -82,4 +82,4 @@ logging:
   level:
     com.wick.boot.module.*: debug
   file:
-    name: ./logs/wick-admin-log.log
+    name: ./wick-admin-server/logs/wick-admin-log.log
