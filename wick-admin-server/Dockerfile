@@ -11,7 +11,9 @@ RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \&& echo 'Asia/Shan
 VOLUME /tmp
 
 # 复制 jar 到镜像
-ADD target/wick-admin-server.jar /app.jar
+COPY wick-admin-server.jar /tmp/app.jar
+COPY application.yml /tmp/application.yml
+COPY application-local.yml /tmp/application-local.yml
 
 # 设置容器启动时执行的命令
 ENTRYPOINT ["java", "-Xmx128m", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
