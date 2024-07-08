@@ -8,7 +8,7 @@ MAINTAINER Wickson <wickson_zhang@163.com>
 RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \&& echo 'Asia/Shanghai' >/etc/timezone
 
 # 设置 /tmp 目录作为容器数据卷目录
-/tmp
+VOLUME /tmp
 
 # 复制 jar 到镜像
 COPY logs /logs
