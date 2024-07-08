@@ -11,7 +11,6 @@ RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \&& echo 'Asia/Shan
 VOLUME /tmp
 
 # 复制 jar 到镜像
-COPY ./logs /logs
 COPY target/wick-admin-server.jar /app.jar
 COPY target/classes/application.yml /application.yml
 COPY target/classes/application-local.yml /application-local.yml
