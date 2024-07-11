@@ -12,8 +12,6 @@ VOLUME /tmp
 
 # 复制 jar 到镜像
 COPY target/wick-admin-server.jar /app.jar
-COPY target/classes/application.yml /application.yml
-COPY target/classes/application-local.yml /application-local.yml
 
 # 设置容器启动时执行的命令
 ENTRYPOINT ["java", "-Xmx128m", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]

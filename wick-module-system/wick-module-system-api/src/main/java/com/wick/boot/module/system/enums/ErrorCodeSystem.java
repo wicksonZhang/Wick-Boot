@@ -24,6 +24,8 @@ import com.wick.boot.common.core.result.ResultCode;
  * <span> 003 - 菜单管理
  * <span> 004 - 部门管理
  * <span> 005 - 字典管理
+ * <span> 006 - 日志管理
+ * <span> 007 - 数据源管理
  * <p>
  * 第四段，3 位，错误码
  * <span> 不限制规则，一般建议，每个模块自增。
@@ -41,6 +43,7 @@ public interface ErrorCodeSystem {
 
 
     // ======================================== System-角色管理 1-002-002-000 ========================================
+
 
     // ======================================== System-菜单管理 1-002-003-000 ========================================
     ResultCode MENU_NOT_EXIST = new ResultCode(1002003001, "菜单不存在");
@@ -63,5 +66,8 @@ public interface ErrorCodeSystem {
     // ======================================== System-日志管理 1-002-006-000 ========================================
     ResultCode LOGIN_LOG_EXPORT_ERROR = new ResultCode(1002006001, "用户登录日志导出失败");
     ResultCode OPERATE_LOG_EXPORT_ERROR = new ResultCode(1002006002, "用户操作日志导出失败");
+
+    // ======================================== System-数据源配置 1-002-007-000 ========================================
+    ResultCode DATA_SOURCE_CONFIG_ERROR = new ResultCode(1002007001, "数据源配置参数有误");
 
 }
