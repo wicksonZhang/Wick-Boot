@@ -7,6 +7,7 @@ import com.wick.boot.module.tools.mapper.IDataSourceConfigMapper;
 import com.wick.boot.module.tools.model.dto.DataSourceConfigDTO;
 import com.wick.boot.module.tools.model.entity.DataSourceConfig;
 import com.wick.boot.module.tools.model.vo.AddDataSourceConfigVO;
+import com.wick.boot.module.tools.model.vo.UpdateDataSourceConfigVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,15 +31,27 @@ public class DataSourceServiceImpl extends AbstractDataSourceConfigAppService im
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long addDataSourceConfig(AddDataSourceConfigVO reqVO) {
-        /* Step-1: 验证新增数据源配置 */
-        this.validateAddParams(reqVO);
-
-        /* Step-2: 类型转换 */
+        /* Step-1: 类型转换 */
         DataSourceConfig dataSourceConfig = DataSourceConfigConvert.INSTANCE.addVoToEntity(reqVO);
 
-        /* Step-3: 新增参数*/
+        /* Step-2: 新增参数*/
         this.dataSourceConfigMapper.insert(dataSourceConfig);
         return dataSourceConfig.getId();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateDataSourceConfig(UpdateDataSourceConfigVO reqVO) {
+        /* Step-1: 类型转换 */
+        DataSourceConfig dataSourceConfig = DataSourceConfigConvert.INSTANCE.updateVoToEntity(reqVO);
+        /* Step-2： 更新参数 */
+        this.dataSourceConfigMapper.updateById(dataSourceConfig);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteDataSourceConfig(Long id) {
+        this.dataSourceConfigMapper.deleteById(id);
     }
 
     @Override
@@ -52,4 +65,9 @@ public class DataSourceServiceImpl extends AbstractDataSourceConfigAppService im
         return DataSourceConfigConvert.INSTANCE.entityToDTOList(dataSourceConfigs);
     }
 
+    @Override
+    public DataSourceConfigDTO getDataSource(Long id) {
+        DataSourceConfig dataSourceConfig = this.dataSourceConfigMapper.selectById(id);
+        return DataSourceConfigConvert.INSTANCE.entityToDTO(dataSourceConfig);
+    }
 }

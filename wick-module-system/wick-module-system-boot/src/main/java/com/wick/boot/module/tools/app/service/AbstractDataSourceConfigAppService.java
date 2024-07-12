@@ -16,18 +16,6 @@ import java.sql.DriverManager;
 public class AbstractDataSourceConfigAppService {
 
     /**
-     * 验证参数
-     *
-     * @param reqVO 数据源配置参数
-     */
-    protected void validateAddParams(AddDataSourceConfigVO reqVO) {
-        boolean success = isSuccess(reqVO.getUrl(), reqVO.getUsername(), reqVO.getPassword());
-        if (!success) {
-            throw ServiceException.getInstance(ErrorCodeSystem.DATA_SOURCE_CONFIG_ERROR);
-        }
-    }
-
-    /**
      * 获取链接
      *
      * @param url      数据源url
