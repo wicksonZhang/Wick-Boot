@@ -16,5 +16,8 @@ CREATE TABLE `system_data_source_config`  (
 -- ----------------------------
 -- Records of infra_data_source_config
 -- ----------------------------
+INSERT INTO `wick_boot`.`system_data_source_config` (`id`, `name`, `url`, `username`, `password`, `deleted`, `create_time`, `update_time`, `create_by`, `update_by`)
+VALUES (1, 'master', 'jdbc:mysql://139.9.202.135:1653/wick_boot?useUnicode=true&characterEncoding=UTF-8&useSSL=false', 'root', 'P@ssw0rd2024', b'0', '2024-07-23 10:28:30', '2024-07-23 10:28:30', '2', '2');
+
 BEGIN;
 COMMIT;

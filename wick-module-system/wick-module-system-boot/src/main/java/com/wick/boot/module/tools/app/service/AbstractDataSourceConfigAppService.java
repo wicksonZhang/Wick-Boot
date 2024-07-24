@@ -1,9 +1,5 @@
 package com.wick.boot.module.tools.app.service;
 
-import com.wick.boot.common.core.exception.ServiceException;
-import com.wick.boot.module.system.enums.ErrorCodeSystem;
-import com.wick.boot.module.tools.model.vo.AddDataSourceConfigVO;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 

@@ -30,6 +30,7 @@
         <druid.version>1.2.4</druid.version>
         <flyway.core.version>7.15.0</flyway.core.version>
         <mybatis.plus.version>3.5.3.1</mybatis.plus.version>
+        <mybatis.plus.generator.version>3.5.3.1</mybatis.plus.generator.version>
 
         <!-- easy-excel-->
         <easyexcel.version>3.3.4</easyexcel.version>
@@ -146,6 +147,13 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis.plus.version}</version>
+            </dependency>
+
+            <!-- 代码生成器，使用它解析表结构 -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis.plus.generator.version}</version>
             </dependency>
 
             <!-- JSON 解析器和生成器 -->
