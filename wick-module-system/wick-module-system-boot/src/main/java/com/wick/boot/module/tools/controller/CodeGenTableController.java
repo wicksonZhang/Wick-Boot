@@ -43,4 +43,12 @@ public class CodeGenTableController {
         return ResultUtil.success(true);
     }
 
+    @GetMapping("/list")
+    @ApiOperation(value = "获取代码生成器分页数据", notes = "系统管理 - 代码生成器")
+    public ResultUtil<PageResult<CodeGenTableDTO>> list(@Valid QueryCodeGenTablePageReqVO queryVO) {
+        return ResultUtil.success(codeGenService.selectCodeGenTableList(queryVO));
+    }
+
+
+
 }

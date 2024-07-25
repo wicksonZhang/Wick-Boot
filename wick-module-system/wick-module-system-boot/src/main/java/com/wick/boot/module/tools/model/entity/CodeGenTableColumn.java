@@ -1,5 +1,8 @@
 package com.wick.boot.module.tools.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wick.boot.common.core.model.entity.BaseDO;
 import lombok.*;
@@ -27,6 +30,7 @@ public class CodeGenTableColumn extends BaseDO {
     /**
      * 编号
      */
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
@@ -63,37 +67,44 @@ public class CodeGenTableColumn extends BaseDO {
     /**
      * 是否主键（1是）
      */
-    private Integer isPk;
+    @TableField("is_pk")
+    private Integer pk;
 
     /**
      * 是否自增（1是）
      */
-    private Integer isIncrement;
+    @TableField("is_increment")
+    private Integer increment;
 
     /**
      * 是否必填（1是）
      */
-    private Integer isRequired;
+    @TableField("is_required")
+    private Integer required;
 
     /**
      * 是否为插入字段（1是）
      */
-    private Integer isInsert;
+    @TableField("is_insert")
+    private Integer insert;
 
     /**
      * 是否编辑字段（1是）
      */
-    private Integer isEdit;
+    @TableField("is_edit")
+    private Integer edit;
 
     /**
      * 是否列表字段（1是）
      */
-    private Integer isList;
+    @TableField("is_list")
+    private Integer list;
 
     /**
      * 是否查询字段（1是）
      */
-    private Integer isQuery;
+    @TableField("is_query")
+    private Integer query;
 
     /**
      * 查询方式（EQ等于、NE不等于、GT大于、LT小于、LIKE模糊、BETWEEN范围）
@@ -114,4 +125,5 @@ public class CodeGenTableColumn extends BaseDO {
      * 排序
      */
     private Integer sort;
+
 }

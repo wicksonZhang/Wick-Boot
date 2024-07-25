@@ -101,7 +101,7 @@ public abstract class AbstractCodeGenTableAppService {
         // 计算 tableNames 中哪些表名已经存在
         Collection<String> duplicateTableNames = CollectionUtil.intersection(tableNames, existingTableNames);
         if (CollUtil.isNotEmpty(duplicateTableNames)) {
-            String errorMsg = "表" + duplicateTableNames + "已经存在";
+            String errorMsg = "表" + duplicateTableNames + "已存在";
             throw ServiceException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID.getCode(), errorMsg);
         }
     }

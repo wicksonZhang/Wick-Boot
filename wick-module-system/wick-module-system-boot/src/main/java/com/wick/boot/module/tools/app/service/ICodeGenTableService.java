@@ -29,4 +29,11 @@ public interface ICodeGenTableService {
      */
     void importTable(List<String> tableNames);
 
+    /**
+     * 获取代码生成器分页数据
+     *
+     * @param queryVO 查询参数
+     * @return 分页数据
+     */
+    PageResult<CodeGenTableDTO> selectCodeGenTableList(QueryCodeGenTablePageReqVO queryVO);
 }

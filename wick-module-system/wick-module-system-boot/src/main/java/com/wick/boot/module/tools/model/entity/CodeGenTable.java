@@ -1,5 +1,6 @@
 package com.wick.boot.module.tools.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wick.boot.common.core.model.entity.BaseDO;
@@ -28,7 +29,7 @@ public class CodeGenTable extends BaseDO {
     /**
      * 编号
      */
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**

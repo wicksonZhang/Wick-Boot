@@ -1,0 +1,7 @@
+# 代码生成
+code:
+  gen:
+    # 作者
+    author: Wickson
+    # 默认生成包路径 system 需改成自己的模块名称 如 system monitor tool
+    packageName: com.wick.boot.module.system

@@ -16,7 +16,7 @@ CREATE TABLE system_code_gen_table
     `function_author`   varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   NOT NULL comment '生成功能作者',
     `gen_type`          tinyint                                                        NOT NULL DEFAULT 1 comment '生成代码方式（0zip压缩包 1自定义路径）',
     `gen_path`          varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NOT NULL DEFAULT '/' comment '生成路径（不填默认项目路径）',
-    `options`           varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL comment '其它生成选项',
+    `options`           varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL comment '其它生成选项',
     `deleted`           bit(1)                                                         NOT NULL DEFAULT b'0' COMMENT '是否删除',
     `create_time`       datetime                                                       NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time`       datetime                                                       NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',

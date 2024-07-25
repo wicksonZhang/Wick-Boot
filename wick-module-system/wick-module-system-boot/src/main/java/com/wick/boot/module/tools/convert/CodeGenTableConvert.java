@@ -1,6 +1,8 @@
 package com.wick.boot.module.tools.convert;
 
 import cn.hutool.core.text.NamingCase;
+import cn.hutool.core.util.StrUtil;
+import com.wick.boot.module.tools.config.CodeGenConfig;
 import com.wick.boot.module.tools.model.dto.CodeGenTableDTO;
 import com.wick.boot.module.tools.model.entity.CodeGenTable;
 import org.mapstruct.Mapper;
@@ -41,34 +43,38 @@ public interface CodeGenTableConvert {
             @Mapping(target = "className", expression = "java(convertClassName(tableDTO))"),
             @Mapping(target = "packageName", expression = "java(convertPackageName())"),
             @Mapping(target = "moduleName", expression = "java(convertModuleName())"),
-            @Mapping(target = "businessName", expression = "java(convertBusinessName())"),
-            @Mapping(target = "functionName", expression = "java(convertFunctionName())"),
+            @Mapping(target = "businessName", expression = "java(convertBusinessName(tableDTO))"),
+            @Mapping(target = "functionName", expression = "java(convertFunctionName(tableDTO))"),
             @Mapping(target = "functionAuthor", expression = "java(convertFunctionAuthor())")
     })
     CodeGenTable toEntity(CodeGenTableDTO tableDTO);
 
-    default String convertClassName(CodeGenTableDTO codeGenTableDTO) {
-        return NamingCase.toPascalCase(codeGenTableDTO.getTableName());
+    default String convertClassName(CodeGenTableDTO tableDTO) {
+        return NamingCase.toPascalCase(tableDTO.getTableName());
     }
 
     default String convertPackageName() {
-        return "";
+        return CodeGenConfig.getPackageName();
     }
 
     default String convertModuleName() {
-        return "";
+        String packageName = CodeGenConfig.getPackageName();
+        return StrUtil.sub(packageName, packageName.length() + 1, packageName.length());
     }
 
-    default String convertBusinessName() {
-        return "";
+    default String convertBusinessName(CodeGenTableDTO tableDTO) {
+        String tableName = tableDTO.getTableName();
+        int lastIndex = tableName.lastIndexOf("_");
+        int nameLength = tableName.length();
+        return StrUtil.sub(tableName, lastIndex + 1, nameLength);
     }
 
-    default String convertFunctionName() {
-        return "";
+    default String convertFunctionName(CodeGenTableDTO tableDTO) {
+        return tableDTO.getTableComment();
     }
 
     default String convertFunctionAuthor() {
-        return "";
+        return CodeGenConfig.getAuthor();
     }
 
 }

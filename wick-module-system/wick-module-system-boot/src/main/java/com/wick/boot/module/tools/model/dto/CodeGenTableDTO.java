@@ -23,11 +23,17 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class CodeGenTableDTO {
 
+    @ApiModelProperty(value = "主键id", example = "1")
+    private Long id;
+
     @ApiModelProperty(value = "表名", example = "system_user")
     private String tableName;
 
     @ApiModelProperty(value = "表描述", example = "用户信息表")
     private String tableComment;
+
+    @ApiModelProperty(value = "类名", example = "ClassName")
+    private String className;
 
     @ApiModelProperty(value = "创建时间", example = "2024-07-23 02:24:37")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
