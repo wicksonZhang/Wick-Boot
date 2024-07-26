@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS system_code_gen_table;
-CREATE TABLE system_code_gen_table
+DROP TABLE IF EXISTS tool_code_gen_table;
+CREATE TABLE tool_code_gen_table
 (
     `id`                bigint                                                         NOT NULL AUTO_INCREMENT COMMENT '编号',
     `table_name`        varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NOT NULL DEFAULT '' comment '表名称',
@@ -31,8 +31,8 @@ BEGIN;
 COMMIT;
 
 
-DROP TABLE IF EXISTS system_code_gen_table_column;
-CREATE TABLE system_code_gen_table_column
+DROP TABLE IF EXISTS tool_code_gen_table_column;
+CREATE TABLE tool_code_gen_table_column
 (
     `id`             bigint                                                        NOT NULL AUTO_INCREMENT COMMENT '编号',
     `table_id`       bigint                                                        NOT NULL COMMENT '归属表编号',

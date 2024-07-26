@@ -6,7 +6,7 @@ package com.wick.boot.module.tools.constant;
  * @author ZhangZiHeng
  * @date 2024-07-25
  */
-public interface CodeGenConstants {
+public interface ToolCodeGenConstants {
     /**
      * 单表（增删改查）
      */

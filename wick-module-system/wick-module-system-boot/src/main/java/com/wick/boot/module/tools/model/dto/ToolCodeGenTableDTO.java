@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class CodeGenTableDTO {
+public class ToolCodeGenTableDTO {
 
     @ApiModelProperty(value = "主键id", example = "1")
     private Long id;

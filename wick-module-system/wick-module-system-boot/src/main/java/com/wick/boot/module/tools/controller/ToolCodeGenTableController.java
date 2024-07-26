@@ -2,9 +2,9 @@ package com.wick.boot.module.tools.controller;
 
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
-import com.wick.boot.module.tools.app.service.ICodeGenTableService;
-import com.wick.boot.module.tools.model.dto.CodeGenTableDTO;
-import com.wick.boot.module.tools.model.vo.QueryCodeGenTablePageReqVO;
+import com.wick.boot.module.tools.app.service.IToolCodeGenTableService;
+import com.wick.boot.module.tools.model.dto.ToolCodeGenTableDTO;
+import com.wick.boot.module.tools.model.vo.QueryToolCodeGenTablePageReqVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -24,14 +24,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/code-gen")
 @Api(tags = "系统管理 - 代码生成器")
-public class CodeGenTableController {
+public class ToolCodeGenTableController {
 
     @Resource
-    private ICodeGenTableService codeGenService;
+    private IToolCodeGenTableService codeGenService;
 
     @GetMapping("/db/list")
     @ApiOperation(value = "获取数据表", notes = "系统管理 - 代码生成器")
-    public ResultUtil<PageResult<CodeGenTableDTO>> dataList(@Valid QueryCodeGenTablePageReqVO queryVO) {
+    public ResultUtil<PageResult<ToolCodeGenTableDTO>> dataList(@Valid QueryToolCodeGenTablePageReqVO queryVO) {
         return ResultUtil.success(codeGenService.selectDbTableList(queryVO));
     }
 
@@ -45,7 +45,7 @@ public class CodeGenTableController {
 
     @GetMapping("/list")
     @ApiOperation(value = "获取代码生成器分页数据", notes = "系统管理 - 代码生成器")
-    public ResultUtil<PageResult<CodeGenTableDTO>> list(@Valid QueryCodeGenTablePageReqVO queryVO) {
+    public ResultUtil<PageResult<ToolCodeGenTableDTO>> list(@Valid QueryToolCodeGenTablePageReqVO queryVO) {
         return ResultUtil.success(codeGenService.selectCodeGenTableList(queryVO));
     }
 

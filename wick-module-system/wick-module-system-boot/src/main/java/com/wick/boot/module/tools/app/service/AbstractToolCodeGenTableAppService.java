@@ -4,9 +4,9 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.exception.ServiceException;
-import com.wick.boot.module.tools.mapper.ICodeGenTableMapper;
-import com.wick.boot.module.tools.model.dto.CodeGenTableDTO;
-import com.wick.boot.module.tools.model.entity.CodeGenTable;
+import com.wick.boot.module.tools.mapper.IToolCodeGenTableMapper;
+import com.wick.boot.module.tools.model.dto.ToolCodeGenTableDTO;
+import com.wick.boot.module.tools.model.entity.ToolCodeGenTable;
 
 import javax.annotation.Resource;
 import java.util.Collection;
@@ -20,10 +20,10 @@ import java.util.stream.Collectors;
  * @author ZhangZiHeng
  * @date 2024-07-24
  */
-public abstract class AbstractCodeGenTableAppService {
+public abstract class AbstractToolCodeGenTableAppService {
 
     @Resource
-    private ICodeGenTableMapper codeGenTableMapper;
+    private IToolCodeGenTableMapper codeGenTableMapper;
 
     /**
      * 验证表名
@@ -31,7 +31,7 @@ public abstract class AbstractCodeGenTableAppService {
      * @param codeGenTables 代码生成器集合表
      * @param tableNames    表名集合
      */
-    protected void validateAddParams(List<CodeGenTableDTO> codeGenTables, List<String> tableNames) {
+    protected void validateAddParams(List<ToolCodeGenTableDTO> codeGenTables, List<String> tableNames) {
         // 校验表名是否存在于数据源中
         validateDataSource(tableNames, codeGenTables);
 
@@ -49,7 +49,7 @@ public abstract class AbstractCodeGenTableAppService {
      * @param codeGenTables 代码生成器集合
      * @throws ServiceException 如果表名在数据源中不存在，抛出异常
      */
-    private void validateDataSource(List<String> tableNames, List<CodeGenTableDTO> codeGenTables) {
+    private void validateDataSource(List<String> tableNames, List<ToolCodeGenTableDTO> codeGenTables) {
         // 如果数据源中不存在表
         if (CollUtil.isEmpty(codeGenTables)) {
             String errorMsg = "表" + tableNames + "在数据源中不存在";
@@ -64,10 +64,10 @@ public abstract class AbstractCodeGenTableAppService {
      * @param codeGenTables 代码生成器集合
      * @throws ServiceException 如果表名在数据源中不存在，抛出异常
      */
-    private void validateTableNameExisting(List<String> tableNames, List<CodeGenTableDTO> codeGenTables) {
+    private void validateTableNameExisting(List<String> tableNames, List<ToolCodeGenTableDTO> codeGenTables) {
         // 计算 tableNames 中哪些表名在数据源中不存在
         Set<String> existingTableNames = codeGenTables.stream()
-                .map(CodeGenTableDTO::getTableName)
+                .map(ToolCodeGenTableDTO::getTableName)
                 .collect(Collectors.toSet());
         Collection<String> nonExistentTableNames = CollectionUtil.subtract(tableNames, existingTableNames);
 
@@ -86,16 +86,16 @@ public abstract class AbstractCodeGenTableAppService {
      */
     private void validateTableNameByCodeGenTable(List<String> tableNames) {
         // 查询 code_gen_table 表中是否存在指定的表名
-        List<CodeGenTable> existingCodeGenTables = this.codeGenTableMapper.selectTables(tableNames);
+        List<ToolCodeGenTable> existingToolCodeGenTables = this.codeGenTableMapper.selectTables(tableNames);
 
         // 如果 code_gen_table 表中不存在这些表名，则返回
-        if (CollUtil.isEmpty(existingCodeGenTables)) {
+        if (CollUtil.isEmpty(existingToolCodeGenTables)) {
             return;
         }
 
         // 获取已经存在的表名集合
-        Set<String> existingTableNames = existingCodeGenTables.stream()
-                .map(CodeGenTable::getTableName)
+        Set<String> existingTableNames = existingToolCodeGenTables.stream()
+                .map(ToolCodeGenTable::getTableName)
                 .collect(Collectors.toSet());
 
         // 计算 tableNames 中哪些表名已经存在

@@ -2,9 +2,9 @@ package com.wick.boot.module.tools.convert;
 
 import cn.hutool.core.text.NamingCase;
 import cn.hutool.core.util.StrUtil;
-import com.wick.boot.module.tools.config.CodeGenConfig;
-import com.wick.boot.module.tools.model.dto.CodeGenTableDTO;
-import com.wick.boot.module.tools.model.entity.CodeGenTable;
+import com.wick.boot.module.tools.config.ToolCodeGenConfig;
+import com.wick.boot.module.tools.model.dto.ToolCodeGenTableDTO;
+import com.wick.boot.module.tools.model.entity.ToolCodeGenTable;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -19,9 +19,9 @@ import java.util.List;
  * @date 2024-07-23
  */
 @Mapper
-public interface CodeGenTableConvert {
+public interface ToolCodeGenTableConvert {
 
-    CodeGenTableConvert INSTANCE = Mappers.getMapper(CodeGenTableConvert.class);
+    ToolCodeGenTableConvert INSTANCE = Mappers.getMapper(ToolCodeGenTableConvert.class);
 
     /**
      * Convert entity To DTO
@@ -29,15 +29,15 @@ public interface CodeGenTableConvert {
      * @param records 代码生成器集合
      * @return 代码生成器集合DTO
      */
-    List<CodeGenTableDTO> entityToCodeGenDTOS(List<CodeGenTable> records);
+    List<ToolCodeGenTableDTO> entityToCodeGenDTOS(List<ToolCodeGenTable> records);
 
     /**
      * Convert DTO To Entity
      *
-     * @param codeGenTableDTOS 代码生成器DTOS
+     * @param toolCodeGenTableDTOS 代码生成器DTOS
      * @return 代码生成器集合
      */
-    List<CodeGenTable> dtoToEntity(List<CodeGenTableDTO> codeGenTableDTOS);
+    List<ToolCodeGenTable> dtoToEntity(List<ToolCodeGenTableDTO> toolCodeGenTableDTOS);
 
     @Mappings({
             @Mapping(target = "className", expression = "java(convertClassName(tableDTO))"),
@@ -47,34 +47,34 @@ public interface CodeGenTableConvert {
             @Mapping(target = "functionName", expression = "java(convertFunctionName(tableDTO))"),
             @Mapping(target = "functionAuthor", expression = "java(convertFunctionAuthor())")
     })
-    CodeGenTable toEntity(CodeGenTableDTO tableDTO);
+    ToolCodeGenTable toEntity(ToolCodeGenTableDTO tableDTO);
 
-    default String convertClassName(CodeGenTableDTO tableDTO) {
+    default String convertClassName(ToolCodeGenTableDTO tableDTO) {
         return NamingCase.toPascalCase(tableDTO.getTableName());
     }
 
     default String convertPackageName() {
-        return CodeGenConfig.getPackageName();
+        return ToolCodeGenConfig.getPackageName();
     }
 
     default String convertModuleName() {
-        String packageName = CodeGenConfig.getPackageName();
+        String packageName = ToolCodeGenConfig.getPackageName();
         return StrUtil.sub(packageName, packageName.length() + 1, packageName.length());
     }
 
-    default String convertBusinessName(CodeGenTableDTO tableDTO) {
+    default String convertBusinessName(ToolCodeGenTableDTO tableDTO) {
         String tableName = tableDTO.getTableName();
         int lastIndex = tableName.lastIndexOf("_");
         int nameLength = tableName.length();
         return StrUtil.sub(tableName, lastIndex + 1, nameLength);
     }
 
-    default String convertFunctionName(CodeGenTableDTO tableDTO) {
+    default String convertFunctionName(ToolCodeGenTableDTO tableDTO) {
         return tableDTO.getTableComment();
     }
 
     default String convertFunctionAuthor() {
-        return CodeGenConfig.getAuthor();
+        return ToolCodeGenConfig.getAuthor();
     }
 
 }

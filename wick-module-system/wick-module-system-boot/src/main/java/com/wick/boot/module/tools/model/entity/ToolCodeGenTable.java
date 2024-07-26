@@ -21,8 +21,8 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Accessors(chain = true)
 @ToString(callSuper = true)
-@TableName("system_code_gen_table")
-public class CodeGenTable extends BaseDO {
+@TableName("tool_code_gen_table")
+public class ToolCodeGenTable extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
@@ -118,18 +118,18 @@ public class CodeGenTable extends BaseDO {
 //    /**
 //     * 主键信息
 //     */
-//    private CodeGenTableColumn pkColumn;
+//    private ToolCodeGenTableColumn pkColumn;
 //
 //    /**
 //     * 子表信息
 //     */
-//    private CodeGenTable subTable;
+//    private ToolCodeGenTable subTable;
 //
 //    /**
 //     * 表列信息
 //     */
 //    @Valid
-//    private List<CodeGenTableColumn> columns;
+//    private List<ToolCodeGenTableColumn> columns;
 //
 //
 //    /**

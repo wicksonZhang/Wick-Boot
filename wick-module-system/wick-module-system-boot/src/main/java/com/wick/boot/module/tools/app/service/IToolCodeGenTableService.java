@@ -1,8 +1,8 @@
 package com.wick.boot.module.tools.app.service;
 
 import com.wick.boot.common.core.result.PageResult;
-import com.wick.boot.module.tools.model.dto.CodeGenTableDTO;
-import com.wick.boot.module.tools.model.vo.QueryCodeGenTablePageReqVO;
+import com.wick.boot.module.tools.model.dto.ToolCodeGenTableDTO;
+import com.wick.boot.module.tools.model.vo.QueryToolCodeGenTablePageReqVO;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * @author ZhangZiHeng
  * @date 2024-07-23
  */
-public interface ICodeGenTableService {
+public interface IToolCodeGenTableService {
 
     /**
      * 获取数据源分页数据信息
@@ -20,7 +20,7 @@ public interface ICodeGenTableService {
      * @param queryVO 查询参数VO
      * @return 分页数据
      */
-    PageResult<CodeGenTableDTO> selectDbTableList(QueryCodeGenTablePageReqVO queryVO);
+    PageResult<ToolCodeGenTableDTO> selectDbTableList(QueryToolCodeGenTablePageReqVO queryVO);
 
     /**
      * 导入数据表
@@ -35,5 +35,5 @@ public interface ICodeGenTableService {
      * @param queryVO 查询参数
      * @return 分页数据
      */
-    PageResult<CodeGenTableDTO> selectCodeGenTableList(QueryCodeGenTablePageReqVO queryVO);
+    PageResult<ToolCodeGenTableDTO> selectCodeGenTableList(QueryToolCodeGenTablePageReqVO queryVO);
 }

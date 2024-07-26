@@ -1,7 +1,7 @@
 package com.wick.boot.module.tools.mapper;
 
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
-import com.wick.boot.module.tools.model.entity.CodeGenTableColumn;
+import com.wick.boot.module.tools.model.entity.ToolCodeGenTableColumn;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  * @date 2024-07-25
  */
 @Mapper
-public interface ICodeGenTableColumnMapper extends BaseMapperX<CodeGenTableColumn> {
+public interface IToolCodeGenTableColumnMapper extends BaseMapperX<ToolCodeGenTableColumn> {
 
     /**
      * 通过表名查询数据表字段信息
@@ -21,5 +21,5 @@ public interface ICodeGenTableColumnMapper extends BaseMapperX<CodeGenTableColum
      * @param tableName 表名
      * @return 表字段信息
      */
-    List<CodeGenTableColumn> selectDbTableColumnsByName(String tableName);
+    List<ToolCodeGenTableColumn> selectDbTableColumnsByName(String tableName);
 }

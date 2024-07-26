@@ -1,6 +1,6 @@
 package com.wick.boot.module.system.api.service;
 
-import com.wick.boot.module.system.api.OperateLogApi;
+import com.wick.boot.module.system.api.ApiOperateLog;
 import com.wick.boot.module.system.app.service.ISystemOperateLogService;
 import com.wick.boot.module.system.model.dto.OperateLogCreateReqDTO;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import javax.annotation.Resource;
  */
 @Service
 @Validated
-public class ApiOperateLogService implements OperateLogApi {
+public class ApiOperateLogService implements ApiOperateLog {
 
     @Resource
     private ISystemOperateLogService operateLogService;

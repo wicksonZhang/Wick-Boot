@@ -17,20 +17,20 @@ import java.time.LocalDateTime;
  */
 @Setter
 @Getter
-@ApiModel(value = "QueryCodeGenTablePageReqVO", description = "代码查询参数VO")
-public class QueryCodeGenTablePageReqVO extends CommonPageParamVO {
+@ApiModel(value = "QueryToolCodeGenTablePageReqVO", description = "代码查询参数VO")
+public class QueryToolCodeGenTablePageReqVO extends CommonPageParamVO {
 
     /**
      * 数据表名
      */
     @ApiModelProperty(value = "数据表名", required = false, example = "system_user")
-    private String name;
+    private String tableName;
 
     /**
      * 数据表描述
      */
     @ApiModelProperty(value = "数据表描述", required = false, example = "用户信息表")
-    private String comment;
+    private String tableComment;
 
     /**
      * 开始时间-结束时间

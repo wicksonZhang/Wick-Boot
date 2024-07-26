@@ -22,8 +22,8 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Accessors(chain = true)
 @ToString(callSuper = true)
-@TableName("system_code_gen_table_column")
-public class CodeGenTableColumn extends BaseDO {
+@TableName("tool_code_gen_table_column")
+public class ToolCodeGenTableColumn extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 

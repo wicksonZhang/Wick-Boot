@@ -10,7 +10,7 @@ import javax.validation.Valid;
  * @author ZhangZiHeng
  * @date 2024-06-13
  */
-public interface OperateLogApi {
+public interface ApiOperateLog {
 
     /**
      * 创建操作日志

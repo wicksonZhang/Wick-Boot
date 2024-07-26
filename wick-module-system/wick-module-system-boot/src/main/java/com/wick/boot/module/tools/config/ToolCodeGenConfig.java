@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
  * @date 2024-07-24
  */
 @Component
-@ConfigurationProperties(prefix = "code.gen")
+@ConfigurationProperties(prefix = "tool.code.gen")
 @PropertySource(value = {"classpath:generator.yml"}, encoding = "UTF-8")
-public class CodeGenConfig {
+public class ToolCodeGenConfig {
 
     /**
      * 作者
@@ -32,7 +32,7 @@ public class CodeGenConfig {
 
     @Value("${author}")
     public void setAuthor(String author) {
-        CodeGenConfig.author = author;
+        ToolCodeGenConfig.author = author;
     }
 
     public static String getPackageName() {
@@ -41,7 +41,7 @@ public class CodeGenConfig {
 
     @Value("${packageName}")
     public void setPackageName(String packageName) {
-        CodeGenConfig.packageName = packageName;
+        ToolCodeGenConfig.packageName = packageName;
     }
 
 }
