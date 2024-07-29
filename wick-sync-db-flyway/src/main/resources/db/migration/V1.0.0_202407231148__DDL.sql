@@ -25,7 +25,7 @@ CREATE TABLE tool_code_gen_table
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '代码生成业务表';
 -- ----------------------------
--- Records of system_code_gen_table
+-- Records of tool_code_gen_table
 -- ----------------------------
 BEGIN;
 COMMIT;
@@ -60,7 +60,7 @@ CREATE TABLE tool_code_gen_table_column
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '代码生成业务表字段';
 -- ----------------------------
--- Records of system_code_gen_table_column
+-- Records of tool_code_gen_table_column
 -- ----------------------------
 BEGIN;
 COMMIT;

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
@@ -38,7 +38,8 @@ public class ToolCodeGenTableController {
     @PostMapping("/importTable/{tableNames}")
     @ApiImplicitParam(name = "tableName", value = "数据表名称", required = true, dataType = "String", dataTypeClass = String.class)
     @ApiOperation(value = "导入数据表", notes = "系统管理 - 代码生成器")
-    public ResultUtil<Boolean> importTable(@NotNull @PathVariable("tableNames") List<String> tableNames) {
+    public ResultUtil<Boolean> importTable(@NotEmpty(message = "表名不能为空")
+                                           @PathVariable("tableNames") List<String> tableNames) {
         codeGenService.importTable(tableNames);
         return ResultUtil.success(true);
     }

@@ -8,8 +8,8 @@
     <select id="selectDataSourcePage" resultType="com.wick.boot.module.tools.model.entity.ToolCodeGenTable">
         SELECT table_name, table_comment, create_time, update_time FROM information_schema.tables
         WHERE table_schema = (select database())
-        AND table_name NOT LIKE 'system_codegen_%'
-        AND table_name NOT IN (select table_name from system_code_gen_table)
+        AND table_name NOT LIKE 'tool_code_%'
+        AND table_name NOT IN (select table_name from tool_code_gen_table)
         <if test="queryVO.tableName != null and queryVO.tableName != ''">
             AND lower(table_name) LIKE lower(concat('%', #{queryVO.tableName}, '%'))
         </if>
@@ -22,7 +22,7 @@
     <select id="selectByTableNames" resultType="com.wick.boot.module.tools.model.dto.ToolCodeGenTableDTO">
         SELECT table_name, table_comment, create_time, update_time FROM information_schema.tables
         WHERE table_schema = (select database())
-        AND table_name NOT LIKE 'system_codegen_%'
+        AND table_name NOT LIKE 'tool_code_%'
         <if test="tableNames != null and tableNames.size() > 0">
             AND `table_name` IN
             <foreach collection="tableNames" item="tableName" open="(" close=")" separator=",">
