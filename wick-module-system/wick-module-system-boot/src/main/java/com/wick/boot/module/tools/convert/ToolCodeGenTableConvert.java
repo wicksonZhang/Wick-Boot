@@ -1,9 +1,11 @@
 package com.wick.boot.module.tools.convert;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.text.NamingCase;
 import cn.hutool.core.util.StrUtil;
 import com.wick.boot.module.tools.config.ToolCodeGenConfig;
-import com.wick.boot.module.tools.model.dto.ToolCodeGenTableDTO;
+import com.wick.boot.module.tools.model.dto.ToolCodeGenDetailDTO;
+import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTableDTO;
 import com.wick.boot.module.tools.model.entity.ToolCodeGenTable;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -49,19 +51,41 @@ public interface ToolCodeGenTableConvert {
     })
     ToolCodeGenTable toEntity(ToolCodeGenTableDTO tableDTO);
 
+    /**
+     * 设置类名
+     *
+     * @param tableDTO 数据表DTO
+     * @return 类名
+     */
     default String convertClassName(ToolCodeGenTableDTO tableDTO) {
         return NamingCase.toPascalCase(tableDTO.getTableName());
     }
 
+    /**
+     * 设置包名
+     *
+     * @return 包名
+     */
     default String convertPackageName() {
         return ToolCodeGenConfig.getPackageName();
     }
 
+    /**
+     * 设置模块名
+     *
+     * @return 模块名
+     */
     default String convertModuleName() {
         String packageName = ToolCodeGenConfig.getPackageName();
         return StrUtil.sub(packageName, packageName.length() + 1, packageName.length());
     }
 
+    /**
+     * 设置业务名
+     *
+     * @param tableDTO 数据表DTO
+     * @return 业务名称
+     */
     default String convertBusinessName(ToolCodeGenTableDTO tableDTO) {
         String tableName = tableDTO.getTableName();
         int lastIndex = tableName.lastIndexOf("_");
@@ -69,12 +93,29 @@ public interface ToolCodeGenTableConvert {
         return StrUtil.sub(tableName, lastIndex + 1, nameLength);
     }
 
+    /**
+     * 设置功能名
+     *
+     * @param tableDTO 数据表DTO
+     * @return 功能名
+     */
     default String convertFunctionName(ToolCodeGenTableDTO tableDTO) {
         return tableDTO.getTableComment();
     }
 
+    /**
+     * 设置作者名称
+     *
+     * @return 作者名称
+     */
     default String convertFunctionAuthor() {
         return ToolCodeGenConfig.getAuthor();
     }
 
+
+    default ToolCodeGenDetailDTO convertDetailDTO(ToolCodeGenTable codeGenTable) {
+        ToolCodeGenDetailDTO respVO = new ToolCodeGenDetailDTO();
+        respVO.setTable(BeanUtil.copyProperties(codeGenTable, ToolCodeGenTableDTO.class));
+        return respVO;
+    }
 }

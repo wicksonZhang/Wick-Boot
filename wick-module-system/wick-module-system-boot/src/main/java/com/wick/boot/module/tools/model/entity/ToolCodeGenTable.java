@@ -115,6 +115,11 @@ public class ToolCodeGenTable extends BaseDO {
      */
     private String options;
 
+    /**
+     * 备注
+     */
+    private String remark;
+
 //    /**
 //     * 主键信息
 //     */

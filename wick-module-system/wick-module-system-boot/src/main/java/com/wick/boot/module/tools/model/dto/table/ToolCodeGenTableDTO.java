@@ -1,4 +1,4 @@
-package com.wick.boot.module.tools.model.dto;
+package com.wick.boot.module.tools.model.dto.table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -34,6 +34,15 @@ public class ToolCodeGenTableDTO {
 
     @ApiModelProperty(value = "类名", example = "ClassName")
     private String className;
+
+    @ApiModelProperty(value = "作者", example = "wickson")
+    private String functionAuthor;
+
+    @ApiModelProperty(value = "作者", example = "wickson")
+    private String remark;
+
+    /** 使用的模板（crud单表操作 tree树表操作 sub主子表操作） */
+    private String tplCategory;
 
     @ApiModelProperty(value = "创建时间", example = "2024-07-23 02:24:37")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

@@ -10,10 +10,11 @@ import com.wick.boot.module.tools.constant.ToolCodeGenConstants;
 import com.wick.boot.module.tools.convert.ToolCodeGenTableConvert;
 import com.wick.boot.module.tools.mapper.IToolCodeGenTableColumnMapper;
 import com.wick.boot.module.tools.mapper.IToolCodeGenTableMapper;
-import com.wick.boot.module.tools.model.dto.ToolCodeGenTableDTO;
+import com.wick.boot.module.tools.model.dto.ToolCodeGenDetailDTO;
+import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTableDTO;
 import com.wick.boot.module.tools.model.entity.ToolCodeGenTable;
 import com.wick.boot.module.tools.model.entity.ToolCodeGenTableColumn;
-import com.wick.boot.module.tools.model.vo.QueryToolCodeGenTablePageReqVO;
+import com.wick.boot.module.tools.model.vo.table.QueryToolCodeGenTablePageReqVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -229,5 +230,12 @@ public class ToolToolCodeGenTableServiceImpl extends AbstractToolCodeGenTableApp
         /* Step-4: 返回分页结果 */
         List<ToolCodeGenTableDTO> codeGenDTOS = ToolCodeGenTableConvert.INSTANCE.entityToCodeGenDTOS(pageResult.getRecords());
         return new PageResult<>(codeGenDTOS, pageResult.getTotal());
+    }
+
+    @Override
+    public ToolCodeGenDetailDTO getDetails(Long tableId) {
+        // 查询 tool_code_gen_table 信息
+        ToolCodeGenTable codeGenTable = this.codeGenTableMapper.selectById(tableId);
+        return ToolCodeGenTableConvert.INSTANCE.convertDetailDTO(codeGenTable);
     }
 }

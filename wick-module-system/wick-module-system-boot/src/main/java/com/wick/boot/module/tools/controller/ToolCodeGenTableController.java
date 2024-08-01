@@ -3,8 +3,9 @@ package com.wick.boot.module.tools.controller;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.module.tools.app.service.IToolCodeGenTableService;
-import com.wick.boot.module.tools.model.dto.ToolCodeGenTableDTO;
-import com.wick.boot.module.tools.model.vo.QueryToolCodeGenTablePageReqVO;
+import com.wick.boot.module.tools.model.dto.ToolCodeGenDetailDTO;
+import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTableDTO;
+import com.wick.boot.module.tools.model.vo.table.QueryToolCodeGenTablePageReqVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -50,6 +51,12 @@ public class ToolCodeGenTableController {
         return ResultUtil.success(codeGenService.selectCodeGenTableList(queryVO));
     }
 
+    @GetMapping("/details/{tableId}")
+    @ApiOperation(value = "获取代码生成器详细数据", notes = "系统管理 - 代码生成器")
+    @ApiImplicitParam(name = "tableId", value = "数据表Id", required = true, dataType = "Long", dataTypeClass = Long.class)
+    public ResultUtil<ToolCodeGenDetailDTO> getDetails(@PathVariable("tableId") Long tableId) {
+        return  ResultUtil.success(codeGenService.getDetails(tableId));
+    }
 
 
 }

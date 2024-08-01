@@ -1,4 +1,4 @@
-package com.wick.boot.module.tools.model.vo;
+package com.wick.boot.module.tools.model.vo.table;
 
 import com.wick.boot.common.core.model.vo.CommonPageParamVO;
 import io.swagger.annotations.ApiModel;

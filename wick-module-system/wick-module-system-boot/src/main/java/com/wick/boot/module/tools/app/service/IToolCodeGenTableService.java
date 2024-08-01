@@ -1,8 +1,9 @@
 package com.wick.boot.module.tools.app.service;
 
 import com.wick.boot.common.core.result.PageResult;
-import com.wick.boot.module.tools.model.dto.ToolCodeGenTableDTO;
-import com.wick.boot.module.tools.model.vo.QueryToolCodeGenTablePageReqVO;
+import com.wick.boot.module.tools.model.dto.ToolCodeGenDetailDTO;
+import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTableDTO;
+import com.wick.boot.module.tools.model.vo.table.QueryToolCodeGenTablePageReqVO;
 
 import java.util.List;
 
@@ -36,4 +37,12 @@ public interface IToolCodeGenTableService {
      * @return 分页数据
      */
     PageResult<ToolCodeGenTableDTO> selectCodeGenTableList(QueryToolCodeGenTablePageReqVO queryVO);
+
+    /**
+     * 通过数据表Id查询数据表详细信息
+     *
+     * @param tableId 数据表Id
+     * @return
+     */
+    ToolCodeGenDetailDTO getDetails(Long tableId);
 }

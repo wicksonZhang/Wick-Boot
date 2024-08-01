@@ -5,7 +5,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.module.tools.mapper.IToolCodeGenTableMapper;
-import com.wick.boot.module.tools.model.dto.ToolCodeGenTableDTO;
+import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTableDTO;
 import com.wick.boot.module.tools.model.entity.ToolCodeGenTable;
 
 import javax.annotation.Resource;
