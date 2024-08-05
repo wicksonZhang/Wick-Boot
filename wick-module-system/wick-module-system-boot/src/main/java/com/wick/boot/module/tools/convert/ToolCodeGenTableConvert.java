@@ -5,8 +5,11 @@ import cn.hutool.core.text.NamingCase;
 import cn.hutool.core.util.StrUtil;
 import com.wick.boot.module.tools.config.ToolCodeGenConfig;
 import com.wick.boot.module.tools.model.dto.ToolCodeGenDetailDTO;
+import com.wick.boot.module.tools.model.dto.column.ToolCodeGenColumnDTO;
 import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTableDTO;
+import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTablePageReqsDTO;
 import com.wick.boot.module.tools.model.entity.ToolCodeGenTable;
+import com.wick.boot.module.tools.model.entity.ToolCodeGenTableColumn;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -31,7 +34,7 @@ public interface ToolCodeGenTableConvert {
      * @param records 代码生成器集合
      * @return 代码生成器集合DTO
      */
-    List<ToolCodeGenTableDTO> entityToCodeGenDTOS(List<ToolCodeGenTable> records);
+    List<ToolCodeGenTablePageReqsDTO> entityToCodeGenDTOS(List<ToolCodeGenTable> records);
 
     /**
      * Convert DTO To Entity
@@ -54,7 +57,7 @@ public interface ToolCodeGenTableConvert {
     /**
      * 设置类名
      *
-     * @param tableDTO 数据表DTO
+     * @param tableDTO 数据表
      * @return 类名
      */
     default String convertClassName(ToolCodeGenTableDTO tableDTO) {
@@ -77,7 +80,9 @@ public interface ToolCodeGenTableConvert {
      */
     default String convertModuleName() {
         String packageName = ToolCodeGenConfig.getPackageName();
-        return StrUtil.sub(packageName, packageName.length() + 1, packageName.length());
+        int lastIndex = packageName.lastIndexOf(".");
+        int nameLength = packageName.length();
+        return StrUtil.sub(packageName, lastIndex + 1, nameLength);
     }
 
     /**
@@ -112,10 +117,17 @@ public interface ToolCodeGenTableConvert {
         return ToolCodeGenConfig.getAuthor();
     }
 
-
-    default ToolCodeGenDetailDTO convertDetailDTO(ToolCodeGenTable codeGenTable) {
+    /**
+     * 设置表信息
+     *
+     * @param table   表信息
+     * @param columns 表结构集合信息
+     * @return 表详细信息
+     */
+    default ToolCodeGenDetailDTO convertDetailDTO(ToolCodeGenTable table, List<ToolCodeGenTableColumn> columns) {
         ToolCodeGenDetailDTO respVO = new ToolCodeGenDetailDTO();
-        respVO.setTable(BeanUtil.copyProperties(codeGenTable, ToolCodeGenTableDTO.class));
+        respVO.setTable(BeanUtil.copyProperties(table, ToolCodeGenTableDTO.class));
+        respVO.setColumns(BeanUtil.copyToList(columns, ToolCodeGenColumnDTO.class));
         return respVO;
     }
 }

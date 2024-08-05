@@ -179,9 +179,9 @@ public class SystemMenuServiceImpl extends AbstractSystemMenuAppService implemen
     }
 
     @Override
-    public List<SystemMenuOptionsDTO> options() {
+    public List<SystemMenuOptionsDTO> options(Boolean onlyParent) {
         /* Step-1: 获取菜单信息 */
-        List<SystemMenu> menuList = systemMenuMapper.selectMenuOptions();
+        List<SystemMenu> menuList = systemMenuMapper.selectMenuOptions(onlyParent);
         if (CollUtil.isEmpty(menuList)) {
             return Lists.newArrayList();
         }

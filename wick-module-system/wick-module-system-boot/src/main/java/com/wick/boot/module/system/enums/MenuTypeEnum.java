@@ -2,7 +2,6 @@ package com.wick.boot.module.system.enums;
 
 import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.wick.boot.common.core.enums.CommonStatusEnum;
 import com.wick.boot.common.core.validator.IntArrayValuable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

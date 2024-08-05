@@ -1,5 +1,6 @@
 package com.wick.boot.module.tools.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
 import com.wick.boot.module.tools.model.entity.ToolCodeGenTableColumn;
 import org.apache.ibatis.annotations.Mapper;
@@ -22,4 +23,17 @@ public interface IToolCodeGenTableColumnMapper extends BaseMapperX<ToolCodeGenTa
      * @return 表字段信息
      */
     List<ToolCodeGenTableColumn> selectDbTableColumnsByName(String tableName);
+
+    /**
+     * 通过表id获取数据表结构
+     *
+     * @param tableId 数据表id
+     * @return 数据表结构集合
+     */
+    default List<ToolCodeGenTableColumn> selectListByTableId(Long tableId) {
+        return selectList(new LambdaQueryWrapper<ToolCodeGenTableColumn>()
+                .eq(ToolCodeGenTableColumn::getTableId, tableId)
+                .orderByAsc(ToolCodeGenTableColumn::getId));
+
+    }
 }

@@ -86,7 +86,7 @@ public class ToolCodeGenTableColumn extends BaseDO {
      * 是否为插入字段（1是）
      */
     @TableField("is_insert")
-    private Integer insert;
+    private Integer created;
 
     /**
      * 是否编辑字段（1是）

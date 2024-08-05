@@ -68,5 +68,5 @@ public interface ISystemMenuService {
      *
      * @return 菜单列表集合
      */
-    List<SystemMenuOptionsDTO> options();
+    List<SystemMenuOptionsDTO> options(Boolean onlyParent);
 }

@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.wick.boot.common.core.enums.CommonStatusEnum;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
+import com.wick.boot.module.system.enums.MenuTypeEnum;
 import com.wick.boot.module.system.model.dto.menu.SystemMenuDTO;
 import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.system.model.vo.menu.QueryMenuListReqVO;
@@ -78,13 +79,17 @@ public interface ISystemMenuMapper extends BaseMapperX<SystemMenu> {
      *
      * @return 菜单集合
      */
-    default List<SystemMenu> selectMenuOptions() {
-        return selectList(new LambdaQueryWrapper<SystemMenu>()
-                .select(SystemMenu::getId,
+    default List<SystemMenu> selectMenuOptions(Boolean onlyParent) {
+        LambdaQueryWrapper<SystemMenu> wrapper = new LambdaQueryWrapper<>();
+
+        wrapper.select(SystemMenu::getId,
                         SystemMenu::getParentId,
                         SystemMenu::getName,
                         SystemMenu::getType)
                 .eq(SystemMenu::getVisible, CommonStatusEnum.ENABLE.getValue())
-                .orderByAsc(SystemMenu::getSort));
+                .in(Boolean.TRUE.equals(onlyParent), SystemMenu::getType, MenuTypeEnum.MENU, MenuTypeEnum.CATALOG)
+                .orderByAsc(SystemMenu::getSort);
+
+        return selectList(wrapper);
     }
 }

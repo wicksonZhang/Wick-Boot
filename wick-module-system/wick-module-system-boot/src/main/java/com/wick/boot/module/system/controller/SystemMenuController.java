@@ -71,8 +71,8 @@ public class SystemMenuController {
 
     @GetMapping("/options")
     @ApiOperation(value = "获取菜单选项", notes = "菜单信息")
-    public ResultUtil<List<SystemMenuOptionsDTO>> options() {
-        return ResultUtil.success(systemMenuService.options());
+    public ResultUtil<List<SystemMenuOptionsDTO>> options(Boolean onlyParent) {
+        return ResultUtil.success(systemMenuService.options(onlyParent));
     }
 
     @GetMapping

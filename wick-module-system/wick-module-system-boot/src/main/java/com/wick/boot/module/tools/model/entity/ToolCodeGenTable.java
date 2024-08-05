@@ -103,7 +103,7 @@ public class ToolCodeGenTable extends BaseDO {
     /**
      * 生成代码方式（0zip压缩包 1自定义路径）
      */
-    private Integer genType;
+    private String genType;
 
     /**
      * 生成路径（不填默认项目路径）
@@ -152,10 +152,7 @@ public class ToolCodeGenTable extends BaseDO {
 //     */
 //    private String treeName;
 //
-//    /**
-//     * 上级菜单ID字段
-//     */
-//    private String parentMenuId;
+
 //
 //    /**
 //     * 上级菜单名称字段

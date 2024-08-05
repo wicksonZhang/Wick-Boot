@@ -1,14 +1,10 @@
 package com.wick.boot.module.tools.model.dto.table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 /**
  * 代码自动生成器 - DTO
@@ -20,9 +16,9 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ToolCodeGenTableDTO {
 
+    // ========================== 基本信息 ==========================
     @ApiModelProperty(value = "主键id", example = "1")
     private Long id;
 
@@ -38,18 +34,36 @@ public class ToolCodeGenTableDTO {
     @ApiModelProperty(value = "作者", example = "wickson")
     private String functionAuthor;
 
-    @ApiModelProperty(value = "作者", example = "wickson")
+    @ApiModelProperty(value = "备注", example = "备注")
     private String remark;
 
-    /** 使用的模板（crud单表操作 tree树表操作 sub主子表操作） */
+    // ========================== 生成信息 ==========================
+
+    @ApiModelProperty(value = "使用的模板（crud单表操作 tree树表操作 sub主子表操作）", example = "crud")
     private String tplCategory;
 
-    @ApiModelProperty(value = "创建时间", example = "2024-07-23 02:24:37")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime createTime;
+    @ApiModelProperty(value = "前端类型（Vue2 Element UI、Vue3 Element Plus）", example = "Vue3 Element Plus")
+    private String tplWebType;
 
-    @ApiModelProperty(value = "更新时间", example = "2024-07-23 02:24:37")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime updateTime;
+    @ApiModelProperty(value = "包路径", example = "com.wick.boot.module.system")
+    private String packageName;
+
+    @ApiModelProperty(value = "模块名", example = "system")
+    private String moduleName;
+
+    @ApiModelProperty(value = "业务名", example = "user")
+    private String businessName;
+
+    @ApiModelProperty(value = "功能名", example = "用户信息")
+    private String functionName;
+
+    @ApiModelProperty(value = "生成代码方式", example = "0-zip压缩包 1-自定义路径")
+    private String genType;
+
+    @ApiModelProperty(value = "上级菜单", example = "1024")
+    private String parentMenuId;
+
+    @ApiModelProperty(value = "自定义路径 ", example = "/")
+    private String genPath;
 
 }

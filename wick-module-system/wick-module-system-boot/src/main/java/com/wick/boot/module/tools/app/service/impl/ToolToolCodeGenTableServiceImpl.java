@@ -12,6 +12,7 @@ import com.wick.boot.module.tools.mapper.IToolCodeGenTableColumnMapper;
 import com.wick.boot.module.tools.mapper.IToolCodeGenTableMapper;
 import com.wick.boot.module.tools.model.dto.ToolCodeGenDetailDTO;
 import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTableDTO;
+import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTablePageReqsDTO;
 import com.wick.boot.module.tools.model.entity.ToolCodeGenTable;
 import com.wick.boot.module.tools.model.entity.ToolCodeGenTableColumn;
 import com.wick.boot.module.tools.model.vo.table.QueryToolCodeGenTablePageReqVO;
@@ -42,7 +43,7 @@ public class ToolToolCodeGenTableServiceImpl extends AbstractToolCodeGenTableApp
     private IToolCodeGenTableColumnMapper codeGenTableColumnMapper;
 
     @Override
-    public PageResult<ToolCodeGenTableDTO> selectDbTableList(QueryToolCodeGenTablePageReqVO queryVO) {
+    public PageResult<ToolCodeGenTablePageReqsDTO> selectDbTableList(QueryToolCodeGenTablePageReqVO queryVO) {
         /* Step-1: 根据数据源获取对应的表信息 */
         Page<ToolCodeGenTable> pageResult = this.codeGenTableMapper.selectDataSourcePage(
                 new Page<>(queryVO.getPageNumber(), queryVO.getPageSize()), queryVO
@@ -53,7 +54,7 @@ public class ToolToolCodeGenTableServiceImpl extends AbstractToolCodeGenTableApp
         }
 
         /* Step-4: 返回分页结果 */
-        List<ToolCodeGenTableDTO> codeGenDTOS = ToolCodeGenTableConvert.INSTANCE.entityToCodeGenDTOS(pageResult.getRecords());
+        List<ToolCodeGenTablePageReqsDTO> codeGenDTOS = ToolCodeGenTableConvert.INSTANCE.entityToCodeGenDTOS(pageResult.getRecords());
         return new PageResult<>(codeGenDTOS, pageResult.getTotal());
     }
 
@@ -131,7 +132,7 @@ public class ToolToolCodeGenTableServiceImpl extends AbstractToolCodeGenTableApp
 
         // BO对象 默认插入勾选
         if (!arraysContains(ToolCodeGenConstants.COLUMNNAME_NOT_ADD, columnName)) {
-            column.setInsert(ToolCodeGenConstants.REQUIRE);
+            column.setCreated(ToolCodeGenConstants.REQUIRE);
         }
         // BO对象 默认编辑勾选
         if (!arraysContains(ToolCodeGenConstants.COLUMNNAME_NOT_EDIT, columnName)) {
@@ -219,7 +220,7 @@ public class ToolToolCodeGenTableServiceImpl extends AbstractToolCodeGenTableApp
     }
 
     @Override
-    public PageResult<ToolCodeGenTableDTO> selectCodeGenTableList(QueryToolCodeGenTablePageReqVO queryVO) {
+    public PageResult<ToolCodeGenTablePageReqsDTO> selectCodeGenTableList(QueryToolCodeGenTablePageReqVO queryVO) {
         /* Step-1: 根据数据源获取对应的表信息 */
         Page<ToolCodeGenTable> pageResult = this.codeGenTableMapper.selectCodeGenTablePage(queryVO);
 
@@ -228,14 +229,16 @@ public class ToolToolCodeGenTableServiceImpl extends AbstractToolCodeGenTableApp
         }
 
         /* Step-4: 返回分页结果 */
-        List<ToolCodeGenTableDTO> codeGenDTOS = ToolCodeGenTableConvert.INSTANCE.entityToCodeGenDTOS(pageResult.getRecords());
+        List<ToolCodeGenTablePageReqsDTO> codeGenDTOS = ToolCodeGenTableConvert.INSTANCE.entityToCodeGenDTOS(pageResult.getRecords());
         return new PageResult<>(codeGenDTOS, pageResult.getTotal());
     }
 
     @Override
     public ToolCodeGenDetailDTO getDetails(Long tableId) {
         // 查询 tool_code_gen_table 信息
-        ToolCodeGenTable codeGenTable = this.codeGenTableMapper.selectById(tableId);
-        return ToolCodeGenTableConvert.INSTANCE.convertDetailDTO(codeGenTable);
+        ToolCodeGenTable table = this.codeGenTableMapper.selectById(tableId);
+        // 查询 tool_code_gen_table_column 信息
+        List<ToolCodeGenTableColumn> columns = this.codeGenTableColumnMapper.selectListByTableId(tableId);
+        return ToolCodeGenTableConvert.INSTANCE.convertDetailDTO(table, columns);
     }
 }
