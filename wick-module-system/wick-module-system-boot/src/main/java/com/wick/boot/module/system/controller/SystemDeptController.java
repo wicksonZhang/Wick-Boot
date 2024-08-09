@@ -1,7 +1,7 @@
 package com.wick.boot.module.system.controller;
 
 import com.wick.boot.common.core.result.ResultUtil;
-import com.wick.boot.module.system.app.service.ISystemDeptService;
+import com.wick.boot.module.system.service.SystemDeptService;
 import com.wick.boot.module.system.model.dto.dept.SystemDeptDTO;
 import com.wick.boot.module.system.model.dto.dept.SystemDeptOptionsDTO;
 import com.wick.boot.module.system.model.vo.dept.AddDeptReqVO;
@@ -31,7 +31,7 @@ import java.util.List;
 public class SystemDeptController {
 
     @Resource
-    private ISystemDeptService systemDeptService;
+    private SystemDeptService systemDeptService;
 
     @ApiOperation(value = "新增部门数据", notes = "部门信息")
     @PostMapping

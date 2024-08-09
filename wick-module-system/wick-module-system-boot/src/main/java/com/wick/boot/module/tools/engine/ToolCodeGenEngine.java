@@ -64,11 +64,15 @@ public class ToolCodeGenEngine {
             String moduleName = table.getModuleName();
             // 子包：controller、convert
             String subpackageName = templateConfig.getSubpackageName();
-            // 文件路径  src/main/java/com/youlai/system/controller
+            // 文件路径  src/main/java/com/wick/system/controller
             String filePath = getFilePath(templateName, packageName, moduleName, subpackageName, className);
             previewDTO.setPath(filePath);
 
-            /* 3. 生成文件内容 */
+            /* Step-3: 包路径 */
+            String packagePath = getPackagePath(table.getPackageName());
+            previewDTO.setPackagePath(packagePath);
+
+            /* Step-4. 生成文件内容 */
             // 生成文件内容
             String content = getCodeContent(templateConfig, table, columns);
             previewDTO.setContent(content);
@@ -88,10 +92,10 @@ public class ToolCodeGenEngine {
      * @return 文件名称
      */
     private String getFileName(String className, String templateName, String templateExtension) {
-        if ("entity".equals(templateName)) {
+        if ("Entity".equals(templateName)) {
             return className + templateExtension;
         }
-        if ("mapperXml".equals(templateName)) {
+        if ("MapperXml".equals(templateName)) {
             return className + "Mapper" + templateExtension;
         }
         if ("api".equals(templateName)) {
@@ -116,7 +120,7 @@ public class ToolCodeGenEngine {
      */
     private String getFilePath(String templateName, String packageName, String moduleName, String subpackageName, String className) {
         String path;
-        if ("mapperXml".equals(templateName)) {
+        if ("MapperXml".equals(templateName)) {
             path = (toolCodeGenConfig.getBackendAppName()
                     + File.separator
                     + "src" + File.separator + "main" + File.separator + "resources"
@@ -142,6 +146,10 @@ public class ToolCodeGenEngine {
             );
         }
         // subPackageName = model.entity => model/entity
+        return path.replace(".", File.separator);
+    }
+
+    private String getPackagePath(String path) {
         return path.replace(".", File.separator);
     }
 

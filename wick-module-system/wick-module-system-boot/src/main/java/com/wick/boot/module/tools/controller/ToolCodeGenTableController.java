@@ -2,7 +2,7 @@ package com.wick.boot.module.tools.controller;
 
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
-import com.wick.boot.module.tools.app.service.IToolCodeGenTableService;
+import com.wick.boot.module.tools.service.ToolCodeGenTableService;
 import com.wick.boot.module.tools.model.dto.ToolCodeGenDetailDTO;
 import com.wick.boot.module.tools.model.dto.ToolCodeGenPreviewDTO;
 import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTablePageReqsDTO;
@@ -31,7 +31,7 @@ import java.util.List;
 public class ToolCodeGenTableController {
 
     @Resource
-    private IToolCodeGenTableService codeGenService;
+    private ToolCodeGenTableService codeGenService;
 
     @ApiOperation(value = "获取数据表", notes = "系统管理 - 代码生成器", httpMethod = "GET")
     @GetMapping("/db/list")

@@ -20,6 +20,9 @@ public class ToolCodeGenPreviewDTO {
     @ApiModelProperty(value = "文件名称", example = "SysTestDemoController.java")
     private String fileName;
 
+    @ApiModelProperty(value = "包路径", example = "com/wick/boot/module/tools")
+    private String packagePath;
+
     @ApiModelProperty(value = "代码内容", example = "Hello World")
     private String content;
 

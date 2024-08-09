@@ -1,9 +1,7 @@
-package com.wick.boot.module.system.api.service;
+package com.wick.boot.module.system.api;
 
-import com.wick.boot.module.system.api.ApiSystemLoginLog;
-import com.wick.boot.module.system.app.service.ISystemLoginLogService;
+import com.wick.boot.module.system.service.SystemLoginLogService;
 import com.wick.boot.module.system.model.dto.LoginLogReqDTO;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,7 +16,7 @@ import javax.annotation.Resource;
 public class ApiSystemLoginLogService implements ApiSystemLoginLog {
 
     @Resource
-    private ISystemLoginLogService loginLogService;
+    private SystemLoginLogService loginLogService;
 
     @Override
     public void saveLoginLog(LoginLogReqDTO logReqDTO) {

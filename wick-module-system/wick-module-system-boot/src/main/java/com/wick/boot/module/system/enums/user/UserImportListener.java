@@ -13,9 +13,9 @@ import com.wick.boot.common.core.constant.GlobalConstants;
 import com.wick.boot.common.core.enums.CommonStatusEnum;
 import com.wick.boot.module.system.convert.SystemUserConvert;
 import com.wick.boot.module.system.enums.GenderTypeEnum;
-import com.wick.boot.module.system.mapper.ISystemRoleMapper;
-import com.wick.boot.module.system.mapper.ISystemUserMapper;
-import com.wick.boot.module.system.mapper.ISystemUserRoleMapper;
+import com.wick.boot.module.system.mapper.SystemRoleMapper;
+import com.wick.boot.module.system.mapper.SystemUserMapper;
+import com.wick.boot.module.system.mapper.SystemUserRoleMapper;
 import com.wick.boot.module.system.model.entity.SystemRole;
 import com.wick.boot.module.system.model.entity.SystemUser;
 import com.wick.boot.module.system.model.entity.SystemUserRole;
@@ -47,11 +47,11 @@ public class UserImportListener extends AnalysisEventListener<UserImportVO> {
     // 部门ID
     private final Long deptId;
 
-    private final ISystemUserMapper userMapper;
+    private final SystemUserMapper userMapper;
 
-    private final ISystemRoleMapper roleMapper;
+    private final SystemRoleMapper roleMapper;
 
-    private final ISystemUserRoleMapper userRoleMapper;
+    private final SystemUserRoleMapper userRoleMapper;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -59,9 +59,9 @@ public class UserImportListener extends AnalysisEventListener<UserImportVO> {
 
     public UserImportListener(Long deptId) {
         this.deptId = deptId;
-        this.userMapper = SpringUtil.getBean(ISystemUserMapper.class);
-        this.roleMapper = SpringUtil.getBean(ISystemRoleMapper.class);
-        this.userRoleMapper = SpringUtil.getBean(ISystemUserRoleMapper.class);
+        this.userMapper = SpringUtil.getBean(SystemUserMapper.class);
+        this.roleMapper = SpringUtil.getBean(SystemRoleMapper.class);
+        this.userRoleMapper = SpringUtil.getBean(SystemUserRoleMapper.class);
         this.passwordEncoder = SpringUtil.getBean(PasswordEncoder.class);
         this.userConvert = SpringUtil.getBean(SystemUserConvert.class);
     }

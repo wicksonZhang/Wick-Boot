@@ -1,8 +1,7 @@
-package com.wick.boot.module.system.api.service;
+package com.wick.boot.module.system.api;
 
 import cn.hutool.core.util.ObjUtil;
-import com.wick.boot.module.system.api.ApiSystemUser;
-import com.wick.boot.module.system.mapper.ISystemUserMapper;
+import com.wick.boot.module.system.mapper.SystemUserMapper;
 import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ import javax.annotation.Resource;
 public class ApiSystemUserService implements ApiSystemUser {
 
     @Resource
-    private ISystemUserMapper userMapper;
+    private SystemUserMapper userMapper;
 
     @Resource
     private PasswordEncoder passwordEncoder;

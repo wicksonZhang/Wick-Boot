@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wick.boot.module.system.mapper.ISystemRoleMapper">
+<mapper namespace="com.wick.boot.module.system.mapper.SystemRoleMapper">
 
     <!-- 获取角色的菜单ID集合 -->
     <select id="selectRoleMenuIds" resultType="java.lang.Long">

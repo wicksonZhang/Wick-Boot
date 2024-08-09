@@ -1,7 +1,7 @@
 package com.wick.boot.module.system.controller;
 
 import com.wick.boot.common.core.result.ResultUtil;
-import com.wick.boot.module.system.app.service.ISystemMenuService;
+import com.wick.boot.module.system.service.SystemMenuService;
 import com.wick.boot.module.system.model.dto.menu.SystemMenuDTO;
 import com.wick.boot.module.system.model.dto.menu.SystemMenuOptionsDTO;
 import com.wick.boot.module.system.model.dto.menu.SystemRouteDTO;
@@ -33,7 +33,7 @@ import java.util.List;
 public class SystemMenuController {
 
     @Resource
-    private ISystemMenuService systemMenuService;
+    private SystemMenuService systemMenuService;
 
     @PostMapping
     @ApiOperation(value = "新增菜单信息", notes = "菜单信息")

@@ -1,8 +1,7 @@
-package com.wick.boot.module.system.api.service;
+package com.wick.boot.module.system.api;
 
-import com.wick.boot.module.system.api.ApiOperateLog;
-import com.wick.boot.module.system.app.service.ISystemOperateLogService;
 import com.wick.boot.module.system.model.dto.OperateLogCreateReqDTO;
+import com.wick.boot.module.system.service.SystemOperateLogService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -19,7 +18,7 @@ import javax.annotation.Resource;
 public class ApiOperateLogService implements ApiOperateLog {
 
     @Resource
-    private ISystemOperateLogService operateLogService;
+    private SystemOperateLogService operateLogService;
 
     @Override
     public void createOperateLog(OperateLogCreateReqDTO createReqDTO) {

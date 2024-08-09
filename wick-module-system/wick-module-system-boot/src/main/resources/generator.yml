@@ -9,32 +9,35 @@ generator:
   frontendAppName: wick-web
   # ????
   templateConfigs:
-    controller:
+    Controller:
       templatePath: vm/java/controller/controller.java.vm
       subpackageName: controller
-    service:
+    AbstractService:
+      templatePath: vm/java/app/service/abstractService.java.vm
+      subpackageName: service
+    Service:
       templatePath: vm/java/app/service/service.java.vm
       subpackageName: service
-    serviceImpl:
+    ServiceImpl:
       templatePath: vm/java/app/service/impl/serviceImpl.java.vm
       subpackageName: service.impl
-    mapper:
+    Mapper:
       templatePath: vm/java/mapper/mapper.java.vm
       subpackageName: mapper
-    mapperXml:
+    MapperXml:
       templatePath: vm/mapper.xml.vm
       subpackageName: mapper
       extension: .xml
-    converter:
+    Converter:
       templatePath: vm/java/convert/converter.java.vm
       subpackageName: converter
-    dto:
+    DTO:
       templatePath: vm/java/model/dto/dto.java.vm
       subpackageName: model.dto
-    vo:
+    VO:
       templatePath: vm/java/model/vo/vo.java.vm
       subpackageName: model.vo
-    entity:
+    Entity:
       templatePath: vm/java/model/entity/entity.java.vm
       subpackageName: model.entity
     api:

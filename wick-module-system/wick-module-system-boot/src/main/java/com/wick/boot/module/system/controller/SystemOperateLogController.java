@@ -2,7 +2,7 @@ package com.wick.boot.module.system.controller;
 
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
-import com.wick.boot.module.system.app.service.ISystemOperateLogService;
+import com.wick.boot.module.system.service.SystemOperateLogService;
 import com.wick.boot.module.system.model.dto.logger.operate.SystemOperateLogDTO;
 import com.wick.boot.module.system.model.vo.logger.operate.QueryOperateLogPageReqVO;
 import io.swagger.annotations.Api;
@@ -27,7 +27,7 @@ import javax.validation.Valid;
 public class SystemOperateLogController {
 
     @Resource
-    private ISystemOperateLogService operateLogService;
+    private SystemOperateLogService operateLogService;
 
     @GetMapping("/page")
     @ApiOperation(value = "获取操作日志分页", notes = "操作日志")

@@ -2,7 +2,7 @@ package com.wick.boot.module.system.controller;
 
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
-import com.wick.boot.module.system.app.service.ISystemLoginLogService;
+import com.wick.boot.module.system.service.SystemLoginLogService;
 import com.wick.boot.module.system.model.dto.logger.login.SystemLoginLogDTO;
 import com.wick.boot.module.system.model.vo.logger.login.QueryLoginLogPageReqVO;
 import io.swagger.annotations.Api;
@@ -27,7 +27,7 @@ import javax.validation.Valid;
 public class SystemLoginLogController {
 
     @Resource
-    private ISystemLoginLogService loginLogService;
+    private SystemLoginLogService loginLogService;
 
     @GetMapping("/page")
     @ApiOperation(value = "获取登录日志分页", notes = "登录日志")

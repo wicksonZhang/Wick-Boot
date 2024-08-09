@@ -2,8 +2,8 @@ package com.wick.boot.module.system.controller;
 
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
-import com.wick.boot.module.system.app.service.ISystemDictDataService;
-import com.wick.boot.module.system.app.service.ISystemDictTypeService;
+import com.wick.boot.module.system.service.SystemDictDataService;
+import com.wick.boot.module.system.service.SystemDictTypeService;
 import com.wick.boot.module.system.model.dto.dict.SystemDictOptionsDTO;
 import com.wick.boot.module.system.model.dto.dict.data.SystemDictDataDTO;
 import com.wick.boot.module.system.model.dto.dict.type.SystemDictTypeDTO;
@@ -37,10 +37,10 @@ import java.util.List;
 public class SystemDictController {
 
     @Resource
-    private ISystemDictTypeService dictTypeService;
+    private SystemDictTypeService dictTypeService;
 
     @Resource
-    private ISystemDictDataService dictDataService;
+    private SystemDictDataService dictDataService;
 
     // =============================================== 字典类型 =============================================
 

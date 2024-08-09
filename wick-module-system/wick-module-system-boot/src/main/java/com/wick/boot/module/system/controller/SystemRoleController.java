@@ -2,7 +2,7 @@ package com.wick.boot.module.system.controller;
 
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
-import com.wick.boot.module.system.app.service.ISystemRoleService;
+import com.wick.boot.module.system.service.SystemRoleService;
 import com.wick.boot.module.system.model.dto.role.SystemRoleDTO;
 import com.wick.boot.module.system.model.dto.role.SystemRoleOptionsDTO;
 import com.wick.boot.module.system.model.vo.role.AddRoleVo;
@@ -32,7 +32,7 @@ import java.util.List;
 public class SystemRoleController {
 
     @Resource
-    private ISystemRoleService systemRoleService;
+    private SystemRoleService systemRoleService;
 
     @PostMapping
     @PreAuthorize("@ss.hasPerm('sys:role:add')")

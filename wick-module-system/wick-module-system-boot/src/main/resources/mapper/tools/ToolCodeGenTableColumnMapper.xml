@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.wick.boot.module.tools.mapper.IToolCodeGenTableColumnMapper">
+<mapper namespace="com.wick.boot.module.tools.mapper.ToolCodeGenTableColumnMapper">
 
     <resultMap id="GenTableColumnResult" type="com.wick.boot.module.tools.model.entity.ToolCodeGenTableColumn">
         <id property="id" column="id"/>
@@ -15,7 +15,7 @@
         <result property="pk" column="is_pk"/>
         <result property="increment" column="is_increment"/>
         <result property="required" column="is_required"/>
-        <result property="insert" column="is_insert"/>
+        <result property="created" column="is_insert"/>
         <result property="edit" column="is_edit"/>
         <result property="list" column="is_list"/>
         <result property="query" column="is_query"/>

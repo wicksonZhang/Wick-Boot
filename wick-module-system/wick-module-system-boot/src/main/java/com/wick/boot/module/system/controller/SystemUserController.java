@@ -2,7 +2,7 @@ package com.wick.boot.module.system.controller;
 
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
-import com.wick.boot.module.system.app.service.ISystemUserService;
+import com.wick.boot.module.system.service.SystemUserService;
 import com.wick.boot.module.system.model.dto.user.SystemUserDTO;
 import com.wick.boot.module.system.model.dto.user.SystemUserInfoDTO;
 import com.wick.boot.module.system.model.vo.user.AddUserVO;
@@ -35,7 +35,7 @@ import java.util.List;
 public class SystemUserController {
 
     @Resource
-    private ISystemUserService userService;
+    private SystemUserService userService;
 
     @GetMapping("/getUserInfo/{username}")
     @ApiOperation(value = "获取用户信息", notes = "用户信息")
