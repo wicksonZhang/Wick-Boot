@@ -1,6 +1,7 @@
 package com.wick.boot.module.system.app.service;
 
 import com.wick.boot.common.core.result.PageResult;
+import com.wick.boot.module.system.model.dto.dict.SystemDictOptionsDTO;
 import com.wick.boot.module.system.model.dto.dict.type.SystemDictTypeDTO;
 import com.wick.boot.module.system.model.entity.SystemDictType;
 import com.wick.boot.module.system.model.vo.dict.type.AddDictTypeReqVO;
@@ -60,5 +61,12 @@ public interface ISystemDictTypeService {
      * @return SystemDictType
      */
     SystemDictType getDictTypeByCode(String typeCode);
+
+    /**
+     * 获取字典列表
+     *
+     * @return 字典列表集合
+     */
+    List<SystemDictOptionsDTO<String>> getDictTypeList();
 
 }

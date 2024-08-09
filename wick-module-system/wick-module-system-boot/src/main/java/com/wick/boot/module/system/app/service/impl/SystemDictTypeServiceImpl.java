@@ -8,6 +8,7 @@ import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.app.service.AbstractSystemDictTypeAppService;
 import com.wick.boot.module.system.app.service.ISystemDictTypeService;
 import com.wick.boot.module.system.convert.SystemDictTypeConvert;
+import com.wick.boot.module.system.model.dto.dict.SystemDictOptionsDTO;
 import com.wick.boot.module.system.model.dto.dict.type.SystemDictTypeDTO;
 import com.wick.boot.module.system.model.entity.SystemDictData;
 import com.wick.boot.module.system.model.entity.SystemDictType;
@@ -123,4 +124,9 @@ public class SystemDictTypeServiceImpl extends AbstractSystemDictTypeAppService 
         return this.dictTypeMapper.selectDictTypeByCode(typeCode);
     }
 
+    @Override
+    public List<SystemDictOptionsDTO<String>> getDictTypeList() {
+        List<SystemDictType> list = this.dictTypeMapper.selectDictTypeList();
+        return SystemDictTypeConvert.INSTANCE.entityToOptionList(list);
+    }
 }

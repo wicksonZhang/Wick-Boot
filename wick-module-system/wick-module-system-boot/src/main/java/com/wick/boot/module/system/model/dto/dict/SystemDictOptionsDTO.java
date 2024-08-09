@@ -1,4 +1,4 @@
-package com.wick.boot.module.system.model.dto.dict.data;
+package com.wick.boot.module.system.model.dto.dict;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,10 +18,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class SystemDictDataOptionsDTO {
+public class SystemDictOptionsDTO<T> {
 
     @ApiModelProperty(value = "字典Id", example = "1")
-    private Long value;
+    private T value;
 
     @ApiModelProperty(value = "字典值", example = "男")
     private String label;

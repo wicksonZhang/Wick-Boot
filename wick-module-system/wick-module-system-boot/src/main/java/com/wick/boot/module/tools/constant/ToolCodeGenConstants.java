@@ -7,6 +7,7 @@ package com.wick.boot.module.tools.constant;
  * @date 2024-07-25
  */
 public interface ToolCodeGenConstants {
+
     /**
      * 单表（增删改查）
      */
@@ -16,6 +17,11 @@ public interface ToolCodeGenConstants {
      * 树表（增删改查）
      */
     String TPL_TREE = "tree";
+
+    /**
+     * 主子表（增删改查）
+     */
+    String TPL_SUB = "sub";
 
     /**
      * 树编码字段
@@ -45,55 +51,50 @@ public interface ToolCodeGenConstants {
     /**
      * 数据库字符串类型
      */
-    String[] COLUMNTYPE_STR = {"char", "varchar", "enum", "set", "nchar", "nvarchar", "varchar2", "nvarchar2"};
+    String[] COLUMNTYPE_STR = {"char", "varchar", "nvarchar", "varchar2"};
 
     /**
      * 数据库文本类型
      */
-    String[] COLUMNTYPE_TEXT = {"tinytext", "text", "mediumtext", "longtext", "binary", "varbinary", "blob",
-            "ntext", "image", "bytea"};
+    String[] COLUMNTYPE_TEXT = {"tinytext", "text", "mediumtext", "longtext"};
 
     /**
      * 数据库时间类型
      */
-    String[] COLUMNTYPE_TIME = {"datetime", "time", "date", "timestamp", "year", "interval",
-            "smalldatetime", "datetime2", "datetimeoffset"};
+    String[] COLUMNTYPE_TIME = {"datetime", "time", "date", "timestamp"};
 
     /**
      * 数据库数字类型
      */
     String[] COLUMNTYPE_NUMBER = {"tinyint", "smallint", "mediumint", "int", "number", "integer",
-            "bit", "bigint", "float", "double", "decimal", "numeric", "real", "double precision",
-            "smallserial", "serial", "bigserial", "money", "smallmoney"};
+            "bit", "bigint", "float", "double", "decimal"};
 
     /**
-     * BO对象 不需要添加字段
+     * 页面不需要编辑字段
      */
-    String[] COLUMNNAME_NOT_ADD = {"create_dept", "create_by", "create_time", "del_flag", "update_by",
-            "update_time", "version", "tenant_id"};
+    String[] COLUMNNAME_NOT_EDIT = {"id", "create_by", "create_time", "deleted"};
 
     /**
-     * BO对象 不需要编辑字段
+     * 页面不需要显示的列表字段
      */
-    String[] COLUMNNAME_NOT_EDIT = {"create_dept", "create_by", "create_time", "del_flag", "update_by",
-            "update_time", "version", "tenant_id"};
+    String[] COLUMNNAME_NOT_LIST = {"id", "create_by", "create_time", "deleted", "update_by",
+            "update_time"};
 
     /**
-     * VO对象 不需要返回字段
+     * 页面不需要查询字段
      */
-    String[] COLUMNNAME_NOT_LIST = {"create_dept", "create_by", "create_time", "del_flag", "update_by",
-            "update_time", "version", "tenant_id"};
-
-    /**
-     * BO对象 不需要查询字段
-     */
-    String[] COLUMNNAME_NOT_QUERY = {"id", "create_dept", "create_by", "create_time", "del_flag", "update_by",
-            "update_time", "remark", "version", "tenant_id"};
+    String[] COLUMNNAME_NOT_QUERY = {"id", "create_by", "create_time", "deleted", "update_by",
+            "update_time", "remark"};
 
     /**
      * Entity基类字段
      */
-    String[] BASE_ENTITY = {"createDept", "createBy", "createTime", "updateBy", "updateTime", "tenantId"};
+    String[] BASE_ENTITY = {"createBy", "createTime", "updateBy", "updateTime", "remark"};
+
+    /**
+     * Tree基类字段
+     */
+    String[] TREE_ENTITY = {"parentName", "parentId", "orderNum", "ancestors", "children"};
 
     /**
      * 文本框
@@ -183,6 +184,6 @@ public interface ToolCodeGenConstants {
     /**
      * 需要
      */
-    Integer REQUIRE = 1;
+    String REQUIRE = "1";
 }
 

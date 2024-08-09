@@ -67,7 +67,7 @@ public interface ErrorCodeSystem {
     ResultCode LOGIN_LOG_EXPORT_ERROR = new ResultCode(1002006001, "用户登录日志导出失败");
     ResultCode OPERATE_LOG_EXPORT_ERROR = new ResultCode(1002006002, "用户操作日志导出失败");
 
-    // ======================================== System-数据源配置 1-002-007-000 ========================================
-    ResultCode DATA_SOURCE_CONFIG_ERROR = new ResultCode(1002007001, "数据源配置参数有误");
+    // ======================================== System-代码生成器 1-002-007-000 ========================================
+    ResultCode TOOL_CODE_GEN_TABLE_NOT_EXIST = new ResultCode(1002007001, "数据表不存在");
 
 }

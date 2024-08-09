@@ -1,29 +1,34 @@
 package com.wick.boot.module.tools.app.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Lists;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.tools.app.service.AbstractToolCodeGenTableAppService;
 import com.wick.boot.module.tools.app.service.IToolCodeGenTableService;
-import com.wick.boot.module.tools.constant.ToolCodeGenConstants;
+import com.wick.boot.module.tools.config.ToolCodeGenConfig;
 import com.wick.boot.module.tools.convert.ToolCodeGenTableConvert;
+import com.wick.boot.module.tools.engine.ToolCodeGenEngine;
 import com.wick.boot.module.tools.mapper.IToolCodeGenTableColumnMapper;
 import com.wick.boot.module.tools.mapper.IToolCodeGenTableMapper;
 import com.wick.boot.module.tools.model.dto.ToolCodeGenDetailDTO;
+import com.wick.boot.module.tools.model.dto.ToolCodeGenPreviewDTO;
 import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTableDTO;
 import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTablePageReqsDTO;
 import com.wick.boot.module.tools.model.entity.ToolCodeGenTable;
 import com.wick.boot.module.tools.model.entity.ToolCodeGenTableColumn;
+import com.wick.boot.module.tools.model.vo.column.AddToolCodeGEnTableColumnReqVO;
+import com.wick.boot.module.tools.model.vo.table.AddToolCodeGenTableReqVO;
 import com.wick.boot.module.tools.model.vo.table.QueryToolCodeGenTablePageReqVO;
+import com.wick.boot.module.tools.model.vo.table.UpdateToolCodeGenReqVO;
+import com.wick.boot.module.tools.utils.ToolCodeGenUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -41,6 +46,12 @@ public class ToolToolCodeGenTableServiceImpl extends AbstractToolCodeGenTableApp
 
     @Resource
     private IToolCodeGenTableColumnMapper codeGenTableColumnMapper;
+
+    @Resource
+    private ToolCodeGenConfig toolCodeGenConfig;
+
+    @Resource
+    private ToolCodeGenEngine toolCodeGenEngine;
 
     @Override
     public PageResult<ToolCodeGenTablePageReqsDTO> selectDbTableList(QueryToolCodeGenTablePageReqVO queryVO) {
@@ -76,8 +87,14 @@ public class ToolToolCodeGenTableServiceImpl extends AbstractToolCodeGenTableApp
      */
     private void importGenTable(List<ToolCodeGenTableDTO> toolCodeGenTableDTOS) {
         /* Step-1: convert dto to ToolCodeGenTable */
-        List<ToolCodeGenTable> toolCodeGenTables = ToolCodeGenTableConvert.INSTANCE.dtoToEntity(toolCodeGenTableDTOS);
+        List<ToolCodeGenTable> toolCodeGenTables = Lists.newArrayList();
+        for (ToolCodeGenTableDTO toolCodeGenTableDTO : toolCodeGenTableDTOS) {
+            ToolCodeGenTable codeGenTable = BeanUtil.copyProperties(toolCodeGenTableDTO, ToolCodeGenTable.class);
+            ToolCodeGenUtils.initTableField(codeGenTable, toolCodeGenConfig);
+            toolCodeGenTables.add(codeGenTable);
+        }
         this.codeGenTableMapper.insertBatch(toolCodeGenTables);
+
 
         /* Step-2: convert dto to ToolCodeGenTableColumn */
         List<ToolCodeGenTableColumn> saveColumns = new ArrayList<>();
@@ -88,134 +105,10 @@ public class ToolToolCodeGenTableServiceImpl extends AbstractToolCodeGenTableApp
             for (ToolCodeGenTableColumn column : columns) {
                 column.setTableId(toolCodeGenTable.getId());
                 // 初始化部分字段信息
-                initColumnField(column);
+                ToolCodeGenUtils.initColumnField(column);
                 saveColumns.add(column);
             }
-        }
-        this.codeGenTableColumnMapper.insertBatch(saveColumns);
-    }
-
-    private void initColumnField(ToolCodeGenTableColumn column) {
-        String dataType = getDbType(column.getColumnType());
-        String columnName = column.getColumnName();
-        // 设置java字段名
-        column.setJavaField(StrUtil.toCamelCase(columnName));
-        // 设置默认类型
-        column.setJavaType(ToolCodeGenConstants.TYPE_STRING);
-        column.setQueryType(ToolCodeGenConstants.QUERY_EQ);
-
-        if (arraysContains(ToolCodeGenConstants.COLUMNTYPE_STR, dataType) || arraysContains(ToolCodeGenConstants.COLUMNTYPE_TEXT, dataType)) {
-            // 字符串长度超过500设置为文本域
-            Integer columnLength = getColumnLength(column.getColumnType());
-            String htmlType = columnLength >= 500 || arraysContains(ToolCodeGenConstants.COLUMNTYPE_TEXT, dataType) ? ToolCodeGenConstants.HTML_TEXTAREA : ToolCodeGenConstants.HTML_INPUT;
-            column.setHtmlType(htmlType);
-        } else if (arraysContains(ToolCodeGenConstants.COLUMNTYPE_TIME, dataType)) {
-            column.setJavaType(ToolCodeGenConstants.TYPE_DATE);
-            column.setHtmlType(ToolCodeGenConstants.HTML_DATETIME);
-        } else if (arraysContains(ToolCodeGenConstants.COLUMNTYPE_NUMBER, dataType)) {
-            column.setHtmlType(ToolCodeGenConstants.HTML_INPUT);
-
-            // 如果是浮点型 统一用BigDecimal
-            String[] str = StringUtils.split(StringUtils.substringBetween(column.getColumnType(), "(", ")"), ",");
-            if (str != null && str.length == 2 && Integer.parseInt(str[1]) > 0) {
-                column.setJavaType(ToolCodeGenConstants.TYPE_BIGDECIMAL);
-            }
-            // 如果是整形
-            else if (str != null && str.length == 1 && Integer.parseInt(str[0]) <= 10) {
-                column.setJavaType(ToolCodeGenConstants.TYPE_INTEGER);
-            }
-            // 长整形
-            else {
-                column.setJavaType(ToolCodeGenConstants.TYPE_LONG);
-            }
-        }
-
-        // BO对象 默认插入勾选
-        if (!arraysContains(ToolCodeGenConstants.COLUMNNAME_NOT_ADD, columnName)) {
-            column.setCreated(ToolCodeGenConstants.REQUIRE);
-        }
-        // BO对象 默认编辑勾选
-        if (!arraysContains(ToolCodeGenConstants.COLUMNNAME_NOT_EDIT, columnName)) {
-            column.setEdit(ToolCodeGenConstants.REQUIRE);
-        }
-        // BO对象 默认是否必填勾选
-        if (!arraysContains(ToolCodeGenConstants.COLUMNNAME_NOT_EDIT, columnName)) {
-            column.setRequired(ToolCodeGenConstants.REQUIRE);
-        }
-        // VO对象 默认返回勾选
-        if (!arraysContains(ToolCodeGenConstants.COLUMNNAME_NOT_LIST, columnName)) {
-            column.setList(ToolCodeGenConstants.REQUIRE);
-        }
-        // BO对象 默认查询勾选
-        if (!arraysContains(ToolCodeGenConstants.COLUMNNAME_NOT_QUERY, columnName)) {
-            column.setQuery(ToolCodeGenConstants.REQUIRE);
-        }
-
-        // 查询字段类型
-        if (StringUtils.endsWithIgnoreCase(columnName, "name")) {
-            column.setQueryType(ToolCodeGenConstants.QUERY_LIKE);
-        }
-        // 状态字段设置单选框
-        if (StringUtils.endsWithIgnoreCase(columnName, "status")) {
-            column.setHtmlType(ToolCodeGenConstants.HTML_RADIO);
-        }
-        // 类型&性别字段设置下拉框
-        else if (StringUtils.endsWithIgnoreCase(columnName, "type")
-                || StringUtils.endsWithIgnoreCase(columnName, "sex")) {
-            column.setHtmlType(ToolCodeGenConstants.HTML_SELECT);
-        }
-        // 图片字段设置图片上传控件
-        else if (StringUtils.endsWithIgnoreCase(columnName, "image")) {
-            column.setHtmlType(ToolCodeGenConstants.HTML_IMAGE_UPLOAD);
-        }
-        // 文件字段设置文件上传控件
-        else if (StringUtils.endsWithIgnoreCase(columnName, "file")) {
-            column.setHtmlType(ToolCodeGenConstants.HTML_FILE_UPLOAD);
-        }
-        // 内容字段设置富文本控件
-        else if (StringUtils.endsWithIgnoreCase(columnName, "content")) {
-            column.setHtmlType(ToolCodeGenConstants.HTML_EDITOR);
-        }
-    }
-
-    /**
-     * 获取数据库类型字段
-     *
-     * @param columnType 列类型
-     * @return 截取后的列类型
-     */
-    public static String getDbType(String columnType) {
-        if (StringUtils.indexOf(columnType, "(") > 0) {
-            return StringUtils.substringBefore(columnType, "(");
-        } else {
-            return columnType;
-        }
-    }
-
-    /**
-     * 校验数组是否包含指定值
-     *
-     * @param arr         数组
-     * @param targetValue 值
-     * @return 是否包含
-     */
-    public static boolean arraysContains(String[] arr, String targetValue) {
-        return Arrays.asList(arr).contains(targetValue);
-    }
-
-
-    /**
-     * 获取字段长度
-     *
-     * @param columnType 列类型
-     * @return 截取后的列类型
-     */
-    public static Integer getColumnLength(String columnType) {
-        if (StringUtils.indexOf(columnType, "(") > 0) {
-            String length = StringUtils.substringBetween(columnType, "(", ")");
-            return Integer.valueOf(length);
-        } else {
-            return 0;
+            this.codeGenTableColumnMapper.insertBatch(saveColumns);
         }
     }
 
@@ -240,5 +133,37 @@ public class ToolToolCodeGenTableServiceImpl extends AbstractToolCodeGenTableApp
         // 查询 tool_code_gen_table_column 信息
         List<ToolCodeGenTableColumn> columns = this.codeGenTableColumnMapper.selectListByTableId(tableId);
         return ToolCodeGenTableConvert.INSTANCE.convertDetailDTO(table, columns);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void update(UpdateToolCodeGenReqVO updateVO) {
+        /* Step-1: 校验更新参数信息 */
+        this.validateUpdateParams(updateVO);
+
+        /* Step-2: 更新数据 */
+        // 更新 ToolCodeGenTable 数据
+        AddToolCodeGenTableReqVO table = updateVO.getTable();
+        ToolCodeGenTable codeGenTable = BeanUtil.copyProperties(table, ToolCodeGenTable.class);
+        this.codeGenTableMapper.updateById(codeGenTable);
+        // 更新 ToolCodeGEnTableColumn 数据
+        List<AddToolCodeGEnTableColumnReqVO> sourceColumns = updateVO.getColumns();
+        List<ToolCodeGenTableColumn> targetColumns = BeanUtil.copyToList(sourceColumns, ToolCodeGenTableColumn.class);
+        targetColumns.forEach(column -> this.codeGenTableColumnMapper.updateById(column));
+    }
+
+    @Override
+    public List<ToolCodeGenPreviewDTO> previewCode(Long tableId) {
+        /* Step-1: 校验参数 */
+        this.validatePreviewParams(tableId);
+
+        /* Step-2: 查询*/
+        List<ToolCodeGenTable> subTables = null;
+        List<List<ToolCodeGenTableColumn>> subColumnsList = null;
+        ToolCodeGenTable table = this.codeGenTableMapper.selectById(tableId);
+        List<ToolCodeGenTableColumn> columns = this.codeGenTableColumnMapper.selectListByTableId(tableId);
+
+        /* Step-2: 执行代码生成器模板引擎 */
+        return toolCodeGenEngine.execute(table, columns, null, null);
     }
 }

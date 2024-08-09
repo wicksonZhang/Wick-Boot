@@ -1,8 +1,47 @@
-# 代码生成
-tool:
-  code:
-    gen:
-      # 作者
-      author: Wickson
-      # 默认生成包路径 system 需改成自己的模块名称 如 system monitor tool
-      packageName: com.wick.boot.module.system
+generator:
+  # ??
+  author: Wickson
+  # ??????? system ?????????? ? system monitor tool
+  packageName: com.wick.boot.module.system
+  # ??????
+  backendAppName: wick-boot
+  # ??????
+  frontendAppName: wick-web
+  # ????
+  templateConfigs:
+    controller:
+      templatePath: vm/java/controller/controller.java.vm
+      subpackageName: controller
+    service:
+      templatePath: vm/java/app/service/service.java.vm
+      subpackageName: service
+    serviceImpl:
+      templatePath: vm/java/app/service/impl/serviceImpl.java.vm
+      subpackageName: service.impl
+    mapper:
+      templatePath: vm/java/mapper/mapper.java.vm
+      subpackageName: mapper
+    mapperXml:
+      templatePath: vm/mapper.xml.vm
+      subpackageName: mapper
+      extension: .xml
+    converter:
+      templatePath: vm/java/convert/converter.java.vm
+      subpackageName: converter
+    dto:
+      templatePath: vm/java/model/dto/dto.java.vm
+      subpackageName: model.dto
+    vo:
+      templatePath: vm/java/model/vo/vo.java.vm
+      subpackageName: model.vo
+    entity:
+      templatePath: vm/java/model/entity/entity.java.vm
+      subpackageName: model.entity
+    api:
+      templatePath: vm/api.ts.vm
+      subpackageName: api
+      extension: .ts
+    view:
+      templatePath: vm/index.vue.vm
+      subpackageName: views
+      extension: .vue

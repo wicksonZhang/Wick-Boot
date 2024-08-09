@@ -4,8 +4,8 @@ import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.module.system.app.service.ISystemDictDataService;
 import com.wick.boot.module.system.app.service.ISystemDictTypeService;
+import com.wick.boot.module.system.model.dto.dict.SystemDictOptionsDTO;
 import com.wick.boot.module.system.model.dto.dict.data.SystemDictDataDTO;
-import com.wick.boot.module.system.model.dto.dict.data.SystemDictDataOptionsDTO;
 import com.wick.boot.module.system.model.dto.dict.type.SystemDictTypeDTO;
 import com.wick.boot.module.system.model.vo.dict.data.AddDictDataReqVO;
 import com.wick.boot.module.system.model.vo.dict.data.QueryDictDataPageReqVO;
@@ -81,6 +81,12 @@ public class SystemDictController {
         return ResultUtil.success(dictTypeService.getDictTypePage(reqVO));
     }
 
+    @ApiOperation(value = "获取字典列表", notes = "字典信息")
+    @GetMapping("/types/list")
+    public ResultUtil<List<SystemDictOptionsDTO<String>>> getDictList() {
+        return ResultUtil.success(dictTypeService.getDictTypeList());
+    }
+
     //  ============================================ 字典数据 ===============================================
 
     @PostMapping("/data")
@@ -116,7 +122,7 @@ public class SystemDictController {
 
     @GetMapping("/data/{typeCode}/options")
     @ApiImplicitParam(name = "typeCode", value = "字典类型编码", required = true, dataType = "String", dataTypeClass = String.class)
-    public ResultUtil<List<SystemDictDataOptionsDTO>> listDictOptions(@NotNull(message = "字典类型编码不能为空")
+    public ResultUtil<List<SystemDictOptionsDTO>> listDictOptions(@NotNull(message = "字典类型编码不能为空")
                                                                       @PathVariable("typeCode") String typeCode) {
         return ResultUtil.success(dictDataService.listDictDataOptions(typeCode));
     }

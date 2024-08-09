@@ -1,5 +1,6 @@
 package com.wick.boot.module.system.convert;
 
+import com.wick.boot.module.system.model.dto.dict.SystemDictOptionsDTO;
 import com.wick.boot.module.system.model.dto.dict.data.SystemDictDataDTO;
 import com.wick.boot.module.system.model.dto.dict.type.SystemDictTypeDTO;
 import com.wick.boot.module.system.model.entity.SystemDictData;
@@ -8,6 +9,7 @@ import com.wick.boot.module.system.model.vo.dict.type.AddDictTypeReqVO;
 import com.wick.boot.module.system.model.vo.dict.type.UpdateDictTypeReqVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -65,4 +67,18 @@ public interface SystemDictTypeConvert {
      * @return SystemDictTypeDTO
      */
     SystemDictTypeDTO entityToDictTypeDTO(SystemDictType systemDictType);
+
+    /**
+     * Convert entity To Option
+     *
+     * @param list 字典集合
+     * @return
+     */
+    List<SystemDictOptionsDTO<String>> entityToOptionList(List<SystemDictType> list);
+
+    @Mappings({
+            @Mapping(target = "value", source = "dictType.code"),
+            @Mapping(target = "label", source = "dictType.name")
+    })
+    SystemDictOptionsDTO<String> entityToOption(SystemDictType dictType);
 }

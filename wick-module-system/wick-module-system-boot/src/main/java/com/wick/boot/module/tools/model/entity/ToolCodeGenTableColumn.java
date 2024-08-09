@@ -1,5 +1,6 @@
 package com.wick.boot.module.tools.model.entity;
 
+import cn.hutool.core.util.ObjUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -68,43 +69,43 @@ public class ToolCodeGenTableColumn extends BaseDO {
      * 是否主键（1是）
      */
     @TableField("is_pk")
-    private Integer pk;
+    private String pk;
 
     /**
      * 是否自增（1是）
      */
     @TableField("is_increment")
-    private Integer increment;
+    private String increment;
 
     /**
      * 是否必填（1是）
      */
     @TableField("is_required")
-    private Integer required;
+    private String required;
 
     /**
      * 是否为插入字段（1是）
      */
     @TableField("is_insert")
-    private Integer created;
+    private String created;
 
     /**
      * 是否编辑字段（1是）
      */
     @TableField("is_edit")
-    private Integer edit;
+    private String edit;
 
     /**
      * 是否列表字段（1是）
      */
     @TableField("is_list")
-    private Integer list;
+    private String list;
 
     /**
      * 是否查询字段（1是）
      */
     @TableField("is_query")
-    private Integer query;
+    private String query;
 
     /**
      * 查询方式（EQ等于、NE不等于、GT大于、LT小于、LIKE模糊、BETWEEN范围）
@@ -125,5 +126,14 @@ public class ToolCodeGenTableColumn extends BaseDO {
      * 排序
      */
     private Integer sort;
+
+
+    public boolean isPrimaryKey() {
+        return isPrimaryKey(this.pk);
+    }
+
+    public boolean isPrimaryKey(String pk) {
+        return pk != null && ObjUtil.equals("1", pk);
+    }
 
 }

@@ -2,8 +2,10 @@ package com.wick.boot.module.tools.app.service;
 
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.tools.model.dto.ToolCodeGenDetailDTO;
+import com.wick.boot.module.tools.model.dto.ToolCodeGenPreviewDTO;
 import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTablePageReqsDTO;
 import com.wick.boot.module.tools.model.vo.table.QueryToolCodeGenTablePageReqVO;
+import com.wick.boot.module.tools.model.vo.table.UpdateToolCodeGenReqVO;
 
 import java.util.List;
 
@@ -45,4 +47,19 @@ public interface IToolCodeGenTableService {
      * @return
      */
     ToolCodeGenDetailDTO getDetails(Long tableId);
+
+    /**
+     * 更新数据库的表和字段定义
+     *
+     * @param updateVO 更新VO
+     */
+    void update(UpdateToolCodeGenReqVO updateVO);
+
+    /**
+     * 执行指定表的代码生成
+     *
+     * @param tableId 表编号
+     * @return 生成结果。key 为文件路径，value 为对应的代码内容
+     */
+    List<ToolCodeGenPreviewDTO> previewCode(Long tableId);
 }

@@ -1,7 +1,7 @@
 package com.wick.boot.module.system.convert;
 
 import com.wick.boot.module.system.model.dto.dict.data.SystemDictDataDTO;
-import com.wick.boot.module.system.model.dto.dict.data.SystemDictDataOptionsDTO;
+import com.wick.boot.module.system.model.dto.dict.SystemDictOptionsDTO;
 import com.wick.boot.module.system.model.entity.SystemDictData;
 import com.wick.boot.module.system.model.vo.dict.data.AddDictDataReqVO;
 import com.wick.boot.module.system.model.vo.dict.data.UpdateDictDataReqVO;
@@ -63,8 +63,8 @@ public interface SystemDictDataConvert {
      * Convert entity To Option
      *
      * @param systemDictDataList 字典数据集合
-     * @return List<SystemDictDataOptionsDTO>
+     * @return List<SystemDictOptionsDTO>
      */
-    List<SystemDictDataOptionsDTO> entityToDictDataOptions(List<SystemDictData> systemDictDataList);
+    List<SystemDictOptionsDTO> entityToDictDataOptions(List<SystemDictData> systemDictDataList);
 
 }

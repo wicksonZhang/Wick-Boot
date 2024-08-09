@@ -2,11 +2,18 @@ package com.wick.boot.module.tools.app.service;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ObjUtil;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.exception.ServiceException;
+import com.wick.boot.module.system.enums.ErrorCodeSystem;
+import com.wick.boot.module.tools.mapper.IToolCodeGenTableColumnMapper;
 import com.wick.boot.module.tools.mapper.IToolCodeGenTableMapper;
 import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTableDTO;
 import com.wick.boot.module.tools.model.entity.ToolCodeGenTable;
+import com.wick.boot.module.tools.model.entity.ToolCodeGenTableColumn;
+import com.wick.boot.module.tools.model.vo.column.AddToolCodeGEnTableColumnReqVO;
+import com.wick.boot.module.tools.model.vo.table.AddToolCodeGenTableReqVO;
+import com.wick.boot.module.tools.model.vo.table.UpdateToolCodeGenReqVO;
 
 import javax.annotation.Resource;
 import java.util.Collection;
@@ -24,6 +31,9 @@ public abstract class AbstractToolCodeGenTableAppService {
 
     @Resource
     private IToolCodeGenTableMapper codeGenTableMapper;
+
+    @Resource
+    private IToolCodeGenTableColumnMapper codeGenTableColumnMapper;
 
     /**
      * 验证表名
@@ -106,4 +116,76 @@ public abstract class AbstractToolCodeGenTableAppService {
         }
     }
 
+    /**
+     * 校验更新参数信息
+     *
+     * @param updateVO 更新参数
+     */
+    protected void validateUpdateParams(UpdateToolCodeGenReqVO updateVO) {
+        // 校验数据表是否存在
+        AddToolCodeGenTableReqVO table = updateVO.getTable();
+        this.validateCodeGenTable(table.getId());
+        // 校验数据表字段是否存在
+        List<AddToolCodeGEnTableColumnReqVO> targetColumns = updateVO.getColumns();
+        List<ToolCodeGenTableColumn> sourceColumns = this.validateCodeGenTableColumnByTableId(table.getId());
+        // 校验数据表字段是否匹配
+        this.validateCodeGenTableColumnByName(sourceColumns, targetColumns);
+    }
+
+    /**
+     * 校验数据表是否存在
+     *
+     * @param codeGenTable 数据表Id
+     */
+    private void validateCodeGenTable(Long codeGenTable) {
+        if (ObjUtil.isNull(codeGenTable)) {
+            throw ServiceException.getInstance(ErrorCodeSystem.TOOL_CODE_GEN_TABLE_NOT_EXIST);
+        }
+    }
+
+    /**
+     * 校验数据表字段是否存在
+     *
+     * @param tableId 数据表Id
+     * @return 数据表字段集合
+     */
+    private List<ToolCodeGenTableColumn> validateCodeGenTableColumnByTableId(Long tableId) {
+        List<ToolCodeGenTableColumn> tableColumns = this.codeGenTableColumnMapper.selectListByTableId(tableId);
+        if (CollUtil.isEmpty(tableColumns)) {
+            throw ServiceException.getInstance(ErrorCodeSystem.TOOL_CODE_GEN_TABLE_NOT_EXIST);
+        }
+        return tableColumns;
+    }
+
+    /**
+     * 校验数据表字段是否匹配
+     *
+     * @param sourceColumns 源数据表字段
+     * @param targetColumns 目标数据表字段
+     */
+    private void validateCodeGenTableColumnByName(List<ToolCodeGenTableColumn> sourceColumns, List<AddToolCodeGEnTableColumnReqVO> targetColumns) {
+        Set<String> targetName = sourceColumns.stream()
+                .map(ToolCodeGenTableColumn::getColumnName)
+                .collect(Collectors.toSet());
+        Set<String> sourceName = targetColumns.stream()
+                .map(AddToolCodeGEnTableColumnReqVO::getColumnName)
+                .collect(Collectors.toSet());
+        Collection<String> columnNames = CollectionUtil.subtract(targetName, sourceName);
+        if (CollUtil.isNotEmpty(columnNames)) {
+            String errorMsg = "请确认字段" + columnNames + "是否存在";
+            throw ServiceException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID.getCode(), errorMsg);
+        }
+    }
+
+    /**
+     * 校验预览代码参数
+     *
+     * @param tableId 数据表Id
+     */
+    protected void validatePreviewParams(Long tableId) {
+        // 校验数据表是否存在
+        this.validateCodeGenTable(tableId);
+        // 校验数据表字段是否存在
+        this.validateCodeGenTableColumnByTableId(tableId);
+    }
 }
