@@ -229,7 +229,7 @@ public class SystemUserServiceImpl extends SystemUserAbstractService implements 
         try {
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, "UTF-8"));
-            String fileClassPath = "excel-templates" + File.separator + fileName;
+            String fileClassPath = "templates" + File.separator + fileName;
             InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(fileClassPath);
             ServletOutputStream outputStream = response.getOutputStream();
             ExcelWriter excelWriter = EasyExcel.write(outputStream).withTemplate(inputStream).build();

@@ -1,50 +1,50 @@
 generator:
-  # ??
+  # 作者
   author: Wickson
-  # ??????? system ?????????? ? system monitor tool
+  # 默认生成包路径 system 需改成自己的模块名称 如 system monitor tool
   packageName: com.wick.boot.module.system
-  # ??????
+  # 后端名称
   backendAppName: wick-boot
-  # ??????
+  # 前端名称
   frontendAppName: wick-web
-  # ????
+  # 模板配置
   templateConfigs:
     Controller:
-      templatePath: vm/java/controller/controller.java.vm
-      subpackageName: controller
+      templatePath: generator/java/controller/controller.java.vm
+      packageName: controller
     AbstractService:
-      templatePath: vm/java/app/service/abstractService.java.vm
-      subpackageName: service
+      templatePath: generator/java/service/abstractService.java.vm
+      packageName: service
     Service:
-      templatePath: vm/java/app/service/service.java.vm
-      subpackageName: service
+      templatePath: generator/java/service/service.java.vm
+      packageName: service
     ServiceImpl:
-      templatePath: vm/java/app/service/impl/serviceImpl.java.vm
-      subpackageName: service.impl
+      templatePath: generator/java/service/impl/serviceImpl.java.vm
+      packageName: service.impl
     Mapper:
-      templatePath: vm/java/mapper/mapper.java.vm
-      subpackageName: mapper
+      templatePath: generator/java/mapper/mapper.java.vm
+      packageName: mapper
     MapperXml:
-      templatePath: vm/mapper.xml.vm
-      subpackageName: mapper
+      templatePath: mapper.xml.vm
+      packageName: mapper
       extension: .xml
     Converter:
-      templatePath: vm/java/convert/converter.java.vm
-      subpackageName: converter
+      templatePath: generator/java/convert/converter.java.vm
+      packageName: converter
     DTO:
-      templatePath: vm/java/model/dto/dto.java.vm
-      subpackageName: model.dto
+      templatePath: generator/java/model/dto/dto.java.vm
+      packageName: model.dto
     VO:
-      templatePath: vm/java/model/vo/vo.java.vm
-      subpackageName: model.vo
+      templatePath: generator/java/model/vo/vo.java.vm
+      packageName: model.vo
     Entity:
-      templatePath: vm/java/model/entity/entity.java.vm
-      subpackageName: model.entity
-    api:
-      templatePath: vm/api.ts.vm
-      subpackageName: api
+      templatePath: generator/java/model/entity/entity.java.vm
+      packageName: model.entity
+    Api:
+      templatePath: generator/vue3/api/api.ts.vm
+      packageName: api
       extension: .ts
-    view:
-      templatePath: vm/index.vue.vm
-      subpackageName: views
+    View:
+      templatePath: generator/vue3/views/index.vue.vm
+      packageName: views
       extension: .vue

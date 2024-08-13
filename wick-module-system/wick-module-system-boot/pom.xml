@@ -49,6 +49,11 @@
             <artifactId>easyexcel</artifactId>
         </dependency>
 
+        <!-- 代码生成器 -->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -55,7 +55,7 @@ public class ToolCodeGenConfig {
 
         private String templatePath;
 
-        private String subpackageName;
+        private String packageName;
 
         private String extension = FileNameUtil.EXT_JAVA;
 
