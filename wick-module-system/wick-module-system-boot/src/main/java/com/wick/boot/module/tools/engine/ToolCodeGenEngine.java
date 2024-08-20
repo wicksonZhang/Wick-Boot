@@ -175,13 +175,16 @@ public class ToolCodeGenEngine {
         String className = table.getClassName();
 
         bindMap.put("packageName", table.getPackageName());
+        bindMap.put("tableName", table.getTableName());
+        bindMap.put("author", table.getFunctionAuthor());
         bindMap.put("subPackage", templateConfig.getPackageName());
         bindMap.put("date", DateUtil.format(new Date(), "yyyy-MM-dd HH:mm"));
         bindMap.put("className", className);
-        bindMap.put("tableName", table.getTableName());
-        bindMap.put("author", table.getFunctionAuthor());
-        bindMap.put("lowerFirstEntityName", StrUtil.lowerFirst(className));
+        bindMap.put("lowerClassName", StrUtil.lowerFirst(className));
+        bindMap.put("functionName", table.getFunctionName());
+        bindMap.put("moduleName", table.getModuleName());
         bindMap.put("businessName", table.getBusinessName());
+        bindMap.put("permissionPrefix", getPermissionPrefix(table.getModuleName(), table.getBusinessName()));
         bindMap.put("fieldConfigs", columns);
 
         boolean hasLocalDateTime = false;
@@ -209,6 +212,10 @@ public class ToolCodeGenEngine {
         Template template = templateEngine.getTemplate(templateConfig.getTemplatePath());
 
         return template.render(bindMap);
+    }
+
+    private String getPermissionPrefix(String moduleName, String businessName) {
+        return moduleName + ":" + businessName;
     }
 
 }

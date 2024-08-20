@@ -1,61 +1,74 @@
 package ${packageName}.controller;
 
+import com.wick.boot.common.core.result.PageResult;
+import com.wick.boot.common.core.result.ResultUtil;
+import ${packageName}.service.${className}Service;
+import ${packageName}.model.dto.${businessName}.${className}DTO;
+import ${packageName}.model.vo.${businessName}.Add${className}ReqVO;
+import ${packageName}.model.vo.${businessName}.Update${className}ReqVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
- * $!{businessName}-Controller控制类
+ * $!{functionName}管理-控制类
  *
  * @author ${author}
  * @date ${date}
  */
 @RestController
-@RequestMapping("/${businessName}")
-@Api(tags = "系统管理 - 角色信息")
+@RequestMapping("/${moduleName}-${businessName}")
+@Api(tags = "${functionName}管理接口")
 public class ${className}Controller {
 
     @Resource
-    private ${className}Service ${lowerFirstEntityName}Service;
+    private ${className}Service ${lowerClassName}Service;
 
     @PostMapping
-    @PreAuthorize("@ss.hasPerm('sys:role:add')")
-    @ApiOperation(value = "新增角色信息", notes = "角色信息")
-    public ResultUtil<Long> addRole(@Valid @RequestBody AddRoleVo reqVO) {
-        this.systemRoleService.addRole(reqVO);
+    @PreAuthorize("@ss.hasPerm('${permissionPrefix}:add')")
+    @ApiOperation(value = "新增${functionName}数据", notes = "${functionName}管理")
+    public ResultUtil<Long> add(@Valid @RequestBody ${className}AddReqVO reqVO) {
+        this.${lowerClassName}Service.add${className}(reqVO);
         return ResultUtil.success();
     }
 
     @PutMapping
-    @PreAuthorize("@ss.hasPerm('sys:role:edit')")
-    @ApiOperation(value = "编辑角色信息", notes = "角色信息")
-    public ResultUtil<Boolean> updateRole(@Valid @RequestBody UpdateRoleVo reqVO) {
-        this.systemRoleService.updateRole(reqVO);
+    @PreAuthorize("@ss.hasPerm('${permissionPrefix}:edit')")
+    @ApiOperation(value = "编辑${functionName}数据", notes = "${functionName}管理")
+    public ResultUtil<Boolean> update(@Valid @RequestBody ${className}UpdateReqVO reqVO) {
+        this.${lowerClassName}Service.update${className}(reqVO);
         return ResultUtil.success(true);
     }
 
     @DeleteMapping("/{ids}")
-    @PreAuthorize("@ss.hasPerm('sys:role:delete')")
-    @ApiOperation(value = "删除角色信息", notes = "角色信息")
-    @ApiImplicitParam(name = "ids", value = "角色数据ID", required = true, dataType = "Long", dataTypeClass = Long.class)
-    public ResultUtil<Long> deleteRole(@PathVariable("ids") List<Long> ids) {
-        this.systemRoleService.deleteRole(ids);
+    @PreAuthorize("@ss.hasPerm('${permissionPrefix}:delete')")
+    @ApiOperation(value = "删除${functionName}数据", notes = "${functionName}管理")
+    @ApiImplicitParam(name = "ids", value = "主键id", required = true, dataType = "Long", dataTypeClass = Long.class)
+    public ResultUtil<Long> remove(@PathVariable("ids") List<Long> ids) {
+        this.${lowerClassName}Service.delete${className}(ids);
         return ResultUtil.success();
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "获取角色信息ById", notes = "角色信息")
-    @ApiImplicitParam(name = "id", value = "角色信息ID", required = true, dataType = "Long", dataTypeClass = Long.class)
-    public ResultUtil<SystemRoleDTO> getRoleById(@NotNull(message = "角色信息主键不能为空")
+    @ApiOperation(value = "通过主键获取${functionName}数据", notes = "${functionName}管理")
+    @ApiImplicitParam(name = "id", value = "${functionName}ID", required = true, dataType = "Long", dataTypeClass = Long.class)
+    public ResultUtil<${className}DTO> getInfo(@NotNull(message = "主键不能为空")
                                                  @PathVariable("id") Long id) {
-        return ResultUtil.success(systemRoleService.getRoleById(id));
+        return ResultUtil.success(${lowerClassName}Service.get${className}ById(id));
     }
 
     @GetMapping("/page")
-    @ApiOperation(value = "获取角色分页", notes = "角色信息")
-    public ResultUtil<PageResult<SystemRoleDTO>> getUserPage(@Valid QueryRolePageReqVO reqVO) {
-        return ResultUtil.success(systemRoleService.getRolePage(reqVO));
+    @ApiOperation(value = "获取${functionName}分页数据", notes = "${functionName}管理")
+    public ResultUtil<PageResult<${className}DTO>> getPage(@Valid ${className}QueryReqVO reqVO) {
+        return ResultUtil.success(${lowerClassName}Service.get${className}Page(reqVO));
     }
 
 }

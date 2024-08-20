@@ -1,0 +1,46 @@
+package ${packageName}.service;
+
+import ${packageName}.model.vo.${businessName}.Add${className}ReqVO;
+import ${packageName}.model.vo.${businessName}.Update${className}ReqVO;
+
+/**
+ * $!{functionName}管理-防腐层
+ *
+ * @author ${author}
+ * @date ${date}
+ */
+public abstract class ${className}AbstractService {
+
+    @Resource
+    private ${className}Mapper ${lowerClassName}Mapper;
+
+
+    /**
+     * 校验新增参数
+     *
+     * @param reqVO 新增参数
+     */
+    protected void validateAddParams(Add${className}ReqVO reqVO) {
+
+    }
+
+    /**
+     * 校验更新参数
+     *
+     * @param reqVO 新增参数
+     */
+    protected void validateUpdateParams(Update${className}ReqVO reqVO) {
+
+    }
+
+    /**
+     * 校验删除参数
+     *
+     * @param ${lowerClassName}List 新增参数
+     * @param ids                   主键集合
+     */
+    protected void validateDeleteParams(List<${className}> ${lowerClassName}List, List<Long> ids) {
+
+    }
+
+}

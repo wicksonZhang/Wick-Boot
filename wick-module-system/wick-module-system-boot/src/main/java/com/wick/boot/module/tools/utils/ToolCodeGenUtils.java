@@ -6,6 +6,7 @@ import com.wick.boot.module.tools.config.ToolCodeGenConfig;
 import com.wick.boot.module.tools.constant.ToolCodeGenConstants;
 import com.wick.boot.module.tools.model.entity.ToolCodeGenTable;
 import com.wick.boot.module.tools.model.entity.ToolCodeGenTableColumn;
+import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
@@ -26,7 +27,7 @@ public class ToolCodeGenUtils {
         codeGenTable.setPackageName(toolCodeGenConfig.getPackageName());
         codeGenTable.setModuleName(convertModuleName(toolCodeGenConfig.getPackageName()));
         codeGenTable.setBusinessName(convertBusinessName(codeGenTable.getTableName()));
-        codeGenTable.setFunctionName(codeGenTable.getTableComment());
+        codeGenTable.setFunctionName(convertFunctionName(codeGenTable.getTableComment()));
         codeGenTable.setFunctionAuthor(toolCodeGenConfig.getAuthor());
     }
 
@@ -62,6 +63,16 @@ public class ToolCodeGenUtils {
         int lastIndex = tableName.lastIndexOf("_");
         int nameLength = tableName.length();
         return StrUtil.sub(tableName, lastIndex + 1, nameLength);
+    }
+
+    /**
+     * Convert to FunctionName
+     *
+     * @param tableComment 表描述
+     * @return 功能名称
+     */
+    private static String convertFunctionName(String tableComment) {
+        return RegExUtils.replaceAll(tableComment, "(?:表)", "");
     }
 
     /**

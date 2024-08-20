@@ -25,7 +25,7 @@ generator:
       templatePath: generator/java/mapper/mapper.java.vm
       packageName: mapper
     MapperXml:
-      templatePath: mapper.xml.vm
+      templatePath: generator/java/mapper/mapper.xml.vm
       packageName: mapper
       extension: .xml
     Converter:
@@ -34,8 +34,14 @@ generator:
     DTO:
       templatePath: generator/java/model/dto/dto.java.vm
       packageName: model.dto
-    VO:
-      templatePath: generator/java/model/vo/vo.java.vm
+    AddVO:
+      templatePath: generator/java/model/vo/addVO.java.vm
+      packageName: model.vo
+    UpdateVO:
+      templatePath: generator/java/model/vo/updateVo.java.vm
+      packageName: model.vo
+    QueryVO:
+      templatePath: generator/java/model/vo/queryVo.java.vm
       packageName: model.vo
     Entity:
       templatePath: generator/java/model/entity/entity.java.vm
