@@ -89,7 +89,7 @@ public interface ToolCodeGenConstants {
     /**
      * Entity基类字段
      */
-    String[] BASE_ENTITY = {"createBy", "createTime", "updateBy", "updateTime", "remark"};
+    String[] BASE_ENTITY = {"deleted", "createBy", "createTime", "updateBy", "updateTime"};
 
     /**
      * Tree基类字段
@@ -169,7 +169,7 @@ public interface ToolCodeGenConstants {
     /**
      * 时间类型
      */
-    String TYPE_DATE = "Date";
+    String TYPE_DATE = "LocalDateTime";
 
     /**
      * 模糊查询

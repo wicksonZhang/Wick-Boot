@@ -1,0 +1,29 @@
+package ${packageName}.model.vo;
+
+import com.wick.boot.common.core.model.vo.CommonPageParamVO;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * $!{functionName}分页查询参数
+ *
+ * @author ${author}
+ * @date ${date}
+ */
+@Setter
+@Getter
+@ApiModel(value = "${className}QueryVO", description = "$!{functionName}分页查询参数")
+public class ${className}QueryVO extends CommonPageParamVO {
+
+#if($fieldConfigs)
+#foreach($fieldConfig in ${fieldConfigs})
+## 判断是否为主键id
+#if("$!fieldConfig.query" == '1')
+    @ApiModelProperty(value = "$fieldConfig.columnComment")
+    private ${fieldConfig.javaType} ${fieldConfig.javaField};
+#end
+#end
+#end
+}

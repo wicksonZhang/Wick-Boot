@@ -5,8 +5,6 @@ import cn.hutool.core.util.ObjUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.wick.boot.common.core.result.PageResult;
-import com.wick.boot.module.tools.service.ToolCodeGenTableAbstractService;
-import com.wick.boot.module.tools.service.ToolCodeGenTableService;
 import com.wick.boot.module.tools.config.ToolCodeGenConfig;
 import com.wick.boot.module.tools.convert.ToolCodeGenTableConvert;
 import com.wick.boot.module.tools.engine.ToolCodeGenEngine;
@@ -22,6 +20,8 @@ import com.wick.boot.module.tools.model.vo.column.AddToolCodeGEnTableColumnReqVO
 import com.wick.boot.module.tools.model.vo.table.AddToolCodeGenTableReqVO;
 import com.wick.boot.module.tools.model.vo.table.QueryToolCodeGenTablePageReqVO;
 import com.wick.boot.module.tools.model.vo.table.UpdateToolCodeGenReqVO;
+import com.wick.boot.module.tools.service.ToolCodeGenTableAbstractService;
+import com.wick.boot.module.tools.service.ToolCodeGenTableService;
 import com.wick.boot.module.tools.utils.ToolCodeGenUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -95,7 +95,6 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
         }
         this.codeGenTableMapper.insertBatch(toolCodeGenTables);
 
-
         /* Step-2: convert dto to ToolCodeGenTableColumn */
         List<ToolCodeGenTableColumn> saveColumns = new ArrayList<>();
         for (ToolCodeGenTable toolCodeGenTable : toolCodeGenTables) {
@@ -166,4 +165,5 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
         /* Step-2: 执行代码生成器模板引擎 */
         return toolCodeGenEngine.execute(table, columns, null, null);
     }
+
 }

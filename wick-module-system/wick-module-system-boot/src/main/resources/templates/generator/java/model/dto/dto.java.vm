@@ -1,10 +1,32 @@
-package com.wick.boot.module.system.model.dto;
+package ${packageName}.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+#if(${hasLocalDateTime})
+import java.time.LocalDateTime;
+#end
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+#if(${hasRequiredField})
+import jakarta.validation.constraints.*;
+#end
+
+/**
+ * $!{functionName}管理-DTO
+ *
+ * @author ${author}
+ * @date ${date}
+ */
+@Getter
+@Setter
+public class ${className}DTO {
+
+
+
+}
+
 

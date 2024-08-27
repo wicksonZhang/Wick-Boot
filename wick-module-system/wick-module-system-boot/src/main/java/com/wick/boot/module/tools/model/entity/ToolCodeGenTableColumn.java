@@ -129,7 +129,7 @@ public class ToolCodeGenTableColumn extends BaseDO {
 
 
     public boolean isPrimaryKey() {
-        return isPrimaryKey(this.pk);
+        return !isPrimaryKey(this.pk);
     }
 
     public boolean isPrimaryKey(String pk) {

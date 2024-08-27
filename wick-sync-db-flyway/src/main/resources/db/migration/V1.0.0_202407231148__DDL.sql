@@ -15,6 +15,7 @@ CREATE TABLE tool_code_gen_table
     `function_name`     varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NOT NULL comment '生成功能名',
     `function_author`   varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NOT NULL comment '生成功能作者',
     `gen_type`          char(1)                                                       NOT NULL DEFAULT '0' comment '生成代码方式（0zip压缩包 1自定义路径）',
+    `parent_menu_id`    int NULL DEFAULT NULL COMMENT '父菜单ID',
     `gen_path`          varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '/' comment '生成路径（不填默认项目路径）',
     `options`           varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL comment '其它生成选项',
     `remark`            varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL comment '备注',

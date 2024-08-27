@@ -14,7 +14,6 @@ public abstract class ${className}AbstractService {
     @Resource
     private ${className}Mapper ${lowerClassName}Mapper;
 
-
     /**
      * 校验新增参数
      *

@@ -1,0 +1,52 @@
+package ${packageName}.model.vo;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+#if(${hasLocalDateTime})
+import java.time.LocalDateTime;
+#end
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+#if(${hasRequiredField})
+import jakarta.validation.constraints.*;
+#end
+
+/**
+ * $!{functionName}新增参数
+ *
+ * @author ${author}
+ * @date ${date}
+ */
+@Getter
+@Setter
+@ApiModel(value = "${className}AddVO", description = "$!{functionName}新增参数")
+public class ${className}AddVO {
+
+#if($fieldConfigs)
+#foreach($fieldConfig in ${fieldConfigs})
+## 排除基类字段和主键
+#if(!$baseEntity.contains($fieldConfig.javaField) && "$!fieldConfig.pk" != '1')
+## 注释信息
+#if("$!fieldConfig.columnComment" != "")
+    @ApiModelProperty(value = "$fieldConfig.columnComment")
+#end
+## 必填字段校验
+#if($fieldConfig.required)
+#if($fieldConfig.columnType == 'String')
+    @NotBlank(message = "$fieldConfig.columnComment不能为空", required = true)
+#else
+    @NotNull(message = "$fieldConfig.columnComment不能为空", required = true)
+#end
+#end
+    private ${fieldConfig.javaType} ${fieldConfig.javaField};
+
+#end
+#end
+#end
+}
+
+

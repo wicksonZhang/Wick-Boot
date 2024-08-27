@@ -119,21 +119,17 @@ public class ToolCodeGenUtils {
         column.setCreated(ToolCodeGenConstants.REQUIRE);
 
         // 编辑字段
-        if (!arraysContains(ToolCodeGenConstants.COLUMNNAME_NOT_EDIT, columnName) && !column.isPrimaryKey()) {
+        if (!arraysContains(ToolCodeGenConstants.COLUMNNAME_NOT_EDIT, columnName) && column.isPrimaryKey()) {
             column.setEdit(ToolCodeGenConstants.REQUIRE);
         }
         // 列表字段
-        if (!arraysContains(ToolCodeGenConstants.COLUMNNAME_NOT_LIST, columnName) && !column.isPrimaryKey()) {
+        if (!arraysContains(ToolCodeGenConstants.COLUMNNAME_NOT_LIST, columnName) && column.isPrimaryKey()) {
             column.setList(ToolCodeGenConstants.REQUIRE);
         }
-        // 查询字段
-        if (!arraysContains(ToolCodeGenConstants.COLUMNNAME_NOT_QUERY, columnName) && !column.isPrimaryKey()) {
-            column.setQuery(ToolCodeGenConstants.REQUIRE);
-        }
-
         // 查询字段类型
         if (StringUtils.endsWithIgnoreCase(columnName, "name")) {
             column.setQueryType(ToolCodeGenConstants.QUERY_LIKE);
+            column.setQuery(ToolCodeGenConstants.REQUIRE);
         }
         // 状态字段设置单选框
         if (StringUtils.endsWithIgnoreCase(columnName, "status")) {

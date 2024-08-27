@@ -111,6 +111,11 @@ public class ToolCodeGenTable extends BaseDO {
     private String genPath;
 
     /**
+     * 父菜单ID
+     */
+    private Long parentMenuId;
+
+    /**
      * 其它生成选项
      */
     private String options;

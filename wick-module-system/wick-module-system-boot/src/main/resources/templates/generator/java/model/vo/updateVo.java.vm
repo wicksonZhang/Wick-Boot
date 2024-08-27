@@ -1,0 +1,32 @@
+package ${packageName}.model.vo;
+
+import ${packageName}.model.vo.${className}AddVO;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.validation.constraints.NotNull;
+
+/**
+ * $!{functionName}更新参数
+ *
+ * @author ${author}
+ * @date ${date}
+ */
+@Setter
+@Getter
+@ApiModel(value = "${className}UpdateVO", description = "$!{functionName}更新参数")
+public class ${className}UpdateVO extends ${className}AddVO {
+
+#if($fieldConfigs)
+#foreach($fieldConfig in ${fieldConfigs})
+## 判断是否为主键id
+#if("$!fieldConfig.pk" == '1')
+    @ApiModelProperty(value = "主键ID", required = true, example = "1")
+    @NotNull(message = "主键ID不能为空")
+    private ${fieldConfig.javaType} ${fieldConfig.javaField};
+#end
+#end
+#end
+}

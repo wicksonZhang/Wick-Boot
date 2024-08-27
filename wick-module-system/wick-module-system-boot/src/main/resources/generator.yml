@@ -46,6 +46,10 @@ generator:
     Entity:
       templatePath: generator/java/model/entity/entity.java.vm
       packageName: model.entity
+    Sql:
+      templatePath: generator/sql/sql.vm
+      packageName: sql
+      extension: .sql
     Api:
       templatePath: generator/vue3/api/api.ts.vm
       packageName: api

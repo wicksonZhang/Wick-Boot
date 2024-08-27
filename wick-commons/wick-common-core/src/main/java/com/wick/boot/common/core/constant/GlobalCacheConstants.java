@@ -37,7 +37,6 @@ public interface GlobalCacheConstants {
         return String.format(GlobalCacheConstants.LOGIN_ACCESS_TOKEN, key);
     }
 
-
     /**
      * 获取角色权限索引 Key
      *
