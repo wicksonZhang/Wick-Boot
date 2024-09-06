@@ -3,6 +3,8 @@ package com.wick.boot.module.system.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.core.result.PageResult;
+import com.wick.boot.module.system.model.vo.role.SystemRoleAddVO;
+import com.wick.boot.module.system.model.vo.role.SystemRoleUpdateVO;
 import com.wick.boot.module.system.service.SystemRoleAbstractService;
 import com.wick.boot.module.system.service.SystemRoleMenuService;
 import com.wick.boot.module.system.service.SystemRoleService;
@@ -11,9 +13,7 @@ import com.wick.boot.module.system.model.dto.role.SystemRoleDTO;
 import com.wick.boot.module.system.model.dto.role.SystemRoleOptionsDTO;
 import com.wick.boot.module.system.model.entity.SystemRole;
 import com.wick.boot.module.system.model.entity.SystemRoleMenu;
-import com.wick.boot.module.system.model.vo.role.AddRoleVo;
-import com.wick.boot.module.system.model.vo.role.QueryRolePageReqVO;
-import com.wick.boot.module.system.model.vo.role.UpdateRoleVo;
+import com.wick.boot.module.system.model.vo.role.SystemRoleQueryVO;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +38,7 @@ public class SystemRoleServiceImpl extends SystemRoleAbstractService implements 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long addRole(AddRoleVo reqVO) {
+    public Long addSystemRole(SystemRoleAddVO reqVO) {
         /* Step-1: 校验新增参数 */
         this.validateAddParams(reqVO);
 
@@ -50,7 +50,7 @@ public class SystemRoleServiceImpl extends SystemRoleAbstractService implements 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateRole(UpdateRoleVo reqVO) {
+    public void updateSystemRole(SystemRoleUpdateVO reqVO) {
         /* Step-1: 校验新增参数 */
         this.validateUpdateParams(reqVO);
 
@@ -64,7 +64,7 @@ public class SystemRoleServiceImpl extends SystemRoleAbstractService implements 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteRole(List<Long> ids) {
+    public void deleteSystemRole(List<Long> ids) {
         /* Step-1: 校验删除角色参数 */
         List<SystemRole> systemRoleList = this.roleMapper.selectBatchIds(ids);
         this.validateDeleteParams(systemRoleList, ids);
@@ -81,14 +81,14 @@ public class SystemRoleServiceImpl extends SystemRoleAbstractService implements 
     }
 
     @Override
-    public SystemRoleDTO getRoleById(Long id) {
+    public SystemRoleDTO getSystemRole(Long id) {
         /* Step-1: 通过ID获取字典类型数据 */
         SystemRole systemRole = this.roleMapper.selectById(id);
         return SystemRoleConvert.INSTANCE.entityToDTO(systemRole);
     }
 
     @Override
-    public PageResult<SystemRoleDTO> getRolePage(QueryRolePageReqVO reqVO) {
+    public PageResult<SystemRoleDTO> getSystemRolePage(SystemRoleQueryVO reqVO) {
         Page<SystemRole> pageResult = roleMapper.selectRolePage(
                 new Page<>(reqVO.getPageNumber(), reqVO.getPageSize()),
                 reqVO.getName(), reqVO.getCode()

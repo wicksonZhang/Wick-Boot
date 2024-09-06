@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 系统管理-字典数据持久层
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-08
  */
 @Mapper

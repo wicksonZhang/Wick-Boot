@@ -12,7 +12,7 @@ import javax.validation.constraints.Pattern;
 /**
  * 系统管理 - 用户登录条件参数
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-06
  */
 @Setter

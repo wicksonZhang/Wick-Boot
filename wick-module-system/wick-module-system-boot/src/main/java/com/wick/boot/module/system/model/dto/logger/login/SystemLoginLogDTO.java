@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 /**
  * 后台管理-登录日志DTO
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-06-26
  */
 @Data

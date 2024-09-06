@@ -13,19 +13,18 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.Set;
 
 /**
  * 新增用户信息VO
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-05-11
  */
 @Setter
 @Getter
-@ApiModel(value = "AddUserVO", description = "用户信息添加条件参数")
-public class AddUserVO {
+@ApiModel(value = "SystemUserAddVO", description = "用户信息添加条件参数")
+public class SystemUserAddVO {
 
     @ApiModelProperty(value = "用户名", required = true, example = "wick")
     @NotBlank(message = "用户名不能为空")

@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * 代码自动生成器配置
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-07-24
  */
 @Data

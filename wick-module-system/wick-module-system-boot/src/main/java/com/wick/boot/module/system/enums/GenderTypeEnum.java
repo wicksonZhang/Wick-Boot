@@ -1,6 +1,5 @@
 package com.wick.boot.module.system.enums;
 
-import com.wick.boot.common.core.enums.CommonStatusEnum;
 import com.wick.boot.common.core.validator.IntArrayValuable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +7,9 @@ import lombok.Getter;
 import java.util.Arrays;
 
 /**
- * @author ZhangZiHeng
+ * 性别枚举
+ *
+ * @author Wickson
  * @date 2024-04-03
  */
 @Getter

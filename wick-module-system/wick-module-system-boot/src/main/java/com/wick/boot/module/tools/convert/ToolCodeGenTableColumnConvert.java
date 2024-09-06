@@ -6,7 +6,7 @@ import org.mapstruct.factory.Mappers;
 /**
  * 代码自动生成器表字段信息-Convert
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-07-25
  */
 @Mapper

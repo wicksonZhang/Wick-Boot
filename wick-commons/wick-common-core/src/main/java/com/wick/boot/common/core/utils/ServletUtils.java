@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 客户端工具类
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-06-04
  */
 public class ServletUtils {

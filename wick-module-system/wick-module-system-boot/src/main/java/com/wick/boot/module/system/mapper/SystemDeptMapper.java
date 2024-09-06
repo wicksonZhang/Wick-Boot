@@ -13,7 +13,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author ZhangZiHeng
+ * 部门管理-Mapper
+ *
+ * @author Wickson
  * @date 2024-04-02
  */
 @Mapper
@@ -76,7 +78,7 @@ public interface SystemDeptMapper extends BaseMapperX<SystemDept> {
             List<SystemDept> byTreePath = this.selectList(new LambdaQueryWrapper<SystemDept>()
                     .eq(SystemDept::getId, id)
                     .or()
-                    .apply("CONCAT(',', tree_path, ',') LIKE CONCAT('%,', {0}, ',%')", id)
+                    .apply("CONCAT(',', tree_path, ',') LIKE CONCAT('%,', {0}, ',%')" , id)
             );
             resultList.addAll(byTreePath);
         });

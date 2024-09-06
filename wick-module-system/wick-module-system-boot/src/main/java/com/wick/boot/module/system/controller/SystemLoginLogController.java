@@ -18,7 +18,7 @@ import javax.validation.Valid;
 /**
  * 系统登陆日志Controller
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-06-04
  */
 @RestController

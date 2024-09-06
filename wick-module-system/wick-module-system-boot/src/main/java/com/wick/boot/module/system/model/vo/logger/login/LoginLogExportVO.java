@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 /**
  * 用户登录日志
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-07-01
  */
 @Data

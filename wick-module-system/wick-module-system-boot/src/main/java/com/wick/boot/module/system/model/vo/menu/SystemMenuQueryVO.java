@@ -8,13 +8,13 @@ import lombok.Setter;
 /**
  * 后台管理 - 菜单请求参数
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-07
  */
 @Setter
 @Getter
-@ApiModel(value = "QueryMenuListReqVO", description = "菜单信息查询条件参数")
-public class QueryMenuListReqVO {
+@ApiModel(value = "SystemMenuQueryVO", description = "菜单信息查询条件参数")
+public class SystemMenuQueryVO {
 
     @ApiModelProperty(value = "菜单名称", example = "系统管理")
     private String name;

@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 /**
  * 字典数据
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-08
  */
 @Setter

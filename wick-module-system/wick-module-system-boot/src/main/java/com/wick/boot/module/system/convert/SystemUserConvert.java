@@ -1,11 +1,11 @@
 package com.wick.boot.module.system.convert;
 
 import com.wick.boot.module.system.model.dto.user.SystemUserDTO;
-import com.wick.boot.module.system.model.dto.user.SystemUserInfoDTO;
+import com.wick.boot.module.system.model.dto.user.SystemUserLoginInfoDTO;
 import com.wick.boot.module.system.model.entity.SystemUser;
-import com.wick.boot.module.system.model.vo.user.AddUserVO;
-import com.wick.boot.module.system.model.vo.user.UpdateUserVO;
-import com.wick.boot.module.system.model.vo.user.UserImportVO;
+import com.wick.boot.module.system.model.vo.user.SystemUserAddVO;
+import com.wick.boot.module.system.model.vo.user.SystemUserImportVO;
+import com.wick.boot.module.system.model.vo.user.SystemUserUpdateVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 后台管理 - 用户信息
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-02
  */
 @Mapper(componentModel = "spring")
@@ -32,13 +32,13 @@ public interface SystemUserConvert {
     SystemUserDTO entityToDTO(SystemUser systemUser);
 
     /**
-     * Convert entity To SystemUserInfoDTO
+     * Convert entity To SystemUserLoginInfoDTO
      *
      * @param systemUser 用户信息
-     * @return SystemUserInfoDTO
+     * @return SystemUserLoginInfoDTO
      */
     @Mapping(target = "userId", source = "id")
-    SystemUserInfoDTO entityToDTO1(SystemUser systemUser);
+    SystemUserLoginInfoDTO entityToDTO1(SystemUser systemUser);
 
     /**
      * Convert addVO To SystemUser
@@ -46,7 +46,7 @@ public interface SystemUserConvert {
      * @param reqVO 新增请求参数
      * @return SystemUser
      */
-    SystemUser addVoToEntity(AddUserVO reqVO);
+    SystemUser addVoToEntity(SystemUserAddVO reqVO);
 
     /**
      * Convert updateVO To SystemUser
@@ -54,10 +54,10 @@ public interface SystemUserConvert {
      * @param reqVO 更新请求参数
      * @return SystemUser
      */
-    SystemUser updateVoToEntity(UpdateUserVO reqVO);
+    SystemUser updateVoToEntity(SystemUserUpdateVO reqVO);
 
 
-    SystemUser importVo2Entity(UserImportVO userImportVO);
+    SystemUser importVo2Entity(SystemUserImportVO systemUserImportVO);
 
     List<SystemUserDTO> entityToDTOList(List<SystemUser> systemUsers);
 }

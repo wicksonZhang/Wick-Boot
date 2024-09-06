@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * 代码自动生成器-Controller
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-07-12
  */
 @Api(value = "/code-gen", tags = {"代码自动生成器-Controller"})

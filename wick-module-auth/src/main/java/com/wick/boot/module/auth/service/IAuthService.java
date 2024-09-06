@@ -8,7 +8,7 @@ import com.wick.boot.module.system.model.vo.AuthUserLoginReqVO;
 /**
  * 后台管理 - 认证中心
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-08
  */
 public interface IAuthService {

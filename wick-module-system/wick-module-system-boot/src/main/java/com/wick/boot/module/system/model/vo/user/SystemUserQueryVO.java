@@ -9,13 +9,13 @@ import lombok.Setter;
 /**
  * 系统管理 - 用户信息查询条件参数
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-03
  */
 @Setter
 @Getter
-@ApiModel(value = "QueryUserPageReqVO", description = "用户信息查询条件参数")
-public class QueryUserPageReqVO extends CommonPageParamVO {
+@ApiModel(value = "SystemUserQueryVO", description = "用户信息查询条件参数")
+public class SystemUserQueryVO extends CommonPageParamVO {
 
     @ApiModelProperty(value = "用户账号，模糊匹配", example = "admin")
     private String username;

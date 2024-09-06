@@ -10,13 +10,13 @@ import javax.validation.constraints.NotNull;
 /**
  * 更新菜单参数VO
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-29
  */
 @Setter
 @Getter
-@ApiModel(value = "UpdateMenuReqVO", description = "更新菜单信息参数")
-public class UpdateMenuReqVO extends AddMenuReqVO {
+@ApiModel(value = "SystemMenuUpdateVO", description = "更新菜单信息参数")
+public class SystemMenuUpdateVO extends SystemMenuAddVO {
 
     @ApiModelProperty(value = "菜单ID", required = true, example = "1")
     @NotNull(message = "菜单ID不能为空")

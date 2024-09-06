@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 /**
  * 系统管理 - 字典类型表
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-08
  */
 @Data

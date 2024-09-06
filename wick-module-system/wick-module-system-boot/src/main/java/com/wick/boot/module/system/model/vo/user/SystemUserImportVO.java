@@ -7,7 +7,7 @@ import lombok.Data;
  * 用户导入对象
  */
 @Data
-public class UserImportVO {
+public class SystemUserImportVO {
 
     @ExcelProperty(value = "用户名")
     private String username;

@@ -6,8 +6,8 @@ import com.wick.boot.common.mybatis.mapper.BaseMapperX;
 import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import com.wick.boot.module.system.model.dto.user.SystemUserDTO;
 import com.wick.boot.module.system.model.entity.SystemUser;
-import com.wick.boot.module.system.model.vo.user.QueryUserPageReqVO;
-import com.wick.boot.module.system.model.vo.user.UserExportVO;
+import com.wick.boot.module.system.model.vo.user.SystemUserQueryVO;
+import com.wick.boot.module.system.model.vo.user.SystemUserExportVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * 后台管理 - 部门Mapper
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-02
  */
 @Mapper
@@ -38,7 +38,7 @@ public interface SystemUserMapper extends BaseMapperX<SystemUser> {
      * @param reqVO 用户请求信息
      * @return PageResult<SystemUser>
      */
-    Page<SystemUserDTO> selectPage(Page<SystemUserDTO> page, @Param("reqVO") QueryUserPageReqVO reqVO);
+    Page<SystemUserDTO> selectPage(Page<SystemUserDTO> page, @Param("reqVO") SystemUserQueryVO reqVO);
 
     /**
      * 获取用户认证信息
@@ -72,7 +72,7 @@ public interface SystemUserMapper extends BaseMapperX<SystemUser> {
      * 导出用户
      *
      * @param queryParams 分页查询条件
-     * @return List<UserExportVO>
+     * @return List<SystemUserExportVO>
      */
-    List<UserExportVO> listExportUsers(@Param("reqVO") QueryUserPageReqVO queryParams);
+    List<SystemUserExportVO> listExportUsers(@Param("reqVO") SystemUserQueryVO queryParams);
 }

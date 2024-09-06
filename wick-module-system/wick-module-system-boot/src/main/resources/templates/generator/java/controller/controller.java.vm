@@ -32,7 +32,7 @@ public class ${className}Controller {
     @Resource
     private ${className}Service ${lowerClassName}Service;
 
-    @PostMapping
+    @PostMapping("/add")
     @PreAuthorize("@ss.hasPerm('${permissionPrefix}:add')")
     @ApiOperation(value = "新增${functionName}数据", notes = "${functionName}管理")
     public ResultUtil<Long> add(@Valid @RequestBody ${className}AddReqVO reqVO) {
@@ -40,15 +40,15 @@ public class ${className}Controller {
         return ResultUtil.success();
     }
 
-    @PutMapping
-    @PreAuthorize("@ss.hasPerm('${permissionPrefix}:edit')")
-    @ApiOperation(value = "编辑${functionName}数据", notes = "${functionName}管理")
+    @PutMapping("/update")
+    @PreAuthorize("@ss.hasPerm('${permissionPrefix}:update')")
+    @ApiOperation(value = "修改${functionName}数据", notes = "${functionName}管理")
     public ResultUtil<Boolean> update(@Valid @RequestBody ${className}UpdateReqVO reqVO) {
         this.${lowerClassName}Service.update${className}(reqVO);
         return ResultUtil.success(true);
     }
 
-    @DeleteMapping("/{ids}")
+    @DeleteMapping("/delete/{ids}")
     @PreAuthorize("@ss.hasPerm('${permissionPrefix}:delete')")
     @ApiOperation(value = "删除${functionName}数据", notes = "${functionName}管理")
     @ApiImplicitParam(name = "ids", value = "主键id", required = true, dataType = "Long", dataTypeClass = Long.class)
@@ -60,14 +60,13 @@ public class ${className}Controller {
     @GetMapping("/{id}")
     @ApiOperation(value = "通过主键获取${functionName}数据", notes = "${functionName}管理")
     @ApiImplicitParam(name = "id", value = "${functionName}ID", required = true, dataType = "Long", dataTypeClass = Long.class)
-    public ResultUtil<${className}DTO> getInfo(@NotNull(message = "主键不能为空")
-                                                 @PathVariable("id") Long id) {
-        return ResultUtil.success(${lowerClassName}Service.get${className}ById(id));
+    public ResultUtil<${className}DTO> get${className}(@NotNull(message = "主键不能为空") @PathVariable Long id) {
+        return ResultUtil.success(${lowerClassName}Service.get${className}(id));
     }
 
     @GetMapping("/page")
     @ApiOperation(value = "获取${functionName}分页数据", notes = "${functionName}管理")
-    public ResultUtil<PageResult<${className}DTO>> getPage(@Valid ${className}QueryReqVO reqVO) {
+    public ResultUtil<PageResult<${className}DTO>> get${className}Page(@Valid ${className}QueryVO reqVO) {
         return ResultUtil.success(${lowerClassName}Service.get${className}Page(reqVO));
     }
 

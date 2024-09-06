@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 /**
  * 字典类型
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-05-31
  */
 @Data

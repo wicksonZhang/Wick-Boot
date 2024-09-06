@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * 后台管理-操作日志DTO
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-07-01
  */
 @Data

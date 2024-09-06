@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * 前端统一返回结果类
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2023-12-27
  */
 @Getter

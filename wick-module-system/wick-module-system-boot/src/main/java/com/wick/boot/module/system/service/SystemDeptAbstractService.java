@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 /**
  * 部门管理 - 防腐层
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-17
  */
 public abstract class SystemDeptAbstractService {

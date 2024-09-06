@@ -10,7 +10,7 @@ import javax.annotation.Resource;
 /**
  * 操作日志 API 实现类
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-06-13
  */
 @Service

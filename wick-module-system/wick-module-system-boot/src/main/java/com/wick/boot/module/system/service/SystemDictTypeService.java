@@ -11,7 +11,7 @@ import com.wick.boot.module.system.model.vo.dict.type.UpdateDictTypeReqVO;
 import java.util.List;
 
 /**
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-08
  */
 public interface SystemDictTypeService {

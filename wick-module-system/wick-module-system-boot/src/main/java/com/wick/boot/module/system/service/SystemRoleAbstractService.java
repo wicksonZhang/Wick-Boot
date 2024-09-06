@@ -13,8 +13,8 @@ import com.wick.boot.module.system.mapper.SystemRoleMenuMapper;
 import com.wick.boot.module.system.mapper.SystemUserRoleMapper;
 import com.wick.boot.module.system.model.entity.SystemRole;
 import com.wick.boot.module.system.model.entity.SystemUserRole;
-import com.wick.boot.module.system.model.vo.role.AddRoleVo;
-import com.wick.boot.module.system.model.vo.role.UpdateRoleVo;
+import com.wick.boot.module.system.model.vo.role.SystemRoleAddVO;
+import com.wick.boot.module.system.model.vo.role.SystemRoleUpdateVO;
 
 import javax.annotation.Resource;
 import java.util.Collection;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 /**
  * 角色管理-防腐层
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-29
  */
 public abstract class SystemRoleAbstractService {
@@ -40,7 +40,7 @@ public abstract class SystemRoleAbstractService {
 
     // ============================================== 新增参数校验 ==============================================
 
-    protected void validateAddParams(AddRoleVo reqVO) {
+    protected void validateAddParams(SystemRoleAddVO reqVO) {
         // 校验角色名称
         this.validateRoleByName(reqVO.getName());
         // 校验角色编码
@@ -73,7 +73,7 @@ public abstract class SystemRoleAbstractService {
 
     // ============================================== 编辑参数校验 ==============================================
 
-    protected void validateUpdateParams(UpdateRoleVo reqVO) {
+    protected void validateUpdateParams(SystemRoleUpdateVO reqVO) {
         // 验证角色信息是否存在
         SystemRole systemRole = this.validateRoleById(reqVO.getId());
         // 校验角色名称

@@ -12,8 +12,8 @@ import com.wick.boot.module.system.enums.ErrorCodeSystem;
 import com.wick.boot.module.system.enums.MenuTypeEnum;
 import com.wick.boot.module.system.mapper.SystemMenuMapper;
 import com.wick.boot.module.system.model.entity.SystemMenu;
-import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
-import com.wick.boot.module.system.model.vo.menu.UpdateMenuReqVO;
+import com.wick.boot.module.system.model.vo.menu.SystemMenuAddVO;
+import com.wick.boot.module.system.model.vo.menu.SystemMenuUpdateVO;
 
 import javax.annotation.Resource;
 import java.util.Collection;
@@ -30,7 +30,7 @@ public abstract class SystemMenuAbstractService {
 
     // ============================================== 新增参数校验 ==============================================
 
-    protected void validateAddParams(AddMenuReqVO reqVO) {
+    protected void validateAddParams(SystemMenuAddVO reqVO) {
         // 验证父级菜单是否存在
         this.validateMenuByParentId(reqVO.getParentId());
         // 校验菜单名称是否存在
@@ -74,7 +74,7 @@ public abstract class SystemMenuAbstractService {
      *
      * @param reqVO 新增菜单请求菜单
      */
-    private void validateMenuByType(AddMenuReqVO reqVO) {
+    private void validateMenuByType(SystemMenuAddVO reqVO) {
         MenuTypeEnum type = reqVO.getType();
         switch (type) {
             case CATALOG:
@@ -99,9 +99,9 @@ public abstract class SystemMenuAbstractService {
      *
      * @param reqVO 新增请求参数
      */
-    private void validateByCatalog(AddMenuReqVO reqVO) {
+    private void validateByCatalog(SystemMenuAddVO reqVO) {
         // 校验路由路径不为空
-        if (StrUtil.isBlankIfStr(reqVO.getPath())) {
+        if (StrUtil.isBlankIfStr(reqVO.getRoutePath())) {
             throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "路由路径不能为空");
         }
         // 校验显示状态不为空
@@ -109,8 +109,8 @@ public abstract class SystemMenuAbstractService {
             throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "显示状态不能为空");
         }
         // 验证目录参数的路由路径
-        if (GlobalConstants.ROOT_NODE_ID.equals(reqVO.getParentId()) && !reqVO.getPath().startsWith("/")) {
-            reqVO.setPath("/" + reqVO.getPath()); // 一级目录需以 / 开头
+        if (GlobalConstants.ROOT_NODE_ID.equals(reqVO.getParentId()) && !reqVO.getRoutePath().startsWith("/")) {
+            reqVO.setRoutePath("/" + reqVO.getRoutePath()); // 一级目录需以 / 开头
         }
     }
 
@@ -119,9 +119,9 @@ public abstract class SystemMenuAbstractService {
      *
      * @param reqVO 新增请求参数
      */
-    private void validateByLink(AddMenuReqVO reqVO) {
+    private void validateByLink(SystemMenuAddVO reqVO) {
         // 校验路由路径不为空
-        if (StrUtil.isBlankIfStr(reqVO.getPath())) {
+        if (StrUtil.isBlankIfStr(reqVO.getRoutePath())) {
             throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "路由路径不能为空");
         }
         // 校验显示状态不为空
@@ -135,9 +135,9 @@ public abstract class SystemMenuAbstractService {
      *
      * @param reqVO 新增请求参数
      */
-    private void validateByMenu(AddMenuReqVO reqVO) {
+    private void validateByMenu(SystemMenuAddVO reqVO) {
         // 校验路由路径不为空
-        if (StrUtil.isBlankIfStr(reqVO.getPath())) {
+        if (StrUtil.isBlankIfStr(reqVO.getRoutePath())) {
             throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "路由路径不能为空");
         }
         // 校验页面路径不为空
@@ -152,7 +152,7 @@ public abstract class SystemMenuAbstractService {
 
     // ============================================== 更新参数校验 ==============================================
 
-    protected void validateUpdateParams(UpdateMenuReqVO reqVO) {
+    protected void validateUpdateParams(SystemMenuUpdateVO reqVO) {
         // 校验菜单信息是否存在
         SystemMenu systemMenu = this.validateMenuByMenuId(reqVO.getId());
         // 验证父级Id是否存在

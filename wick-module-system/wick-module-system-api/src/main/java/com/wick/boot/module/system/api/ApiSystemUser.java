@@ -6,7 +6,7 @@ import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 /**
  * 系统模块-用户信息
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-13
  */
 public interface ApiSystemUser {

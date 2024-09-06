@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 /**
  * 登录日志创建 Request DTO
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-06-04
  */
 @Data

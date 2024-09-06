@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * 代码生成器-表字段信息
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-08-06
  */
 @Data

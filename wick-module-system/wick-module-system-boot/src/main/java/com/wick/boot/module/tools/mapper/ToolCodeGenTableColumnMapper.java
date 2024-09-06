@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 代码自动生成器-字段信息
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-07-25
  */
 @Mapper

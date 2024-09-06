@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 字典数据 Convert
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-17
  */
 @Mapper

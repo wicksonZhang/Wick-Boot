@@ -19,7 +19,7 @@ import com.wick.boot.module.system.mapper.SystemUserRoleMapper;
 import com.wick.boot.module.system.model.entity.SystemRole;
 import com.wick.boot.module.system.model.entity.SystemUser;
 import com.wick.boot.module.system.model.entity.SystemUserRole;
-import com.wick.boot.module.system.model.vo.user.UserImportVO;
+import com.wick.boot.module.system.model.vo.user.SystemUserImportVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  * <a href="https://easyexcel.opensource.alibaba.com/docs/current/quickstart/read#%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E8%AF%BB%E7%9A%84%E7%9B%91%E5%90%AC%E5%99%A8">最简单的读的监听器</a>
  */
 @Slf4j
-public class UserImportListener extends AnalysisEventListener<UserImportVO> {
+public class UserImportListener extends AnalysisEventListener<SystemUserImportVO> {
 
 
     // 有效条数
@@ -72,16 +72,16 @@ public class UserImportListener extends AnalysisEventListener<UserImportVO> {
      * 1. 数据校验；全字段校验
      * 2. 数据持久化；
      *
-     * @param userImportVO    一行数据，类似于 {@link AnalysisContext#readRowHolder()}
+     * @param systemUserImportVO    一行数据，类似于 {@link AnalysisContext#readRowHolder()}
      * @param analysisContext
      */
     @Override
-    public void invoke(UserImportVO userImportVO, AnalysisContext analysisContext) {
-        log.info("解析到一条用户数据:{}", JSONUtil.toJsonStr(userImportVO));
+    public void invoke(SystemUserImportVO systemUserImportVO, AnalysisContext analysisContext) {
+        log.info("解析到一条用户数据:{}", JSONUtil.toJsonStr(systemUserImportVO));
         // 校验数据
         StringBuilder validationMsg = new StringBuilder();
         // 校验用户名
-        String username = userImportVO.getUsername();
+        String username = systemUserImportVO.getUsername();
         if (StrUtil.isBlank(username)) {
             validationMsg.append("用户名为空；");
         } else {
@@ -92,13 +92,13 @@ public class UserImportListener extends AnalysisEventListener<UserImportVO> {
         }
 
         // 校验用户昵称
-        String nickname = userImportVO.getNickname();
+        String nickname = systemUserImportVO.getNickname();
         if (StrUtil.isBlank(nickname)) {
             validationMsg.append("用户昵称为空；");
         }
 
         // 校验用户手机号
-        String mobile = userImportVO.getMobile();
+        String mobile = systemUserImportVO.getMobile();
         if (StrUtil.isBlank(mobile)) {
             validationMsg.append("手机号码为空；");
         } else {
@@ -109,18 +109,18 @@ public class UserImportListener extends AnalysisEventListener<UserImportVO> {
 
         if (StrUtil.isBlank(validationMsg)) {
             // 校验通过，持久化至数据库
-            SystemUser entity = userConvert.importVo2Entity(userImportVO);
+            SystemUser entity = userConvert.importVo2Entity(systemUserImportVO);
             entity.setDeptId(deptId);   // 部门
             entity.setPassword(passwordEncoder.encode(GlobalConstants.DEFAULT_USER_PASSWORD));   // 默认密码
             // 性别翻译
-            String genderLabel = userImportVO.getGenderLabel();
+            String genderLabel = systemUserImportVO.getGenderLabel();
             if (StrUtil.isNotBlank(genderLabel)) {
                 GenderTypeEnum typeEnum = GenderTypeEnum.valueOf(genderLabel);
                 entity.setGender(typeEnum.getCode());
             }
 
             // 角色解析
-            String roleCodes = userImportVO.getRoleCodes();
+            String roleCodes = systemUserImportVO.getRoleCodes();
             List<Long> roleIds = null;
             if (StrUtil.isNotBlank(roleCodes)) {
                 roleIds = roleMapper.selectList(

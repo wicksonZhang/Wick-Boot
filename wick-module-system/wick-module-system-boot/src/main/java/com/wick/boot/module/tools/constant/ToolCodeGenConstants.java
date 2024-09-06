@@ -3,7 +3,7 @@ package com.wick.boot.module.tools.constant;
 /**
  * 代码生成通用常量
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-07-25
  */
 public interface ToolCodeGenConstants {

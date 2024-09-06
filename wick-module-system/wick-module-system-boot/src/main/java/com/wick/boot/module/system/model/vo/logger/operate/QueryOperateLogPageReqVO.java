@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 /**
  * 系统管理 - 操作日志查询条件
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-06-26
  */
 @Data

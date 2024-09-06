@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 /**
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-06-13
  */
 @Mapper

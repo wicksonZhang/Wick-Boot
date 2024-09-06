@@ -9,7 +9,7 @@ import lombok.Data;
  * <p>
  * 错误码设计成对象的原因，为未来的 i18 国际化做准备
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2023-12-27
  */
 @Data

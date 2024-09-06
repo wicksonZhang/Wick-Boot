@@ -14,7 +14,7 @@ import java.util.Arrays;
 /**
  * 处理表数据和表字段工具类
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-08-08
  */
 public class ToolCodeGenUtils {

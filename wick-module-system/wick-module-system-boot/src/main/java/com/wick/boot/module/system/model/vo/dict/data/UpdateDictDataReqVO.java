@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 /**
  * 字典数据更新VO
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-17
  */
 @Setter

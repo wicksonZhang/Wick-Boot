@@ -68,7 +68,7 @@
             t1.username = #{username}
     </select>
 
-    <select id="listExportUsers" resultType="com.wick.boot.module.system.model.vo.user.UserExportVO">
+    <select id="listExportUsers" resultType="com.wick.boot.module.system.model.vo.user.SystemUserExportVO">
         SELECT
         u.username,
         u.nickname,

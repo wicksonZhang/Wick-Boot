@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  * 字典数据 - 防腐层
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-16
  */
 public abstract class SystemDictDataAbstractService {

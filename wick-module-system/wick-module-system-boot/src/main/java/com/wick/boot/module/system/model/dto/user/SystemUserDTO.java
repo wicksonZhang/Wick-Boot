@@ -3,21 +3,18 @@ package com.wick.boot.module.system.model.dto.user;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wick.boot.module.system.enums.GenderTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 后台管理-用户信息
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-03-28
  */
 @Data

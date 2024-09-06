@@ -3,7 +3,7 @@ package com.wick.boot.module.auth.constant;
 /**
  * 验证码参数信息
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-03-27
  */
 public interface CaptchaConstants {

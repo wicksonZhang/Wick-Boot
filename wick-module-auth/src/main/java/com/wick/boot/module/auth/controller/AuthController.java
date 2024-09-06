@@ -19,7 +19,7 @@ import javax.validation.Valid;
 /**
  * 后台管理 - 认证中心
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-08
  */
 @RestController

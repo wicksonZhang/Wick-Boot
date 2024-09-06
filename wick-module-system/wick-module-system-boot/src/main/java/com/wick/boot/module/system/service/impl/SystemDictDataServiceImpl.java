@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * 字典数据管理-服务实现层
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-08
  */
 @Service

@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 /**
  * 代码生成表定义创建/修改 Response VO
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-08-06
  */
 @Data

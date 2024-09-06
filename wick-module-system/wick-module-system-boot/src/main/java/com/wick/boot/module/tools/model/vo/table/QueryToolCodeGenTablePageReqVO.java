@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 /**
  * 代码生成器查询VO
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-07-23
  */
 @Setter

@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 /**
  * 代码自动生成器-数据表字段
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-07-24
  */
 @Data

@@ -7,15 +7,12 @@ import com.wick.boot.common.log.enums.OperateTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Map;
 
 /**
  * 用户操作日志
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-07-02
  */
 @Data

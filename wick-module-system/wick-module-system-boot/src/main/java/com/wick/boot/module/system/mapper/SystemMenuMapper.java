@@ -9,7 +9,7 @@ import com.wick.boot.common.mybatis.mapper.BaseMapperX;
 import com.wick.boot.module.system.enums.MenuTypeEnum;
 import com.wick.boot.module.system.model.dto.menu.SystemMenuDTO;
 import com.wick.boot.module.system.model.entity.SystemMenu;
-import com.wick.boot.module.system.model.vo.menu.QueryMenuListReqVO;
+import com.wick.boot.module.system.model.vo.menu.SystemMenuQueryVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -18,13 +18,13 @@ import java.util.Set;
 /**
  * 菜单-Mapper
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-07
  */
 @Mapper
 public interface SystemMenuMapper extends BaseMapperX<SystemMenu> {
 
-    default List<SystemMenu> selectList(QueryMenuListReqVO queryParams) {
+    default List<SystemMenu> selectList(SystemMenuQueryVO queryParams) {
         return selectList(new LambdaQueryWrapper<SystemMenu>()
                 .likeRight(ObjUtil.isNotNull(queryParams.getName()), SystemMenu::getName, queryParams.getName())
                 .eq(ObjUtil.isNotNull(queryParams.getStatus()), SystemMenu::getVisible, queryParams.getStatus())

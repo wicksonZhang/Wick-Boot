@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * 表结构信息DTO
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-08-01
  */
 @ApiModel(description = "表结构信息DTO")

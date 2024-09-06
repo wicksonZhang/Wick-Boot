@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 /**
  * 系统管理 - 角色菜单信息
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-02
  */
 @Data

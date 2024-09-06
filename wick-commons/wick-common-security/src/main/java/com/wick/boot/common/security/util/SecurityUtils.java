@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * Security 用户信息
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-11
  */
 public class SecurityUtils {

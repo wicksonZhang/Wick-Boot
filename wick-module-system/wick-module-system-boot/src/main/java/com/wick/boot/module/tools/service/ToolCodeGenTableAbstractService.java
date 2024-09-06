@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 /**
  * 代码生成器-防腐层
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-07-24
  */
 public abstract class ToolCodeGenTableAbstractService {

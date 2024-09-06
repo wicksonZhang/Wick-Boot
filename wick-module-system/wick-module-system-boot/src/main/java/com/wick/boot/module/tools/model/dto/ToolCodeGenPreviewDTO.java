@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * 代码生成预览
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-08-07
  */
 @ApiModel(description = "代码生成预览")

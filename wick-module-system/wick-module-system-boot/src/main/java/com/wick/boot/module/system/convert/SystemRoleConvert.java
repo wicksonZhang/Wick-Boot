@@ -3,8 +3,8 @@ package com.wick.boot.module.system.convert;
 import com.wick.boot.module.system.model.dto.role.SystemRoleDTO;
 import com.wick.boot.module.system.model.dto.role.SystemRoleOptionsDTO;
 import com.wick.boot.module.system.model.entity.SystemRole;
-import com.wick.boot.module.system.model.vo.role.AddRoleVo;
-import com.wick.boot.module.system.model.vo.role.UpdateRoleVo;
+import com.wick.boot.module.system.model.vo.role.SystemRoleAddVO;
+import com.wick.boot.module.system.model.vo.role.SystemRoleUpdateVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 后台管理 - Role - Convert
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-07
  */
 @Mapper
@@ -45,7 +45,7 @@ public interface SystemRoleConvert {
      * @param reqVO 新增请求参数
      * @return 角色信息
      */
-    SystemRole addVoToEntity(AddRoleVo reqVO);
+    SystemRole addVoToEntity(SystemRoleAddVO reqVO);
 
     /**
      * Convert updateVO To Entity
@@ -53,7 +53,7 @@ public interface SystemRoleConvert {
      * @param reqVO 更新请求参数
      * @return 角色信息
      */
-    SystemRole updateVoToEntity(UpdateRoleVo reqVO);
+    SystemRole updateVoToEntity(SystemRoleUpdateVO reqVO);
 
     /**
      * Convert entity To Options

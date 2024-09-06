@@ -2,17 +2,17 @@ package com.wick.boot.module.system.service;
 
 import com.wick.boot.module.system.model.dto.role.SystemRoleDTO;
 import com.wick.boot.module.system.model.dto.role.SystemRoleOptionsDTO;
-import com.wick.boot.module.system.model.vo.role.AddRoleVo;
-import com.wick.boot.module.system.model.vo.role.QueryRolePageReqVO;
+import com.wick.boot.module.system.model.vo.role.SystemRoleAddVO;
+import com.wick.boot.module.system.model.vo.role.SystemRoleQueryVO;
 import com.wick.boot.common.core.result.PageResult;
-import com.wick.boot.module.system.model.vo.role.UpdateRoleVo;
+import com.wick.boot.module.system.model.vo.role.SystemRoleUpdateVO;
 
 import java.util.List;
 
 /**
  * 角色管理-服务层
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-07
  */
 public interface SystemRoleService {
@@ -23,21 +23,21 @@ public interface SystemRoleService {
      * @param reqVO 新增角色请求参数
      * @return 角色主键Id
      */
-    Long addRole(AddRoleVo reqVO);
+    Long addSystemRole(SystemRoleAddVO reqVO);
 
     /**
      * 编辑角色信息
      *
      * @param reqVO 编辑角色请求参数
      */
-    void updateRole(UpdateRoleVo reqVO);
+    void updateSystemRole(SystemRoleUpdateVO reqVO);
 
     /**
      * 删除角色信息
      *
      * @param ids id集合
      */
-    void deleteRole(List<Long> ids);
+    void deleteSystemRole(List<Long> ids);
 
     /**
      * 获取角色信息ById
@@ -45,7 +45,7 @@ public interface SystemRoleService {
      * @param id 角色Id
      * @return
      */
-    SystemRoleDTO getRoleById(Long id);
+    SystemRoleDTO getSystemRole(Long id);
 
     /**
      * 角色分页
@@ -53,7 +53,7 @@ public interface SystemRoleService {
      * @param reqVO 请求参数
      * @return PageResult<SystemRoleDTO>
      */
-    PageResult<SystemRoleDTO> getRolePage(QueryRolePageReqVO reqVO);
+    PageResult<SystemRoleDTO> getSystemRolePage(SystemRoleQueryVO reqVO);
 
     /**
      * 获取角色下拉选项

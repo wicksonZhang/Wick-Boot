@@ -3,7 +3,7 @@ package com.wick.boot.common.core.constant;
 /**
  * 系统管理 - 常量
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-07
  */
 public interface GlobalConstants {

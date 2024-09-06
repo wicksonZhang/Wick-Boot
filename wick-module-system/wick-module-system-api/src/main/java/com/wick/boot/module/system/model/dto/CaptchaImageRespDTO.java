@@ -8,7 +8,7 @@ import lombok.Data;
 /**
  * 验证码返回VO
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-03-27
  */
 @Data

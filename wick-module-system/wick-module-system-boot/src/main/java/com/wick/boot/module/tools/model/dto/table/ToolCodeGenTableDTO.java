@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 /**
  * 代码自动生成器 - DTO
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-07-23
  */
 @Data

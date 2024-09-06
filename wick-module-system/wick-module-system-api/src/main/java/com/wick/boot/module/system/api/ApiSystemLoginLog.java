@@ -7,7 +7,7 @@ import javax.validation.Valid;
 /**
  * 系统模块-登录日志
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-06-04
  */
 public interface ApiSystemLoginLog {

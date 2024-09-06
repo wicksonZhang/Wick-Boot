@@ -18,7 +18,7 @@ import javax.validation.Valid;
 /**
  * 系统管理-操作日志
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-07-01
  */
 @RestController

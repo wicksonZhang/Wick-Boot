@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 系统日志 Convert
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-06-26
  */
 @Mapper

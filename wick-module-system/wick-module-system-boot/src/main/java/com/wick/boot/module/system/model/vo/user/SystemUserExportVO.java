@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @ColumnWidth(20)
-public class UserExportVO {
+public class SystemUserExportVO {
 
     @ExcelProperty(value = "用户名")
     private String username;

@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 系统操作日志Mapper
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-06-04
  */
 @Mapper

@@ -4,7 +4,6 @@ import com.wick.boot.common.core.enums.CommonStatusEnum;
 import com.wick.boot.common.core.validator.InEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-15
  */
 @Setter

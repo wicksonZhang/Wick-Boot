@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * Wick Boot 启动类
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-13
  */
 @SpringBootApplication(scanBasePackages = {"com.wick.boot"})

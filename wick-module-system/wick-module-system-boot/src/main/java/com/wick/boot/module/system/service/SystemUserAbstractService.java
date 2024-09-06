@@ -3,6 +3,7 @@ package com.wick.boot.module.system.service;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjUtil;
+import cn.hutool.core.util.StrUtil;
 import com.wick.boot.common.core.constant.GlobalConstants;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.exception.ParameterException;
@@ -16,8 +17,8 @@ import com.wick.boot.module.system.model.entity.SystemDept;
 import com.wick.boot.module.system.model.entity.SystemRole;
 import com.wick.boot.module.system.model.entity.SystemUser;
 import com.wick.boot.module.system.model.entity.SystemUserRole;
-import com.wick.boot.module.system.model.vo.user.AddUserVO;
-import com.wick.boot.module.system.model.vo.user.UpdateUserVO;
+import com.wick.boot.module.system.model.vo.user.SystemUserAddVO;
+import com.wick.boot.module.system.model.vo.user.SystemUserUpdateVO;
 
 import javax.annotation.Resource;
 import java.util.Collection;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
 /**
  * 新增用户信息-防腐层
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-05-11
  */
 public abstract class SystemUserAbstractService {
@@ -47,7 +48,7 @@ public abstract class SystemUserAbstractService {
 
     // ============================================== 新增参数校验 ==============================================
 
-    protected void validateAddParams(AddUserVO reqVO) {
+    protected void validateAddParams(SystemUserAddVO reqVO) {
         // 验证用户名称是否存在
         this.validateUsername(reqVO.getUsername());
         // 验证所属部门是否存在
@@ -108,7 +109,7 @@ public abstract class SystemUserAbstractService {
 
     // ============================================== 编辑参数校验 ==============================================
 
-    protected void validateUpdateParams(UpdateUserVO reqVO) {
+    protected void validateUpdateParams(SystemUserUpdateVO reqVO) {
         SystemUser systemUser = getUserById(reqVO.getId());
         // 验证用户信息是否存在
         this.validateUser(systemUser);
@@ -195,6 +196,9 @@ public abstract class SystemUserAbstractService {
     }
 
     private void validateEmail(String sourceEmail, String targetEmail) {
+        if (StrUtil.isBlank(sourceEmail)) {
+            return;
+        }
         if (sourceEmail.equals(targetEmail)) {
             return;
         }

@@ -30,7 +30,7 @@ import com.wick.boot.common.core.result.ResultCode;
  * 第四段，3 位，错误码
  * <span> 不限制规则，一般建议，每个模块自增。
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-15
  */
 public interface ErrorCodeSystem {

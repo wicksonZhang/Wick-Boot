@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 /**
  * 系统管理 - 菜单信息
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-02
  */
 @Data
@@ -33,11 +33,14 @@ public class SystemMenu extends BaseDO {
     @ApiModelProperty(value = "菜单类型(1-菜单；2-目录；3-外链；4-按钮)", example = "1")
     private MenuTypeEnum type;
 
-    @ApiModelProperty(value = "菜单名称", example = "/system")
+    @ApiModelProperty(value = "菜单名称", example = "系统管理")
     private String name;
 
+    @ApiModelProperty(value = "路由名称", example = "")
+    private String routeName;
+
     @ApiModelProperty(value = "路由路径", example = "/system")
-    private String path;
+    private String routePath;
 
     @ApiModelProperty(value = "组件路径", example = "Layout")
     private String component;

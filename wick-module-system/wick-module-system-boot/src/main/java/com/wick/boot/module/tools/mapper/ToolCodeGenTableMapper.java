@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * 代码生成器 Mapper
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-07-23
  */
 @Mapper

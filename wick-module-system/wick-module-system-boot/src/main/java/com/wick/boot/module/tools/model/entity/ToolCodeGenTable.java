@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 /**
  * 代码自动生成器表
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-07-23
  */
 @Data

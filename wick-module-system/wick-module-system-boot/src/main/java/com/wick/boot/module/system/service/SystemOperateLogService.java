@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 登录日志-服务层
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-06-04
  */
 public interface SystemOperateLogService {

@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * 后台管理 - 当前登录用户信息
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-11
  */
 @Data
@@ -20,7 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "系统登录用户信息")
-public class SystemUserInfoDTO {
+public class SystemUserLoginInfoDTO {
 
     @ApiModelProperty(value = "用户ID", example = "1")
     private Long userId;

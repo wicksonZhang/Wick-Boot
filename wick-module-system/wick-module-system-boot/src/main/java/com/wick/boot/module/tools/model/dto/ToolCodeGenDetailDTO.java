@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 代码生成表和字段的明细
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-08-01
  */
 @Data

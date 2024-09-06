@@ -9,7 +9,7 @@ import java.util.Arrays;
 /**
  * 数据权限-枚举类
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-29
  */
 @Getter

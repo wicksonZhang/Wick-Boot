@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 /**
  * 数据结果统一格式全局处理类
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2023-12-27
  */
 @ControllerAdvice(annotations = RestController.class)

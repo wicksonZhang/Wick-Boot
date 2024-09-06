@@ -9,7 +9,7 @@ import lombok.Data;
 /**
  * 字典数据
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-08
  */
 @Data

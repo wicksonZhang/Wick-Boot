@@ -14,8 +14,8 @@ import javax.validation.constraints.NotNull;
 
 @Setter
 @Getter
-@ApiModel(value = "AddMenuReqVO", description = "菜单信息添加条件参数")
-public class AddMenuReqVO {
+@ApiModel(value = "SystemMenuAddVO", description = "菜单信息添加条件参数")
+public class SystemMenuAddVO {
 
     @ApiModelProperty(value = "父级菜单", required = true, example = "1")
     @NotNull(message = "父级菜单不能为空")
@@ -32,8 +32,11 @@ public class AddMenuReqVO {
     @ApiModelProperty(value = "菜单类型", required = true, example = "MENU")
     private MenuTypeEnum type;
 
-    @ApiModelProperty(value = "路由路径", example = "user")
-    private String path;
+    @ApiModelProperty(value = "路由名称", example = "")
+    private String routeName;
+
+    @ApiModelProperty(value = "路由路径", example = "/system")
+    private String routePath;
 
     @ApiModelProperty(value = "显示状态(1:显示，0：隐藏)", example = "1")
     @InEnum(value = CommonStatusEnum.class, message = "显示状态必须是 {value}")

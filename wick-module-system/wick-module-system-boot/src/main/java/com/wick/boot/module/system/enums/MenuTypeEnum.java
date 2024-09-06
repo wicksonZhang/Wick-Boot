@@ -11,7 +11,7 @@ import java.util.Arrays;
 /**
  * 菜单类型-枚举
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-02
  */
 @Getter

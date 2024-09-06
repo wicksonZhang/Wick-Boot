@@ -4,18 +4,18 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
 import com.google.common.collect.Lists;
 import com.wick.boot.common.core.constant.GlobalConstants;
-import com.wick.boot.module.system.service.SystemMenuAbstractService;
-import com.wick.boot.module.system.service.SystemMenuService;
-import com.wick.boot.module.system.service.SystemRoleMenuService;
 import com.wick.boot.module.system.convert.SystemMenuConvert;
 import com.wick.boot.module.system.mapper.SystemMenuMapper;
 import com.wick.boot.module.system.model.dto.menu.SystemMenuDTO;
 import com.wick.boot.module.system.model.dto.menu.SystemMenuOptionsDTO;
 import com.wick.boot.module.system.model.dto.menu.SystemRouteDTO;
 import com.wick.boot.module.system.model.entity.SystemMenu;
-import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
-import com.wick.boot.module.system.model.vo.menu.QueryMenuListReqVO;
-import com.wick.boot.module.system.model.vo.menu.UpdateMenuReqVO;
+import com.wick.boot.module.system.model.vo.menu.SystemMenuAddVO;
+import com.wick.boot.module.system.model.vo.menu.SystemMenuQueryVO;
+import com.wick.boot.module.system.model.vo.menu.SystemMenuUpdateVO;
+import com.wick.boot.module.system.service.SystemMenuAbstractService;
+import com.wick.boot.module.system.service.SystemMenuService;
+import com.wick.boot.module.system.service.SystemRoleMenuService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 /**
  * 菜单管理-服务实现层
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-07
  */
 @Service
@@ -43,7 +43,7 @@ public class SystemMenuServiceImpl extends SystemMenuAbstractService implements 
     @Override
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(cacheNames = "MENU", key = "'ROUTES'") // @CacheEvict 注解的方法在被调用时，会从缓存中移除已存储的数据
-    public Long addMenu(AddMenuReqVO reqVO) {
+    public Long add(SystemMenuAddVO reqVO) {
         /* Step-1: 校验新增菜单参数 */
         this.validateAddParams(reqVO);
 
@@ -68,7 +68,7 @@ public class SystemMenuServiceImpl extends SystemMenuAbstractService implements 
     @Override
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(cacheNames = "MENU", key = "'ROUTES'") // @CacheEvict 注解的方法在被调用时，会从缓存中移除已存储的数据
-    public void updateMenu(UpdateMenuReqVO reqVO) {
+    public void update(SystemMenuUpdateVO reqVO) {
         /* Step-1: 校验更新菜单参数 */
         this.validateUpdateParams(reqVO);
 
@@ -105,7 +105,7 @@ public class SystemMenuServiceImpl extends SystemMenuAbstractService implements 
     }
 
     @Override
-    public SystemMenu getMenuById(Long id) {
+    public SystemMenu getSystemMenu(Long id) {
         /* Step-1: 通过菜单ID获取菜单信息 */
         SystemMenu systemMenu = systemMenuMapper.selectById(id);
         if (ObjUtil.isNull(systemMenu)) {
@@ -117,7 +117,7 @@ public class SystemMenuServiceImpl extends SystemMenuAbstractService implements 
     }
 
     @Override
-    public List<SystemMenuDTO> listMenus(QueryMenuListReqVO queryParams) {
+    public List<SystemMenuDTO> listMenus(SystemMenuQueryVO queryParams) {
         /* Step-1: 获取菜单信息 */
         List<SystemMenu> menuList = systemMenuMapper.selectList(queryParams);
         if (CollUtil.isEmpty(menuList)) {

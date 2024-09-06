@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * 后台管理 - 字典管理
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-08
  */
 @RestController

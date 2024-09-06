@@ -9,8 +9,8 @@ import com.wick.boot.module.system.model.dto.menu.SystemMenuDTO;
 import com.wick.boot.module.system.model.dto.menu.SystemMenuOptionsDTO;
 import com.wick.boot.module.system.model.dto.menu.SystemRouteDTO;
 import com.wick.boot.module.system.model.entity.SystemMenu;
-import com.wick.boot.module.system.model.vo.menu.AddMenuReqVO;
-import com.wick.boot.module.system.model.vo.menu.UpdateMenuReqVO;
+import com.wick.boot.module.system.model.vo.menu.SystemMenuAddVO;
+import com.wick.boot.module.system.model.vo.menu.SystemMenuUpdateVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * 后台管理 - 菜单 Convert
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-07
  */
 @Mapper
@@ -48,7 +48,7 @@ public interface SystemMenuConvert {
      * @param reqVO 新增请求参数
      * @return SystemMenu 系统菜单
      */
-    SystemMenu addVoToEntity(AddMenuReqVO reqVO);
+    SystemMenu addVoToEntity(SystemMenuAddVO reqVO);
 
     /**
      * Convert updateVo To entity
@@ -56,7 +56,7 @@ public interface SystemMenuConvert {
      * @param reqVO 更新请求参数
      * @return SystemMenu 系统菜单
      */
-    SystemMenu updateVoToEntity(UpdateMenuReqVO reqVO);
+    SystemMenu updateVoToEntity(SystemMenuUpdateVO reqVO);
 
     /**
      * Convert SystemMenuDTO To SystemMenuOptionsDTO
@@ -84,9 +84,10 @@ public interface SystemMenuConvert {
         SystemRouteDTO routeVO = new SystemRouteDTO();
 
         // 设置 SystemRouteDTO 属性
-        String routeName = StringUtils.capitalize(StrUtil.toCamelCase(menuDTO.getPath(), '-'));  // 路由 name 需要驼峰，首字母大写
+        String path = StrUtil.toCamelCase(menuDTO.getRoutePath(), '-');
+        String routeName = StringUtils.capitalize(path);  // 路由 name 需要驼峰，首字母大写
         routeVO.setName(routeName); // 根据name路由跳转 this.$router.push({name:xxx})
-        routeVO.setPath(menuDTO.getPath()); // 根据path路由跳转 this.$router.push({path:xxx})
+        routeVO.setPath(menuDTO.getRoutePath()); // 根据path路由跳转 this.$router.push({path:xxx})
         routeVO.setRedirect(menuDTO.getRedirect());
         routeVO.setComponent(menuDTO.getComponent());
 

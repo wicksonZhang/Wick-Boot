@@ -7,7 +7,7 @@ import javax.validation.Valid;
 /**
  * 操作日志 API 接口
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-06-13
  */
 public interface ApiOperateLog {

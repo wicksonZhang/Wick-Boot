@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * 全局异常统一处理类
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2023-12-27
  */
 @Slf4j

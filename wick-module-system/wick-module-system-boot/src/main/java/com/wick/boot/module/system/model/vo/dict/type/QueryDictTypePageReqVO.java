@@ -9,7 +9,7 @@ import lombok.Setter;
 /**
  * 字典类型查询VO
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-08
  */
 @Setter

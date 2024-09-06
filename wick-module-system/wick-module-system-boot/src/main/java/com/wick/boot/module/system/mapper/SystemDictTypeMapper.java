@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * 字典类型Mapper
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-08
  */
 @Mapper

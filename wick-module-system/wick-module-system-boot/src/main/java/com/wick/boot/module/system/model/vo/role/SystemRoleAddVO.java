@@ -13,13 +13,13 @@ import javax.validation.constraints.NotBlank;
 /**
  * 角色信息添加参数VO
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-04-29
  */
 @Setter
 @Getter
-@ApiModel(value = "AddRoleVo", description = "角色信息添加条件参数")
-public class AddRoleVo {
+@ApiModel(value = "SystemRoleAddVO", description = "角色信息添加条件参数")
+public class SystemRoleAddVO {
 
     @ApiModelProperty(value = "角色名称", required = true, example = "系统管理员")
     @NotBlank(message = "角色名称不能为空")
