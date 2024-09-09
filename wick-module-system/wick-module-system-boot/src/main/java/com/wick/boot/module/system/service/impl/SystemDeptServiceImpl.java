@@ -3,6 +3,7 @@ package com.wick.boot.module.system.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import com.google.common.collect.Lists;
 import com.wick.boot.common.core.constant.GlobalConstants;
+import com.wick.boot.module.system.model.vo.dept.SystemDeptUpdateVO;
 import com.wick.boot.module.system.service.SystemDeptAbstractService;
 import com.wick.boot.module.system.service.SystemDeptService;
 import com.wick.boot.module.system.convert.SystemDeptConvert;
@@ -10,9 +11,8 @@ import com.wick.boot.module.system.mapper.SystemDeptMapper;
 import com.wick.boot.module.system.model.dto.dept.SystemDeptDTO;
 import com.wick.boot.module.system.model.dto.dept.SystemDeptOptionsDTO;
 import com.wick.boot.module.system.model.entity.SystemDept;
-import com.wick.boot.module.system.model.vo.dept.AddDeptReqVO;
-import com.wick.boot.module.system.model.vo.dept.QueryDeptListReqVO;
-import com.wick.boot.module.system.model.vo.dept.UpdateDeptReqVO;
+import com.wick.boot.module.system.model.vo.dept.SystemDeptAddVO;
+import com.wick.boot.module.system.model.vo.dept.SystemDeptQueryVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +34,7 @@ public class SystemDeptServiceImpl extends SystemDeptAbstractService implements 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void addDepartment(AddDeptReqVO reqVO) {
+    public Long addSystemDept(SystemDeptAddVO reqVO) {
         /* Step-1: 验证新增字典数据 */
         this.validateAddParams(reqVO);
 
@@ -46,11 +46,12 @@ public class SystemDeptServiceImpl extends SystemDeptAbstractService implements 
 
         // 保存部门信息
         this.systemDeptMapper.insert(systemDept);
+        return systemDept.getId();
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateDepartment(UpdateDeptReqVO reqVO) {
+    public void updateSystemDept(SystemDeptUpdateVO reqVO) {
         /* Step-1: 验证更新部门信息是否正确 */
         this.validateUpdateParams(reqVO);
 
@@ -75,7 +76,7 @@ public class SystemDeptServiceImpl extends SystemDeptAbstractService implements 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteDept(List<Long> ids) {
+    public void deleteSystemDept(List<Long> ids) {
         /* Step-1: 验证删除参数 */
         List<SystemDept> systemDeptList = this.systemDeptMapper.selectBatchIds(ids);
         this.validateDeleteParams(systemDeptList, ids);
@@ -87,7 +88,7 @@ public class SystemDeptServiceImpl extends SystemDeptAbstractService implements 
     }
 
     @Override
-    public SystemDeptDTO getDepartmentById(Long id) {
+    public SystemDeptDTO getSystemDept(Long id) {
         /* Step-1: 获取部门数据 */
         SystemDept systemDept = this.systemDeptMapper.selectById(id);
         /* Step-2: Convert entity to DTO */
@@ -95,7 +96,7 @@ public class SystemDeptServiceImpl extends SystemDeptAbstractService implements 
     }
 
     @Override
-    public List<SystemDeptDTO> listDepartments(QueryDeptListReqVO reqVO) {
+    public List<SystemDeptDTO> getSystemDeptList(SystemDeptQueryVO reqVO) {
         /* Step-1: 获取部门信息 */
         List<SystemDept> deptList = systemDeptMapper.selectList(reqVO.getName(), reqVO.getStatus());
         if (CollUtil.isEmpty(deptList)) {
@@ -107,7 +108,7 @@ public class SystemDeptServiceImpl extends SystemDeptAbstractService implements 
     }
 
     @Override
-    public List<SystemDeptOptionsDTO> listDeptOptions() {
+    public List<SystemDeptOptionsDTO> getSystemDeptOptionsList() {
         /* Step-1: 获取部门信息 */
         List<SystemDept> deptList = systemDeptMapper.selectDeptOptions();
         if (CollUtil.isEmpty(deptList)) {

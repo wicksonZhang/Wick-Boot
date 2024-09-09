@@ -34,6 +34,11 @@ public class SystemDept extends BaseDO {
     private String name;
 
     /**
+     * 部门编号
+     */
+    private String code;
+
+    /**
      * 父节点id
      */
     private Long parentId;

@@ -65,6 +65,7 @@ DROP TABLE IF EXISTS `system_dept`;
 CREATE TABLE `system_dept`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '部门名称',
+  `code` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '部门编号',
   `parent_id` bigint(20) NULL DEFAULT 0 COMMENT '父节点id',
   `tree_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '父节点id路径',
   `sort` int NULL DEFAULT 0 COMMENT '显示顺序',
@@ -79,9 +80,9 @@ CREATE TABLE `system_dept`  (
 -- ----------------------------
 -- Records of system_dept
 -- ----------------------------
-INSERT INTO `system_dept` VALUES (1, 'Nexus', 0, '0', 1, 1, 0, '2023-04-19 12:46:37', '2023-08-19 12:46:37', 1, 1);
-INSERT INTO `system_dept` VALUES (2, 'R & D department', 1, '0,1', 1, 1, 0, '2023-04-19 12:46:37', '2023-08-19 12:46:37', 1, 1);
-INSERT INTO `system_dept` VALUES (3, 'Test department', 1, '0,1', 1, 1, 0, '2023-04-19 12:46:37', '2023-08-19 12:46:37', 1, 1);
+INSERT INTO `system_dept` VALUES (1, '威客技术', 'Wick', 0, '0', 1, 1, 0, '2023-04-19 12:46:37', '2023-08-19 12:46:37', 1, 1);
+INSERT INTO `system_dept` VALUES (2, '研发部门', 'RD001', 1, '0,1', 1, 1, 0, '2023-04-19 12:46:37', '2023-08-19 12:46:37', 1, 1);
+INSERT INTO `system_dept` VALUES (3, '测试部门', 'QA001', 1, '0,1', 1, 1, 0, '2023-04-19 12:46:37', '2023-08-19 12:46:37', 1, 1);
 
 
 -- ----------------------------

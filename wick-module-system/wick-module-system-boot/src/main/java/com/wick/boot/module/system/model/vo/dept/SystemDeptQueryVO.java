@@ -13,8 +13,8 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-@ApiModel(value = "QueryDeptListReqVO", description = "部门信息查询条件参数")
-public class QueryDeptListReqVO {
+@ApiModel(value = "SystemDeptQueryVO", description = "部门信息查询条件参数")
+public class SystemDeptQueryVO {
 
     @ApiModelProperty(value = "关键字(部门名称)", example = "Nexus")
     private String name;

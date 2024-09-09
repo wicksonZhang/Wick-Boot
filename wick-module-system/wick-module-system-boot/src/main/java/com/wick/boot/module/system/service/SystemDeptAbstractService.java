@@ -8,8 +8,8 @@ import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.module.system.enums.ErrorCodeSystem;
 import com.wick.boot.module.system.mapper.SystemDeptMapper;
 import com.wick.boot.module.system.model.entity.SystemDept;
-import com.wick.boot.module.system.model.vo.dept.AddDeptReqVO;
-import com.wick.boot.module.system.model.vo.dept.UpdateDeptReqVO;
+import com.wick.boot.module.system.model.vo.dept.SystemDeptAddVO;
+import com.wick.boot.module.system.model.vo.dept.SystemDeptUpdateVO;
 
 import javax.annotation.Resource;
 import java.util.Collection;
@@ -29,7 +29,7 @@ public abstract class SystemDeptAbstractService {
 
     // ============================================== 新增参数校验 ==============================================
 
-    protected void validateAddParams(AddDeptReqVO reqVO) {
+    protected void validateAddParams(SystemDeptAddVO reqVO) {
         // 校验上级部门是否存在
         this.validateDeptByParentId(reqVO.getParentId());
         // 校验部门名称是否存在
@@ -68,7 +68,7 @@ public abstract class SystemDeptAbstractService {
 
     // ============================================== 更新参数校验 ==============================================
 
-    protected void validateUpdateParams(UpdateDeptReqVO reqVO) {
+    protected void validateUpdateParams(SystemDeptUpdateVO reqVO) {
         // 校验部门是否存在
         SystemDept systemDept = this.validateDeptById(reqVO.getId());
         // 校验上级部门ID

@@ -60,8 +60,7 @@ public class SystemUserController {
     @PreAuthorize("@ss.hasPerm('system:user:add')")
     @ApiOperation(value = "新增用户信息", notes = "用户信息")
     public ResultUtil<Long> add(@Valid @RequestBody SystemUserAddVO reqVO) {
-        userService.addSystemUser(reqVO);
-        return ResultUtil.success();
+        return ResultUtil.success(userService.addSystemUser(reqVO));
     }
 
     @PutMapping("/update")

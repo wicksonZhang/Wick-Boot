@@ -47,8 +47,9 @@ public interface SystemUserService {
      * 添加新用户。
      *
      * @param reqVO 包含新用户信息的请求对象
+     * @return
      */
-    void addSystemUser(SystemUserAddVO reqVO);
+    Long addSystemUser(SystemUserAddVO reqVO);
 
     /**
      * 更新用户信息。

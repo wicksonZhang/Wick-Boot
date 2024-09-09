@@ -10,8 +10,8 @@ import javax.validation.constraints.NotNull;
 
 @Setter
 @Getter
-@ApiModel(value = "UpdateDeptReqVO", description = "更新部门信息参数")
-public class UpdateDeptReqVO extends AddDeptReqVO {
+@ApiModel(value = "SystemDeptUpdateVO", description = "更新部门信息参数")
+public class SystemDeptUpdateVO extends SystemDeptAddVO {
 
     /**
      * 部门主键ID

@@ -22,30 +22,33 @@ import java.util.List;
 @AllArgsConstructor
 public class SystemDeptDTO {
 
-    @ApiModelProperty(value = "部门id", example = "1")
+    @ApiModelProperty(value = "部门id" , example = "1")
     private Long id;
 
-    @ApiModelProperty(value = "部门名称", example = "Nexus")
+    @ApiModelProperty(value = "部门名称" , example = "Nexus")
     private String name;
 
-    @ApiModelProperty(value = "父级id", example = "0")
+    @ApiModelProperty(value = "部门编号" , example = "Wick")
+    private String code;
+
+    @ApiModelProperty(value = "父级id" , example = "0")
     private Long parentId;
 
-    @ApiModelProperty(value = "排序", example = "1")
+    @ApiModelProperty(value = "排序" , example = "1")
     private Integer sort;
 
-    @ApiModelProperty(value = "状态(1->正常；0->禁用)", example = "1")
+    @ApiModelProperty(value = "状态(1->正常；0->禁用)" , example = "1")
     private Integer status;
 
     @ApiModelProperty(value = "部门子级信息")
     private List<SystemDeptDTO> children;
 
-    @ApiModelProperty(value = "创建时间", example = "2024-04-06 22:11:44")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @ApiModelProperty(value = "创建时间" , example = "2024-04-06 22:11:44")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss" , timezone = "GMT+8")
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "更新时间", example = "2024-04-06 22:11:44")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @ApiModelProperty(value = "更新时间" , example = "2024-04-06 22:11:44")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss" , timezone = "GMT+8")
     private LocalDateTime updateTime;
 
 }

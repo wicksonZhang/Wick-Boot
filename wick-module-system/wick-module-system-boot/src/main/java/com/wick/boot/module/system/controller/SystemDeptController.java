@@ -1,12 +1,12 @@
 package com.wick.boot.module.system.controller;
 
 import com.wick.boot.common.core.result.ResultUtil;
+import com.wick.boot.module.system.model.vo.dept.SystemDeptAddVO;
 import com.wick.boot.module.system.service.SystemDeptService;
 import com.wick.boot.module.system.model.dto.dept.SystemDeptDTO;
 import com.wick.boot.module.system.model.dto.dept.SystemDeptOptionsDTO;
-import com.wick.boot.module.system.model.vo.dept.AddDeptReqVO;
-import com.wick.boot.module.system.model.vo.dept.QueryDeptListReqVO;
-import com.wick.boot.module.system.model.vo.dept.UpdateDeptReqVO;
+import com.wick.boot.module.system.model.vo.dept.SystemDeptQueryVO;
+import com.wick.boot.module.system.model.vo.dept.SystemDeptUpdateVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -33,49 +33,46 @@ public class SystemDeptController {
     @Resource
     private SystemDeptService systemDeptService;
 
+    @PostMapping("/add")
+    @PreAuthorize("@ss.hasPerm('system:dept:add')")
     @ApiOperation(value = "新增部门数据", notes = "部门信息")
-    @PostMapping
-    @PreAuthorize("@ss.hasPerm('sys:dept:add')")
-    public ResultUtil<Long> addDepartment(@Valid @RequestBody AddDeptReqVO reqVO) {
-        systemDeptService.addDepartment(reqVO);
-        return ResultUtil.success();
+    public ResultUtil<Long> add(@Valid @RequestBody SystemDeptAddVO reqVO) {
+        return ResultUtil.success(systemDeptService.addSystemDept(reqVO));
     }
 
+    @PutMapping("/update")
+    @PreAuthorize("@ss.hasPerm('system:dept:update')")
     @ApiOperation(value = "编辑部门数据", notes = "部门信息")
-    @PutMapping
-    @PreAuthorize("@ss.hasPerm('sys:dept:edit')")
-    public ResultUtil<Boolean> editDepartment(@Valid @RequestBody UpdateDeptReqVO reqVO) {
-        systemDeptService.updateDepartment(reqVO);
+    public ResultUtil<Boolean> update(@Valid @RequestBody SystemDeptUpdateVO reqVO) {
+        systemDeptService.updateSystemDept(reqVO);
         return ResultUtil.success();
     }
 
+    @DeleteMapping("/delete/{ids}")
+    @PreAuthorize("@ss.hasPerm('system:dept:delete')")
     @ApiOperation(value = "删除部门数据", notes = "部门信息")
-    @DeleteMapping("/{ids}")
-    @PreAuthorize("@ss.hasPerm('sys:dept:delete')")
     @ApiImplicitParam(name = "ids", value = "部门ID", required = true, dataType = "Long", dataTypeClass = Long.class)
-    public ResultUtil<Long> deleteDept(@NotEmpty(message = "部门信息主键不能为空")
-                                       @PathVariable("ids") List<Long> ids) {
-        systemDeptService.deleteDept(ids);
+    public ResultUtil<Long> remove(@NotEmpty(message = "部门信息主键不能为空") @PathVariable List<Long> ids) {
+        systemDeptService.deleteSystemDept(ids);
         return ResultUtil.success();
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "通过部门ID获取部门数据", notes = "部门信息")
+    @ApiOperation(value = "获取部门数据", notes = "部门信息")
     @ApiImplicitParam(name = "id", value = "部门ID", required = true, dataType = "Long", dataTypeClass = Long.class)
-    public ResultUtil<SystemDeptDTO> getDepartment(@NotNull(message = "部门ID不能为空")
-                                                   @PathVariable("id") Long id) {
-        return ResultUtil.success(systemDeptService.getDepartmentById(id));
+    public ResultUtil<SystemDeptDTO> getSystemDept(@NotNull(message = "部门ID不能为空") @PathVariable Long id) {
+        return ResultUtil.success(systemDeptService.getSystemDept(id));
     }
 
+    @GetMapping("/list")
     @ApiOperation(value = "获取部门列表", notes = "部门信息")
-    @GetMapping
-    public ResultUtil<List<SystemDeptDTO>> listDepartments(@Valid QueryDeptListReqVO reqVO) {
-        return ResultUtil.success(systemDeptService.listDepartments(reqVO));
+    public ResultUtil<List<SystemDeptDTO>> getSystemDeptList(@Valid SystemDeptQueryVO reqVO) {
+        return ResultUtil.success(systemDeptService.getSystemDeptList(reqVO));
     }
 
     @ApiOperation(value = "获取部门下拉选项", notes = "部门信息")
     @GetMapping("/options")
-    public ResultUtil<List<SystemDeptOptionsDTO>> listDeptOptions() {
-        return ResultUtil.success(systemDeptService.listDeptOptions());
+    public ResultUtil<List<SystemDeptOptionsDTO>> getSystemDeptOptionsList() {
+        return ResultUtil.success(systemDeptService.getSystemDeptOptionsList());
     }
 }

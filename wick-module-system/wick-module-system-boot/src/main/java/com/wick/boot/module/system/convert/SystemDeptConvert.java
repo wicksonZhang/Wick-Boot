@@ -3,8 +3,8 @@ package com.wick.boot.module.system.convert;
 import com.wick.boot.module.system.model.dto.dept.SystemDeptDTO;
 import com.wick.boot.module.system.model.dto.dept.SystemDeptOptionsDTO;
 import com.wick.boot.module.system.model.entity.SystemDept;
-import com.wick.boot.module.system.model.vo.dept.AddDeptReqVO;
-import com.wick.boot.module.system.model.vo.dept.UpdateDeptReqVO;
+import com.wick.boot.module.system.model.vo.dept.SystemDeptAddVO;
+import com.wick.boot.module.system.model.vo.dept.SystemDeptUpdateVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -30,7 +30,7 @@ public interface SystemDeptConvert {
      * @param reqVO 部门新增请求参数VO
      * @return SystemDept 系统部门
      */
-    SystemDept addVoToEntity(AddDeptReqVO reqVO);
+    SystemDept addVoToEntity(SystemDeptAddVO reqVO);
 
     /**
      * Convert updateVo To Entity
@@ -38,7 +38,7 @@ public interface SystemDeptConvert {
      * @param reqVO 部门更新请求参数VO
      * @return SystemDept 系统部门
      */
-    SystemDept updateVoToEntity(UpdateDeptReqVO reqVO);
+    SystemDept updateVoToEntity(SystemDeptUpdateVO reqVO);
 
     /**
      * Convert entity to DTO

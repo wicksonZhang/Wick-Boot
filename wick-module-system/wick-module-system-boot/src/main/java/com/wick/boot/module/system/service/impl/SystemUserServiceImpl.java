@@ -115,7 +115,7 @@ public class SystemUserServiceImpl extends SystemUserAbstractService implements 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void addSystemUser(SystemUserAddVO reqVO) {
+    public Long addSystemUser(SystemUserAddVO reqVO) {
         // Step 1: 验证新增用户参数
         this.validateAddParams(reqVO);
 
@@ -127,6 +127,8 @@ public class SystemUserServiceImpl extends SystemUserAbstractService implements 
 
         // Step 3: 为用户分配角色
         assignUserRole(systemUser.getId(), reqVO.getRoleIds());
+
+        return systemUser.getId();
     }
 
     @Override
