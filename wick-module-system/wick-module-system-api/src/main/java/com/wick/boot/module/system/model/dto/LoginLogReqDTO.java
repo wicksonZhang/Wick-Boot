@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -29,27 +29,21 @@ public class LoginLogReqDTO {
     private Integer logType;
 
     /**
-     * 链路追踪编号
-     */
-    private String traceId;
-
-    /**
      * 用户编号
      */
     private Long userId;
 
     /**
-     * 用户类型
-     */
-    @NotNull(message = "用户类型不能为空")
-    private Integer userType;
-
-    /**
      * 用户账号
      * <p>
-     * 不再强制校验 username 非空，因为 Member 社交登录时，此时暂时没有 username(mobile）！
+     * 不再强制校验 userName 非空，因为 Member 社交登录时，此时暂时没有 username(mobile）！
      */
-    private String username;
+    private String userName;
+
+    /**
+     * 登录地点
+     */
+    private String loginLocation;
 
     /**
      * 登录结果
@@ -60,7 +54,7 @@ public class LoginLogReqDTO {
     /**
      * 用户 IP
      */
-    @NotEmpty(message = "用户 IP 不能为空")
+    @NotBlank(message = "用户 IP 不能为空")
     private String userIp;
 
     /**
@@ -69,5 +63,10 @@ public class LoginLogReqDTO {
      * 允许空，原因：Job 过期登出时，是无法传递 UserAgent 的
      */
     private String userAgent;
+
+    /**
+     * 操作系统
+     */
+    private String os;
 
 }

@@ -4,9 +4,9 @@ import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.model.dto.dict.SystemDictOptionsDTO;
 import com.wick.boot.module.system.model.dto.dict.type.SystemDictTypeDTO;
 import com.wick.boot.module.system.model.entity.SystemDictType;
-import com.wick.boot.module.system.model.vo.dict.type.AddDictTypeReqVO;
-import com.wick.boot.module.system.model.vo.dict.type.QueryDictTypePageReqVO;
-import com.wick.boot.module.system.model.vo.dict.type.UpdateDictTypeReqVO;
+import com.wick.boot.module.system.model.vo.dict.type.SystemDictTypeAddVO;
+import com.wick.boot.module.system.model.vo.dict.type.SystemDictTypeQueryVO;
+import com.wick.boot.module.system.model.vo.dict.type.SystemDictTypeUpdateVO;
 
 import java.util.List;
 
@@ -22,21 +22,21 @@ public interface SystemDictTypeService {
      * @param reqVO 新增请求参数
      * @return Long 字典类型主键ID
      */
-    Long addDictType(AddDictTypeReqVO reqVO);
+    Long addDictType(SystemDictTypeAddVO reqVO);
 
     /**
      * 更新字典类型数据
      *
      * @param reqVO 更新请求参数
      */
-    void updateDictType(UpdateDictTypeReqVO reqVO);
+    void updateDictType(SystemDictTypeUpdateVO reqVO);
 
     /**
      * 删除字典类型数据
      *
      * @param ids 主键id
      */
-    void deleteDictType(List<Long> ids);
+    void removeSystemDictType(List<Long> ids);
 
     /**
      * 通过字典ID获取字典类型数据
@@ -44,7 +44,7 @@ public interface SystemDictTypeService {
      * @param id 字典主键ID
      * @return SystemDictTypeDTO 字典类型DTO
      */
-    SystemDictTypeDTO getDictTypeById(Long id);
+    SystemDictTypeDTO getSystemDictType(Long id);
 
     /**
      * 获取字典分页信息
@@ -52,7 +52,7 @@ public interface SystemDictTypeService {
      * @param reqVO 字典分页请求参数
      * @return PageResult<SystemDictTypeDTO>
      */
-    PageResult<SystemDictTypeDTO> getDictTypePage(QueryDictTypePageReqVO reqVO);
+    PageResult<SystemDictTypeDTO> getSystemDictTypePage(SystemDictTypeQueryVO reqVO);
 
     /**
      * 获取字典类型 To Code
@@ -67,6 +67,6 @@ public interface SystemDictTypeService {
      *
      * @return 字典列表集合
      */
-    List<SystemDictOptionsDTO<String>> getDictTypeList();
+    List<SystemDictOptionsDTO<String>> getSystemDictTypeList();
 
 }

@@ -3,7 +3,7 @@ package com.wick.boot.module.system.service;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.model.dto.OperateLogCreateReqDTO;
 import com.wick.boot.module.system.model.dto.logger.operate.SystemOperateLogDTO;
-import com.wick.boot.module.system.model.vo.logger.operate.QueryOperateLogPageReqVO;
+import com.wick.boot.module.system.model.vo.logger.operate.SystemOperateLogQueryVO;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,7 +28,7 @@ public interface SystemOperateLogService {
      * @param reqVO 请求参数VO
      * @return
      */
-    PageResult<SystemOperateLogDTO> getOperateLogPage(QueryOperateLogPageReqVO reqVO);
+    PageResult<SystemOperateLogDTO> getOperateLogPage(SystemOperateLogQueryVO reqVO);
 
     /**
      * 导出用户操作日志
@@ -36,5 +36,5 @@ public interface SystemOperateLogService {
      * @param queryParams 请求参数VO
      * @param response    响应结果集
      */
-    void exportOperateLog(QueryOperateLogPageReqVO queryParams, HttpServletResponse response);
+    void exportOperateLog(SystemOperateLogQueryVO queryParams, HttpServletResponse response);
 }

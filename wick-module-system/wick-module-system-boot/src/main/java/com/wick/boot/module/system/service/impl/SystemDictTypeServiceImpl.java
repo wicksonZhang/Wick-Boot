@@ -5,6 +5,8 @@ import cn.hutool.core.util.ObjUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.core.result.PageResult;
+import com.wick.boot.module.system.model.vo.dict.type.SystemDictTypeAddVO;
+import com.wick.boot.module.system.model.vo.dict.type.SystemDictTypeUpdateVO;
 import com.wick.boot.module.system.service.SystemDictTypeAbstractService;
 import com.wick.boot.module.system.service.SystemDictTypeService;
 import com.wick.boot.module.system.convert.SystemDictTypeConvert;
@@ -12,9 +14,7 @@ import com.wick.boot.module.system.model.dto.dict.SystemDictOptionsDTO;
 import com.wick.boot.module.system.model.dto.dict.type.SystemDictTypeDTO;
 import com.wick.boot.module.system.model.entity.SystemDictData;
 import com.wick.boot.module.system.model.entity.SystemDictType;
-import com.wick.boot.module.system.model.vo.dict.type.AddDictTypeReqVO;
-import com.wick.boot.module.system.model.vo.dict.type.QueryDictTypePageReqVO;
-import com.wick.boot.module.system.model.vo.dict.type.UpdateDictTypeReqVO;
+import com.wick.boot.module.system.model.vo.dict.type.SystemDictTypeQueryVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +33,7 @@ public class SystemDictTypeServiceImpl extends SystemDictTypeAbstractService imp
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long addDictType(AddDictTypeReqVO reqVO) {
+    public Long addDictType(SystemDictTypeAddVO reqVO) {
         /* Step-1: 验证字典类型是否正确 */
         this.validateAddParams(reqVO);
 
@@ -45,7 +45,7 @@ public class SystemDictTypeServiceImpl extends SystemDictTypeAbstractService imp
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateDictType(UpdateDictTypeReqVO reqVO) {
+    public void updateDictType(SystemDictTypeUpdateVO reqVO) {
         /* Step-1: 验证字典类型是否正确 */
         SystemDictType oldSystemDictType = this.dictTypeMapper.selectById(reqVO.getId());
         this.validateUpdateParams(oldSystemDictType, reqVO);
@@ -81,7 +81,7 @@ public class SystemDictTypeServiceImpl extends SystemDictTypeAbstractService imp
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteDictType(List<Long> ids) {
+    public void removeSystemDictType(List<Long> ids) {
         /* Step-1: 验证删除参数 */
         List<SystemDictType> systemDictTypes = this.dictTypeMapper.selectBatchIds(ids);
         this.validateDeleteParams(systemDictTypes, ids);
@@ -98,14 +98,14 @@ public class SystemDictTypeServiceImpl extends SystemDictTypeAbstractService imp
     }
 
     @Override
-    public SystemDictTypeDTO getDictTypeById(Long id) {
+    public SystemDictTypeDTO getSystemDictType(Long id) {
         /* Step-1: 通过ID获取字典类型数据 */
         SystemDictType systemDictType = this.dictTypeMapper.selectById(id);
         return SystemDictTypeConvert.INSTANCE.entityToDictTypeDTO(systemDictType);
     }
 
     @Override
-    public PageResult<SystemDictTypeDTO> getDictTypePage(QueryDictTypePageReqVO reqVO) {
+    public PageResult<SystemDictTypeDTO> getSystemDictTypePage(SystemDictTypeQueryVO reqVO) {
         Page<SystemDictType> pageResult = this.dictTypeMapper.selectDictTypePage(
                 new Page<>(reqVO.getPageNumber(), reqVO.getPageSize()),
                 reqVO.getName(), reqVO.getCode()
@@ -125,7 +125,7 @@ public class SystemDictTypeServiceImpl extends SystemDictTypeAbstractService imp
     }
 
     @Override
-    public List<SystemDictOptionsDTO<String>> getDictTypeList() {
+    public List<SystemDictOptionsDTO<String>> getSystemDictTypeList() {
         List<SystemDictType> list = this.dictTypeMapper.selectDictTypeList();
         return SystemDictTypeConvert.INSTANCE.entityToOptionList(list);
     }

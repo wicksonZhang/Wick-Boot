@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.mapper.SystemUserMapper;
+import com.wick.boot.module.system.model.vo.logger.operate.SystemOperateLogQueryVO;
 import com.wick.boot.module.system.service.SystemOperateLogService;
 import com.wick.boot.module.system.convert.SystemLoggerConvert;
 import com.wick.boot.module.system.convert.SystemOperateLogConvert;
@@ -16,8 +17,7 @@ import com.wick.boot.module.system.model.dto.OperateLogCreateReqDTO;
 import com.wick.boot.module.system.model.dto.logger.operate.SystemOperateLogDTO;
 import com.wick.boot.module.system.model.entity.SystemOperateLog;
 import com.wick.boot.module.system.model.entity.SystemUser;
-import com.wick.boot.module.system.model.vo.logger.operate.OperateLogExportVO;
-import com.wick.boot.module.system.model.vo.logger.operate.QueryOperateLogPageReqVO;
+import com.wick.boot.module.system.model.vo.logger.operate.SystemOperateLogExportVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,14 +46,13 @@ public class SystemOperateLogServiceImpl implements SystemOperateLogService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-
     public void createOperateLog(OperateLogCreateReqDTO createReqDTO) {
         SystemOperateLog logDO = SystemOperateLogConvert.INSTANCE.convert(createReqDTO);
         operateLogMapper.insert(logDO);
     }
 
     @Override
-    public PageResult<SystemOperateLogDTO> getOperateLogPage(QueryOperateLogPageReqVO reqVO) {
+    public PageResult<SystemOperateLogDTO> getOperateLogPage(SystemOperateLogQueryVO reqVO) {
         Page<SystemOperateLog> pageResult = this.operateLogMapper.selectOperateLogPage(reqVO);
 
         if (CollUtil.isEmpty(pageResult.getRecords())) {
@@ -75,16 +74,16 @@ public class SystemOperateLogServiceImpl implements SystemOperateLogService {
     }
 
     @Override
-    public void exportOperateLog(QueryOperateLogPageReqVO queryParams, HttpServletResponse response) {
+    public void exportOperateLog(SystemOperateLogQueryVO queryParams, HttpServletResponse response) {
         String fileName = "用户操作日志.xlsx";
         try {
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, "UTF-8"));
 
             List<SystemOperateLog> exportOperateLog = this.operateLogMapper.selectOperateLogPage(queryParams).getRecords();
-            EasyExcel.write(response.getOutputStream(), OperateLogExportVO.class)
+            EasyExcel.write(response.getOutputStream(), SystemOperateLogExportVO.class)
                     .sheet("用户操作日志")
-                    .doWrite(BeanUtil.copyToList(exportOperateLog, OperateLogExportVO.class));
+                    .doWrite(BeanUtil.copyToList(exportOperateLog, SystemOperateLogExportVO.class));
         } catch (IOException e) {
             throw ServiceException.getInstance(ErrorCodeSystem.OPERATE_LOG_EXPORT_ERROR);
         }

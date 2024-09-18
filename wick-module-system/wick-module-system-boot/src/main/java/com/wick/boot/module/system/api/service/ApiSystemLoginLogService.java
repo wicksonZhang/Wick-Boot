@@ -1,7 +1,8 @@
-package com.wick.boot.module.system.api;
+package com.wick.boot.module.system.api.service;
 
-import com.wick.boot.module.system.service.SystemLoginLogService;
+import com.wick.boot.module.system.api.ApiSystemLoginLog;
 import com.wick.boot.module.system.model.dto.LoginLogReqDTO;
+import com.wick.boot.module.system.service.SystemLoginLogService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

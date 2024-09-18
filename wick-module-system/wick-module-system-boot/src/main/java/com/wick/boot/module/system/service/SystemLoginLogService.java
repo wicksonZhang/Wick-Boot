@@ -3,7 +3,7 @@ package com.wick.boot.module.system.service;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.model.dto.LoginLogReqDTO;
 import com.wick.boot.module.system.model.dto.logger.login.SystemLoginLogDTO;
-import com.wick.boot.module.system.model.vo.logger.login.QueryLoginLogPageReqVO;
+import com.wick.boot.module.system.model.vo.logger.login.SystemLoginLogQueryVO;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,7 +28,7 @@ public interface SystemLoginLogService {
      * @param reqVO 登录日志请求VO
      * @return 分页结果集
      */
-    PageResult<SystemLoginLogDTO> getLoginLogPage(QueryLoginLogPageReqVO reqVO);
+    PageResult<SystemLoginLogDTO> getLoginLogPage(SystemLoginLogQueryVO reqVO);
 
     /**
      * 导出用户登录日志
@@ -36,5 +36,5 @@ public interface SystemLoginLogService {
      * @param queryParams 登录日志请求VO
      * @param response    响应结果集
      */
-    void exportLoginLog(QueryLoginLogPageReqVO queryParams, HttpServletResponse response);
+    void exportLoginLog(SystemLoginLogQueryVO queryParams, HttpServletResponse response);
 }

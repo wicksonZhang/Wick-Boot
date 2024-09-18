@@ -3,6 +3,8 @@ package com.wick.boot.module.system.service.impl;
 import cn.hutool.core.util.ObjUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.core.result.PageResult;
+import com.wick.boot.module.system.model.vo.dict.data.SystemDictDataAddVO;
+import com.wick.boot.module.system.model.vo.dict.data.SystemDictDataUpdateVO;
 import com.wick.boot.module.system.service.SystemDictDataAbstractService;
 import com.wick.boot.module.system.service.SystemDictDataService;
 import com.wick.boot.module.system.service.SystemDictTypeService;
@@ -12,9 +14,7 @@ import com.wick.boot.module.system.model.dto.dict.data.SystemDictDataDTO;
 import com.wick.boot.module.system.model.dto.dict.SystemDictOptionsDTO;
 import com.wick.boot.module.system.model.entity.SystemDictData;
 import com.wick.boot.module.system.model.entity.SystemDictType;
-import com.wick.boot.module.system.model.vo.dict.data.AddDictDataReqVO;
-import com.wick.boot.module.system.model.vo.dict.data.QueryDictDataPageReqVO;
-import com.wick.boot.module.system.model.vo.dict.data.UpdateDictDataReqVO;
+import com.wick.boot.module.system.model.vo.dict.data.SystemDictDataQueryVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +35,7 @@ public class SystemDictDataServiceImpl extends SystemDictDataAbstractService imp
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long addDictData(AddDictDataReqVO reqVO) {
+    public Long add(SystemDictDataAddVO reqVO) {
         /* Step-1: 验证新增字典数据 */
         this.validateAddParams(reqVO);
 
@@ -47,7 +47,7 @@ public class SystemDictDataServiceImpl extends SystemDictDataAbstractService imp
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateDictData(UpdateDictDataReqVO reqVO) {
+    public void update(SystemDictDataUpdateVO reqVO) {
         /* Step-1: 验证字典类型是否正确 */
         this.validateUpdateParams(reqVO);
 
@@ -58,7 +58,7 @@ public class SystemDictDataServiceImpl extends SystemDictDataAbstractService imp
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteDictData(List<Long> ids) {
+    public void removeSystemDictData(List<Long> ids) {
         /* Step-1: 验证删除参数 */
         this.validateDeleteParams(ids);
 
@@ -67,7 +67,7 @@ public class SystemDictDataServiceImpl extends SystemDictDataAbstractService imp
     }
 
     @Override
-    public SystemDictDataDTO getDictData(Long id) {
+    public SystemDictDataDTO getSystemDictData(Long id) {
         /* Step-1: 获取字典数据 */
         SystemDictData systemDictData = this.dictDataMapper.selectById(id);
 
@@ -75,7 +75,7 @@ public class SystemDictDataServiceImpl extends SystemDictDataAbstractService imp
     }
 
     @Override
-    public List<SystemDictOptionsDTO> listDictDataOptions(String typeCode) {
+    public List<SystemDictOptionsDTO<String>> getSystemDictDataListOptions(String typeCode) {
         /* Step-1: 获取字典类型列表 */
         List<SystemDictData> systemDictTypes = this.dictDataMapper.selectDictDataOption(typeCode);
         /* Step-2: 返回结果集 */
@@ -83,7 +83,7 @@ public class SystemDictDataServiceImpl extends SystemDictDataAbstractService imp
     }
 
     @Override
-    public PageResult<SystemDictDataDTO> getDictDataPage(QueryDictDataPageReqVO reqVO) {
+    public PageResult<SystemDictDataDTO> getSystemDictDataPage(SystemDictDataQueryVO reqVO) {
         /* Step-1: 判断数据类型是否存在 */
         SystemDictType dictType = dictTypeService.getDictTypeByCode(reqVO.getTypeCode());
         if (ObjUtil.isNull(dictType)) {

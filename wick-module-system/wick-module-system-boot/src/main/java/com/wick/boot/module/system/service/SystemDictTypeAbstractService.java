@@ -8,8 +8,8 @@ import com.wick.boot.module.system.enums.ErrorCodeSystem;
 import com.wick.boot.module.system.mapper.SystemDictDataMapper;
 import com.wick.boot.module.system.mapper.SystemDictTypeMapper;
 import com.wick.boot.module.system.model.entity.SystemDictType;
-import com.wick.boot.module.system.model.vo.dict.type.AddDictTypeReqVO;
-import com.wick.boot.module.system.model.vo.dict.type.UpdateDictTypeReqVO;
+import com.wick.boot.module.system.model.vo.dict.type.SystemDictTypeAddVO;
+import com.wick.boot.module.system.model.vo.dict.type.SystemDictTypeUpdateVO;
 
 import javax.annotation.Resource;
 import java.util.Collection;
@@ -37,7 +37,7 @@ public abstract class SystemDictTypeAbstractService {
      *
      * @param reqVO 新增请求参数
      */
-    protected void validateAddParams(AddDictTypeReqVO reqVO) {
+    protected void validateAddParams(SystemDictTypeAddVO reqVO) {
         // 验证字典编码是否存在
         this.validateDictTypeByCode(reqVO.getCode());
     }
@@ -61,7 +61,7 @@ public abstract class SystemDictTypeAbstractService {
      *
      * @param reqVO 更新请求参数
      */
-    protected void validateUpdateParams(SystemDictType systemDictType, UpdateDictTypeReqVO reqVO) {
+    protected void validateUpdateParams(SystemDictType systemDictType, SystemDictTypeUpdateVO reqVO) {
         // 验证字典类型是否存在
         this.validateDictType(systemDictType);
         // 验证字典编码是否存在

@@ -13,8 +13,8 @@ import com.wick.boot.module.system.mapper.SystemLoginLogMapper;
 import com.wick.boot.module.system.model.dto.LoginLogReqDTO;
 import com.wick.boot.module.system.model.dto.logger.login.SystemLoginLogDTO;
 import com.wick.boot.module.system.model.entity.SystemLoginLog;
-import com.wick.boot.module.system.model.vo.logger.login.LoginLogExportVO;
-import com.wick.boot.module.system.model.vo.logger.login.QueryLoginLogPageReqVO;
+import com.wick.boot.module.system.model.vo.logger.login.SystemLoginLogExportVO;
+import com.wick.boot.module.system.model.vo.logger.login.SystemLoginLogQueryVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -43,7 +43,7 @@ public class SystemLoginLogServiceImpl implements SystemLoginLogService {
     }
 
     @Override
-    public PageResult<SystemLoginLogDTO> getLoginLogPage(QueryLoginLogPageReqVO reqVO) {
+    public PageResult<SystemLoginLogDTO> getLoginLogPage(SystemLoginLogQueryVO reqVO) {
         Page<SystemLoginLog> pageResult = this.loginLogMapper.selectLoginLogPage(reqVO);
 
         if (CollUtil.isEmpty(pageResult.getRecords())) {
@@ -55,16 +55,16 @@ public class SystemLoginLogServiceImpl implements SystemLoginLogService {
     }
 
     @Override
-    public void exportLoginLog(QueryLoginLogPageReqVO queryParams, HttpServletResponse response) {
+    public void exportLoginLog(SystemLoginLogQueryVO queryParams, HttpServletResponse response) {
         String fileName = "用户登录日志.xlsx";
         try {
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, "UTF-8"));
+            response.setHeader("Content-Disposition" , "attachment; filename=" + URLEncoder.encode(fileName, "UTF-8"));
 
             List<SystemLoginLog> exportLoginLog = this.loginLogMapper.selectLoginLogPage(queryParams).getRecords();
-            EasyExcel.write(response.getOutputStream(), LoginLogExportVO.class)
+            EasyExcel.write(response.getOutputStream(), SystemLoginLogExportVO.class)
                     .sheet("用户登录日志")
-                    .doWrite(BeanUtil.copyToList(exportLoginLog, LoginLogExportVO.class));
+                    .doWrite(BeanUtil.copyToList(exportLoginLog, SystemLoginLogExportVO.class));
         } catch (IOException e) {
             throw ServiceException.getInstance(ErrorCodeSystem.LOGIN_LOG_EXPORT_ERROR);
         }

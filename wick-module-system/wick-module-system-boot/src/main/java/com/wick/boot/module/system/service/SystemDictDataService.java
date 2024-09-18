@@ -3,9 +3,9 @@ package com.wick.boot.module.system.service;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.model.dto.dict.data.SystemDictDataDTO;
 import com.wick.boot.module.system.model.dto.dict.SystemDictOptionsDTO;
-import com.wick.boot.module.system.model.vo.dict.data.AddDictDataReqVO;
-import com.wick.boot.module.system.model.vo.dict.data.QueryDictDataPageReqVO;
-import com.wick.boot.module.system.model.vo.dict.data.UpdateDictDataReqVO;
+import com.wick.boot.module.system.model.vo.dict.data.SystemDictDataAddVO;
+import com.wick.boot.module.system.model.vo.dict.data.SystemDictDataQueryVO;
+import com.wick.boot.module.system.model.vo.dict.data.SystemDictDataUpdateVO;
 
 import java.util.List;
 
@@ -23,21 +23,21 @@ public interface SystemDictDataService {
      * @param reqVO 新增字典数据请求参数
      * @return 字典数据主键ID
      */
-    Long addDictData(AddDictDataReqVO reqVO);
+    Long add(SystemDictDataAddVO reqVO);
 
     /**
      * 更新字典数据
      *
      * @param reqVO 更新字典数据请求参数
      */
-    void updateDictData(UpdateDictDataReqVO reqVO);
+    void update(SystemDictDataUpdateVO reqVO);
 
     /**
      * 批量删除字典数据
      *
      * @param ids 字典主键集合
      */
-    void deleteDictData(List<Long> ids);
+    void removeSystemDictData(List<Long> ids);
 
     /**
      * 获取字典类型数据ById
@@ -45,7 +45,7 @@ public interface SystemDictDataService {
      * @param id 主键ID
      * @return SystemDictDataDTO
      */
-    SystemDictDataDTO getDictData(Long id);
+    SystemDictDataDTO getSystemDictData(Long id);
 
     /**
      * 获取字典选项
@@ -53,7 +53,7 @@ public interface SystemDictDataService {
      * @param typeCode 字典Code
      * @return List<SystemDictOptionsDTO>
      */
-    List<SystemDictOptionsDTO> listDictDataOptions(String typeCode);
+    List<SystemDictOptionsDTO<String>> getSystemDictDataListOptions(String typeCode);
 
     /**
      * 获取字典数据分页
@@ -61,5 +61,5 @@ public interface SystemDictDataService {
      * @param reqVO 字典数据请求参数
      * @return PageResult<SystemDictDataDTO>
      */
-    PageResult<SystemDictDataDTO> getDictDataPage(QueryDictDataPageReqVO reqVO);
+    PageResult<SystemDictDataDTO> getSystemDictDataPage(SystemDictDataQueryVO reqVO);
 }

@@ -35,6 +35,9 @@
         <mybatis.plus.generator.version>3.5.3.1</mybatis.plus.generator.version>
         <velocity.version>2.3</velocity.version>
 
+        <!-- IP 地区转换 -->
+        <ip2region.version>2.7.0</ip2region.version>
+
         <!-- easy-excel-->
         <easyexcel.version>3.3.4</easyexcel.version>
 
@@ -163,6 +166,13 @@
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity-engine-core</artifactId>
                 <version>${velocity.version}</version>
+            </dependency>
+
+            <!-- IP 地区转换 -->
+            <dependency>
+                <groupId>org.lionsoul</groupId>
+                <artifactId>ip2region</artifactId>
+                <version>${ip2region.version}</version>
             </dependency>
 
             <!-- JSON 解析器和生成器 -->

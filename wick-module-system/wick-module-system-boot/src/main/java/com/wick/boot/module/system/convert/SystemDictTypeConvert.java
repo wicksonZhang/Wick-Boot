@@ -5,8 +5,8 @@ import com.wick.boot.module.system.model.dto.dict.data.SystemDictDataDTO;
 import com.wick.boot.module.system.model.dto.dict.type.SystemDictTypeDTO;
 import com.wick.boot.module.system.model.entity.SystemDictData;
 import com.wick.boot.module.system.model.entity.SystemDictType;
-import com.wick.boot.module.system.model.vo.dict.type.AddDictTypeReqVO;
-import com.wick.boot.module.system.model.vo.dict.type.UpdateDictTypeReqVO;
+import com.wick.boot.module.system.model.vo.dict.type.SystemDictTypeAddVO;
+import com.wick.boot.module.system.model.vo.dict.type.SystemDictTypeUpdateVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -25,7 +25,7 @@ public interface SystemDictTypeConvert {
      * @param reqVO 新增请求参数
      * @return SystemDictType
      */
-    SystemDictType addVoToEntity(AddDictTypeReqVO reqVO);
+    SystemDictType addVoToEntity(SystemDictTypeAddVO reqVO);
 
     /**
      * DictTypeConvert updateVO To Entity
@@ -33,7 +33,7 @@ public interface SystemDictTypeConvert {
      * @param reqVO 新增请求参数
      * @return SystemDictType
      */
-    SystemDictType updateVoToEntity(UpdateDictTypeReqVO reqVO);
+    SystemDictType updateVoToEntity(SystemDictTypeUpdateVO reqVO);
 
     /**
      * DictTypeConvert Entity To List<DTO>

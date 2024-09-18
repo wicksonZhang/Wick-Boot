@@ -1,11 +1,12 @@
 package com.wick.boot.module.system.model.dto.dict;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * 字典类型
@@ -17,8 +18,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class SystemDictOptionsDTO<T> {
+public class SystemDictOptionsDTO<T> implements Serializable {
 
     @ApiModelProperty(value = "字典Id", example = "1")
     private T value;

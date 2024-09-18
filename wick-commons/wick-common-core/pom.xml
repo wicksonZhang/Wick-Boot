@@ -56,6 +56,12 @@
             <artifactId>jackson-core</artifactId>
             <version>2.13.5</version>
         </dependency>
+
+        <!-- IP 地区转换 -->
+        <dependency>
+            <groupId>org.lionsoul</groupId>
+            <artifactId>ip2region</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

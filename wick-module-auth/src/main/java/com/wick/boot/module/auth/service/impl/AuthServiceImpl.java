@@ -5,11 +5,12 @@ import cn.hutool.captcha.GifCaptcha;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.useragent.UserAgent;
+import cn.hutool.http.useragent.UserAgentUtil;
 import com.wick.boot.common.core.constant.GlobalCacheConstants;
 import com.wick.boot.common.core.constant.GlobalConstants;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.enums.CommonStatusEnum;
-import com.wick.boot.common.core.enums.UserTypeEnum;
 import com.wick.boot.common.core.exception.ParameterException;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.utils.ServletUtils;
@@ -88,7 +89,7 @@ public class AuthServiceImpl implements IAuthService {
         redisService.setCacheObject(accessToken, userInfoDTO, GlobalConstants.EXPIRATION_TIME, TimeUnit.SECONDS);
 
         /* Step-4: 创建登录日志 */
-        createLoginLog(userInfoDTO.getUserId(), userInfoDTO.getUsername(), LoginResultEnum.SUCCESS);
+        createLog(userInfoDTO.getUserId(), userInfoDTO.getUsername(), LoginResultEnum.SUCCESS, LoginLogTypeEnum.LOGIN_USERNAME);
 
         return AuthUserLoginRespDTO.builder()
                 .accessToken(accessTokenKey)
@@ -119,13 +120,13 @@ public class AuthServiceImpl implements IAuthService {
         String redisKey = GlobalCacheConstants.getCaptchaCodeKey(captchaKey);
         String verifyCode = redisService.getCacheObject(redisKey);
         if (StrUtil.isBlankIfStr(verifyCode)) {
-            createLoginLog(null, username, LoginResultEnum.CAPTCHA_CODE_ERROR);
+            createLog(null, username, LoginResultEnum.CAPTCHA_CODE_ERROR, LoginLogTypeEnum.LOGIN_USERNAME);
             throw ServiceException.getInstance(ErrorCodeAuth.AUTH_CAPTCHA_CODE_ERROR);
         }
         // 验证码Code不能为空 || 验证码Code是否正确
         if (!captchaCode.equalsIgnoreCase(verifyCode)) {
             redisService.deleteObject(redisKey);
-            createLoginLog(null, username, LoginResultEnum.CAPTCHA_CODE_ERROR);
+            createLog(null, username, LoginResultEnum.CAPTCHA_CODE_ERROR, LoginLogTypeEnum.LOGIN_USERNAME);
             throw ServiceException.getInstance(ErrorCodeAuth.AUTH_CAPTCHA_CODE_ERROR);
         }
         // 验证成功之后删除验证码
@@ -154,26 +155,6 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     /**
-     * 记录登录日志
-     *
-     * @param userId     用户id
-     * @param username   用户名称
-     * @param resultEnum 结果集枚举
-     */
-    private void createLoginLog(Long userId, String username, LoginResultEnum resultEnum) {
-        LoginLogReqDTO logReqDTO = new LoginLogReqDTO();
-        logReqDTO.setLogType(LoginLogTypeEnum.LOGIN_USERNAME.getType());
-        logReqDTO.setTraceId(IdUtil.fastSimpleUUID());
-        logReqDTO.setUserId(userId);
-        logReqDTO.setUserType(UserTypeEnum.ADMIN.getValue());
-        logReqDTO.setUsername(username);
-        logReqDTO.setResult(resultEnum.getResult());
-        logReqDTO.setUserIp(ServletUtils.getClientIP());
-        logReqDTO.setUserAgent(ServletUtils.getUserAgent());
-        this.systemLoginLog.saveLoginLog(logReqDTO);
-    }
-
-    /**
      * 用户登出
      *
      * @param token token
@@ -195,26 +176,41 @@ public class AuthServiceImpl implements IAuthService {
         redisService.deleteObject(accessTokenKey);
 
         /* Step-3：新增注销日志 */
-        createLogoutLog(userInfoDTO.getUserId(),userInfoDTO.getUsername(), UserTypeEnum.ADMIN.getValue(), LoginLogTypeEnum.LOGOUT_SELF.getType());
+        createLog(userInfoDTO.getUserId(), userInfoDTO.getUsername(), LoginResultEnum.SUCCESS, LoginLogTypeEnum.LOGOUT_SELF);
 
         /* Step-4：清除 SecurityContextHolder */
         SecurityContextHolder.clearContext();
     }
 
-    private void createLogoutLog(Long userId, String username, Integer userType, Integer logType) {
+    /**
+     * 记录登录日志
+     *
+     * @param userId          用户id
+     * @param username        用户名称
+     * @param loginResultEnum 结果集枚举
+     * @param logTypeEnum     日志类型枚举
+     */
+    private void createLog(Long userId, String username, LoginResultEnum loginResultEnum, LoginLogTypeEnum logTypeEnum) {
+        // 用户 IP
+        String clientIP = ServletUtils.getClientIP();
+        // 用户地址
+        String loginLocation = ServletUtils.getRealAddressByIP(clientIP);
+        // 浏览器信息
+        String header = ServletUtils.getUserAgent();
+        UserAgent userAgent = UserAgentUtil.parse(header);
+        // 获取客户端操作系统
+        String os = userAgent.getOs().getName();
+        // 获取客户端浏览器
+        String browser = userAgent.getBrowser().getName();
         LoginLogReqDTO reqDTO = new LoginLogReqDTO();
-        reqDTO.setLogType(logType);
-        reqDTO.setTraceId(IdUtil.fastSimpleUUID());
+        reqDTO.setLogType(logTypeEnum.getType());
         reqDTO.setUserId(userId);
-        reqDTO.setUserType(userType);
-//        if (ObjectUtil.equal(getUserType().getValue(), userType)) {
-            reqDTO.setUsername(username);
-//        } else {
-//            reqDTO.setUsername(memberService.getMemberUserMobile(userId));
-//        }
-        reqDTO.setUserAgent(ServletUtils.getUserAgent());
+        reqDTO.setUserName(username);
         reqDTO.setUserIp(ServletUtils.getClientIP());
-        reqDTO.setResult(LoginResultEnum.SUCCESS.getResult());
+        reqDTO.setLoginLocation(loginLocation);
+        reqDTO.setResult(loginResultEnum.getResult());
+        reqDTO.setUserAgent(browser);
+        reqDTO.setOs(os);
         this.systemLoginLog.saveLoginLog(reqDTO);
     }
 }

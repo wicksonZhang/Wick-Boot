@@ -26,31 +26,16 @@ public class SystemLoginLog extends BaseDO {
     private Integer logType;
 
     /**
-     * 链路追踪编号
-     */
-    private String traceId;
-
-    /**
      * 用户编号
      */
     private Long userId;
-
-    /**
-     * 用户类型
-     */
-    private Integer userType;
 
     /**
      * 用户账号
      * <p>
      * 冗余，因为账号可以变更
      */
-    private String username;
-
-    /**
-     * 登录结果
-     */
-    private Integer result;
+    private String userName;
 
     /**
      * 用户 IP
@@ -58,8 +43,23 @@ public class SystemLoginLog extends BaseDO {
     private String userIp;
 
     /**
+     * 登录地点
+     */
+    private String loginLocation;
+
+    /**
+     * 登录结果
+     */
+    private Integer result;
+
+    /**
      * 浏览器 UA
      */
     private String userAgent;
+
+    /**
+     * 操作系统
+     */
+    private String os;
 
 }

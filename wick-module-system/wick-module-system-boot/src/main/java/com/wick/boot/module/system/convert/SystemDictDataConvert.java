@@ -3,8 +3,8 @@ package com.wick.boot.module.system.convert;
 import com.wick.boot.module.system.model.dto.dict.data.SystemDictDataDTO;
 import com.wick.boot.module.system.model.dto.dict.SystemDictOptionsDTO;
 import com.wick.boot.module.system.model.entity.SystemDictData;
-import com.wick.boot.module.system.model.vo.dict.data.AddDictDataReqVO;
-import com.wick.boot.module.system.model.vo.dict.data.UpdateDictDataReqVO;
+import com.wick.boot.module.system.model.vo.dict.data.SystemDictDataAddVO;
+import com.wick.boot.module.system.model.vo.dict.data.SystemDictDataUpdateVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -33,7 +33,7 @@ public interface SystemDictDataConvert {
             @Mapping(target = "label", source = "name"),
             @Mapping(target = "dictType", source = "typeCode")
     })
-    SystemDictData addVoToEntity(AddDictDataReqVO reqVO);
+    SystemDictData addVoToEntity(SystemDictDataAddVO reqVO);
 
     /**
      * Convert Vo to Entity
@@ -45,7 +45,7 @@ public interface SystemDictDataConvert {
             @Mapping(target = "label", source = "name"),
             @Mapping(target = "dictType", source = "typeCode")
     })
-    SystemDictData updateVoToEntity(UpdateDictDataReqVO reqVO);
+    SystemDictData updateVoToEntity(SystemDictDataUpdateVO reqVO);
 
     /**
      * Convert entity To DTO
@@ -65,6 +65,6 @@ public interface SystemDictDataConvert {
      * @param systemDictDataList 字典数据集合
      * @return List<SystemDictOptionsDTO>
      */
-    List<SystemDictOptionsDTO> entityToDictDataOptions(List<SystemDictData> systemDictDataList);
+    List<SystemDictOptionsDTO<String>> entityToDictDataOptions(List<SystemDictData> systemDictDataList);
 
 }

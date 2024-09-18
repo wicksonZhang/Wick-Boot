@@ -4,7 +4,7 @@ import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.module.system.service.SystemLoginLogService;
 import com.wick.boot.module.system.model.dto.logger.login.SystemLoginLogDTO;
-import com.wick.boot.module.system.model.vo.logger.login.QueryLoginLogPageReqVO;
+import com.wick.boot.module.system.model.vo.logger.login.SystemLoginLogQueryVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,13 +31,13 @@ public class SystemLoginLogController {
 
     @GetMapping("/page")
     @ApiOperation(value = "获取登录日志分页", notes = "登录日志")
-    public ResultUtil<PageResult<SystemLoginLogDTO>> getLoginLogPage(@Valid QueryLoginLogPageReqVO reqVO) {
+    public ResultUtil<PageResult<SystemLoginLogDTO>> getLoginLogPage(@Valid SystemLoginLogQueryVO reqVO) {
         return ResultUtil.success(loginLogService.getLoginLogPage(reqVO));
     }
 
     @GetMapping("/export")
     @ApiOperation(value = "导出登录日志分页", notes = "登录日志")
-    public void exportLoginLog(@Valid QueryLoginLogPageReqVO queryParams, HttpServletResponse response) {
+    public void exportLoginLog(@Valid SystemLoginLogQueryVO queryParams, HttpServletResponse response) {
         loginLogService.exportLoginLog(queryParams, response);
     }
 

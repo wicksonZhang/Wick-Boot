@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
 import com.wick.boot.module.system.model.entity.SystemLoginLog;
-import com.wick.boot.module.system.model.vo.logger.login.QueryLoginLogPageReqVO;
+import com.wick.boot.module.system.model.vo.logger.login.SystemLoginLogQueryVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -18,12 +18,11 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SystemLoginLogMapper extends BaseMapperX<SystemLoginLog> {
 
-
-    default Page<SystemLoginLog> selectLoginLogPage(QueryLoginLogPageReqVO reqVO) {
+    default Page<SystemLoginLog> selectLoginLogPage(SystemLoginLogQueryVO reqVO) {
         LambdaQueryWrapper<SystemLoginLog> queryWrapper = new LambdaQueryWrapper<>();
-        String username = reqVO.getUsername();
+        String username = reqVO.getUserName();
         if (StrUtil.isNotBlank(username)) {
-            queryWrapper.likeRight(SystemLoginLog::getUsername, username);
+            queryWrapper.likeRight(SystemLoginLog::getUserName, username);
         }
         String userIp = reqVO.getUserIp();
         if (StrUtil.isNotBlank(userIp)) {

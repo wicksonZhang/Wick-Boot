@@ -9,8 +9,8 @@ import com.wick.boot.module.system.mapper.SystemDictDataMapper;
 import com.wick.boot.module.system.mapper.SystemDictTypeMapper;
 import com.wick.boot.module.system.model.entity.SystemDictData;
 import com.wick.boot.module.system.model.entity.SystemDictType;
-import com.wick.boot.module.system.model.vo.dict.data.AddDictDataReqVO;
-import com.wick.boot.module.system.model.vo.dict.data.UpdateDictDataReqVO;
+import com.wick.boot.module.system.model.vo.dict.data.SystemDictDataAddVO;
+import com.wick.boot.module.system.model.vo.dict.data.SystemDictDataUpdateVO;
 
 import javax.annotation.Resource;
 import java.util.Collection;
@@ -38,7 +38,7 @@ public abstract class SystemDictDataAbstractService {
      *
      * @param reqVO 新增请求参数
      */
-    protected void validateAddParams(AddDictDataReqVO reqVO) {
+    protected void validateAddParams(SystemDictDataAddVO reqVO) {
         // 验证字典类型
         this.validateDictDataByCode(reqVO.getTypeCode());
         // 验证当前字典类型下是否存在字典标签
@@ -92,7 +92,7 @@ public abstract class SystemDictDataAbstractService {
      *
      * @param reqVO 字典数据更新参数
      */
-    protected void validateUpdateParams(UpdateDictDataReqVO reqVO) {
+    protected void validateUpdateParams(SystemDictDataUpdateVO reqVO) {
         // 验证字典数据是否存在
         SystemDictData systemDictData = this.validateDictData(reqVO.getId());
         // 验证字典类型
