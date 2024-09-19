@@ -11,9 +11,9 @@ import com.wick.boot.module.tools.mapper.ToolCodeGenTableMapper;
 import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTableDTO;
 import com.wick.boot.module.tools.model.entity.ToolCodeGenTable;
 import com.wick.boot.module.tools.model.entity.ToolCodeGenTableColumn;
-import com.wick.boot.module.tools.model.vo.column.AddToolCodeGEnTableColumnReqVO;
-import com.wick.boot.module.tools.model.vo.table.AddToolCodeGenTableReqVO;
-import com.wick.boot.module.tools.model.vo.table.UpdateToolCodeGenReqVO;
+import com.wick.boot.module.tools.model.vo.column.ToolCodeGenTableColumnAddVO;
+import com.wick.boot.module.tools.model.vo.table.ToolCodeGenTableAddVO;
+import com.wick.boot.module.tools.model.vo.table.ToolCodeGenTableUpdateVO;
 
 import javax.annotation.Resource;
 import java.util.Collection;
@@ -121,12 +121,12 @@ public abstract class ToolCodeGenTableAbstractService {
      *
      * @param updateVO 更新参数
      */
-    protected void validateUpdateParams(UpdateToolCodeGenReqVO updateVO) {
+    protected void validateUpdateParams(ToolCodeGenTableUpdateVO updateVO) {
         // 校验数据表是否存在
-        AddToolCodeGenTableReqVO table = updateVO.getTable();
+        ToolCodeGenTableAddVO table = updateVO.getTable();
         this.validateCodeGenTable(table.getId());
         // 校验数据表字段是否存在
-        List<AddToolCodeGEnTableColumnReqVO> targetColumns = updateVO.getColumns();
+        List<ToolCodeGenTableColumnAddVO> targetColumns = updateVO.getColumns();
         List<ToolCodeGenTableColumn> sourceColumns = this.validateCodeGenTableColumnByTableId(table.getId());
         // 校验数据表字段是否匹配
         this.validateCodeGenTableColumnByName(sourceColumns, targetColumns);
@@ -163,12 +163,12 @@ public abstract class ToolCodeGenTableAbstractService {
      * @param sourceColumns 源数据表字段
      * @param targetColumns 目标数据表字段
      */
-    private void validateCodeGenTableColumnByName(List<ToolCodeGenTableColumn> sourceColumns, List<AddToolCodeGEnTableColumnReqVO> targetColumns) {
+    private void validateCodeGenTableColumnByName(List<ToolCodeGenTableColumn> sourceColumns, List<ToolCodeGenTableColumnAddVO> targetColumns) {
         Set<String> targetName = sourceColumns.stream()
                 .map(ToolCodeGenTableColumn::getColumnName)
                 .collect(Collectors.toSet());
         Set<String> sourceName = targetColumns.stream()
-                .map(AddToolCodeGEnTableColumnReqVO::getColumnName)
+                .map(ToolCodeGenTableColumnAddVO::getColumnName)
                 .collect(Collectors.toSet());
         Collection<String> columnNames = CollectionUtil.subtract(targetName, sourceName);
         if (CollUtil.isNotEmpty(columnNames)) {

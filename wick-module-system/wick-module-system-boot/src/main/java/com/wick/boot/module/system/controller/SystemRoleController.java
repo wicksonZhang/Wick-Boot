@@ -28,7 +28,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/role")
-@Api(tags = "角色信息管理接口")
+@Api(tags = "角色信息")
 public class SystemRoleController {
 
     @Resource
@@ -86,7 +86,7 @@ public class SystemRoleController {
 
     @PutMapping("/{roleId}/menus")
     @PreAuthorize("@ss.hasPerm('system:role:assign')")
-    @ApiOperation(value = "分配菜单(包括按钮权限)给角色", notes = "角色管理")
+    @ApiOperation(value = "分配菜单权限", notes = "角色管理")
     @ApiImplicitParam(name = "roleId", value = "角色ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<Long> assignMenusToRole(@PathVariable("roleId") Long roleId,
                                               @NotEmpty(message = "菜单集合不能为空")

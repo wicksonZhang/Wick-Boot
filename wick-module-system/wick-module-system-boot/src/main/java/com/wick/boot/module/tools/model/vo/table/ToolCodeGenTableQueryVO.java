@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
  */
 @Setter
 @Getter
-@ApiModel(value = "QueryToolCodeGenTablePageReqVO", description = "代码查询参数VO")
-public class QueryToolCodeGenTablePageReqVO extends CommonPageParamVO {
+@ApiModel(value = "ToolCodeGenTableQueryVO", description = "代码查询参数VO")
+public class ToolCodeGenTableQueryVO extends CommonPageParamVO {
 
     /**
      * 数据表名

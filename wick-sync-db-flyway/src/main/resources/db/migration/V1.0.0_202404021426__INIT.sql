@@ -290,17 +290,15 @@ CREATE TABLE `system_login_log`  (
 DROP TABLE IF EXISTS `system_operate_log`;
 CREATE TABLE `system_operate_log`  (
    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '日志主键',
-   `trace_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '链路追踪编号',
    `user_id` bigint NOT NULL COMMENT '用户编号',
-   `user_type` tinyint NOT NULL DEFAULT 0 COMMENT '用户类型',
+   `user_type` tinyint NOT NULL DEFAULT 0 COMMENT '用户类型（1、会员, 2、管理员）',
    `module` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '模块标题',
    `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '操作名',
-   `type` bigint NOT NULL DEFAULT 0 COMMENT '操作分类',
-   `content` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '操作内容',
-   `exts` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '拓展字段',
-   `request_method` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '请求方法名',
+   `type` bigint NOT NULL DEFAULT 0 COMMENT '操作分类（1、查询, 2、新增, 3、修改, 4、删除, 5、导出, 6、导入, 7、其他）',
+   `request_method` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '请求方式',
    `request_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '请求地址',
    `user_ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '用户 IP',
+   `operate_location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '操作地点',
    `user_agent` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '浏览器 UA',
    `java_method` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'Java 方法名',
    `java_method_args` varchar(8000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT 'Java 方法的参数',
@@ -320,3 +318,10 @@ CREATE TABLE `system_operate_log`  (
 -- ----------------------------
 -- Records of system_operate_log
 -- ----------------------------
+-- 新增系统工具
+INSERT INTO `system_menu` (`id`, `parent_id`, `type`, `name`, `route_name`, `route_path`, `component`, `perm`, `icon`, `sort`, `visible`, `redirect`, `tree_path`, `always_show`, `keep_alive`, `deleted`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (92, 0, 2, '系统工具', NULL, '/tool', 'Layout', NULL, 'menu', 2, 1, '', '0', 1, 1, b'0', '2024-09-19 15:38:40', '2024-09-19 15:38:40', '2', '2');
+INSERT INTO `system_menu` (`id`, `parent_id`, `type`, `name`, `route_name`, `route_path`, `component`, `perm`, `icon`, `sort`, `visible`, `redirect`, `tree_path`, `always_show`, `keep_alive`, `deleted`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (93, 92, 1, '代码生成', 'Codegen', 'codegen', 'tools/codeGen/index', NULL, 'code', 1, 1, '', '0,92', 0, 1, b'0', '2024-09-19 15:39:46', '2024-09-19 15:39:46', '2', '2');
+-- 新增对应角色信息
+INSERT INTO `system_role_menu` (`role_id`, `menu_id`) VALUES (2, 92);
+INSERT INTO `system_role_menu` (`role_id`, `menu_id`) VALUES (2, 93);
+

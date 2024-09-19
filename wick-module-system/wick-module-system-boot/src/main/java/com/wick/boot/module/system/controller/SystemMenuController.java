@@ -29,7 +29,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/menu")
-@Api(tags = "系统管理 - 菜单信息")
+@Api(tags = "菜单信息")
 public class SystemMenuController {
 
     @Resource

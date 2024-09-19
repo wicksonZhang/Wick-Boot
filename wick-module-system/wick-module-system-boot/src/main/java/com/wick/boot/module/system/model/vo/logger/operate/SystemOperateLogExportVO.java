@@ -3,7 +3,7 @@ package com.wick.boot.module.system.model.vo.logger.operate;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.wick.boot.common.log.enums.OperateTypeEnum;
+import com.wick.boot.common.log.enums.OperateLogTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -49,6 +49,6 @@ public class SystemOperateLogExportVO {
     private String resultMsg;
 
     public String getType() {
-        return OperateTypeEnum.valueOf(Integer.parseInt(type));
+        return OperateLogTypeEnum.valueOf(Integer.parseInt(type));
     }
 }

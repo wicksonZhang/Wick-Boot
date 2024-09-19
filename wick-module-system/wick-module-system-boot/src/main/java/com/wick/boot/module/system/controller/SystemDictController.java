@@ -5,8 +5,8 @@ import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.module.system.model.dto.dict.SystemDictOptionsDTO;
 import com.wick.boot.module.system.model.dto.dict.data.SystemDictDataDTO;
 import com.wick.boot.module.system.model.dto.dict.type.SystemDictTypeDTO;
-import com.wick.boot.module.system.model.vo.dict.data.SystemDictDataQueryVO;
 import com.wick.boot.module.system.model.vo.dict.data.SystemDictDataAddVO;
+import com.wick.boot.module.system.model.vo.dict.data.SystemDictDataQueryVO;
 import com.wick.boot.module.system.model.vo.dict.data.SystemDictDataUpdateVO;
 import com.wick.boot.module.system.model.vo.dict.type.SystemDictTypeAddVO;
 import com.wick.boot.module.system.model.vo.dict.type.SystemDictTypeQueryVO;
@@ -33,7 +33,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/dict")
-@Api(tags = "系统管理 - 字典信息")
+@Api(tags = "字典信息")
 public class SystemDictController {
 
     @Resource

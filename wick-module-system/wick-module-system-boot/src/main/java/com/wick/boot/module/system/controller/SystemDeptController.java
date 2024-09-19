@@ -27,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/dept")
-@Api(tags = "系统管理 - 部门信息")
+@Api(tags = "部门信息")
 public class SystemDeptController {
 
     @Resource

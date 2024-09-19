@@ -3,7 +3,6 @@ package com.wick.boot.common.log.entity;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
 /**
  * 操作日志
@@ -12,14 +11,10 @@ import java.util.Map;
 public class OperateLog {
 
     /**
-     * 链路追踪编号
-     */
-    private String traceId;
-
-    /**
      * 用户编号
      */
     private Long userId;
+
     /**
      * 用户类型
      */
@@ -41,16 +36,6 @@ public class OperateLog {
     private Integer type;
 
     /**
-     * 操作明细
-     */
-    private String content;
-
-    /**
-     * 拓展字段
-     */
-    private Map<String, Object> exts;
-
-    /**
      * 请求方法名
      */
     private String requestMethod;
@@ -64,6 +49,11 @@ public class OperateLog {
      * 用户 IP
      */
     private String userIp;
+
+    /**
+     * 用户地址
+     */
+    private String operateLocation;
 
     /**
      * 浏览器 UserAgent

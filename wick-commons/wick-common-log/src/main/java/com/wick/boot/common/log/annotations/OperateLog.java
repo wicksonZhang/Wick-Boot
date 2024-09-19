@@ -1,6 +1,6 @@
 package com.wick.boot.common.log.annotations;
 
-import com.wick.boot.common.log.enums.OperateTypeEnum;
+import com.wick.boot.common.log.enums.OperateLogTypeEnum;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -37,7 +37,7 @@ public @interface OperateLog {
      * <p>
      * 实际并不是数组，因为枚举不能设置 null 作为默认值
      */
-    OperateTypeEnum[] type() default {};
+    OperateLogTypeEnum[] type() default {};
 
     // ========== 开关字段 ==========
 

@@ -1,5 +1,6 @@
-package com.wick.boot.module.system.api;
+package com.wick.boot.module.system.api.service;
 
+import com.wick.boot.module.system.api.ApiOperateLog;
 import com.wick.boot.module.system.model.dto.OperateLogCreateReqDTO;
 import com.wick.boot.module.system.service.SystemOperateLogService;
 import org.springframework.stereotype.Service;

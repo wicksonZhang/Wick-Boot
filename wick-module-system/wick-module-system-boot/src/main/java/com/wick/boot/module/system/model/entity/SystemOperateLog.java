@@ -1,9 +1,7 @@
 package com.wick.boot.module.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.wick.boot.common.core.enums.UserTypeEnum;
 import com.wick.boot.common.core.model.entity.BaseDO;
 import com.wick.boot.common.core.result.ResultUtil;
@@ -12,7 +10,6 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
 /**
  * 操作日志表
@@ -39,12 +36,6 @@ public class SystemOperateLog extends BaseDO {
     @TableId
     private Long id;
     /**
-     * 链路追踪编号
-     * <p>
-     * 一般来说，通过链路追踪编号，可以将访问日志，错误日志，链路追踪日志，logger 打印日志等，结合在一起，从而进行排错。
-     */
-    private String traceId;
-    /**
      * 用户编号
      * <p>
      * 关联 MemberUserDO 的 id 属性，或者 AdminUserDO 的 id 属性
@@ -70,19 +61,7 @@ public class SystemOperateLog extends BaseDO {
      */
     private Integer type;
     /**
-     * 操作内容，记录整个操作的明细
-     * 例如说，修改编号为 1 的用户信息，将性别从男改成女，将姓名从芋道改成源码。
-     */
-    private String content;
-    /**
-     * 拓展字段，有些复杂的业务，需要记录一些字段
-     * 例如说，记录订单编号，则可以添加 key 为 "orderId"，value 为订单编号
-     */
-    @TableField(typeHandler = JacksonTypeHandler.class)
-    private Map<String, Object> exts;
-
-    /**
-     * 请求方法名
+     * 请求方式
      */
     private String requestMethod;
     /**
@@ -94,10 +73,13 @@ public class SystemOperateLog extends BaseDO {
      */
     private String userIp;
     /**
+     * 用户操作地址
+     */
+    private String operateLocation;
+    /**
      * 浏览器 UA
      */
     private String userAgent;
-
     /**
      * Java 方法名
      */
@@ -136,5 +118,4 @@ public class SystemOperateLog extends BaseDO {
      * 如果是对象，则使用 JSON 格式化
      */
     private String resultData;
-
 }

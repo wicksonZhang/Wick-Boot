@@ -4,8 +4,8 @@ import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.tools.model.dto.ToolCodeGenDetailDTO;
 import com.wick.boot.module.tools.model.dto.ToolCodeGenPreviewDTO;
 import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTablePageReqsDTO;
-import com.wick.boot.module.tools.model.vo.table.QueryToolCodeGenTablePageReqVO;
-import com.wick.boot.module.tools.model.vo.table.UpdateToolCodeGenReqVO;
+import com.wick.boot.module.tools.model.vo.table.ToolCodeGenTableQueryVO;
+import com.wick.boot.module.tools.model.vo.table.ToolCodeGenTableUpdateVO;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public interface ToolCodeGenTableService {
      * @param queryVO 查询参数VO
      * @return 分页数据
      */
-    PageResult<ToolCodeGenTablePageReqsDTO> selectDbTableList(QueryToolCodeGenTablePageReqVO queryVO);
+    PageResult<ToolCodeGenTablePageReqsDTO> selectDbTableList(ToolCodeGenTableQueryVO queryVO);
 
     /**
      * 导入数据表
@@ -38,7 +38,7 @@ public interface ToolCodeGenTableService {
      * @param queryVO 查询参数
      * @return 分页数据
      */
-    PageResult<ToolCodeGenTablePageReqsDTO> selectCodeGenTableList(QueryToolCodeGenTablePageReqVO queryVO);
+    PageResult<ToolCodeGenTablePageReqsDTO> selectCodeGenTableList(ToolCodeGenTableQueryVO queryVO);
 
     /**
      * 通过数据表Id查询数据表详细信息
@@ -53,7 +53,7 @@ public interface ToolCodeGenTableService {
      *
      * @param updateVO 更新VO
      */
-    void update(UpdateToolCodeGenReqVO updateVO);
+    void update(ToolCodeGenTableUpdateVO updateVO);
 
     /**
      * 执行指定表的代码生成

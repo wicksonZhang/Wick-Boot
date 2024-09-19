@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
 import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTableDTO;
 import com.wick.boot.module.tools.model.entity.ToolCodeGenTable;
-import com.wick.boot.module.tools.model.vo.table.QueryToolCodeGenTablePageReqVO;
+import com.wick.boot.module.tools.model.vo.table.ToolCodeGenTableQueryVO;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -29,7 +29,7 @@ public interface ToolCodeGenTableMapper extends BaseMapperX<ToolCodeGenTable> {
      * @param queryVO 请求参数
      * @return 数据表分页集合
      */
-    Page<ToolCodeGenTable> selectDataSourcePage(Page<ToolCodeGenTable> page, @Param("queryVO") QueryToolCodeGenTablePageReqVO queryVO);
+    Page<ToolCodeGenTable> selectDataSourcePage(Page<ToolCodeGenTable> page, @Param("queryVO") ToolCodeGenTableQueryVO queryVO);
 
     /**
      * 获取数据表集合
@@ -55,7 +55,7 @@ public interface ToolCodeGenTableMapper extends BaseMapperX<ToolCodeGenTable> {
      * @param reqVO 查询VO信息
      * @return 分页数据
      */
-    default Page<ToolCodeGenTable> selectCodeGenTablePage(QueryToolCodeGenTablePageReqVO reqVO) {
+    default Page<ToolCodeGenTable> selectCodeGenTablePage(ToolCodeGenTableQueryVO reqVO) {
         LambdaQueryWrapper<ToolCodeGenTable> wrapper = new LambdaQueryWrapper<>();
         Object startTime = ArrayUtils.get(reqVO.getCreateTime(), 0);
         Object endTime = ArrayUtils.get(reqVO.getCreateTime(), 1);

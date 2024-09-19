@@ -6,18 +6,18 @@ import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.result.PageResult;
-import com.wick.boot.module.system.mapper.SystemUserMapper;
-import com.wick.boot.module.system.model.vo.logger.operate.SystemOperateLogQueryVO;
-import com.wick.boot.module.system.service.SystemOperateLogService;
 import com.wick.boot.module.system.convert.SystemLoggerConvert;
 import com.wick.boot.module.system.convert.SystemOperateLogConvert;
 import com.wick.boot.module.system.enums.ErrorCodeSystem;
 import com.wick.boot.module.system.mapper.SystemOperateLogMapper;
+import com.wick.boot.module.system.mapper.SystemUserMapper;
 import com.wick.boot.module.system.model.dto.OperateLogCreateReqDTO;
 import com.wick.boot.module.system.model.dto.logger.operate.SystemOperateLogDTO;
 import com.wick.boot.module.system.model.entity.SystemOperateLog;
 import com.wick.boot.module.system.model.entity.SystemUser;
 import com.wick.boot.module.system.model.vo.logger.operate.SystemOperateLogExportVO;
+import com.wick.boot.module.system.model.vo.logger.operate.SystemOperateLogQueryVO;
+import com.wick.boot.module.system.service.SystemOperateLogService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,14 +60,14 @@ public class SystemOperateLogServiceImpl implements SystemOperateLogService {
         }
         List<SystemOperateLog> records = pageResult.getRecords();
         List<SystemOperateLogDTO> operateLogDTOS = SystemLoggerConvert.INSTANCE.entityToOperateLogDTOS(records);
-        // to nickName
+        // to userName
         List<Long> userIds = operateLogDTOS.stream().map(SystemOperateLogDTO::getUserId).collect(Collectors.toList());
         List<SystemUser> systemUsers = systemUserMapper.selectBatchIds(userIds);
         Map<Long, String> map = systemUsers.stream().collect(Collectors.toMap(SystemUser::getId, SystemUser::getNickname));
         operateLogDTOS.forEach(operateLog -> {
             Long userId = operateLog.getUserId();
             if (map.containsKey(userId)) {
-                operateLog.setUserNickname(map.get(userId));
+                operateLog.setUserName(map.get(userId));
             }
         });
         return new PageResult<>(operateLogDTOS, pageResult.getTotal());

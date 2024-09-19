@@ -5,7 +5,6 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Map;
 
 /**
  * 操作日志创建 Request DTO
@@ -14,15 +13,11 @@ import java.util.Map;
 public class OperateLogCreateReqDTO {
 
     /**
-     * 链路追踪编号
-     */
-    private String traceId;
-
-    /**
      * 用户编号
      */
     @NotNull(message = "用户编号不能为空")
     private Long userId;
+
     /**
      * 用户类型
      */
@@ -48,16 +43,6 @@ public class OperateLogCreateReqDTO {
     private Integer type;
 
     /**
-     * 操作明细
-     */
-    private String content;
-
-    /**
-     * 拓展字段
-     */
-    private Map<String, Object> exts;
-
-    /**
      * 请求方法名
      */
     @NotEmpty(message = "请求方法名不能为空")
@@ -74,6 +59,12 @@ public class OperateLogCreateReqDTO {
      */
     @NotEmpty(message = "用户 IP 不能为空")
     private String userIp;
+
+    /**
+     * 用户地址
+     */
+    @NotEmpty(message = "用户地址不能为空")
+    private String operateLocation;
 
     /**
      * 浏览器 UserAgent

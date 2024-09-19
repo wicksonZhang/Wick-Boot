@@ -16,10 +16,10 @@ import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTableDTO;
 import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTablePageReqsDTO;
 import com.wick.boot.module.tools.model.entity.ToolCodeGenTable;
 import com.wick.boot.module.tools.model.entity.ToolCodeGenTableColumn;
-import com.wick.boot.module.tools.model.vo.column.AddToolCodeGEnTableColumnReqVO;
-import com.wick.boot.module.tools.model.vo.table.AddToolCodeGenTableReqVO;
-import com.wick.boot.module.tools.model.vo.table.QueryToolCodeGenTablePageReqVO;
-import com.wick.boot.module.tools.model.vo.table.UpdateToolCodeGenReqVO;
+import com.wick.boot.module.tools.model.vo.column.ToolCodeGenTableColumnAddVO;
+import com.wick.boot.module.tools.model.vo.table.ToolCodeGenTableAddVO;
+import com.wick.boot.module.tools.model.vo.table.ToolCodeGenTableQueryVO;
+import com.wick.boot.module.tools.model.vo.table.ToolCodeGenTableUpdateVO;
 import com.wick.boot.module.tools.service.ToolCodeGenTableAbstractService;
 import com.wick.boot.module.tools.service.ToolCodeGenTableService;
 import com.wick.boot.module.tools.utils.ToolCodeGenUtils;
@@ -54,7 +54,7 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
     private ToolCodeGenEngine toolCodeGenEngine;
 
     @Override
-    public PageResult<ToolCodeGenTablePageReqsDTO> selectDbTableList(QueryToolCodeGenTablePageReqVO queryVO) {
+    public PageResult<ToolCodeGenTablePageReqsDTO> selectDbTableList(ToolCodeGenTableQueryVO queryVO) {
         /* Step-1: 根据数据源获取对应的表信息 */
         Page<ToolCodeGenTable> pageResult = this.codeGenTableMapper.selectDataSourcePage(
                 new Page<>(queryVO.getPageNumber(), queryVO.getPageSize()), queryVO
@@ -112,7 +112,7 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
     }
 
     @Override
-    public PageResult<ToolCodeGenTablePageReqsDTO> selectCodeGenTableList(QueryToolCodeGenTablePageReqVO queryVO) {
+    public PageResult<ToolCodeGenTablePageReqsDTO> selectCodeGenTableList(ToolCodeGenTableQueryVO queryVO) {
         /* Step-1: 根据数据源获取对应的表信息 */
         Page<ToolCodeGenTable> pageResult = this.codeGenTableMapper.selectCodeGenTablePage(queryVO);
 
@@ -136,17 +136,17 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void update(UpdateToolCodeGenReqVO updateVO) {
+    public void update(ToolCodeGenTableUpdateVO updateVO) {
         /* Step-1: 校验更新参数信息 */
         this.validateUpdateParams(updateVO);
 
         /* Step-2: 更新数据 */
         // 更新 ToolCodeGenTable 数据
-        AddToolCodeGenTableReqVO table = updateVO.getTable();
+        ToolCodeGenTableAddVO table = updateVO.getTable();
         ToolCodeGenTable codeGenTable = BeanUtil.copyProperties(table, ToolCodeGenTable.class);
         this.codeGenTableMapper.updateById(codeGenTable);
         // 更新 ToolCodeGEnTableColumn 数据
-        List<AddToolCodeGEnTableColumnReqVO> sourceColumns = updateVO.getColumns();
+        List<ToolCodeGenTableColumnAddVO> sourceColumns = updateVO.getColumns();
         List<ToolCodeGenTableColumn> targetColumns = BeanUtil.copyToList(sourceColumns, ToolCodeGenTableColumn.class);
         targetColumns.forEach(column -> this.codeGenTableColumnMapper.updateById(column));
     }

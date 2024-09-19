@@ -3,17 +3,15 @@ package com.wick.boot.common.log.aop;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.google.common.collect.Maps;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
-import com.wick.boot.common.core.enums.UserTypeEnum;
 import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.common.core.utils.ServletUtils;
 import com.wick.boot.common.log.entity.OperateLog;
+import com.wick.boot.common.log.enums.OperateLogTypeEnum;
 import com.wick.boot.common.log.service.OperateLogFrameworkService;
-import com.wick.boot.common.log.enums.OperateTypeEnum;
 import com.wick.boot.common.web.util.WebFrameworkUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,7 +32,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
@@ -50,19 +50,6 @@ import java.util.stream.IntStream;
 @Aspect
 @Slf4j
 public class OperateLogAspect {
-
-    /**
-     * 用于记录操作内容的上下文
-     *
-     * @see OperateLog#getContent()
-     */
-    private static final ThreadLocal<String> CONTENT = new ThreadLocal<>();
-    /**
-     * 用于记录拓展字段的上下文
-     *
-     * @see OperateLog#getExts()
-     */
-    private static final ThreadLocal<Map<String, Object>> EXTS = new ThreadLocal<>();
 
     @Resource
     private OperateLogFrameworkService operateLogFrameworkService;
@@ -86,10 +73,10 @@ public class OperateLogAspect {
                            com.wick.boot.common.log.annotations.OperateLog operateLog,
                            ApiOperation operation) throws Throwable {
         // 目前，只有管理员，才记录操作日志！所以非管理员，直接调用，不进行记录
-        Integer userType = WebFrameworkUtils.getLoginUserType();
-        if (!Objects.equals(userType, UserTypeEnum.ADMIN.getValue())) {
-            return joinPoint.proceed();
-        }
+//        Integer userType = WebFrameworkUtils.getLoginUserType();
+//        if (!Objects.equals(userType, UserTypeEnum.ADMIN.getValue())) {
+//            return joinPoint.proceed();
+//        }
 
         // 记录开始时间
         LocalDateTime startTime = LocalDateTime.now();
@@ -102,25 +89,7 @@ public class OperateLogAspect {
         } catch (Throwable exception) {
             this.log(joinPoint, operateLog, operation, startTime, null, exception);
             throw exception;
-        } finally {
-            clearThreadLocal();
         }
-    }
-
-    public static void setContent(String content) {
-        CONTENT.set(content);
-    }
-
-    public static void addExt(String key, Object value) {
-        if (EXTS.get() == null) {
-            EXTS.set(new HashMap<>());
-        }
-        EXTS.get().put(key, value);
-    }
-
-    private static void clearThreadLocal() {
-        CONTENT.remove();
-        EXTS.remove();
     }
 
     private void log(ProceedingJoinPoint joinPoint,
@@ -145,8 +114,6 @@ public class OperateLogAspect {
                       ApiOperation operation,
                       LocalDateTime startTime, Object result, Throwable exception) {
         OperateLog operateLogObj = new OperateLog();
-        // 补全通用字段
-        operateLogObj.setTraceId(IdUtil.fastSimpleUUID());
         operateLogObj.setStartTime(startTime);
         // 补充用户信息
         fillUserFields(operateLogObj);
@@ -172,18 +139,19 @@ public class OperateLogAspect {
                                          ApiOperation operation) {
         // module 属性
         if (operateLog != null) {
-            operateLogObj.setModule(operateLog.module());
+            String module = operateLog.module();
+            operateLogObj.setModule(StrUtil.removeAll(module, '[', ']'));
         }
         if (StrUtil.isEmpty(operateLogObj.getModule())) {
             Api api = getClassAnnotation(joinPoint, Api.class);
             if (api != null) {
                 // 优先读取 @Tag 的 name 属性
                 if (StrUtil.isNotEmpty(Arrays.toString(api.tags()))) {
-                    operateLogObj.setModule(Arrays.toString(api.tags()));
+                    operateLogObj.setModule(StrUtil.removeAll(Arrays.toString(api.tags()),'[', ']'));
                 }
                 // 没有的话，读取 @API 的 description 属性
                 if (StrUtil.isEmpty(operateLogObj.getModule()) && ArrayUtil.isNotEmpty(api.value())) {
-                    operateLogObj.setModule(api.value());
+                    operateLogObj.setModule(StrUtil.removeAll(api.value(),'[', ']'));
                 }
             }
         }
@@ -200,12 +168,9 @@ public class OperateLogAspect {
         }
         if (operateLogObj.getType() == null) {
             RequestMethod requestMethod = obtainFirstMatchRequestMethod(obtainRequestMethod(joinPoint));
-            OperateTypeEnum operateLogType = convertOperateLogType(requestMethod);
+            OperateLogTypeEnum operateLogType = convertOperateLogType(requestMethod);
             operateLogObj.setType(operateLogType != null ? operateLogType.getType() : null);
         }
-        // content 和 exts 属性
-        operateLogObj.setContent(CONTENT.get());
-        operateLogObj.setExts(EXTS.get());
     }
 
     private static void fillRequestFields(OperateLog operateLogObj) {
@@ -215,9 +180,11 @@ public class OperateLogAspect {
             return;
         }
         // 补全请求信息
+        String clientIP = ServletUtils.getClientIP();
         operateLogObj.setRequestMethod(request.getMethod());
         operateLogObj.setRequestUrl(request.getRequestURI());
-        operateLogObj.setUserIp(ServletUtils.getClientIP());
+        operateLogObj.setUserIp(clientIP);
+        operateLogObj.setOperateLocation(ServletUtils.getRealAddressByIP(clientIP));
         operateLogObj.setUserAgent(ServletUtils.getUserAgent(request));
     }
 
@@ -289,21 +256,21 @@ public class OperateLogAspect {
         return requestMethods[0];
     }
 
-    private static OperateTypeEnum convertOperateLogType(RequestMethod requestMethod) {
+    private static OperateLogTypeEnum convertOperateLogType(RequestMethod requestMethod) {
         if (requestMethod == null) {
             return null;
         }
         switch (requestMethod) {
             case GET:
-                return OperateTypeEnum.GET;
+                return OperateLogTypeEnum.GET;
             case POST:
-                return OperateTypeEnum.CREATE;
+                return OperateLogTypeEnum.CREATE;
             case PUT:
-                return OperateTypeEnum.UPDATE;
+                return OperateLogTypeEnum.UPDATE;
             case DELETE:
-                return OperateTypeEnum.DELETE;
+                return OperateLogTypeEnum.DELETE;
             default:
-                return OperateTypeEnum.OTHER;
+                return OperateLogTypeEnum.OTHER;
         }
     }
 

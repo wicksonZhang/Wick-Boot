@@ -31,7 +31,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/users")
-@Api(tags = "系统管理 - 用户信息")
+@Api(tags = "用户信息")
 public class SystemUserController {
 
     @Resource

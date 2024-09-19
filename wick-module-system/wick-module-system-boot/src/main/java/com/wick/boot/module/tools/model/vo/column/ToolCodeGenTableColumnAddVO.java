@@ -10,7 +10,7 @@ import lombok.Data;
  * @date 2024-08-06
  */
 @Data
-public class AddToolCodeGEnTableColumnReqVO {
+public class ToolCodeGenTableColumnAddVO {
 
     @ApiModelProperty(value = "编号", example = "1024")
     private Long id;

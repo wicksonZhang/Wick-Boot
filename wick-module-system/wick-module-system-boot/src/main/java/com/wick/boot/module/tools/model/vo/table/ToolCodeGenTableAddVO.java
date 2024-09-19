@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
  * @date 2024-08-06
  */
 @Data
-public class AddToolCodeGenTableReqVO {
+public class ToolCodeGenTableAddVO {
 
     // ========================== 基本信息 ==========================
     @ApiModelProperty(value = "主键id", example = "1")

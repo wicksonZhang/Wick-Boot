@@ -2,15 +2,16 @@ package com.wick.boot.module.tools.controller;
 
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
-import com.wick.boot.module.tools.service.ToolCodeGenTableService;
 import com.wick.boot.module.tools.model.dto.ToolCodeGenDetailDTO;
 import com.wick.boot.module.tools.model.dto.ToolCodeGenPreviewDTO;
 import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTablePageReqsDTO;
-import com.wick.boot.module.tools.model.vo.table.QueryToolCodeGenTablePageReqVO;
-import com.wick.boot.module.tools.model.vo.table.UpdateToolCodeGenReqVO;
+import com.wick.boot.module.tools.model.vo.table.ToolCodeGenTableQueryVO;
+import com.wick.boot.module.tools.model.vo.table.ToolCodeGenTableUpdateVO;
+import com.wick.boot.module.tools.service.ToolCodeGenTableService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,51 +26,52 @@ import java.util.List;
  * @author Wickson
  * @date 2024-07-12
  */
-@Api(value = "/code-gen", tags = {"代码自动生成器-Controller"})
 @RestController
 @RequestMapping("/code-gen")
+@Api(value = "/code-gen", tags = "代码生成")
 public class ToolCodeGenTableController {
 
     @Resource
     private ToolCodeGenTableService codeGenService;
 
-    @ApiOperation(value = "获取数据表", notes = "系统管理 - 代码生成器", httpMethod = "GET")
     @GetMapping("/db/list")
-    public ResultUtil<PageResult<ToolCodeGenTablePageReqsDTO>> dataList(@Valid QueryToolCodeGenTablePageReqVO queryVO) {
+    @ApiOperation(value = "获取数据表", notes = "代码生成", httpMethod = "GET")
+    public ResultUtil<PageResult<ToolCodeGenTablePageReqsDTO>> dataList(@Valid ToolCodeGenTableQueryVO queryVO) {
         return ResultUtil.success(codeGenService.selectDbTableList(queryVO));
     }
 
-    @ApiOperation(value = "导入数据表", notes = "系统管理 - 代码生成器", httpMethod = "POST")
     @PostMapping("/importTable/{tableNames}")
+    @PreAuthorize("@ss.hasPerm('tools:code-gen:import')")
+    @ApiOperation(value = "导入数据表", notes = "代码生成", httpMethod = "POST")
     @ApiImplicitParam(name = "tableName", value = "数据表名称", required = true, dataType = "String", dataTypeClass = String.class)
-    public ResultUtil<Boolean> importTable(@NotEmpty(message = "表名不能为空")
-                                           @PathVariable("tableNames") List<String> tableNames) {
+    public ResultUtil<Boolean> importTable(@NotEmpty(message = "表名不能为空") @PathVariable List<String> tableNames) {
         codeGenService.importTable(tableNames);
         return ResultUtil.success(true);
     }
 
-    @ApiOperation(value = "获取代码生成器分页数据", notes = "系统管理 - 代码生成器", httpMethod = "GET")
     @GetMapping("/list")
-    public ResultUtil<PageResult<ToolCodeGenTablePageReqsDTO>> list(@Valid QueryToolCodeGenTablePageReqVO queryVO) {
+    @ApiOperation(value = "获取代码生成分页数据", notes = "代码生成", httpMethod = "GET")
+    public ResultUtil<PageResult<ToolCodeGenTablePageReqsDTO>> list(@Valid ToolCodeGenTableQueryVO queryVO) {
         return ResultUtil.success(codeGenService.selectCodeGenTableList(queryVO));
     }
 
-    @ApiOperation(value = "获取代码生成器详细数据", notes = "系统管理 - 代码生成器", httpMethod = "GET")
     @GetMapping("/details/{tableId}")
+    @ApiOperation(value = "获取代码生成详细数据", notes = "代码生成", httpMethod = "GET")
     @ApiImplicitParam(name = "tableId", value = "数据表Id", required = true, dataType = "Long", dataTypeClass = Long.class)
-    public ResultUtil<ToolCodeGenDetailDTO> getDetails(@PathVariable("tableId") Long tableId) {
+    public ResultUtil<ToolCodeGenDetailDTO> getDetails(@PathVariable Long tableId) {
         return ResultUtil.success(codeGenService.getDetails(tableId));
     }
 
-    @ApiOperation(value = "修改代码生成器信息", notes = "系统管理 - 代码生成器", httpMethod = "PUT")
     @PutMapping("/update")
-    public ResultUtil<Boolean> update(@Validated @RequestBody UpdateToolCodeGenReqVO updateVO) {
+    @PreAuthorize("@ss.hasPerm('tools:code-gen:update')")
+    @ApiOperation(value = "修改代码生成信息", notes = "代码生成", httpMethod = "PUT")
+    public ResultUtil<Boolean> update(@Validated @RequestBody ToolCodeGenTableUpdateVO updateVO) {
         this.codeGenService.update(updateVO);
         return ResultUtil.success(true);
     }
 
-    @ApiOperation(value = "预览代码", notes = "系统管理 - 代码生成器", httpMethod = "PUT")
     @GetMapping("/preview/{tableId}")
+    @ApiOperation(value = "预览代码", notes = "代码生成", httpMethod = "PUT")
     @ApiImplicitParam(name = "tableId", value = "数据表Id", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<List<ToolCodeGenPreviewDTO>> previewCode(@PathVariable("tableId") Long tableId) {
         return ResultUtil.success(this.codeGenService.previewCode(tableId));

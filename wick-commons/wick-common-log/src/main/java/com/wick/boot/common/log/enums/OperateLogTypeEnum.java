@@ -11,7 +11,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum OperateTypeEnum {
+public enum OperateLogTypeEnum {
 
     /**
      * 查询
@@ -63,7 +63,7 @@ public enum OperateTypeEnum {
     public static String valueOf(int type) {
         String description = null;
 
-        for (OperateTypeEnum typeEnum : OperateTypeEnum.values()) {
+        for (OperateLogTypeEnum typeEnum : OperateLogTypeEnum.values()) {
             if (typeEnum.getType() == type) {
                 description = typeEnum.getDescription();
                 break;
