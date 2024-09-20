@@ -70,6 +70,14 @@ public class ToolCodeGenTableController {
         return ResultUtil.success(true);
     }
 
+    @PutMapping("/delete/{ids}")
+    @PreAuthorize("@ss.hasPerm('tools:code-gen:delete')")
+    @ApiOperation(value = "修改代码生成信息", notes = "代码生成", httpMethod = "PUT")
+    public ResultUtil<Boolean> remove(@PathVariable List<Long> ids) {
+        this.codeGenService.deleteToolCodeGenTable(ids);
+        return ResultUtil.success(true);
+    }
+
     @GetMapping("/preview/{tableId}")
     @ApiOperation(value = "预览代码", notes = "代码生成", httpMethod = "PUT")
     @ApiImplicitParam(name = "tableId", value = "数据表Id", required = true, dataType = "Long", dataTypeClass = Long.class)

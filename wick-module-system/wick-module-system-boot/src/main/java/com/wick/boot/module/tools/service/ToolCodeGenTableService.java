@@ -56,10 +56,18 @@ public interface ToolCodeGenTableService {
     void update(ToolCodeGenTableUpdateVO updateVO);
 
     /**
+     * 删除代码生成信息
+     *
+     * @param ids 主键集合
+     */
+    void deleteToolCodeGenTable(List<Long> ids);
+
+    /**
      * 执行指定表的代码生成
      *
      * @param tableId 表编号
      * @return 生成结果。key 为文件路径，value 为对应的代码内容
      */
     List<ToolCodeGenPreviewDTO> previewCode(Long tableId);
+
 }

@@ -152,6 +152,12 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteToolCodeGenTable(List<Long> ids) {
+
+    }
+
+    @Override
     public List<ToolCodeGenPreviewDTO> previewCode(Long tableId) {
         /* Step-1: 校验参数 */
         this.validatePreviewParams(tableId);
