@@ -35,7 +35,7 @@ generator:
       templatePath: generator/java/model/dto/dto.java.vm
       packageName: model.dto
     AddVO:
-      templatePath: generator/java/model/vo/addVO.java.vm
+      templatePath: generator/java/model/vo/addVo.java.vm
       packageName: model.vo
     UpdateVO:
       templatePath: generator/java/model/vo/updateVo.java.vm
