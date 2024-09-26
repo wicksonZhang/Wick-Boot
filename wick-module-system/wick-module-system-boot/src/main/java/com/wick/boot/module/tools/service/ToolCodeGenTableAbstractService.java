@@ -188,4 +188,33 @@ public abstract class ToolCodeGenTableAbstractService {
         // 校验数据表字段是否存在
         this.validateCodeGenTableColumnByTableId(tableId);
     }
+
+    /**
+     * 删除参数校验
+     *
+     * @param ids 主键集合
+     */
+    protected void validateDeleteParams(List<ToolCodeGenTable> toolCodeGenTableList, List<Long> ids) {
+        // 验证数据表是否存在
+        this.validateToolCodeGenTables(toolCodeGenTableList);
+        // 验证数据表集合和 ids 是否匹配
+        this.validateToolCodeGenTableByIds(toolCodeGenTableList, ids);
+    }
+
+    private void validateToolCodeGenTables(List<ToolCodeGenTable> toolCodeGenTableList) {
+        // 校验数据表集合是否存在
+        if (CollUtil.isEmpty(toolCodeGenTableList)) {
+            throw ServiceException.getInstance(ErrorCodeSystem.TOOL_CODE_GEN_TABLE_NOT_EXIST);
+        }
+    }
+
+    private void validateToolCodeGenTableByIds(List<ToolCodeGenTable> toolCodeGenTableList, List<Long> ids) {
+        // 校验不存在的数据表ID
+        List<Long> tableIds = toolCodeGenTableList.stream().map(ToolCodeGenTable::getId).collect(Collectors.toList());
+        Collection<Long> errorIds = CollectionUtil.subtract(ids, tableIds);
+        if (CollUtil.isNotEmpty(errorIds)) {
+            String errorMsg = "请确认数据表主键 " + errorIds + " 是否存在";
+            throw ServiceException.getInstance(ErrorCodeSystem.TOOL_CODE_GEN_TABLE_NOT_EXIST.getCode(), errorMsg);
+        }
+    }
 }

@@ -1,7 +1,9 @@
 package com.wick.boot.module.tools.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.wick.boot.common.core.result.PageResult;
@@ -154,7 +156,23 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteToolCodeGenTable(List<Long> ids) {
+        /* Step-1: 验证删除参数 */
+        List<ToolCodeGenTable> toolCodeGenTableList = this.codeGenTableMapper.selectBatchIds(ids);
+        this.validateDeleteParams(toolCodeGenTableList, ids);
 
+        /* Step-2: 先删除从表 tool_code_gen_table_column, 在删除主表 tool_code_gen_table */
+        // 删除从表 tool_code_gen_table_column
+        List<ToolCodeGenTableColumn> columns = getToolCodeGenTableColumnByTableIds(ids);
+        if (CollUtil.isNotEmpty(columns)) {
+            this.codeGenTableColumnMapper.deleteBatchIds(columns);
+        }
+        // 删除主表
+        this.codeGenTableMapper.deleteBatchIds(ids);
+    }
+
+    private List<ToolCodeGenTableColumn> getToolCodeGenTableColumnByTableIds(List<Long> tableIds) {
+        return this.codeGenTableColumnMapper.selectList(
+                new LambdaQueryWrapper<ToolCodeGenTableColumn>().in(ToolCodeGenTableColumn::getTableId, tableIds));
     }
 
     @Override
