@@ -6,16 +6,12 @@ import cn.hutool.core.util.ObjUtil;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.module.system.enums.ErrorCodeSystem;
-import com.wick.boot.module.tools.mapper.ToolCodeGenTableColumnMapper;
-import com.wick.boot.module.tools.mapper.ToolCodeGenTableMapper;
 import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTableDTO;
 import com.wick.boot.module.tools.model.entity.ToolCodeGenTable;
 import com.wick.boot.module.tools.model.entity.ToolCodeGenTableColumn;
 import com.wick.boot.module.tools.model.vo.column.ToolCodeGenTableColumnAddVO;
 import com.wick.boot.module.tools.model.vo.table.ToolCodeGenTableAddVO;
-import com.wick.boot.module.tools.model.vo.table.ToolCodeGenTableUpdateVO;
 
-import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -29,40 +25,33 @@ import java.util.stream.Collectors;
  */
 public abstract class ToolCodeGenTableAbstractService {
 
-    @Resource
-    private ToolCodeGenTableMapper codeGenTableMapper;
-
-    @Resource
-    private ToolCodeGenTableColumnMapper codeGenTableColumnMapper;
-
     /**
      * 验证表名
      *
-     * @param codeGenTables 代码生成器集合表
      * @param tableNames    表名集合
+     * @param codeGenTables 代码生成器集合表
      */
-    protected void validateAddParams(List<ToolCodeGenTableDTO> codeGenTables, List<String> tableNames) {
+    protected void validateAddParams(List<String> tableNames, List<ToolCodeGenTableDTO> dataSourcesTables, List<ToolCodeGenTable> codeGenTables) {
         // 校验表名是否存在于数据源中
-        validateDataSource(tableNames, codeGenTables);
+        validateDataSourcesTables(dataSourcesTables);
 
         // 校验表名是否存在于数据源中
-        validateTableNameExisting(tableNames, codeGenTables);
+        validateTableNameExisting(tableNames, dataSourcesTables);
 
         // 验证 tableNames 在 code_gen_table 表中已经存在
-        validateTableNameByCodeGenTable(tableNames);
+        validateTableNameByCodeGenTable(tableNames, codeGenTables);
     }
 
     /**
      * 校验表名是否存在于数据源中
      *
-     * @param tableNames    表名集合
      * @param codeGenTables 代码生成器集合
      * @throws ServiceException 如果表名在数据源中不存在，抛出异常
      */
-    private void validateDataSource(List<String> tableNames, List<ToolCodeGenTableDTO> codeGenTables) {
+    private void validateDataSourcesTables(List<ToolCodeGenTableDTO> codeGenTables) {
         // 如果数据源中不存在表
         if (CollUtil.isEmpty(codeGenTables)) {
-            String errorMsg = "表" + tableNames + "在数据源中不存在";
+            String errorMsg = "请确认导入表是否在数据源中";
             throw ServiceException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID.getCode(), errorMsg);
         }
     }
@@ -70,15 +59,16 @@ public abstract class ToolCodeGenTableAbstractService {
     /**
      * 校验表名是否存在于数据源中
      *
-     * @param tableNames    表名集合
-     * @param codeGenTables 代码生成器集合
+     * @param tableNames        表名集合
+     * @param dataSourcesTables 代码生成器集合
      * @throws ServiceException 如果表名在数据源中不存在，抛出异常
      */
-    private void validateTableNameExisting(List<String> tableNames, List<ToolCodeGenTableDTO> codeGenTables) {
+    private void validateTableNameExisting(List<String> tableNames, List<ToolCodeGenTableDTO> dataSourcesTables) {
         // 计算 tableNames 中哪些表名在数据源中不存在
-        Set<String> existingTableNames = codeGenTables.stream()
+        Set<String> existingTableNames = dataSourcesTables.stream()
                 .map(ToolCodeGenTableDTO::getTableName)
                 .collect(Collectors.toSet());
+
         Collection<String> nonExistentTableNames = CollectionUtil.subtract(tableNames, existingTableNames);
 
         // 如果所有表名都存在于数据源中，则返回
@@ -94,17 +84,14 @@ public abstract class ToolCodeGenTableAbstractService {
      * @param tableNames 表名集合
      * @throws ServiceException 如果表名已经存在，抛出异常
      */
-    private void validateTableNameByCodeGenTable(List<String> tableNames) {
-        // 查询 code_gen_table 表中是否存在指定的表名
-        List<ToolCodeGenTable> existingToolCodeGenTables = this.codeGenTableMapper.selectTables(tableNames);
-
+    private void validateTableNameByCodeGenTable(List<String> tableNames, List<ToolCodeGenTable> codeGenTables) {
         // 如果 code_gen_table 表中不存在这些表名，则返回
-        if (CollUtil.isEmpty(existingToolCodeGenTables)) {
+        if (CollUtil.isEmpty(codeGenTables)) {
             return;
         }
 
         // 获取已经存在的表名集合
-        Set<String> existingTableNames = existingToolCodeGenTables.stream()
+        Set<String> existingTableNames = codeGenTables.stream()
                 .map(ToolCodeGenTable::getTableName)
                 .collect(Collectors.toSet());
 
@@ -119,42 +106,29 @@ public abstract class ToolCodeGenTableAbstractService {
     /**
      * 校验更新参数信息
      *
-     * @param updateVO 更新参数
+     * @param table         数据表
+     * @param columns       数据表字段
+     * @param sourceColumns 源数据表字段
      */
-    protected void validateUpdateParams(ToolCodeGenTableUpdateVO updateVO) {
+    protected void validateUpdateParams(ToolCodeGenTableAddVO table, List<ToolCodeGenTableColumnAddVO> columns, List<ToolCodeGenTableColumn> sourceColumns) {
         // 校验数据表是否存在
-        ToolCodeGenTableAddVO table = updateVO.getTable();
-        this.validateCodeGenTable(table.getId());
+        this.validateCodeGenTableAddVO(table);
         // 校验数据表字段是否存在
-        List<ToolCodeGenTableColumnAddVO> targetColumns = updateVO.getColumns();
-        List<ToolCodeGenTableColumn> sourceColumns = this.validateCodeGenTableColumnByTableId(table.getId());
+        this.validateCodeGenTableColumnAddVO(columns);
         // 校验数据表字段是否匹配
-        this.validateCodeGenTableColumnByName(sourceColumns, targetColumns);
+        this.validateCodeGenTableColumnByName(sourceColumns, columns);
     }
 
-    /**
-     * 校验数据表是否存在
-     *
-     * @param codeGenTable 数据表Id
-     */
-    private void validateCodeGenTable(Long codeGenTable) {
-        if (ObjUtil.isNull(codeGenTable)) {
+    private void validateCodeGenTableAddVO(ToolCodeGenTableAddVO table) {
+        if (ObjUtil.isNull(table)) {
             throw ServiceException.getInstance(ErrorCodeSystem.TOOL_CODE_GEN_TABLE_NOT_EXIST);
         }
     }
 
-    /**
-     * 校验数据表字段是否存在
-     *
-     * @param tableId 数据表Id
-     * @return 数据表字段集合
-     */
-    private List<ToolCodeGenTableColumn> validateCodeGenTableColumnByTableId(Long tableId) {
-        List<ToolCodeGenTableColumn> tableColumns = this.codeGenTableColumnMapper.selectListByTableId(tableId);
-        if (CollUtil.isEmpty(tableColumns)) {
+    private void validateCodeGenTableColumnAddVO(List<ToolCodeGenTableColumnAddVO> columns) {
+        if (CollUtil.isEmpty(columns)) {
             throw ServiceException.getInstance(ErrorCodeSystem.TOOL_CODE_GEN_TABLE_NOT_EXIST);
         }
-        return tableColumns;
     }
 
     /**
@@ -164,13 +138,16 @@ public abstract class ToolCodeGenTableAbstractService {
      * @param targetColumns 目标数据表字段
      */
     private void validateCodeGenTableColumnByName(List<ToolCodeGenTableColumn> sourceColumns, List<ToolCodeGenTableColumnAddVO> targetColumns) {
-        Set<String> targetName = sourceColumns.stream()
+        // 提取源数据表字段
+        Set<String> sourceName = sourceColumns.stream()
                 .map(ToolCodeGenTableColumn::getColumnName)
                 .collect(Collectors.toSet());
-        Set<String> sourceName = targetColumns.stream()
+        // 提取目标数据表字段
+        Set<String> targetName = targetColumns.stream()
                 .map(ToolCodeGenTableColumnAddVO::getColumnName)
                 .collect(Collectors.toSet());
-        Collection<String> columnNames = CollectionUtil.subtract(targetName, sourceName);
+        // 判断是否存在差集
+        Collection<String> columnNames = CollectionUtil.subtract(sourceName, targetName);
         if (CollUtil.isNotEmpty(columnNames)) {
             String errorMsg = "请确认字段" + columnNames + "是否存在";
             throw ServiceException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID.getCode(), errorMsg);
@@ -178,15 +155,25 @@ public abstract class ToolCodeGenTableAbstractService {
     }
 
     /**
-     * 校验预览代码参数
+     * 校验数据表是否存在
      *
-     * @param tableId 数据表Id
+     * @param codeGenTable 数据表
      */
-    protected void validatePreviewParams(Long tableId) {
-        // 校验数据表是否存在
-        this.validateCodeGenTable(tableId);
-        // 校验数据表字段是否存在
-        this.validateCodeGenTableColumnByTableId(tableId);
+    protected void validateCodeGenTable(ToolCodeGenTable codeGenTable) {
+        if (ObjUtil.isNull(codeGenTable)) {
+            throw ServiceException.getInstance(ErrorCodeSystem.TOOL_CODE_GEN_TABLE_NOT_EXIST);
+        }
+    }
+
+    /**
+     * 校验数据表字段是否存在
+     *
+     * @param tableColumns 数据表字段集合
+     */
+    protected void validateCodeGenTableColumn(List<ToolCodeGenTableColumn> tableColumns) {
+        if (CollUtil.isEmpty(tableColumns)) {
+            throw ServiceException.getInstance(ErrorCodeSystem.TOOL_CODE_GEN_TABLE_NOT_EXIST);
+        }
     }
 
     /**

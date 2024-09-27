@@ -144,6 +144,13 @@ INSERT INTO `system_menu` VALUES (88, 2, 4, '重置密码', NULL, '', NULL, 'sys
 INSERT INTO `system_menu` VALUES (89, 1, 1, '日志管理', '', '/logger', 'system/logger/index', NULL, 'menu', 6, 1, '/system/logger/login-log', '0,1', NULL, 1, b'0', '2024-06-25 10:14:37', '2024-06-25 17:07:11', '2', '2');
 INSERT INTO `system_menu` VALUES (90, 89, 1, '登录日志', 'Login', 'login-log', 'system/logger/login-log/index', NULL, 'user', 1, 1, '', '0,1,92', 0, 0, b'0', '2024-06-25 11:19:43', '2024-06-25 16:32:47', '2', '2');
 INSERT INTO `system_menu` VALUES (91, 89, 1, '操作日志', 'Operate', 'operate-log', 'system/logger/operate-log/index', NULL, 'document', 1, 1, '', '0,1,92', NULL, NULL, b'0', '2024-06-25 16:34:34', '2024-06-25 16:35:14', '2', '2');
+INSERT INTO `system_menu` VALUES (92, 0, 2, '系统工具', NULL, '/tool', 'Layout', NULL, 'menu', 2, 1, '', '0', 1, 1, b'0', '2024-09-19 15:38:40', '2024-09-19 15:38:40', '2', '2');
+INSERT INTO `system_menu` VALUES (93, 92, 1, '代码生成', 'Codegen', 'codegen', 'tools/codeGen/index', NULL, 'code', 1, 1, '', '0,92', 0, 1, b'0', '2024-09-19 15:39:46', '2024-09-19 15:39:46', '2', '2');
+INSERT INTO `system_menu` VALUES (94, 93, 4, '导入数据表', NULL, '', NULL, 'tools:code-gen:import', '', 1, 1, '', '0,92,93', NULL, NULL, b'0', '2024-09-19 16:30:55', '2024-09-19 16:30:55', '2', '2');
+INSERT INTO `system_menu` VALUES (95, 93, 4, '修改代码生成信息', NULL, '', NULL, 'tools:code-gen:update', '', 1, 1, '', '0,92,93', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', '2', '2');
+INSERT INTO `system_menu` VALUES (96, 93, 4, '删除代码生成信息', NULL, '', NULL, 'tools:code-gen:delete', '', 1, 1, '', '0,92,93', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', '2', '2');
+INSERT INTO `system_menu` VALUES (97, 93, 4, '同步代码生成信息', NULL, '', NULL, 'tools:code-gen:async', '', 1, 1, '', '0,92,93', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', '2', '2');
+INSERT INTO `system_menu` VALUES (98, 93, 4, '生成代码信息', NULL, '', NULL, 'tools:code-gen:codeGen', '', 1, 1, '', '0,92,93', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', '2', '2');
 
 -- ----------------------------
 -- Table structure for system_user_role
@@ -202,7 +209,13 @@ INSERT INTO `system_role_menu` VALUES (2, 88);
 INSERT INTO `system_role_menu` VALUES (2, 89);
 INSERT INTO `system_role_menu` VALUES (2, 90);
 INSERT INTO `system_role_menu` VALUES (2, 91);
-
+INSERT INTO `system_role_menu` VALUES (2, 92);
+INSERT INTO `system_role_menu` VALUES (2, 93);
+INSERT INTO `system_role_menu` VALUES (2, 94);
+INSERT INTO `system_role_menu` VALUES (2, 95);
+INSERT INTO `system_role_menu` VALUES (2, 96);
+INSERT INTO `system_role_menu` VALUES (2, 97);
+INSERT INTO `system_role_menu` VALUES (2, 98);
 
 -- ----------------------------
 -- Table structure for sys_dict_type
@@ -227,7 +240,6 @@ CREATE TABLE `system_dict_type`  (
 -- Records of sys_dict_type
 -- ----------------------------
 INSERT INTO `system_dict_type` VALUES (1, '性别', 'gender', 1, NULL, 0, '2019-12-06 19:03:32', '2022-06-12 16:21:28', 1, 1);
-
 
 -- ----------------------------
 -- Table structure for system_dict_data
@@ -315,24 +327,70 @@ CREATE TABLE `system_operate_log`  (
    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '操作日志记录';
 
--- ----------------------------
--- Records of system_operate_log
--- ----------------------------
--- 新增系统工具
-INSERT INTO `system_menu` (`id`, `parent_id`, `type`, `name`, `route_name`, `route_path`, `component`, `perm`, `icon`, `sort`, `visible`, `redirect`, `tree_path`, `always_show`, `keep_alive`, `deleted`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (92, 0, 2, '系统工具', NULL, '/tool', 'Layout', NULL, 'menu', 2, 1, '', '0', 1, 1, b'0', '2024-09-19 15:38:40', '2024-09-19 15:38:40', '2', '2');
-INSERT INTO `system_menu` (`id`, `parent_id`, `type`, `name`, `route_name`, `route_path`, `component`, `perm`, `icon`, `sort`, `visible`, `redirect`, `tree_path`, `always_show`, `keep_alive`, `deleted`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (93, 92, 1, '代码生成', 'Codegen', 'codegen', 'tools/codeGen/index', NULL, 'code', 1, 1, '', '0,92', 0, 1, b'0', '2024-09-19 15:39:46', '2024-09-19 15:39:46', '2', '2');
-INSERT INTO `system_menu` (`id`, `parent_id`, `type`, `name`, `route_name`, `route_path`, `component`, `perm`, `icon`, `sort`, `visible`, `redirect`, `tree_path`, `always_show`, `keep_alive`, `deleted`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (94, 93, 4, '导入数据表', NULL, '', NULL, 'tools:code-gen:import', '', 1, 1, '', '0,92,93', NULL, NULL, b'0', '2024-09-19 16:30:55', '2024-09-19 16:30:55', '2', '2');
-INSERT INTO `system_menu` (`id`, `parent_id`, `type`, `name`, `route_name`, `route_path`, `component`, `perm`, `icon`, `sort`, `visible`, `redirect`, `tree_path`, `always_show`, `keep_alive`, `deleted`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (95, 93, 4, '修改代码生成信息', NULL, '', NULL, 'tools:code-gen:update', '', 1, 1, '', '0,92,93', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', '2', '2');
-INSERT INTO `system_menu` (`id`, `parent_id`, `type`, `name`, `route_name`, `route_path`, `component`, `perm`, `icon`, `sort`, `visible`, `redirect`, `tree_path`, `always_show`, `keep_alive`, `deleted`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (96, 93, 4, '删除代码生成信息', NULL, '', NULL, 'tools:code-gen:delete', '', 1, 1, '', '0,92,93', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', '2', '2');
-INSERT INTO `system_menu` (`id`, `parent_id`, `type`, `name`, `route_name`, `route_path`, `component`, `perm`, `icon`, `sort`, `visible`, `redirect`, `tree_path`, `always_show`, `keep_alive`, `deleted`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (97, 93, 4, '同步代码生成信息', NULL, '', NULL, 'tools:code-gen:async', '', 1, 1, '', '0,92,93', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', '2', '2');
-INSERT INTO `system_menu` (`id`, `parent_id`, `type`, `name`, `route_name`, `route_path`, `component`, `perm`, `icon`, `sort`, `visible`, `redirect`, `tree_path`, `always_show`, `keep_alive`, `deleted`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES (98, 93, 4, '生成代码信息', NULL, '', NULL, 'tools:code-gen:codeGen', '', 1, 1, '', '0,92,93', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', '2', '2');
 
--- 新增对应角色信息
-INSERT INTO `system_role_menu` (`role_id`, `menu_id`) VALUES (2, 92);
-INSERT INTO `system_role_menu` (`role_id`, `menu_id`) VALUES (2, 93);
-INSERT INTO `system_role_menu` (`role_id`, `menu_id`) VALUES (2, 94);
-INSERT INTO `system_role_menu` (`role_id`, `menu_id`) VALUES (2, 95);
-INSERT INTO `system_role_menu` (`role_id`, `menu_id`) VALUES (2, 96);
-INSERT INTO `system_role_menu` (`role_id`, `menu_id`) VALUES (2, 97);
-INSERT INTO `system_role_menu` (`role_id`, `menu_id`) VALUES (2, 98);
+DROP TABLE IF EXISTS tool_code_gen_table;
+CREATE TABLE tool_code_gen_table
+(
+    `id`                bigint                                                        NOT NULL AUTO_INCREMENT COMMENT '编号',
+    `table_name`        varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' comment '表名称',
+    `table_comment`     varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' comment '表描述',
+    `sub_table_name`    varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL comment '关联子表的表名',
+    `sub_table_fk_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL comment '子表关联的外键名',
+    `class_name`        varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' comment '实体类名称',
+    `tpl_category`      varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'crud' comment '使用的模板（crud单表操作 tree树表操作）',
+    `tpl_web_type`      varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NOT NULL DEFAULT '' comment '前端模板类型（element-ui模版 element-plus模版）',
+    `package_name`      varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL comment '生成包路径',
+    `module_name`       varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NOT NULL comment '生成模块名',
+    `business_name`     varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NOT NULL comment '生成业务名',
+    `function_name`     varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NOT NULL comment '生成功能名',
+    `function_author`   varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci  NOT NULL comment '生成功能作者',
+    `gen_type`          char(1)                                                       NOT NULL DEFAULT '0' comment '生成代码方式（0zip压缩包 1自定义路径）',
+    `parent_menu_id`    int NULL DEFAULT NULL COMMENT '父菜单ID',
+    `gen_path`          varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '/' comment '生成路径（不填默认项目路径）',
+    `options`           varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL comment '其它生成选项',
+    `remark`            varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL comment '备注',
+    `deleted`           bit(1)                                                        NOT NULL DEFAULT b'0' COMMENT '是否删除',
+    `create_time`       datetime                                                      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time`       datetime                                                      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `create_by`         varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '创建者',
+    `update_by`         varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '更新者',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '代码生成业务表';
+-- ----------------------------
+-- Records of tool_code_gen_table
+-- ----------------------------
 
+DROP TABLE IF EXISTS tool_code_gen_table_column;
+CREATE TABLE `tool_code_gen_table_column` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `table_id` bigint(20) NOT NULL COMMENT '归属表编号',
+  `column_name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '列名称',
+  `column_comment` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '列描述',
+  `column_type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '列类型',
+  `java_type` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'JAVA类型',
+  `java_field` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'JAVA字段名',
+  `is_pk` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '是否主键（1是）',
+  `is_increment` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '是否自增（1是）',
+  `is_required` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '是否必填（1是）',
+  `is_insert` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '是否为插入字段（1是）',
+  `is_edit` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '是否编辑字段（1是）',
+  `is_list` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '是否列表字段（1是）',
+  `is_query` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '是否查询字段（1是）',
+  `query_type` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT 'EQ' COMMENT '查询方式（等于、不等于、大于、小于、范围）',
+  `html_type` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '显示类型（文本框、文本域、下拉框、复选框、单选框、日期控件）',
+  `dict_type` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '字典类型',
+  `sort` int(11) DEFAULT '0' COMMENT '显示顺序',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
+  `update_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx_table_id` (`table_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='代码生成业务表字段';
+-- ----------------------------
+-- Records of tool_code_gen_table_column
+-- ----------------------------
+
+BEGIN;
+COMMIT;

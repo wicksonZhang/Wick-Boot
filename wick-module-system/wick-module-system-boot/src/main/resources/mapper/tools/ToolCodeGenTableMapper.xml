@@ -9,6 +9,7 @@
         SELECT table_name, table_comment, create_time, update_time FROM information_schema.tables
         WHERE table_schema = (select database())
         AND table_name NOT LIKE 'tool_code_%'
+        AND table_name NOT LIKE 'flyway_%'
         AND table_name NOT IN (select table_name from tool_code_gen_table)
         <if test="queryVO.tableName != null and queryVO.tableName != ''">
             AND lower(table_name) LIKE lower(concat('%', #{queryVO.tableName}, '%'))
@@ -23,6 +24,7 @@
         SELECT table_name, table_comment, create_time, update_time FROM information_schema.tables
         WHERE table_schema = (select database())
         AND table_name NOT LIKE 'tool_code_%'
+        AND table_name NOT LIKE 'flyway_%'
         <if test="tableNames != null and tableNames.size() > 0">
             AND `table_name` IN
             <foreach collection="tableNames" item="tableName" open="(" close=")" separator=",">

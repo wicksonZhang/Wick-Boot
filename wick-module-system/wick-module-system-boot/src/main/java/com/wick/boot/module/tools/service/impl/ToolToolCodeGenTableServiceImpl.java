@@ -75,22 +75,25 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
     @Transactional(rollbackFor = Exception.class)
     public void importTable(List<String> tableNames) {
         /* Step-1：参数验证 */
-        List<ToolCodeGenTableDTO> codeGenTables = this.codeGenTableMapper.selectByTableNames(tableNames);
-        this.validateAddParams(codeGenTables, tableNames);
+        // 根据数据源的数据表，排除 tool_code_、flyway_ 的表信息
+        List<ToolCodeGenTableDTO> dataSourcesTables = this.codeGenTableMapper.selectByTableNames(tableNames);
+        // 根据数据表查询对应 code_gen_table 表中的数据
+        List<ToolCodeGenTable> codeGenTables = this.codeGenTableMapper.selectTables(tableNames);
+        this.validateAddParams(tableNames, dataSourcesTables, codeGenTables);
 
         /* Step-2: 导入数据表 */
-        importGenTable(codeGenTables);
+        importGenTable(dataSourcesTables);
     }
 
     /**
      * 导入数据表
      *
-     * @param toolCodeGenTableDTOS 数据表信息
+     * @param dataSourcesTables 数据表信息
      */
-    private void importGenTable(List<ToolCodeGenTableDTO> toolCodeGenTableDTOS) {
+    private void importGenTable(List<ToolCodeGenTableDTO> dataSourcesTables) {
         /* Step-1: convert dto to ToolCodeGenTable */
         List<ToolCodeGenTable> toolCodeGenTables = Lists.newArrayList();
-        for (ToolCodeGenTableDTO toolCodeGenTableDTO : toolCodeGenTableDTOS) {
+        for (ToolCodeGenTableDTO toolCodeGenTableDTO : dataSourcesTables) {
             ToolCodeGenTable codeGenTable = BeanUtil.copyProperties(toolCodeGenTableDTO, ToolCodeGenTable.class);
             ToolCodeGenUtils.initTableField(codeGenTable, toolCodeGenConfig);
             toolCodeGenTables.add(codeGenTable);
@@ -140,11 +143,13 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
     @Transactional(rollbackFor = Exception.class)
     public void update(ToolCodeGenTableUpdateVO updateVO) {
         /* Step-1: 校验更新参数信息 */
-        this.validateUpdateParams(updateVO);
+        ToolCodeGenTableAddVO table = updateVO.getTable();
+        List<ToolCodeGenTableColumnAddVO> columns = updateVO.getColumns();
+        List<ToolCodeGenTableColumn> codeGenTableColumns = this.codeGenTableColumnMapper.selectListByTableId(table.getId());
+        this.validateUpdateParams(table, columns, codeGenTableColumns);
 
         /* Step-2: 更新数据 */
         // 更新 ToolCodeGenTable 数据
-        ToolCodeGenTableAddVO table = updateVO.getTable();
         ToolCodeGenTable codeGenTable = BeanUtil.copyProperties(table, ToolCodeGenTable.class);
         this.codeGenTableMapper.updateById(codeGenTable);
         // 更新 ToolCodeGEnTableColumn 数据
@@ -178,16 +183,35 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
     @Override
     public List<ToolCodeGenPreviewDTO> previewCode(Long tableId) {
         /* Step-1: 校验参数 */
-        this.validatePreviewParams(tableId);
+        // 查询数据表
+        ToolCodeGenTable codeGenTable = this.codeGenTableMapper.selectById(tableId);
+        this.validateCodeGenTable(codeGenTable);
+        // 查询数据表字段
+        List<ToolCodeGenTableColumn> columns = this.codeGenTableColumnMapper.selectListByTableId(tableId);
+        this.validateCodeGenTableColumn(columns);
 
         /* Step-2: 查询*/
         List<ToolCodeGenTable> subTables = null;
         List<List<ToolCodeGenTableColumn>> subColumnsList = null;
-        ToolCodeGenTable table = this.codeGenTableMapper.selectById(tableId);
-        List<ToolCodeGenTableColumn> columns = this.codeGenTableColumnMapper.selectListByTableId(tableId);
 
         /* Step-2: 执行代码生成器模板引擎 */
-        return toolCodeGenEngine.execute(table, columns, null, null);
+        return toolCodeGenEngine.execute(codeGenTable, columns, null, null);
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void syncDb(Long tableId) {
+        /* Step-1: 校验参数 */
+        // 查询数据表
+        ToolCodeGenTable codeGenTable = this.codeGenTableMapper.selectById(tableId);
+        this.validateCodeGenTable(codeGenTable);
+        // 查询数据表字段
+        List<ToolCodeGenTableColumn> columns = this.codeGenTableColumnMapper.selectListByTableId(tableId);
+        this.validateCodeGenTableColumn(columns);
+        // 查询数据表的源信息
+        List<ToolCodeGenTableColumn> sourceColumns = this.codeGenTableColumnMapper.selectDbTableColumnsByName(codeGenTable.getTableName());
+        this.validateCodeGenTableColumn(sourceColumns);
+
+        /* Step-2: */
+    }
 }

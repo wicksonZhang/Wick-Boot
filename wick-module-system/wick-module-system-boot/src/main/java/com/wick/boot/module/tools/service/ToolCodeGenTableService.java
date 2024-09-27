@@ -70,4 +70,10 @@ public interface ToolCodeGenTableService {
      */
     List<ToolCodeGenPreviewDTO> previewCode(Long tableId);
 
+    /**
+     * 同步数据表
+     *
+     * @param tableId 数据表id
+     */
+    void syncDb(Long tableId);
 }

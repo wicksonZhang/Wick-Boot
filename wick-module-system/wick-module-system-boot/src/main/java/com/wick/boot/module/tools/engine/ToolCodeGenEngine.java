@@ -204,7 +204,6 @@ public class ToolCodeGenEngine {
             if (ObjectUtil.equals(fieldConfig.getRequired(), "1")) {
                 hasRequiredField = true;
             }
-//            fieldConfig.setTsType(JavaTypeEnum.getTsTypeByJavaType(fieldConfig.getFieldType()));
         }
 
         bindMap.put("hasLocalDateTime", hasLocalDateTime);
