@@ -42,6 +42,11 @@ public class ToolCodeGenConfig {
     private String frontendAppName;
 
     /**
+     * 下载代码文件名称
+     */
+    private String downloadFileName;
+
+    /**
      * 模板配置
      */
     private Map<String, TemplateConfig> templateConfigs;

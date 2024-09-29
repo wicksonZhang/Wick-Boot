@@ -7,6 +7,7 @@ import com.wick.boot.module.tools.model.dto.table.ToolCodeGenTablePageReqsDTO;
 import com.wick.boot.module.tools.model.vo.table.ToolCodeGenTableQueryVO;
 import com.wick.boot.module.tools.model.vo.table.ToolCodeGenTableUpdateVO;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -76,4 +77,12 @@ public interface ToolCodeGenTableService {
      * @param tableId 数据表id
      */
     void syncDb(Long tableId);
+
+    /**
+     * 下载代码
+     *
+     * @param response 响应结果集
+     * @param tableId  表Id
+     */
+    void download(HttpServletResponse response, Long tableId);
 }

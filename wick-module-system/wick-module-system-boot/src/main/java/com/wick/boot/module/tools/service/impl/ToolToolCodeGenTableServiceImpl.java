@@ -32,12 +32,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * 代码自动生成器-服务实现类
@@ -360,4 +369,74 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
         return CollectionUtil.intersectionDistinct(sourceColumnNames, targetColumnNames);
     }
 
+    @Override
+    public void download(HttpServletResponse response, Long tableId) {
+        byte[] data = downloadCode(tableId);
+        String downloadFileName = toolCodeGenConfig.getDownloadFileName();
+
+        response.reset();
+        response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(downloadFileName, StandardCharsets.UTF_8));
+        response.setContentType("application/octet-stream; charset=UTF-8");
+
+        try (ServletOutputStream outputStream = response.getOutputStream()) {
+            outputStream.write(data);
+            outputStream.flush();
+        } catch (IOException e) {
+            log.error("Error while writing the zip file to response", e);
+            throw new RuntimeException("Failed to write the zip file to response", e);
+        }
+    }
+
+    /**
+     * 下载代码
+     *
+     * @param tableId 数据表Id
+     * @return 压缩文件字节数组
+     */
+    private byte[] downloadCode(Long tableId) {
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+             ZipOutputStream zip = new ZipOutputStream(outputStream)) {
+
+            // 遍历每个表名，生成对应的代码并压缩到 zip 文件中
+            generateAndZipCode(tableId, zip);
+            // 确保所有压缩数据写入输出流，避免数据残留在内存缓冲区引发的数据不完整
+            zip.finish();
+            return outputStream.toByteArray();
+
+        } catch (IOException e) {
+            log.error("Error while generating zip for code download", e);
+            throw new RuntimeException("Failed to generate code zip file", e);
+        }
+    }
+
+    /**
+     * 根据表名生成代码并压缩到zip文件中
+     *
+     * @param tableId 表名
+     * @param zip     压缩文件输出流
+     */
+    private void generateAndZipCode(Long tableId, ZipOutputStream zip) {
+        List<ToolCodeGenPreviewDTO> codePreviewList = previewCode(tableId);
+
+        for (ToolCodeGenPreviewDTO codePreview : codePreviewList) {
+            String fileName = codePreview.getFileName();
+            String content = codePreview.getContent();
+            String path = codePreview.getPath();
+
+            try {
+                // 创建压缩条目
+                ZipEntry zipEntry = new ZipEntry(path + File.separator + fileName);
+                zip.putNextEntry(zipEntry);
+
+                // 写入文件内容
+                zip.write(content.getBytes(StandardCharsets.UTF_8));
+
+                // 关闭当前压缩条目
+                zip.closeEntry();
+
+            } catch (IOException e) {
+                log.error("Error while adding file {} to zip", fileName, e);
+            }
+        }
+    }
 }

@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
@@ -92,6 +93,14 @@ public class ToolCodeGenTableController {
     public ResultUtil<Boolean> syncDb(@PathVariable("tableId") Long tableId) {
         this.codeGenService.syncDb(tableId);
         return ResultUtil.success(true);
+    }
+
+    @GetMapping("/download/{tableId}")
+    @ApiOperation(value = "生成代码", notes = "代码生成", httpMethod = "PUT")
+    @ApiImplicitParam(name = "tableId", value = "数据表Id", required = true, dataType = "Long", dataTypeClass = Long.class)
+    public ResultUtil<Boolean> download(HttpServletResponse response, @PathVariable Long tableId) {
+        this.codeGenService.download(response, tableId);
+        return ResultUtil.success();
     }
 
 }
