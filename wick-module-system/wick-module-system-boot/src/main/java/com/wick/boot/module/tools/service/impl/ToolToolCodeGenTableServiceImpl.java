@@ -374,11 +374,10 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
         byte[] data = downloadCode(tableId);
         String downloadFileName = toolCodeGenConfig.getDownloadFileName();
 
-        response.reset();
-        response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(downloadFileName, StandardCharsets.UTF_8));
-        response.setContentType("application/octet-stream; charset=UTF-8");
-
         try (ServletOutputStream outputStream = response.getOutputStream()) {
+            response.reset();
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(downloadFileName, "UTF-8"));
             outputStream.write(data);
             outputStream.flush();
         } catch (IOException e) {
