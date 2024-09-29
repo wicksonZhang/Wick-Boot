@@ -1,11 +1,13 @@
 package com.wick.boot.module.tools.model.entity;
 
 import cn.hutool.core.util.ObjUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wick.boot.common.core.model.entity.BaseDO;
+import com.wick.boot.module.tools.constant.ToolCodeGenConstants;
 import lombok.*;
 import lombok.experimental.Accessors;
 
@@ -127,13 +129,29 @@ public class ToolCodeGenTableColumn extends BaseDO {
      */
     private Integer sort;
 
-
-    public boolean isPrimaryKey() {
-        return !isPrimaryKey(this.pk);
+    public boolean isPage() {
+        return this.list != null && StrUtil.equals("1", this.list);
     }
 
-    public boolean isPrimaryKey(String pk) {
-        return pk != null && ObjUtil.equals("1", pk);
+    public boolean isInsert() {
+        return this.created != null && StrUtil.equals("1", this.created);
+    }
+
+    public boolean isUpdate() {
+        return this.edit != null && StrUtil.equals("1", this.edit);
+    }
+
+    public boolean isUsableColumn() {
+        // isSuperColumn()中的名单用于避免生成多余Domain属性，若某些属性在生成页面时需要用到不能忽略，则放在此处白名单
+        return StrUtil.equalsAnyIgnoreCase(this.javaField, "parentId", "orderNum", "remark");
+    }
+
+    public boolean isSuperColumn() {
+        return StrUtil.equalsAnyIgnoreCase(this.javaField, ToolCodeGenConstants.BASE_ENTITY);
+    }
+
+    public boolean isPrimaryKey() {
+        return !(this.pk != null && ObjUtil.equals("1", this.pk));
     }
 
 }

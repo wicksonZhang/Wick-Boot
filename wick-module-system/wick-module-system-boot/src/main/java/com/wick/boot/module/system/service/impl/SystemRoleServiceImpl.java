@@ -51,7 +51,7 @@ public class SystemRoleServiceImpl extends SystemRoleAbstractService implements 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateSystemRole(SystemRoleUpdateVO reqVO) {
-        /* Step-1: 校验新增参数 */
+        /* Step-1: 校验更新参数 */
         this.validateUpdateParams(reqVO);
 
         /* Step-2: 更新角色信息 */

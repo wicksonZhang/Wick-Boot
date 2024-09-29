@@ -85,7 +85,7 @@ public class ToolCodeGenTableController {
         return ResultUtil.success(this.codeGenService.previewCode(tableId));
     }
 
-    @GetMapping("/syncDb/{tableId}")
+    @PutMapping("/syncDb/{tableId}")
     @PreAuthorize("@ss.hasPerm('tools:code-gen:async')")
     @ApiOperation(value = "同步代码", notes = "代码生成", httpMethod = "PUT")
     @ApiImplicitParam(name = "tableId", value = "数据表Id", required = true, dataType = "Long", dataTypeClass = Long.class)

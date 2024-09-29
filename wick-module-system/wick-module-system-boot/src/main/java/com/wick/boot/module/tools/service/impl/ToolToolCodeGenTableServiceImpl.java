@@ -2,7 +2,9 @@ package com.wick.boot.module.tools.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
@@ -32,6 +34,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 代码自动生成器-服务实现类
@@ -201,17 +207,157 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void syncDb(Long tableId) {
-        /* Step-1: 校验参数 */
-        // 查询数据表
+        // Step 1: 校验参数
+        // 查询并校验数据表信息
         ToolCodeGenTable codeGenTable = this.codeGenTableMapper.selectById(tableId);
         this.validateCodeGenTable(codeGenTable);
-        // 查询数据表字段
-        List<ToolCodeGenTableColumn> columns = this.codeGenTableColumnMapper.selectListByTableId(tableId);
-        this.validateCodeGenTableColumn(columns);
-        // 查询数据表的源信息
+
+        // 查询并校验数据表字段
+        List<ToolCodeGenTableColumn> targetColumns = this.codeGenTableColumnMapper.selectListByTableId(tableId);
+        this.validateCodeGenTableColumn(targetColumns);
+
+        // 从数据库中查询源数据表字段
         List<ToolCodeGenTableColumn> sourceColumns = this.codeGenTableColumnMapper.selectDbTableColumnsByName(codeGenTable.getTableName());
         this.validateCodeGenTableColumn(sourceColumns);
 
-        /* Step-2: */
+        // Step 2: 根据新增、更新、删除分类处理
+        // 新增字段处理：在 sourceColumns 中存在，但 targetColumns 中不存在的字段
+        insertColumns(targetColumns, sourceColumns, codeGenTable.getId());
+
+        // 更新字段处理：sourceColumns 和 targetColumns 中都存在的字段，进行更新
+        updateColumns(targetColumns, sourceColumns);
+
+        // 删除字段处理：在 targetColumns 中存在，但 sourceColumns 中不存在的字段
+        deleteColumns(targetColumns, sourceColumns);
     }
+
+    /**
+     * 处理新增字段
+     *
+     * @param targetColumns 目标字段集合
+     * @param sourceColumns 源字段集合
+     * @param tableId       表 ID
+     */
+    private void insertColumns(List<ToolCodeGenTableColumn> targetColumns, List<ToolCodeGenTableColumn> sourceColumns, Long tableId) {
+        // 获取 sourceColumns 中存在但 targetColumns 中不存在的字段名
+        List<String> insertColumns = getSubtractFiled(sourceColumns, targetColumns);
+
+        if (CollUtil.isEmpty(insertColumns)) {
+            return;
+        }
+
+        // 准备新增字段
+        List<ToolCodeGenTableColumn> saveList = new ArrayList<>();
+        sourceColumns.stream()
+                .filter(columns -> insertColumns.contains(columns.getColumnName()))
+                .forEach(columns -> {
+                    columns.setTableId(tableId);
+                    ToolCodeGenUtils.initColumnField(columns);  // 初始化字段信息
+                    saveList.add(columns);
+                });
+
+        // 批量插入新字段
+        this.codeGenTableColumnMapper.insertBatch(saveList);
+    }
+
+    /**
+     * 处理更新字段
+     *
+     * @param targetColumns 目标字段集合
+     * @param sourceColumns 源字段集合
+     */
+    private void updateColumns(List<ToolCodeGenTableColumn> targetColumns, List<ToolCodeGenTableColumn> sourceColumns) {
+        // 获取 sourceColumns 和 targetColumns 的交集字段名
+        Set<String> updateColumns = getIntersectionFiled(targetColumns, sourceColumns);
+
+        if (CollUtil.isEmpty(updateColumns)) {
+            return;
+        }
+
+        // 将 targetColumns 转为 Map，方便通过字段名获取字段
+        Map<String, ToolCodeGenTableColumn> targetColumnMap = targetColumns.stream()
+                .collect(Collectors.toMap(ToolCodeGenTableColumn::getColumnName, Function.identity()));
+
+        // 准备更新字段
+        List<ToolCodeGenTableColumn> updateList = new ArrayList<>();
+        sourceColumns.stream()
+                .filter(column -> updateColumns.contains(column.getColumnName()))
+                .forEach(column -> {
+                    ToolCodeGenUtils.initColumnField(column);  // 初始化字段信息
+                    ToolCodeGenTableColumn prevColumn = targetColumnMap.get(column.getColumnName());
+
+                    // 设置字段的 ID 和表 ID，保留部分旧属性
+                    column.setId(prevColumn.getId());
+                    column.setTableId(prevColumn.getTableId());
+                    if (column.isPage()) {
+                        column.setDictType(prevColumn.getDictType());
+                        column.setQueryType(prevColumn.getQueryType());
+                    }
+                    if (StrUtil.isNotEmpty(prevColumn.getRequired()) && !column.isPrimaryKey()
+                            && (column.isInsert() || column.isUpdate())
+                            && (column.isUsableColumn() || !column.isSuperColumn())) {
+                        column.setRequired(prevColumn.getRequired());
+                        column.setHtmlType(prevColumn.getHtmlType());
+                    }
+                    updateList.add(column);
+                });
+
+        // 批量更新字段
+        this.codeGenTableColumnMapper.updateBatch(updateList);
+    }
+
+    /**
+     * 处理删除字段
+     *
+     * @param targetColumns 目标字段集合
+     * @param sourceColumns 源字段集合
+     */
+    private void deleteColumns(List<ToolCodeGenTableColumn> targetColumns, List<ToolCodeGenTableColumn> sourceColumns) {
+        // 获取 targetColumns 中存在但 sourceColumns 中不存在的字段名
+        List<String> deleteColumns = getSubtractFiled(targetColumns, sourceColumns);
+
+        if (CollUtil.isEmpty(deleteColumns)) {
+            return;
+        }
+
+        // 准备删除字段
+        List<ToolCodeGenTableColumn> deleteList = new ArrayList<>();
+        targetColumns.stream()
+                .filter(column -> deleteColumns.contains(column.getColumnName()))
+                .forEach(deleteList::add);
+
+        // 批量删除字段
+        this.codeGenTableColumnMapper.deleteBatchIds(deleteList);
+    }
+
+    /**
+     * 获取差集字段名：sourceColumns - targetColumns
+     *
+     * @param sourceColumns 源字段集合
+     * @param targetColumns 目标字段集合
+     * @return 差集字段名列表
+     */
+    private List<String> getSubtractFiled(List<ToolCodeGenTableColumn> sourceColumns, List<ToolCodeGenTableColumn> targetColumns) {
+        List<String> sourceColumnNames = sourceColumns.stream().map(ToolCodeGenTableColumn::getColumnName).collect(Collectors.toList());
+        List<String> targetColumnNames = targetColumns.stream().map(ToolCodeGenTableColumn::getColumnName).collect(Collectors.toList());
+
+        // 获取差集字段名
+        return CollectionUtil.subtractToList(sourceColumnNames, targetColumnNames);
+    }
+
+    /**
+     * 获取交集字段名：sourceColumns ∩ targetColumns
+     *
+     * @param targetColumns 目标字段集合
+     * @param sourceColumns 源字段集合
+     * @return 交集字段名集合
+     */
+    private Set<String> getIntersectionFiled(List<ToolCodeGenTableColumn> targetColumns, List<ToolCodeGenTableColumn> sourceColumns) {
+        List<String> targetColumnNames = targetColumns.stream().map(ToolCodeGenTableColumn::getColumnName).collect(Collectors.toList());
+        List<String> sourceColumnNames = sourceColumns.stream().map(ToolCodeGenTableColumn::getColumnName).collect(Collectors.toList());
+
+        // 获取交集字段名
+        return CollectionUtil.intersectionDistinct(sourceColumnNames, targetColumnNames);
+    }
+
 }
