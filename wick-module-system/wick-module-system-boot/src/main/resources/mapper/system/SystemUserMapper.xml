@@ -31,6 +31,9 @@
             <if test='reqVO.status != null'>
                 AND u.status = #{reqVO.status}
             </if>
+            <if test='reqVO.createTime != null'>
+                AND u.create_time BETWEEN #{reqVO.createTime[0]} AND #{reqVO.createTime[1]}
+            </if>
         </where>
         ORDER BY u.id ASC
     </select>

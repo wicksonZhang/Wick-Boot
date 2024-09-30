@@ -4,14 +4,13 @@ import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.module.system.model.dto.user.SystemUserDTO;
 import com.wick.boot.module.system.model.dto.user.SystemUserLoginInfoDTO;
-import com.wick.boot.module.system.model.vo.user.SystemUserQueryVO;
 import com.wick.boot.module.system.model.vo.user.SystemUserAddVO;
+import com.wick.boot.module.system.model.vo.user.SystemUserQueryVO;
 import com.wick.boot.module.system.model.vo.user.SystemUserUpdateVO;
 import com.wick.boot.module.system.service.SystemUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.v3.oas.annotations.Parameter;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -39,8 +38,8 @@ public class SystemUserController {
 
     @GetMapping("/getUserInfo/{username}")
     @ApiOperation(value = "获取用户信息", notes = "用户信息")
-    public ResultUtil<SystemUserDTO> getUserInfo(@Parameter(description = "用户账号")
-                                                 @PathVariable("username") String username) {
+    @ApiImplicitParam(name = "username", value = "用户名称", required = true, dataType = "String", dataTypeClass = String.class)
+    public ResultUtil<SystemUserDTO> getUserInfo(@PathVariable String username) {
         return ResultUtil.success(userService.getUserInfo(username));
     }
 
