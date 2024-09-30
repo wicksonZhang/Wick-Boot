@@ -96,6 +96,7 @@ public class ToolCodeGenTableController {
     }
 
     @GetMapping("/download/{tableId}")
+    @PreAuthorize("@ss.hasPerm('tools:code-gen:download')")
     @ApiOperation(value = "生成代码", notes = "代码生成", httpMethod = "PUT")
     @ApiImplicitParam(name = "tableId", value = "数据表Id", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<Boolean> download(HttpServletResponse response, @PathVariable Long tableId) {
