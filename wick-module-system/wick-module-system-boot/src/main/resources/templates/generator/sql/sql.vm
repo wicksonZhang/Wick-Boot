@@ -1,22 +1,17 @@
 -- 菜单 SQL
-insert into sys_menu (name, parent_id, sort, path, component, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('${functionName}', '${parentMenuId}', '1', '${businessName}', '${moduleName}/${businessName}/index', 'C', '0', '0', '${permissionPrefix}:list', '#', 'admin', sysdate(), '', null, '${functionName}菜单');
+INSERT INTO `system_menu`(`parent_id`, `type`, `name`, `route_name`, `route_path`, `component`, `perm`, `icon`, `sort`, `visible`, `redirect`, `tree_path`, `always_show`, `keep_alive`, `deleted`, `create_time`, `update_time`, `create_by`, `update_by`)
+VALUES ('${parentMenuId}', 2, '${functionName}', '', '/system', 'Layout', NULL, 'system', 1, 1, '/system/user', '0', NULL, NULL, b'0', sysdate(), sysdate(), '2', '2');
+
 
 -- 按钮父菜单ID
 SELECT @parentId := LAST_INSERT_ID();
 
 -- 按钮 SQL
-insert into sys_menu (name, parent_id, sort, path, component, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('${functionName}查询', @parentId, '1',  '#', '', 'F', '0', '0', '${permissionPrefix}:query',        '#', 'admin', sysdate(), '', null, '');
+INSERT INTO `system_menu`(`parent_id`, `type`, `name`,               `route_name`, `route_path`, `component`, `perm`,                    `icon`, `sort`, `visible`, `redirect`, `tree_path`, `always_show`, `keep_alive`, `deleted`, `create_time`, `update_time`, `create_by`, `update_by`)
+VALUES                   ('@parentId',  4,     '${functionName}新增', '',           NULL,         NULL,        '${permissionPrefix}:add', 'NULL,   1,      1,        NULL,       '0',         NULL,          NULL,         b'0',      sysdate(),     sysdate(),     '2',         '2');
 
-insert into sys_menu (name, parent_id, sort, path, component, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('${functionName}新增', @parentId, '2',  '#', '', 'F', '0', '0', '${permissionPrefix}:add',          '#', 'admin', sysdate(), '', null, '');
+INSERT INTO `system_menu`(`parent_id`, `type`, `name`,               `route_name`, `route_path`, `component`, `perm`,                    `icon`, `sort`, `visible`, `redirect`, `tree_path`, `always_show`, `keep_alive`, `deleted`, `create_time`, `update_time`, `create_by`, `update_by`)
+VALUES                   ('@parentId',  4,     '${functionName}修改', '',           NULL,         NULL,        '${permissionPrefix}:update', 'NULL,   2,      1,        NULL,       '0',         NULL,          NULL,         b'0',      sysdate(),     sysdate(),     '2',         '2');
 
-insert into sys_menu (name, parent_id, sort, path, component, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('${functionName}修改', @parentId, '3',  '#', '', 'F', '0', '0', '${permissionPrefix}:edit',         '#', 'admin', sysdate(), '', null, '');
-
-insert into sys_menu (name, parent_id, sort, path, component, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('${functionName}删除', @parentId, '4',  '#', '', 'F', '0', '0', '${permissionPrefix}:remove',       '#', 'admin', sysdate(), '', null, '');
-
-insert into sys_menu (name, parent_id, sort, path, component, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
-values('${functionName}导出', @parentId, '5',  '#', '', 'F', '0', '0', '${permissionPrefix}:export',       '#', 'admin', sysdate(), '', null, '');
+INSERT INTO `system_menu`(`parent_id`, `type`, `name`,               `route_name`, `route_path`, `component`, `perm`,                    `icon`, `sort`, `visible`, `redirect`, `tree_path`, `always_show`, `keep_alive`, `deleted`, `create_time`, `update_time`, `create_by`, `update_by`)
+VALUES                   ('@parentId',  4,     '${functionName}删除', '',           NULL,         NULL,        '${permissionPrefix}:delete', 'NULL,   2,      1,        NULL,       '0',         NULL,          NULL,         b'0',      sysdate(),     sysdate(),     '2',         '2');

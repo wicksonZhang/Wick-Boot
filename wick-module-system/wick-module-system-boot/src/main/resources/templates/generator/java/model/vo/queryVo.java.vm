@@ -1,4 +1,4 @@
-package ${packageName}.model.vo;
+package ${packageName}.model.${businessName}.vo;
 
 import com.wick.boot.common.core.model.vo.CommonPageParamVO;
 import io.swagger.annotations.ApiModel;
@@ -23,6 +23,7 @@ public class ${className}QueryVO extends CommonPageParamVO {
 #if("$!fieldConfig.query" == '1')
     @ApiModelProperty(value = "$fieldConfig.columnComment")
     private ${fieldConfig.javaType} ${fieldConfig.javaField};
+
 #end
 #end
 #end

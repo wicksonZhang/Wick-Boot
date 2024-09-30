@@ -1,7 +1,8 @@
-package ${packageName}.model.dto;
+package ${packageName}.model.${businessName}.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import java.io.Serial;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,9 +11,6 @@ import java.time.LocalDateTime;
 #end
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
-#end
-#if(${hasRequiredField})
-import jakarta.validation.constraints.*;
 #end
 
 /**
@@ -23,10 +21,20 @@ import jakarta.validation.constraints.*;
  */
 @Getter
 @Setter
-public class ${className}DTO {
+@ApiModel(value = "${className}ADTO", description = "$!{functionName}视图DTO")
+public class ${className}DTO implements Serializable {
 
+    private static final long serialVersionUID = 1L;
 
+#if($fieldConfigs)
+ #foreach($fieldConfig in ${fieldConfigs})
+  #if($fieldConfig.list)
+    @ApiModelProperty(value = "$fieldConfig.columnComment")
+    private ${fieldConfig.javaType} ${fieldConfig.javaField};
 
+  #end
+ #end
+#end
 }
 
 

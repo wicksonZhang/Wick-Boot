@@ -68,10 +68,12 @@ public class ToolCodeGenEngine {
             String packageName = table.getPackageName();
             // 模块名称
             String moduleName = table.getModuleName();
+            // 业务名称
+            String businessName = table.getBusinessName();
             // 子包：controller、convert
             String templatePackageName = templateConfig.getPackageName();
             // 文件路径  src/main/java/com/wick/system/controller
-            String filePath = getFilePath(templateName, packageName, moduleName, templatePackageName, className);
+            String filePath = getFilePath(templateName, packageName, moduleName, businessName, templatePackageName, className);
             previewDTO.setPath(filePath);
 
             /* Step-3: 包路径 */
@@ -127,7 +129,7 @@ public class ToolCodeGenEngine {
      * @param className           类名
      * @return 文件路径
      */
-    private String getFilePath(String templateName, String packageName, String moduleName, String templatePackageName, String className) {
+    private String getFilePath(String templateName, String packageName, String moduleName, String businessName, String templatePackageName, String className) {
         String path;
         if ("MapperXml".equals(templateName) || "Sql".equals(templateName)) {
             path = (toolCodeGenConfig.getBackendAppName()
@@ -147,6 +149,11 @@ public class ToolCodeGenEngine {
                     + File.separator + moduleName
                     + File.separator + StrUtil.toSymbolCase(className, '-')
             );
+        } else if (StrUtil.equalsAny(templateName, "AddVO", "UpdateVO", "QueryVO", "DTO")) {
+            path = (toolCodeGenConfig.getBackendAppName()
+                    + File.separator
+                    + "src" + File.separator + "main" + File.separator + "java"
+                    + File.separator + packageName + File.separator + templatePackageName + File.separator + businessName);
         } else {
             path = (toolCodeGenConfig.getBackendAppName()
                     + File.separator

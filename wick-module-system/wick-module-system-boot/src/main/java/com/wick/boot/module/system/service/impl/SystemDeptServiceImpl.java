@@ -150,8 +150,12 @@ public class SystemDeptServiceImpl extends SystemDeptAbstractService implements 
         }
 
         // Step-2: 返回根节点结果集
-        return deptMap.values().stream()
+        List<SystemDeptDTO> rootDeptList = deptMap.values().stream()
                 .filter(deptDTO -> Objects.equals(rootNodeId, deptDTO.getParentId()))
                 .collect(Collectors.toList());
+        if (CollUtil.isEmpty(rootDeptList)) {
+            return new ArrayList<>(deptMap.values());
+        }
+        return rootDeptList;
     }
 }
