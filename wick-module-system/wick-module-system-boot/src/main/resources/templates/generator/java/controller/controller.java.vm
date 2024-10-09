@@ -58,6 +58,7 @@ public class ${className}Controller {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("@ss.hasPerm('${permissionPrefix}:query')")
     @ApiOperation(value = "通过主键获取${functionName}数据", notes = "${functionName}管理")
     @ApiImplicitParam(name = "id", value = "${functionName}ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<${className}DTO> get${className}(@NotNull(message = "主键不能为空") @PathVariable Long id) {
@@ -65,6 +66,7 @@ public class ${className}Controller {
     }
 
     @GetMapping("/page")
+    @PreAuthorize("@ss.hasPerm('${permissionPrefix}:query')")
     @ApiOperation(value = "获取${functionName}分页数据", notes = "${functionName}管理")
     public ResultUtil<PageResult<${className}DTO>> get${className}Page(@Valid ${className}QueryVO reqVO) {
         return ResultUtil.success(${lowerClassName}Service.get${className}Page(reqVO));

@@ -36,7 +36,8 @@ public class ToolCodeGenTableController {
     private ToolCodeGenTableService codeGenService;
 
     @GetMapping("/db/list")
-    @ApiOperation(value = "获取数据表", notes = "代码生成", httpMethod = "GET")
+    @PreAuthorize("@ss.hasPerm('tools:code-gen:query')")
+    @ApiOperation(value = "获取数据源数据表", notes = "代码生成", httpMethod = "GET")
     public ResultUtil<PageResult<ToolCodeGenTablePageReqsDTO>> dataList(@Valid ToolCodeGenTableQueryVO queryVO) {
         return ResultUtil.success(codeGenService.selectDbTableList(queryVO));
     }
@@ -51,12 +52,14 @@ public class ToolCodeGenTableController {
     }
 
     @GetMapping("/list")
-    @ApiOperation(value = "获取代码生成分页数据", notes = "代码生成", httpMethod = "GET")
+    @PreAuthorize("@ss.hasPerm('tools:code-gen:query')")
+    @ApiOperation(value = "获取代码生成分页", notes = "代码生成", httpMethod = "GET")
     public ResultUtil<PageResult<ToolCodeGenTablePageReqsDTO>> list(@Valid ToolCodeGenTableQueryVO queryVO) {
         return ResultUtil.success(codeGenService.selectCodeGenTableList(queryVO));
     }
 
     @GetMapping("/details/{tableId}")
+    @PreAuthorize("@ss.hasPerm('tools:code-gen:query')")
     @ApiOperation(value = "获取代码生成详细数据", notes = "代码生成", httpMethod = "GET")
     @ApiImplicitParam(name = "tableId", value = "数据表Id", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<ToolCodeGenDetailDTO> getDetails(@PathVariable Long tableId) {
@@ -80,6 +83,7 @@ public class ToolCodeGenTableController {
     }
 
     @GetMapping("/preview/{tableId}")
+    @PreAuthorize("@ss.hasPerm('tools:code-gen:preview')")
     @ApiOperation(value = "预览代码", notes = "代码生成", httpMethod = "PUT")
     @ApiImplicitParam(name = "tableId", value = "数据表Id", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<List<ToolCodeGenPreviewDTO>> previewCode(@PathVariable("tableId") Long tableId) {

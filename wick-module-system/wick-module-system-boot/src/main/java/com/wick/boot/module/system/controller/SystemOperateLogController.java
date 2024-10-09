@@ -7,6 +7,7 @@ import com.wick.boot.module.system.service.SystemOperateLogService;
 import com.wick.boot.module.system.model.dto.logger.operate.SystemOperateLogDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,12 +31,14 @@ public class SystemOperateLogController {
     private SystemOperateLogService operateLogService;
 
     @GetMapping("/page")
+    @PreAuthorize("@ss.hasPerm('system:operate-log:query')")
     @ApiOperation(value = "获取操作日志分页", notes = "操作日志")
     public ResultUtil<PageResult<SystemOperateLogDTO>> getOperateLogPage(@Valid SystemOperateLogQueryVO reqVO) {
         return ResultUtil.success(operateLogService.getOperateLogPage(reqVO));
     }
 
     @GetMapping("/export")
+    @PreAuthorize("@ss.hasPerm('system:operate-log:export')")
     @ApiOperation(value = "导出操作日志分页", notes = "登录日志")
     public void exportOperateLog(@Valid SystemOperateLogQueryVO queryParams, HttpServletResponse response) {
         operateLogService.exportOperateLog(queryParams, response);

@@ -58,6 +58,7 @@ public class SystemDeptController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("@ss.hasPerm('system:dept:query')")
     @ApiOperation(value = "获取部门数据", notes = "部门信息")
     @ApiImplicitParam(name = "id", value = "部门ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<SystemDeptDTO> getSystemDept(@NotNull(message = "部门ID不能为空") @PathVariable Long id) {
@@ -65,13 +66,15 @@ public class SystemDeptController {
     }
 
     @GetMapping("/list")
+    @PreAuthorize("@ss.hasPerm('system:dept:query')")
     @ApiOperation(value = "获取部门列表", notes = "部门信息")
     public ResultUtil<List<SystemDeptDTO>> getSystemDeptList(@Valid SystemDeptQueryVO reqVO) {
         return ResultUtil.success(systemDeptService.getSystemDeptList(reqVO));
     }
 
-    @ApiOperation(value = "获取部门下拉选项", notes = "部门信息")
     @GetMapping("/options")
+    @PreAuthorize("@ss.hasPerm('system:dept:options')")
+    @ApiOperation(value = "获取部门下拉选项", notes = "部门信息")
     public ResultUtil<List<SystemDeptOptionsDTO>> getSystemDeptOptionsList() {
         return ResultUtil.success(systemDeptService.getSystemDeptOptionsList());
     }

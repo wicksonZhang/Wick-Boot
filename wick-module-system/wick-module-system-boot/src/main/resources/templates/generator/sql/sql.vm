@@ -1,17 +1,22 @@
--- 菜单 SQL
-INSERT INTO `system_menu`(`parent_id`, `type`, `name`, `route_name`, `route_path`, `component`, `perm`, `icon`, `sort`, `visible`, `redirect`, `tree_path`, `always_show`, `keep_alive`, `deleted`, `create_time`, `update_time`, `create_by`, `update_by`)
-VALUES ('${parentMenuId}', 2, '${functionName}', '', '/system', 'Layout', NULL, 'system', 1, 1, '/system/user', '0', NULL, NULL, b'0', sysdate(), sysdate(), '2', '2');
-
+-- 菜单SQL
+INSERT INTO`system_menu`(`parent_id`,`type`,`name`,`route_name`,`route_path`,`component`,`perm`,`icon`,`sort`,`visible`,`redirect`,`tree_path`,`always_show`,`keep_alive`,`deleted`,`create_time`,`update_time`,`create_by`,`update_by`)
+VALUES('${parentMenuId}',1,'${functionName}','${businessName}','${businessName}','${moduleName}/${businessName}/index',NULL,'',1,1,NULL,'0,${parentMenuId}',NULL,1,b'0',sysdate(),sysdate(),1,1);
 
 -- 按钮父菜单ID
-SELECT @parentId := LAST_INSERT_ID();
+SELECT @parentId:=LAST_INSERT_ID();
 
--- 按钮 SQL
-INSERT INTO `system_menu`(`parent_id`, `type`, `name`,               `route_name`, `route_path`, `component`, `perm`,                    `icon`, `sort`, `visible`, `redirect`, `tree_path`, `always_show`, `keep_alive`, `deleted`, `create_time`, `update_time`, `create_by`, `update_by`)
-VALUES                   ('@parentId',  4,     '${functionName}新增', '',           NULL,         NULL,        '${permissionPrefix}:add', 'NULL,   1,      1,        NULL,       '0',         NULL,          NULL,         b'0',      sysdate(),     sysdate(),     '2',         '2');
+-- 按钮SQL
+INSERT INTO `system_menu`(`parent_id`,`type`,`name`,`route_name`,`route_path`,`component`,`perm`,`icon`,`sort`,`visible`,`redirect`,`tree_path`,`always_show`,`keep_alive`,`deleted`,`create_time`,`update_time`,`create_by`,`update_by`)
+VALUES(@parentId,4,'${functionName}新增',NULL,'',NULL,'${permissionPrefix}:add',NULL,1,1,NULL,CONCAT('0,','${parentMenuId},',@parentId),NULL,NULL,b'0',sysdate(),sysdate(),1,1);
 
-INSERT INTO `system_menu`(`parent_id`, `type`, `name`,               `route_name`, `route_path`, `component`, `perm`,                    `icon`, `sort`, `visible`, `redirect`, `tree_path`, `always_show`, `keep_alive`, `deleted`, `create_time`, `update_time`, `create_by`, `update_by`)
-VALUES                   ('@parentId',  4,     '${functionName}修改', '',           NULL,         NULL,        '${permissionPrefix}:update', 'NULL,   2,      1,        NULL,       '0',         NULL,          NULL,         b'0',      sysdate(),     sysdate(),     '2',         '2');
+INSERT INTO `system_menu`(`parent_id`,`type`,`name`,`route_name`,`route_path`,`component`,`perm`,`icon`,`sort`,`visible`,`redirect`,`tree_path`,`always_show`,`keep_alive`,`deleted`,`create_time`,`update_time`,`create_by`,`update_by`)
+VALUES(@parentId,4,'${functionName}编辑',NULL,'',NULL,'${permissionPrefix}:update',NULL,2,1,NULL,CONCAT('0,','${parentMenuId},',@parentId),NULL,NULL,b'0',sysdate(),sysdate(),1,1);
 
-INSERT INTO `system_menu`(`parent_id`, `type`, `name`,               `route_name`, `route_path`, `component`, `perm`,                    `icon`, `sort`, `visible`, `redirect`, `tree_path`, `always_show`, `keep_alive`, `deleted`, `create_time`, `update_time`, `create_by`, `update_by`)
-VALUES                   ('@parentId',  4,     '${functionName}删除', '',           NULL,         NULL,        '${permissionPrefix}:delete', 'NULL,   2,      1,        NULL,       '0',         NULL,          NULL,         b'0',      sysdate(),     sysdate(),     '2',         '2');
+INSERT INTO `system_menu`(`parent_id`,`type`,`name`,`route_name`,`route_path`,`component`,`perm`,`icon`,`sort`,`visible`,`redirect`,`tree_path`,`always_show`,`keep_alive`,`deleted`,`create_time`,`update_time`,`create_by`,`update_by`)
+VALUES(@parentId,4,'${functionName}删除',NULL,'',NULL,'${permissionPrefix}:delete',NULL,3,1,NULL,CONCAT('0,','${parentMenuId},',@parentId),NULL,NULL,b'0',sysdate(),sysdate(),1,1);
+
+INSERT INTO `system_menu`(`parent_id`,`type`,`name`,`route_name`,`route_path`,`component`,`perm`,`icon`,`sort`,`visible`,`redirect`,`tree_path`,`always_show`,`keep_alive`,`deleted`,`create_time`,`update_time`,`create_by`,`update_by`)
+VALUES(@parentId,4,'获取${functionName}数据',NULL,'',NULL,'${permissionPrefix}:query',NULL,4,1,NULL,CONCAT('0,','${parentMenuId},',@parentId),NULL,NULL,b'0',sysdate(),sysdate(),1,1);
+
+INSERT INTO `system_menu`(`parent_id`,`type`,`name`,`route_name`,`route_path`,`component`,`perm`,`icon`,`sort`,`visible`,`redirect`,`tree_path`,`always_show`,`keep_alive`,`deleted`,`create_time`,`update_time`,`create_by`,`update_by`)
+VALUES(@parentId,4,'获取${functionName}分页',NULL,'',NULL,'${permissionPrefix}:query',NULL,4,1,NULL,CONCAT('0,','${parentMenuId},',@parentId),NULL,NULL,b'0',sysdate(),sysdate(),1,1);

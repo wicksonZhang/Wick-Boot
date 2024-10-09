@@ -59,25 +59,29 @@ public class SystemRoleController {
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "获取角色信息ById", notes = "角色管理")
+    @PreAuthorize("@ss.hasPerm('system:role:query')")
+    @ApiOperation(value = "获取角色信息", notes = "角色管理")
     @ApiImplicitParam(name = "id", value = "角色信息ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<SystemRoleDTO> getSystemRole(@NotNull(message = "角色信息主键不能为空") @PathVariable Long id) {
         return ResultUtil.success(systemRoleService.getSystemRole(id));
     }
 
     @GetMapping("/page")
+    @PreAuthorize("@ss.hasPerm('system:role:query')")
     @ApiOperation(value = "获取角色分页", notes = "角色管理")
     public ResultUtil<PageResult<SystemRoleDTO>> getSystemRolePage(@Valid SystemRoleQueryVO reqVO) {
         return ResultUtil.success(systemRoleService.getSystemRolePage(reqVO));
     }
 
-    @ApiOperation(value = "获取角色下拉选项", notes = "角色管理")
     @GetMapping("/options")
+    @PreAuthorize("@ss.hasPerm('system:role:options')")
+    @ApiOperation(value = "获取角色下拉选项", notes = "角色管理")
     public ResultUtil<List<SystemRoleOptionsDTO>> listRoleOptions() {
         return ResultUtil.success(systemRoleService.listRoleOptions());
     }
 
     @GetMapping("/{id}/menuIds")
+    @PreAuthorize("@ss.hasPerm('system:role:query')")
     @ApiOperation(value = "获取角色的菜单ID集合", notes = "角色管理")
     @ApiImplicitParam(name = "roleId", value = "角色ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<List<Long>> getRoleMenuIds(@PathVariable Long id) {

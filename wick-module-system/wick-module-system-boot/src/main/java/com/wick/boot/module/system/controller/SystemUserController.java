@@ -50,6 +50,7 @@ public class SystemUserController {
     }
 
     @GetMapping("/page")
+    @PreAuthorize("@ss.hasPerm('system:user:query')")
     @ApiOperation(value = "获取用户分页", notes = "用户信息")
     public ResultUtil<PageResult<SystemUserDTO>> getSystemUserPage(@Valid SystemUserQueryVO reqVO) {
         return ResultUtil.success(userService.getSystemUserPage(reqVO));
@@ -71,7 +72,8 @@ public class SystemUserController {
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "查询用户信息", notes = "用户信息")
+    @PreAuthorize("@ss.hasPerm('system:user:query')")
+    @ApiOperation(value = "获取用户信息", notes = "用户信息")
     @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<SystemUserDTO> getSystemUser(@PathVariable("id") Long id) {
         return ResultUtil.success(userService.getSystemUser(id));
@@ -102,12 +104,14 @@ public class SystemUserController {
     }
 
     @GetMapping("/export")
+    @PreAuthorize("@ss.hasPerm('system:user:export')")
     @ApiOperation(value = "导出用户信息", notes = "用户信息")
     public void exportSystemUser(@Valid SystemUserQueryVO queryParams, HttpServletResponse response) {
         userService.exportSystemUser(queryParams, response);
     }
 
     @PostMapping("/import")
+    @PreAuthorize("@ss.hasPerm('system:user:import')")
     @ApiOperation(value = "导入用户信息", notes = "用户信息")
     @ApiImplicitParam(name = "deptId", value = "部门ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<Boolean> importSystemUser(@NotNull(message = "部门Id不能为空") Long deptId, MultipartFile file) {

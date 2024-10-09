@@ -69,20 +69,23 @@ public class SystemDictController {
     }
 
     @GetMapping("/types/{id}")
-    @ApiOperation(value = "获取字典类型数据ById" , notes = "字典信息")
+    @PreAuthorize("@ss.hasPerm('system:dict_type:query')")
+    @ApiOperation(value = "获取字典类型数据" , notes = "字典信息")
     @ApiImplicitParam(name = "id" , value = "字典类型ID" , required = true, dataType = "Long" , dataTypeClass = Long.class)
     public ResultUtil<SystemDictTypeDTO> getSystemDictType(@NotNull(message = "字典类型主键不能为空") @PathVariable("id") Long id) {
         return ResultUtil.success(dictTypeService.getSystemDictType(id));
     }
 
     @GetMapping("/types/page")
+    @PreAuthorize("@ss.hasPerm('system:dict_type:query')")
     @ApiOperation(value = "获取字典类型分页" , notes = "字典信息")
     public ResultUtil<PageResult<SystemDictTypeDTO>> getSystemDictTypePage(@Valid SystemDictTypeQueryVO reqVO) {
         return ResultUtil.success(dictTypeService.getSystemDictTypePage(reqVO));
     }
 
-    @ApiOperation(value = "获取字典列表" , notes = "字典信息")
     @GetMapping("/types/list")
+    @PreAuthorize("@ss.hasPerm('system:dict_type:options')")
+    @ApiOperation(value = "获取字典类型选项" , notes = "字典信息")
     public ResultUtil<List<SystemDictOptionsDTO<String>>> getSystemDictTypeList() {
         return ResultUtil.success(dictTypeService.getSystemDictTypeList());
     }
@@ -105,8 +108,8 @@ public class SystemDictController {
     }
 
     @DeleteMapping("/data/{ids}")
-    @ApiOperation(value = "删除字典数据" , notes = "字典信息")
     @PreAuthorize("@ss.hasPerm('system:dict_data:delete')")
+    @ApiOperation(value = "删除字典数据" , notes = "字典信息")
     @ApiImplicitParam(name = "ids" , value = "字典数据ID" , required = true, dataType = "Long" , dataTypeClass = Long.class)
     public ResultUtil<Long> removeSystemDictData(@NotEmpty(message = "字典类型主键不能为空") @PathVariable List<Long> ids) {
         dictDataService.removeSystemDictData(ids);
@@ -114,19 +117,22 @@ public class SystemDictController {
     }
 
     @GetMapping("/data/{id}")
-    @ApiOperation(value = "获取字典数据ById" , notes = "字典信息")
+    @PreAuthorize("@ss.hasPerm('system:dict_data:query')")
+    @ApiOperation(value = "获取字典数据" , notes = "字典信息")
     @ApiImplicitParam(name = "id" , value = "字典数据ID" , required = true, dataType = "Long" , dataTypeClass = Long.class)
     public ResultUtil<SystemDictDataDTO> getSystemDictData(@NotNull(message = "字典数据ID不能为空") @PathVariable Long id) {
         return ResultUtil.success(dictDataService.getSystemDictData(id));
     }
 
     @GetMapping("/data/{typeCode}/options")
-    @ApiImplicitParam(name = "typeCode", value = "字典类型编码", required = true, dataTypeClass = String.class)
+    @PreAuthorize("@ss.hasPerm('system:dict_data:options')")
+    @ApiImplicitParam(name = "typeCode", value = "获取字典数据选项", required = true, dataTypeClass = String.class)
     public ResultUtil<List<SystemDictOptionsDTO<String>>> getSystemDictDataListOptions(@PathVariable String typeCode) {
         return ResultUtil.success(dictDataService.getSystemDictDataListOptions(typeCode));
     }
 
     @GetMapping("/data/page")
+    @PreAuthorize("@ss.hasPerm('system:dict_data:query')")
     @ApiOperation(value = "获取字典数据分页" , notes = "字典信息")
     public ResultUtil<PageResult<SystemDictDataDTO>> getSystemDictDataPage(@Valid SystemDictDataQueryVO reqVO) {
         return ResultUtil.success(dictDataService.getSystemDictDataPage(reqVO));

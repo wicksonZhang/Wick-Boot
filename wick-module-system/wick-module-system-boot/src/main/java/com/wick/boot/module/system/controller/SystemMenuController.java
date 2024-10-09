@@ -60,26 +60,30 @@ public class SystemMenuController {
     }
 
     @GetMapping("/list")
+    @PreAuthorize("@ss.hasPerm('system:menu:query')")
     @ApiOperation(value = "获取菜单列表", notes = "菜单信息")
     public ResultUtil<List<SystemMenuDTO>> listMenus(SystemMenuQueryVO queryParams) {
         return ResultUtil.success(systemMenuService.listMenus(queryParams));
     }
 
     @GetMapping("/{id}")
-    @ApiOperation(value = "通过菜单ID获取菜单数据", notes = "菜单信息")
+    @PreAuthorize("@ss.hasPerm('system:menu:query')")
+    @ApiOperation(value = "获取菜单数据", notes = "菜单信息")
     @ApiImplicitParam(name = "id", value = "菜单ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<SystemMenu> getSystemMenu(@NotNull(message = "菜单ID不能为空") @PathVariable("id") Long id) {
         return ResultUtil.success(systemMenuService.getSystemMenu(id));
     }
 
     @GetMapping("/options")
+    @PreAuthorize("@ss.hasPerm('system:menu:options')")
     @ApiOperation(value = "获取菜单选项", notes = "菜单信息")
     public ResultUtil<List<SystemMenuOptionsDTO>> options(Boolean onlyParent) {
         return ResultUtil.success(systemMenuService.options(onlyParent));
     }
 
     @GetMapping("/routes")
-    @ApiOperation(value = "路由列表", notes = "菜单信息")
+    @PreAuthorize("@ss.hasPerm('system:menu:routes')")
+    @ApiOperation(value = "获取菜单路由", notes = "菜单信息")
     public ResultUtil<List<SystemRouteDTO>> listRoutes() {
         return ResultUtil.success(systemMenuService.listRoutes());
     }

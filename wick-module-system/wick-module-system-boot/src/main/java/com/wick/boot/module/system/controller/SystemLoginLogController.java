@@ -7,6 +7,7 @@ import com.wick.boot.module.system.model.dto.logger.login.SystemLoginLogDTO;
 import com.wick.boot.module.system.model.vo.logger.login.SystemLoginLogQueryVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,12 +31,14 @@ public class SystemLoginLogController {
     private SystemLoginLogService loginLogService;
 
     @GetMapping("/page")
+    @PreAuthorize("@ss.hasPerm('system:login-log:query')")
     @ApiOperation(value = "获取登录日志分页", notes = "登录日志")
     public ResultUtil<PageResult<SystemLoginLogDTO>> getLoginLogPage(@Valid SystemLoginLogQueryVO reqVO) {
         return ResultUtil.success(loginLogService.getLoginLogPage(reqVO));
     }
 
     @GetMapping("/export")
+    @PreAuthorize("@ss.hasPerm('system:login-log:export')")
     @ApiOperation(value = "导出登录日志分页", notes = "登录日志")
     public void exportLoginLog(@Valid SystemLoginLogQueryVO queryParams, HttpServletResponse response) {
         loginLogService.exportLoginLog(queryParams, response);
