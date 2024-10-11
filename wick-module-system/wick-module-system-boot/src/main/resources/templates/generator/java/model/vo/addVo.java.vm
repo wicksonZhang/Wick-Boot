@@ -1,7 +1,6 @@
 package ${packageName}.model.${businessName}.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +11,7 @@ import java.time.LocalDateTime;
 import java.math.BigDecimal;
 #end
 #if(${hasRequiredField})
-import jakarta.validation.constraints.*;
+import javax.validation.constraints.*;
 #end
 
 /**
@@ -37,9 +36,9 @@ public class ${className}AddVO {
 ## 必填字段校验
 #if($fieldConfig.required)
 #if($fieldConfig.columnType == 'String')
-    @NotBlank(message = "$fieldConfig.columnComment不能为空", required = true)
+    @NotBlank(message = "$fieldConfig.columnComment不能为空")
 #else
-    @NotNull(message = "$fieldConfig.columnComment不能为空", required = true)
+    @NotNull(message = "$fieldConfig.columnComment不能为空")
 #end
 #end
     private ${fieldConfig.javaType} ${fieldConfig.javaField};

@@ -2,6 +2,7 @@ package ${packageName}.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wick.boot.common.core.model.entity.BaseDO;
+import lombok.*;
 #if(${hasLocalDateTime})
 import java.time.LocalDateTime;
 #end

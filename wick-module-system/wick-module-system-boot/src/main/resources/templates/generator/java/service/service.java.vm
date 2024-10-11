@@ -1,9 +1,12 @@
 package ${packageName}.service;
 
 import com.wick.boot.common.core.result.PageResult;
-import ${packageName}.model.vo.${businessName}.Add${className}ReqVO;
-import ${packageName}.model.vo.${businessName}.Update${className}ReqVO;
+import ${packageName}.model.vo.${businessName}.${className}AddVO;
+import ${packageName}.model.vo.${businessName}.${className}UpdateVO;
+import ${packageName}.model.vo.${businessName}.${className}QueryVO;
 import ${packageName}.model.dto.${businessName}.${className}DTO;
+
+import java.util.List;
 
 /**
  * $!{functionName}管理-服务类
@@ -18,14 +21,14 @@ public interface ${className}Service {
      *
      * @param reqVO 新增请求参数
      */
-    Long add${className}(Add${className}ReqVO reqVO);
+    Long add${className}(${className}AddVO reqVO);
 
     /**
      * 更新${functionName}数据
      *
      * @param reqVO 更新请求参数
      */
-    void update${className}(Update${className}ReqVO reqVO);
+    void update${className}(${className}UpdateVO reqVO);
 
     /**
      * 删除新增${functionName}数据
@@ -40,7 +43,7 @@ public interface ${className}Service {
      * @param id ${functionName}ID
      * @return ${className}DTO ${functionName}DTO
      */
-     ${className}DTO get${className}ById(Long id);
+     ${className}DTO get${className}(Long id);
 
     /**
      * 获取${functionName}分页数据
@@ -48,5 +51,5 @@ public interface ${className}Service {
      * @param queryParams 分页查询参数
      * @return ${className}DTO ${functionName}DTO
      */
-    PageResult<${className}DTO> get${className}Page(Query${className}PageReqVO queryParams);
+    PageResult<${className}DTO> get${className}Page(${className}QueryVO queryParams);
 }

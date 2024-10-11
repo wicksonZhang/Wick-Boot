@@ -4,14 +4,47 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
 import ${packageName}.model.entity.${className};
+import ${packageName}.model.vo.${businessName}.${className}QueryVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+#macro(listCondition)
+#foreach($fieldConfig in ${fieldConfigs})
+## 判断是否为查询字段
+#if($fieldConfig.query == "1")
+    ## 首字母大写
+    #set ($JavaField = $fieldConfig.javaField.substring(0,1).toUpperCase() + ${fieldConfig.javaField.substring(1)})
+    #if($fieldConfig.queryType == "EQ")
+        .eq(ObjUtil.isNotEmpty(queryVO.get${JavaField}()), ${className}::get${JavaField}, queryVO.get${JavaField}())
+    #end
+    #if($fieldConfig.queryType == "LIKE")
+        .likeRight(ObjUtil.isNotEmpty(queryVO.get${JavaField}()), ${className}::get${JavaField}, queryVO.get${JavaField}())
+    #end
+    #if($fieldConfig.queryType == "NE")
+        .ne(ObjUtil.isNotEmpty(queryVO.get${JavaField}()), ${className}::get${JavaField}, queryVO.get${JavaField}())
+    #end
+    #if($fieldConfig.queryType == "GT")
+        .gt(ObjUtil.isNotEmpty(queryVO.get${JavaField}()), ${className}::get${JavaField}, queryVO.get${JavaField}())
+    #end
+    #if($fieldConfig.queryType == "GTE")
+        .ge(ObjUtil.isNotEmpty(queryVO.get${JavaField}()), ${className}::get${JavaField}, queryVO.get${JavaField}())
+    #end
+    #if($fieldConfig.queryType == "LT")
+        .lt(ObjUtil.isNotEmpty(queryVO.get${JavaField}()), ${className}::get${JavaField}, queryVO.get${JavaField}())
+    #end
+    #if($fieldConfig.queryType == "LTE")
+        .le(ObjUtil.isNotEmpty(queryVO.get${JavaField}()), ${className}::get${JavaField}, queryVO.get${JavaField}())
+    #end
+    #if($fieldConfig.queryType == "BETWEEN")
+        .between(ObjUtil.isNotEmpty(queryVO.get${JavaField}()), ${className}::get${JavaField}, queryVO.get${JavaField}())
+    #end
+#end
+#end
+#end
 /**
  * $!{functionName}管理-Mapper接口
  *
- * @author ${author}
  * @date ${date}
  */
 @Mapper
@@ -21,9 +54,15 @@ public interface ${className}Mapper extends BaseMapperX<${className}> {
      * 分页查询数据表
      *
      * @param page    分页集合
-     * @param queryParams 请求参数
+     * @param queryVO 请求参数
      * @return 数据表分页集合
      */
-    Page<${className}DTO> get${className}Page(Page<${className}VO> page, Query${className}PageReqVO queryParams);
+    default Page<${className}> get${className}Page(Page<${className}> page, ${className}QueryVO queryVO) {
+        LambdaQueryWrapper<${className}> wrapper = new LambdaQueryWrapper<>();
+        wrapper
+            #listCondition()
+            .orderByDesc(${className}::getId);
 
+        return selectPage(page, wrapper);
+    }
 }

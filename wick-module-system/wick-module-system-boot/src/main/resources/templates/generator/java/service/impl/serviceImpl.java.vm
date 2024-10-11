@@ -1,15 +1,23 @@
 package ${packageName}.service.impl;
 
+import cn.hutool.core.util.ObjUtil;
 import com.wick.boot.common.core.result.PageResult;
-import ${packageName}.model.vo.${businessName}.Add${className}ReqVO;
-import ${packageName}.model.vo.${businessName}.Update${className}ReqVO;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import ${packageName}.convert.${className}Convert;
+import ${packageName}.mapper.${className}Mapper;
+import ${packageName}.model.vo.${businessName}.${className}AddVO;
+import ${packageName}.model.vo.${businessName}.${className}UpdateVO;
+import ${packageName}.model.vo.${businessName}.${className}QueryVO;
 import ${packageName}.model.dto.${businessName}.${className}DTO;
-
+import ${packageName}.model.entity.${className};
+import ${packageName}.service.${className}AbstractService;
+import ${packageName}.service.${className}Service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * $!{functionName}管理-服务实现类
@@ -31,7 +39,7 @@ public class ${className}ServiceImpl extends ${className}AbstractService impleme
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long add${className}(${className}AddReqVO reqVO) {
+    public Long add${className}(${className}AddVO reqVO) {
         /* Step-1: 校验新增参数 */
         this.validateAddParams(reqVO);
 
@@ -50,7 +58,7 @@ public class ${className}ServiceImpl extends ${className}AbstractService impleme
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void update${className}(${className}UpdateReqVO reqVO) {
+    public void update${className}(${className}UpdateVO reqVO) {
         /* Step-1: 校验更新参数 */
         this.validateUpdateParams(reqVO);
 
@@ -83,13 +91,12 @@ public class ${className}ServiceImpl extends ${className}AbstractService impleme
      * @param id ${functionName}ID
      * @return ${className}DTO ${functionName}DTO
      */
-    public ${className}DTO get${className}ById(Long id) {
+    public ${className}DTO get${className}(Long id) {
         /* Step-1: 通过主键获取${functionName} */
         ${className} ${lowerClassName} =this.${lowerClassName}Mapper.selectById(id);
 
         /* Step-2: 转换实体类型 */
-        return ${className}Convert.INSTANCE.entityTo${className}DTO(${lowerClassName});
-        ;
+        return ${className}Convert.INSTANCE.entityToDTO(${lowerClassName});
     }
 
     /**
@@ -98,9 +105,9 @@ public class ${className}ServiceImpl extends ${className}AbstractService impleme
      * @param queryParams 分页查询参数
      * @return ${className}DTO ${functionName}DTO
      */
-    public PageResult<${className}DTO> get${className}Page(${className}QueryReqVO queryParams) {
-        Page<${className}> pageVO = this.${lowerClassName}Mapper.get${className}Page(
-                new Page<>(queryParams.getPageNum(), queryParams.getPageSize()),
+    public PageResult<${className}DTO> get${className}Page(${className}QueryVO queryParams) {
+        Page<${className}> pageResult = this.${lowerClassName}Mapper.get${className}Page(
+                new Page<>(queryParams.getPageNumber(), queryParams.getPageSize()),
                 queryParams
         );
 

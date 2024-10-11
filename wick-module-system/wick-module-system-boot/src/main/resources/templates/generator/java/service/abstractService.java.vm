@@ -1,7 +1,12 @@
 package ${packageName}.service;
 
-import ${packageName}.model.vo.${businessName}.Add${className}ReqVO;
-import ${packageName}.model.vo.${businessName}.Update${className}ReqVO;
+import ${packageName}.mapper.${className}Mapper;
+import ${packageName}.model.entity.${className};
+import ${packageName}.model.vo.${businessName}.${className}AddVO;
+import ${packageName}.model.vo.${businessName}.${className}UpdateVO;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * $!{functionName}管理-防腐层
@@ -19,7 +24,7 @@ public abstract class ${className}AbstractService {
      *
      * @param reqVO 新增参数
      */
-    protected void validateAddParams(Add${className}ReqVO reqVO) {
+    protected void validateAddParams(${className}AddVO reqVO) {
 
     }
 
@@ -28,7 +33,7 @@ public abstract class ${className}AbstractService {
      *
      * @param reqVO 新增参数
      */
-    protected void validateUpdateParams(Update${className}ReqVO reqVO) {
+    protected void validateUpdateParams(${className}UpdateVO reqVO) {
 
     }
 

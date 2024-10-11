@@ -1,17 +1,18 @@
 package ${packageName}.model.${businessName}.dto;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+
 #if(${hasLocalDateTime})
 import java.time.LocalDateTime;
 #end
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
 #end
+
+import java.io.Serializable;
 
 /**
  * $!{functionName}管理-DTO

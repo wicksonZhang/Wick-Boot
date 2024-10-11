@@ -4,8 +4,9 @@ import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
 import ${packageName}.service.${className}Service;
 import ${packageName}.model.dto.${businessName}.${className}DTO;
-import ${packageName}.model.vo.${businessName}.Add${className}ReqVO;
-import ${packageName}.model.vo.${businessName}.Update${className}ReqVO;
+import ${packageName}.model.vo.${businessName}.${className}AddVO;
+import ${packageName}.model.vo.${businessName}.${className}UpdateVO;
+import ${packageName}.model.vo.${businessName}.${className}QueryVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -35,7 +36,7 @@ public class ${className}Controller {
     @PostMapping("/add")
     @PreAuthorize("@ss.hasPerm('${permissionPrefix}:add')")
     @ApiOperation(value = "新增${functionName}数据", notes = "${functionName}管理")
-    public ResultUtil<Long> add(@Valid @RequestBody ${className}AddReqVO reqVO) {
+    public ResultUtil<Long> add(@Valid @RequestBody ${className}AddVO reqVO) {
         this.${lowerClassName}Service.add${className}(reqVO);
         return ResultUtil.success();
     }
@@ -43,7 +44,7 @@ public class ${className}Controller {
     @PutMapping("/update")
     @PreAuthorize("@ss.hasPerm('${permissionPrefix}:update')")
     @ApiOperation(value = "修改${functionName}数据", notes = "${functionName}管理")
-    public ResultUtil<Boolean> update(@Valid @RequestBody ${className}UpdateReqVO reqVO) {
+    public ResultUtil<Boolean> update(@Valid @RequestBody ${className}UpdateVO reqVO) {
         this.${lowerClassName}Service.update${className}(reqVO);
         return ResultUtil.success(true);
     }

@@ -30,9 +30,9 @@ generator:
       templatePath: generator/java/mapper/mapper.xml.vm
       packageName: mapper
       extension: .xml
-    Converter:
-      templatePath: generator/java/convert/converter.java.vm
-      packageName: converter
+    Convert:
+      templatePath: generator/java/convert/convert.java.vm
+      packageName: convert
     DTO:
       templatePath: generator/java/model/dto/dto.java.vm
       packageName: model.dto
