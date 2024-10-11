@@ -29,7 +29,7 @@ import java.util.List;
  * @date 2024-04-02
  */
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/system/user")
 @Api(tags = "用户信息")
 public class SystemUserController {
 

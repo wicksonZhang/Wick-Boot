@@ -61,7 +61,7 @@ public class ToolCodeGenTableDTO {
     private String genType;
 
     @ApiModelProperty(value = "上级菜单", example = "1024")
-    private String parentMenuId;
+    private Long parentMenuId;
 
     @ApiModelProperty(value = "自定义路径 ", example = "/")
     private String genPath;

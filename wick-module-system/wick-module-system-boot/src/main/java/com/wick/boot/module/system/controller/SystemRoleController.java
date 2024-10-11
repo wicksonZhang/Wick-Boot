@@ -27,7 +27,7 @@ import java.util.List;
  * @date 2024-04-02
  */
 @RestController
-@RequestMapping("/role")
+@RequestMapping("/system/role")
 @Api(tags = "角色信息")
 public class SystemRoleController {
 

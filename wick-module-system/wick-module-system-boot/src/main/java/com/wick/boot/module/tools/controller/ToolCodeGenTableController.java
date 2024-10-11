@@ -28,7 +28,7 @@ import java.util.List;
  * @date 2024-07-12
  */
 @RestController
-@RequestMapping("/code-gen")
+@RequestMapping("/tool/code-gen")
 @Api(value = "/code-gen", tags = "代码生成")
 public class ToolCodeGenTableController {
 

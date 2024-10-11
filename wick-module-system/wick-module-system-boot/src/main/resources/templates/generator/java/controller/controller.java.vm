@@ -25,7 +25,7 @@ import java.util.List;
  * @date ${date}
  */
 @RestController
-@RequestMapping("/${moduleName}-${businessName}")
+@RequestMapping("/${moduleName}/${businessName}")
 @Api(tags = "${functionName}")
 public class ${className}Controller {
 

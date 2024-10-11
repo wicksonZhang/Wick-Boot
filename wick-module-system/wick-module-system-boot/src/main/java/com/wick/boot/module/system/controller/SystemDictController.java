@@ -32,7 +32,7 @@ import java.util.List;
  * @date 2024-04-08
  */
 @RestController
-@RequestMapping("/dict")
+@RequestMapping("/system/dict")
 @Api(tags = "字典信息")
 public class SystemDictController {
 
