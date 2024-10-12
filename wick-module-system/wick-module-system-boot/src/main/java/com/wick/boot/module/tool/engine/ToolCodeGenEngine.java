@@ -213,7 +213,7 @@ public class ToolCodeGenEngine {
         bindMap.put("functionName", table.getFunctionName());
         bindMap.put("moduleName", table.getModuleName());
         bindMap.put("businessName", table.getBusinessName());
-        bindMap.put("baseEntity", Arrays.asList(ToolCodeGenConstants.COLUMNNAME_NOT_EDIT));
+        bindMap.put("baseEntity", Arrays.asList(ToolCodeGenConstants.BASE_ENTITY));
         bindMap.put("permissionPrefix", getPermissionPrefix(table.getModuleName(), table.getBusinessName()));
         bindMap.put("fieldConfigs", columns);
 
