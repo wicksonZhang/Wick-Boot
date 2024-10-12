@@ -179,15 +179,15 @@ INSERT INTO `system_menu` VALUES (53, 9, 4, '导出操作日志分页', NULL, ''
 
 
 INSERT INTO `system_menu` VALUES (54, 0, 2, '系统工具', '', '/tool', 'Layout', NULL, 'menu', 2, 1, '', '0', 1, 1, b'0', '2024-09-19 15:38:40', '2024-09-19 15:38:40', 1, 1);
-INSERT INTO `system_menu` VALUES (55, 54 ,1, '代码生成', 'Codegen', 'codegen', 'tools/codeGen/index', NULL, 'code', 1, 1, '', '0,54', 0, 1, b'0', '2024-09-19 15:39:46', '2024-09-19 15:39:46', 1, 1);
-INSERT INTO `system_menu` VALUES (56, 55, 4, '获取数据源数据表', NULL, '', NULL, 'tools:code-gen:query', '', 1, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:30:55', '2024-09-19 16:30:55', 1, 1);
-INSERT INTO `system_menu` VALUES (57, 55, 4, '导入数据表', NULL, '', NULL, 'tools:code-gen:import', '', 2, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:30:55', '2024-09-19 16:30:55', 1, 1);
-INSERT INTO `system_menu` VALUES (58, 55, 4, '获取代码生成分页', NULL, '', NULL, 'tools:code-gen:query', '', 2, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:30:55', '2024-09-19 16:30:55', 1, 1);
-INSERT INTO `system_menu` VALUES (59, 55, 4, '修改代码生成信息', NULL, '', NULL, 'tools:code-gen:update', '', 3, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', 1, 1);
-INSERT INTO `system_menu` VALUES (60, 55, 4, '删除代码生成信息', NULL, '', NULL, 'tools:code-gen:delete', '', 4, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', 1, 1);
-INSERT INTO `system_menu` VALUES (61, 55, 4, '预览代码', NULL, '', NULL, 'tools:code-gen:preview', '', 4, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', 1, 1);
-INSERT INTO `system_menu` VALUES (62, 55, 4, '同步代码生成信息', NULL, '', NULL, 'tools:code-gen:async', '', 5, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', 1, 1);
-INSERT INTO `system_menu` VALUES (63, 55, 4, '生成代码信息', NULL, '', NULL, 'tools:code-gen:download', '', 6, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', 1, 1);
+INSERT INTO `system_menu` VALUES (55, 54 ,1, '代码生成', 'Codegen', 'code-gen', 'tool/code-gen/index', NULL, 'code', 1, 1, '', '0,54', 0, 1, b'0', '2024-09-19 15:39:46', '2024-09-19 15:39:46', 1, 1);
+INSERT INTO `system_menu` VALUES (56, 55, 4, '获取数据源数据表', NULL, '', NULL, 'tool:code-gen:query', '', 1, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:30:55', '2024-09-19 16:30:55', 1, 1);
+INSERT INTO `system_menu` VALUES (57, 55, 4, '导入数据表', NULL, '', NULL, 'tool:code-gen:import', '', 2, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:30:55', '2024-09-19 16:30:55', 1, 1);
+INSERT INTO `system_menu` VALUES (58, 55, 4, '获取代码生成分页', NULL, '', NULL, 'tool:code-gen:query', '', 2, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:30:55', '2024-09-19 16:30:55', 1, 1);
+INSERT INTO `system_menu` VALUES (59, 55, 4, '修改代码生成信息', NULL, '', NULL, 'tool:code-gen:update', '', 3, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', 1, 1);
+INSERT INTO `system_menu` VALUES (60, 55, 4, '删除代码生成信息', NULL, '', NULL, 'tool:code-gen:delete', '', 4, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', 1, 1);
+INSERT INTO `system_menu` VALUES (61, 55, 4, '预览代码', NULL, '', NULL, 'tool:code-gen:preview', '', 4, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', 1, 1);
+INSERT INTO `system_menu` VALUES (62, 55, 4, '同步代码生成信息', NULL, '', NULL, 'tool:code-gen:async', '', 5, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', 1, 1);
+INSERT INTO `system_menu` VALUES (63, 55, 4, '生成代码信息', NULL, '', NULL, 'tool:code-gen:download', '', 6, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', 1, 1);
 
 -- ----------------------------
 -- Table structure for system_user_role

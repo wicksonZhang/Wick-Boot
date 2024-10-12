@@ -1,10 +1,10 @@
 package ${packageName}.service;
 
 import com.wick.boot.common.core.result.PageResult;
-import ${packageName}.model.vo.${businessName}.${className}AddVO;
-import ${packageName}.model.vo.${businessName}.${className}UpdateVO;
-import ${packageName}.model.vo.${businessName}.${className}QueryVO;
-import ${packageName}.model.dto.${businessName}.${className}DTO;
+import ${packageName}.model.vo.${packageVOName}.${className}AddVO;
+import ${packageName}.model.vo.${packageVOName}.${className}UpdateVO;
+import ${packageName}.model.vo.${packageVOName}.${className}QueryVO;
+import ${packageName}.model.dto.${packageVOName}.${className}DTO;
 
 import java.util.List;
 

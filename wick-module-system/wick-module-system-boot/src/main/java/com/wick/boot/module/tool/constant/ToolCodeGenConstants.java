@@ -70,21 +70,14 @@ public interface ToolCodeGenConstants {
             "bit", "bigint", "float", "double", "decimal"};
 
     /**
-     * 页面不需要编辑字段
+     * 页面不需要编辑
      */
-    String[] COLUMNNAME_NOT_EDIT = {"id", "create_by", "create_time", "deleted"};
+    String[] COLUMNNAME_NOT_EDIT = {"create_by", "create_time", "deleted", "update_by", "update_time"};
 
     /**
      * 页面不需要显示的列表字段
      */
-    String[] COLUMNNAME_NOT_LIST = {"id", "create_by", "create_time", "deleted", "update_by",
-            "update_time"};
-
-    /**
-     * 页面不需要查询字段
-     */
-    String[] COLUMNNAME_NOT_QUERY = {"id", "create_by", "create_time", "deleted", "update_by",
-            "update_time", "remark"};
+    String[] COLUMNNAME_NOT_LIST = {"create_by", "create_time", "deleted", "update_by", "update_time"};
 
     /**
      * Entity基类字段

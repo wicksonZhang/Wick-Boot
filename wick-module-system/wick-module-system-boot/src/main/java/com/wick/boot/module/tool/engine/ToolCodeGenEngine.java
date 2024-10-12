@@ -56,13 +56,15 @@ public class ToolCodeGenEngine {
             ToolCodeGenConfig.TemplateConfig templateConfig = templateConfigEntry.getValue();
             // 类名
             String className = table.getClassName();
+            // 业务名称
+            String businessName = table.getBusinessName();
             // 模板名称: Controller、Mapper
             String templateName = templateConfigEntry.getKey();
             // 模板后缀
             String templateExtension = templateConfig.getExtension();
 
             // 文件名 UserController.java
-            String fileName = getFileName(className, templateName, templateExtension);
+            String fileName = getFileName(className, businessName, templateName, templateExtension);
             previewDTO.setFileName(fileName);
 
             /* Step-2: 生成文件路径 */
@@ -70,8 +72,7 @@ public class ToolCodeGenEngine {
             String packageName = table.getPackageName();
             // 模块名称
             String moduleName = table.getModuleName();
-            // 业务名称
-            String businessName = table.getBusinessName();
+            // 针对VO的包名
             // 子包：controller、convert
             String templatePackageName = templateConfig.getPackageName();
             // 文件路径  src/main/java/com/wick/system/controller
@@ -97,28 +98,31 @@ public class ToolCodeGenEngine {
      * 获取文件名称
      *
      * @param className         类名
+     * @param businessName      业务名称
      * @param templateName      模板名称
      * @param templateExtension 后缀
      * @return 文件名称
      */
-    private String getFileName(String className, String templateName, String templateExtension) {
+    private String getFileName(String className, String businessName, String templateName, String templateExtension) {
+        // 后端项目
         if ("Entity".equals(templateName)) {
             return className + templateExtension;
         }
         if ("MapperXml".equals(templateName)) {
             return className + "Mapper" + templateExtension;
         }
-        if ("Sql".equals(templateName)) {
-            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
-            return "V1.0.0_" + timeFormatter.format(LocalDateTime.now()) + "__DML" + templateExtension;
-        }
+        // 前端项目
         if ("Api".equals(templateName)) {
-            return StrUtil.toSymbolCase(className, '-') + templateExtension;
+            return businessName + templateExtension;
         }
         if ("View".equals(templateName)) {
             return "index.vue";
         }
-
+        // 执行SQL信息
+        if ("Sql".equals(templateName)) {
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
+            return "V1.0.0_" + timeFormatter.format(LocalDateTime.now()) + "__DML" + templateExtension;
+        }
         return className + templateName + templateExtension;
     }
 
@@ -134,30 +138,41 @@ public class ToolCodeGenEngine {
      */
     private String getFilePath(String templateName, String packageName, String moduleName, String businessName, String templatePackageName, String className) {
         String path;
-        if ("MapperXml".equals(templateName) || "Sql".equals(templateName)) {
+        if ("MapperXml".equals(templateName)) {
             path = (toolCodeGenConfig.getBackendAppName()
                     + File.separator
                     + "src" + File.separator + "main" + File.separator + "resources"
-                    + File.separator + moduleName
                     + File.separator + templatePackageName
+                    + File.separator + moduleName
             );
         } else if ("Api".equals(templateName)) {
             path = (toolCodeGenConfig.getFrontendAppName()
                     + File.separator
                     + "src" + File.separator + templatePackageName
+                    + File.separator + moduleName
             );
         } else if ("View".equals(templateName)) {
             path = (toolCodeGenConfig.getFrontendAppName()
                     + File.separator + "src"
                     + File.separator + templatePackageName
                     + File.separator + moduleName
-                    + File.separator + StrUtil.toSymbolCase(className, '-')
+                    + File.separator + businessName
             );
         } else if (StrUtil.equalsAny(templateName, "AddVO", "UpdateVO", "QueryVO", "DTO")) {
             path = (toolCodeGenConfig.getBackendAppName()
                     + File.separator
                     + "src" + File.separator + "main" + File.separator + "java"
-                    + File.separator + packageName + File.separator + templatePackageName + File.separator + businessName);
+                    + File.separator + packageName
+                    + File.separator + templatePackageName
+                    + File.separator + StrUtil.replace(businessName, "-", "")
+            );
+        } else if ("Sql".equals(templateName)) {
+            path = (toolCodeGenConfig.getSyncDbFlywayAppName()
+                    + File.separator
+                    + "src" + File.separator + "main" + File.separator + "resources"
+                    + File.separator + "db"
+                    + File.separator + "migration"
+            );
         } else {
             path = (toolCodeGenConfig.getBackendAppName()
                     + File.separator
@@ -187,6 +202,7 @@ public class ToolCodeGenEngine {
         String className = table.getClassName();
 
         bindMap.put("packageName", table.getPackageName());
+        bindMap.put("packageVOName", StrUtil.replace(table.getBusinessName(), "-", ""));
         bindMap.put("tableName", table.getTableName());
         bindMap.put("author", table.getFunctionAuthor());
         bindMap.put("subPackage", templateConfig.getPackageName());
@@ -197,7 +213,7 @@ public class ToolCodeGenEngine {
         bindMap.put("functionName", table.getFunctionName());
         bindMap.put("moduleName", table.getModuleName());
         bindMap.put("businessName", table.getBusinessName());
-        bindMap.put("baseEntity", Arrays.asList(ToolCodeGenConstants.BASE_ENTITY));
+        bindMap.put("baseEntity", Arrays.asList(ToolCodeGenConstants.COLUMNNAME_NOT_EDIT));
         bindMap.put("permissionPrefix", getPermissionPrefix(table.getModuleName(), table.getBusinessName()));
         bindMap.put("fieldConfigs", columns);
 

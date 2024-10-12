@@ -5,10 +5,10 @@ import com.wick.boot.common.core.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ${packageName}.convert.${className}Convert;
 import ${packageName}.mapper.${className}Mapper;
-import ${packageName}.model.vo.${businessName}.${className}AddVO;
-import ${packageName}.model.vo.${businessName}.${className}UpdateVO;
-import ${packageName}.model.vo.${businessName}.${className}QueryVO;
-import ${packageName}.model.dto.${businessName}.${className}DTO;
+import ${packageName}.model.vo.${packageVOName}.${className}AddVO;
+import ${packageName}.model.vo.${packageVOName}.${className}UpdateVO;
+import ${packageName}.model.vo.${packageVOName}.${className}QueryVO;
+import ${packageName}.model.dto.${packageVOName}.${className}DTO;
 import ${packageName}.model.entity.${className};
 import ${packageName}.service.${className}AbstractService;
 import ${packageName}.service.${className}Service;
@@ -70,7 +70,7 @@ public class ${className}ServiceImpl extends ${className}AbstractService impleme
     }
 
     /**
-     * 删除新增${functionName}数据
+     * 删除${functionName}数据
      *
      * @param ids 主键集合
      */
@@ -86,7 +86,7 @@ public class ${className}ServiceImpl extends ${className}AbstractService impleme
     }
 
     /**
-     * 通过主键获取${functionName}数据
+     * 获取${functionName}数据
      *
      * @param id ${functionName}ID
      * @return ${className}DTO ${functionName}DTO

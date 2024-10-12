@@ -7,6 +7,8 @@ generator:
   backendAppName: wick-boot
   # 前端名称
   frontendAppName: wick-web
+  # flyway名称
+  syncDbFlywayAppName: wick-sync-db-flyway
   # 下载代码文件名称
   downloadFileName: wick-boot-code.zip
   # 模板配置

@@ -42,6 +42,11 @@ public class ToolCodeGenConfig {
     private String frontendAppName;
 
     /**
+     * flyway应用名
+     */
+    private String syncDbFlywayAppName;
+
+    /**
      * 下载代码文件名称
      */
     private String downloadFileName;

@@ -60,9 +60,8 @@ public class ToolCodeGenUtils {
      * @return 业务名称
      */
     private static String convertBusinessName(String tableName) {
-        int lastIndex = tableName.lastIndexOf("_");
-        int nameLength = tableName.length();
-        return StrUtil.sub(tableName, lastIndex + 1, nameLength);
+        String business = StrUtil.removePrefix(tableName, tableName.split("_")[0] + "_");
+        return StrUtil.replace(business, "_", "-");
     }
 
     /**
@@ -119,11 +118,11 @@ public class ToolCodeGenUtils {
         column.setCreated(ToolCodeGenConstants.REQUIRE);
 
         // 编辑字段
-        if (!arraysContains(ToolCodeGenConstants.COLUMNNAME_NOT_EDIT, columnName) && column.isPrimaryKey()) {
+        if (!arraysContains(ToolCodeGenConstants.COLUMNNAME_NOT_EDIT, columnName)) {
             column.setEdit(ToolCodeGenConstants.REQUIRE);
         }
         // 列表字段
-        if (!arraysContains(ToolCodeGenConstants.COLUMNNAME_NOT_LIST, columnName) && column.isPrimaryKey()) {
+        if (!arraysContains(ToolCodeGenConstants.COLUMNNAME_NOT_LIST, columnName)) {
             column.setList(ToolCodeGenConstants.REQUIRE);
         }
         // 查询字段类型
@@ -179,7 +178,6 @@ public class ToolCodeGenUtils {
     public static boolean arraysContains(String[] arr, String targetValue) {
         return Arrays.asList(arr).contains(targetValue);
     }
-
 
     /**
      * 获取字段长度

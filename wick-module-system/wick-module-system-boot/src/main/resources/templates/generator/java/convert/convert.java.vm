@@ -2,10 +2,10 @@ package ${packageName}.convert;
 
 import cn.hutool.core.util.ObjUtil;
 import ${packageName}.model.entity.${className};
-import ${packageName}.model.vo.${businessName}.${className}AddVO;
-import ${packageName}.model.vo.${businessName}.${className}QueryVO;
-import ${packageName}.model.vo.${businessName}.${className}UpdateVO;
-import ${packageName}.model.dto.${businessName}.${className}DTO;
+import ${packageName}.model.vo.${packageVOName}.${className}AddVO;
+import ${packageName}.model.vo.${packageVOName}.${className}QueryVO;
+import ${packageName}.model.vo.${packageVOName}.${className}UpdateVO;
+import ${packageName}.model.dto.${packageVOName}.${className}DTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

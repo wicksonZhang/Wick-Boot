@@ -10,7 +10,7 @@
         WHERE table_schema = (select database())
         AND table_name NOT LIKE 'tool_code_%'
         AND table_name NOT LIKE 'flyway_%'
-        AND table_name NOT IN (select table_name from tool_code_gen_table)
+        AND table_name NOT IN (select table_name from tool_code_gen_table WHERE deleted = 0)
         <if test="queryVO.tableName != null and queryVO.tableName != ''">
             AND lower(table_name) LIKE lower(concat('%', #{queryVO.tableName}, '%'))
         </if>

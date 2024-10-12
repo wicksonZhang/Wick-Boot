@@ -2,8 +2,8 @@ package ${packageName}.service;
 
 import ${packageName}.mapper.${className}Mapper;
 import ${packageName}.model.entity.${className};
-import ${packageName}.model.vo.${businessName}.${className}AddVO;
-import ${packageName}.model.vo.${businessName}.${className}UpdateVO;
+import ${packageName}.model.vo.${packageVOName}.${className}AddVO;
+import ${packageName}.model.vo.${packageVOName}.${className}UpdateVO;
 
 import javax.annotation.Resource;
 import java.util.List;

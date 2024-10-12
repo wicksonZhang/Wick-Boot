@@ -1,0 +1,421 @@
+<template>
+  <div class="app-container">
+    <div class="search-container">
+      <el-form ref="queryFormRef" :model="queryParams" :inline="true">
+#foreach($fieldConfig in $fieldConfigs)
+  #if($fieldConfig.query == "1")
+        <el-form-item label="$fieldConfig.columnComment" prop="$fieldConfig.javaField">
+        #if($fieldConfig.htmlType == "input")
+          <el-input
+              v-model="queryParams.$fieldConfig.javaField"
+              placeholder="$fieldConfig.columnComment"
+              clearable
+              @keyup.enter="handleQuery()"
+          />
+        #elseif($fieldConfig.htmlType == "select")
+        #if($fieldConfig.dictType != "")
+          <dictionary v-model="formData.$fieldConfig.javaField" code="$fieldConfig.dictType"/>
+        #else
+          <el-select v-model="formData.$fieldConfig.javaField"
+                     placeholder="请选择$fieldConfig.columnComment">
+            <el-option :key="1" :value="1" label="选项一"/>
+            <el-option :key="2" :value="2" label="选项二"/>
+          </el-select>
+        #end
+        #elseif($fieldConfig.htmlType == "radio")
+          <el-radio-group v-model="queryParams.$fieldConfig.javaField">
+            <el-radio :key="1" :label="1">选项一</el-radio>
+            <el-radio :key="2" :label="2">选项二</el-radio>
+          </el-radio-group>
+        #elseif($fieldConfig.htmlType == "check_box")
+          <el-checkbox-group v-model="queryParams.$fieldConfig.javaField">
+            <el-checkbox :key="1" :label="1">选项一</el-checkbox>
+            <el-checkbox :key="2" :label="2">选项二</el-checkbox>
+          </el-checkbox-group>
+        #elseif($fieldConfig.htmlType == "input_number")
+          <el-input-number
+              v-model="queryParams.$fieldConfig.javaField"
+              placeholder="$fieldConfig.columnComment"
+          />
+        #elseif($fieldConfig.htmlType == "switch")
+          <el-switch
+              v-model="queryParams.$fieldConfig.javaField"
+              :active-value="1"
+              :inactive-value="0"
+          />
+        #elseif($fieldConfig.htmlType == "textarea")
+          <el-input type="textarea"
+                    v-model="queryParams.$fieldConfig.javaField"
+                    placeholder="$fieldConfig.columnComment"
+          />
+        #elseif($fieldConfig.htmlType == "datetime")
+          <el-date-picker
+              v-model="queryParams.$fieldConfig.javaField"
+              #if($fieldConfig.queryType == "BETWEEN")
+              type="daterange"
+              range-separator="~"
+              start-placeholder="开始时间"
+              end-placeholder="结束时间"
+              #else
+              type="datetime"
+              placeholder="$fieldConfig.columnComment"
+              #end
+              value-format="YYYY-MM-DD HH:mm:ss"
+          />
+        #elseif($fieldConfig.htmlType == "datetime")
+          <el-date-picker
+              class="!w-[240px]"
+              v-model="queryParams.$fieldConfig.javaField"
+              #if($fieldConfig.queryType == "BETWEEN")
+              type="daterange"
+              range-separator="~"
+              start-placeholder="开始时间"
+              end-placeholder="结束时间"
+              #else
+              type="date"
+              placeholder="$fieldConfig.columnComment"
+              #end
+              value-format="YYYY-MM-DD"
+          />
+        #end
+        </el-form-item>
+  #end
+#end
+        <el-form-item>
+          <el-button
+              v-hasPerm="['${permissionPrefix}:query']"
+              type="primary"
+              @click="handleQuery()">
+            <template #icon><Search /></template>
+            搜索
+          </el-button>
+          <el-button
+              v-hasPerm="['${permissionPrefix}:query']"
+              @click="handleResetQuery()">
+            <template #icon><Refresh /></template>
+            重置
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+
+    <el-card shadow="never" class="table-container">
+      <template #header>
+        <el-button
+            v-hasPerm="['${permissionPrefix}:add']"
+            type="success"
+            @click="handleOpenDialog()"
+        >
+          <el-icon>
+            <Plus />
+          </el-icon>
+          新增
+        </el-button>
+        <el-button
+            v-hasPerm="['${permissionPrefix}:delete']"
+            type="danger"
+            :disabled="ids.length === 0"
+            @click="handleDelete()"
+        >
+          <el-icon>
+            <Delete />
+          </el-icon>
+          删除
+        </el-button>
+      </template>
+
+      <el-table
+          ref="dataTableRef"
+          v-loading="loading"
+          :data="pageData"
+          highlight-current-row
+          show-overflow-tooltip
+          @selection-change="handleSelectionChange"
+      >
+        <el-table-column type="selection" width="55" align="center"/>
+#foreach($fieldConfig in $fieldConfigs)
+#if($fieldConfig.list == "1")
+            <el-table-column
+                align="center"
+                key="$fieldConfig.javaField"
+                label="$fieldConfig.columnComment"
+                prop="$fieldConfig.javaField"
+                min-width="100"
+            />
+#end
+#end
+        <el-table-column fixed="right" label="操作" width="220">
+          <template #default="scope">
+            <el-button
+                v-hasPerm="['${permissionPrefix}:update']"
+                type="primary"
+                size="small"
+                link
+                @click="handleOpenDialog(scope.row.id)"
+            >
+              <template #icon><Edit /></template>
+              编辑
+            </el-button>
+            <el-button
+                v-hasPerm="['${permissionPrefix}:delete']"
+                type="danger"
+                size="small"
+                link
+                @click="handleDelete(scope.row.id)"
+            >
+              <template #icon><Delete /></template>
+              删除
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <pagination
+          v-if="total > 0"
+          v-model:total="total"
+          v-model:page="queryParams.pageNumber"
+          v-model:limit="queryParams.pageSize"
+          @pagination="handleQuery()"
+      />
+    </el-card>
+
+    <!-- $!{businessName}表单弹窗 -->
+    <el-dialog
+        v-model="dialog.visible"
+        :title="dialog.title"
+        width="500px"
+        @close="handleCloseDialog"
+    >
+      <el-form ref="dataFormRef" :model="formData" :rules="rules" label-width="100px">
+#foreach($fieldConfig in $fieldConfigs)
+#if($fieldConfig.edit == "1" && $fieldConfig.pk != "1")
+    <el-form-item label="$fieldConfig.columnComment" prop="$fieldConfig.javaField">
+        #if($fieldConfig.htmlType == "input")
+          <el-input
+              v-model="formData.$fieldConfig.javaField"
+              placeholder="$fieldConfig.columnComment"
+              clearable
+              @keyup.enter="handleQuery()"
+          />
+        #elseif($fieldConfig.htmlType == "select")
+            #if($fieldConfig.dictType != "")
+              <dictionary v-model="formData.$fieldConfig.javaField" code="$fieldConfig.dictType"/>
+            #else
+              <el-select v-model="formData.$fieldConfig.javaField"
+                         placeholder="请选择$fieldConfig.columnComment">
+                <el-option :value="0" label="选项一"/>
+                <el-option :value="1" label="选项二"/>
+              </el-select>
+            #end
+        #elseif($fieldConfig.htmlType == "radio")
+          <el-radio-group v-model="formData.$fieldConfig.javaField">
+            <el-radio :value="0">选项一</el-radio>
+            <el-radio :value="1">选项二</el-radio>
+          </el-radio-group>
+        #elseif($fieldConfig.htmlType == "checkbox")
+          <el-checkbox-group v-model="formData.$fieldConfig.javaField">
+            <el-checkbox :value="0">选项一</el-checkbox>
+            <el-checkbox :value="1">选项二</el-checkbox>
+          </el-checkbox-group>
+        #elseif($fieldConfig.htmlType == "input_number")
+          <el-input-number
+              v-model="formData.$fieldConfig.javaField"
+              placeholder="$fieldConfig.columnComment"
+          />
+        #elseif($fieldConfig.htmlType == "switch")
+          <el-switch
+              v-model="formData.$fieldConfig.javaField"
+              :active-value="1"
+              :inactive-value="0"
+          />
+        #elseif($fieldConfig.htmlType == "textarea")
+          <el-input type="textarea"
+                    v-model="formData.$fieldConfig.javaField"
+                    placeholder="$fieldConfig.columnComment"
+          />
+        #elseif($fieldConfig.htmlType == "datetime")
+          <el-date-picker
+              v-model="formData.$fieldConfig.javaField"
+              type="datetime"
+              placeholder="$fieldConfig.columnComment"
+              value-format="YYYY-MM-DD HH:mm:ss"
+          />
+        #elseif($fieldConfig.htmlType == "date")
+          <el-date-picker
+              class="!w-[240px]"
+              v-model="formData.$fieldConfig.javaField"
+              type="date"
+              placeholder="$fieldConfig.columnComment"
+              value-format="YYYY-MM-DD"
+          />
+        #end
+    </el-form-item>
+#end
+#end
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button type="primary" @click="handleSubmit()">确定</el-button>
+          <el-button @click="handleCloseDialog()">取消</el-button>
+        </div>
+      </template>
+    </el-dialog>
+  </div>
+</template>
+
+<script setup lang="ts">
+defineOptions({
+  name: "${className}",
+  inheritAttrs: false,
+});
+
+import ${className}API, {${className}VO, ${className}Form} from "@/api//${moduleName}/${businessName}";
+
+const queryFormRef = ref(ElForm);
+const dataFormRef = ref(ElForm);
+
+const loading = ref(false);
+const ids = ref<number[]>([]);
+const total = ref(0);
+
+const queryParams = reactive({
+  pageNumber: 1,
+  pageSize: 10,
+#foreach($fieldConfig in ${fieldConfigs})
+## 判断既是编辑字段并且排除主键
+#if($fieldConfig.edit == "1" && $fieldConfig.pk != "1")
+#if ($fieldConfig.htmlType == "datetime")
+  $fieldConfig.javaField: [],
+#end
+  $fieldConfig.javaField: undefined,
+#end
+#end
+});
+
+// $!{businessName}表格数据
+const pageData = ref<${className}VO[]>([]);
+
+// 弹窗
+const dialog = reactive({
+  title: "",
+  visible: false,
+});
+
+// $!{businessName}表单数据
+const formData = reactive<${className}Form>({});
+
+// $!{businessName}表单校验规则
+const rules = reactive({
+#if($fieldConfigs)
+#foreach($fieldConfig in ${fieldConfigs})
+#if($fieldConfig.edit == "1" && $fieldConfig.required == "1")
+  ${fieldConfig.javaField}: [{required: true, message: "请输入${fieldConfig.columnComment}", trigger: "blur"}],
+#end
+#end
+#end
+});
+
+/** 查询$!{businessName} */
+function handleQuery() {
+    loading.value = true;
+    ${className}API.getPage(queryParams)
+    .then((data) => {
+      pageData.value = data.list;
+      total.value = data.total;
+    })
+    .finally(() => {
+      loading.value = false;
+    });
+}
+
+/** 重置$!{businessName}查询 */
+function handleResetQuery() {
+    queryFormRef.value!.resetFields();
+    queryParams.pageNumber = 1;
+    handleQuery();
+}
+
+/** 行复选框选中记录选中ID集合 */
+function handleSelectionChange(selection: any) {
+    ids.value = selection.map((item: any) => item.id);
+}
+
+/** 打开$!{businessName}弹窗 */
+function handleOpenDialog(id?: number) {
+    dialog.visible = true;
+    if (id) {
+      dialog.title = "修改$!{functionName}";
+            ${className}API.getFormData(id).then((data) => {
+        Object.assign(formData, data);
+      });
+    } else {
+      dialog.title = "新增$!{functionName}";
+    }
+}
+
+/** 提交$!{businessName}表单 */
+function handleSubmit() {
+    dataFormRef.value.validate((valid: any) => {
+      if (valid) {
+        loading.value = true;
+        const id = formData.id;
+        if (id) {
+            ${className}API.update(formData)
+          .then(() => {
+            ElMessage.success("修改成功");
+            handleCloseDialog();
+            handleResetQuery();
+          })
+          .finally(() => (loading.value = false));
+        } else {
+                ${className}API.add(formData)
+              .then(() => {
+                ElMessage.success("新增成功");
+                handleCloseDialog();
+                handleResetQuery();
+              })
+              .finally(() => (loading.value = false));
+        }
+      }
+    });
+}
+
+/** 关闭$!{businessName}弹窗 */
+function handleCloseDialog() {
+    dialog.visible = false;
+    dataFormRef.value.resetFields();
+    dataFormRef.value.clearValidate();
+    formData.id = undefined;
+}
+
+/** 删除$!{businessName} */
+function handleDelete(id?: number) {
+    const removeIds = [id || ids.value].join(",");
+    if (!removeIds) {
+      ElMessage.warning("请勾选删除项");
+      return;
+    }
+
+    ElMessageBox.confirm("确认删除已选中的数据项?", "警告", {
+      confirmButtonText: "确定",
+      cancelButtonText: "取消",
+      type: "warning",
+    }).then(() => {
+      loading.value = true;
+            ${className}API.deleteByIds(removeIds)
+          .then(() => {
+            ElMessage.success("删除成功");
+            handleResetQuery();
+          })
+          .finally(() => (loading.value = false));
+    },
+    () => {
+      ElMessage.info("已取消删除");
+    }
+    );
+}
+
+onMounted(() => {
+    handleQuery();
+});
+</script>

@@ -36,14 +36,14 @@ public class ToolCodeGenTableController {
     private ToolCodeGenTableService codeGenService;
 
     @GetMapping("/db/list")
-    @PreAuthorize("@ss.hasPerm('tools:code-gen:query')")
+    @PreAuthorize("@ss.hasPerm('tool:code-gen:query')")
     @ApiOperation(value = "获取数据源数据表", notes = "代码生成", httpMethod = "GET")
     public ResultUtil<PageResult<ToolCodeGenTablePageReqsDTO>> dataList(@Valid ToolCodeGenTableQueryVO queryVO) {
         return ResultUtil.success(codeGenService.selectDbTableList(queryVO));
     }
 
     @PostMapping("/importTable/{tableNames}")
-    @PreAuthorize("@ss.hasPerm('tools:code-gen:import')")
+    @PreAuthorize("@ss.hasPerm('tool:code-gen:import')")
     @ApiOperation(value = "导入数据表", notes = "代码生成", httpMethod = "POST")
     @ApiImplicitParam(name = "tableName", value = "数据表名称", required = true, dataType = "String", dataTypeClass = String.class)
     public ResultUtil<Boolean> importTable(@NotEmpty(message = "表名不能为空") @PathVariable List<String> tableNames) {
@@ -52,14 +52,14 @@ public class ToolCodeGenTableController {
     }
 
     @GetMapping("/list")
-    @PreAuthorize("@ss.hasPerm('tools:code-gen:query')")
+    @PreAuthorize("@ss.hasPerm('tool:code-gen:query')")
     @ApiOperation(value = "获取代码生成分页", notes = "代码生成", httpMethod = "GET")
     public ResultUtil<PageResult<ToolCodeGenTablePageReqsDTO>> list(@Valid ToolCodeGenTableQueryVO queryVO) {
         return ResultUtil.success(codeGenService.selectCodeGenTableList(queryVO));
     }
 
     @GetMapping("/details/{tableId}")
-    @PreAuthorize("@ss.hasPerm('tools:code-gen:query')")
+    @PreAuthorize("@ss.hasPerm('tool:code-gen:query')")
     @ApiOperation(value = "获取代码生成详细数据", notes = "代码生成", httpMethod = "GET")
     @ApiImplicitParam(name = "tableId", value = "数据表Id", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<ToolCodeGenDetailDTO> getDetails(@PathVariable Long tableId) {
@@ -67,7 +67,7 @@ public class ToolCodeGenTableController {
     }
 
     @PutMapping("/update")
-    @PreAuthorize("@ss.hasPerm('tools:code-gen:update')")
+    @PreAuthorize("@ss.hasPerm('tool:code-gen:update')")
     @ApiOperation(value = "修改代码生成信息", notes = "代码生成", httpMethod = "PUT")
     public ResultUtil<Boolean> update(@Validated @RequestBody ToolCodeGenTableUpdateVO updateVO) {
         this.codeGenService.update(updateVO);
@@ -75,7 +75,7 @@ public class ToolCodeGenTableController {
     }
 
     @DeleteMapping("/delete/{ids}")
-    @PreAuthorize("@ss.hasPerm('tools:code-gen:delete')")
+    @PreAuthorize("@ss.hasPerm('tool:code-gen:delete')")
     @ApiOperation(value = "删除代码生成信息", notes = "代码生成", httpMethod = "DELETE")
     public ResultUtil<Boolean> remove(@PathVariable List<Long> ids) {
         this.codeGenService.deleteToolCodeGenTable(ids);
@@ -83,7 +83,7 @@ public class ToolCodeGenTableController {
     }
 
     @GetMapping("/preview/{tableId}")
-    @PreAuthorize("@ss.hasPerm('tools:code-gen:preview')")
+    @PreAuthorize("@ss.hasPerm('tool:code-gen:preview')")
     @ApiOperation(value = "预览代码", notes = "代码生成", httpMethod = "PUT")
     @ApiImplicitParam(name = "tableId", value = "数据表Id", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<List<ToolCodeGenPreviewDTO>> previewCode(@PathVariable("tableId") Long tableId) {
@@ -91,7 +91,7 @@ public class ToolCodeGenTableController {
     }
 
     @PutMapping("/syncDb/{tableId}")
-    @PreAuthorize("@ss.hasPerm('tools:code-gen:async')")
+    @PreAuthorize("@ss.hasPerm('tool:code-gen:async')")
     @ApiOperation(value = "同步代码", notes = "代码生成", httpMethod = "PUT")
     @ApiImplicitParam(name = "tableId", value = "数据表Id", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<Boolean> syncDb(@PathVariable("tableId") Long tableId) {
@@ -100,7 +100,7 @@ public class ToolCodeGenTableController {
     }
 
     @GetMapping("/download/{tableId}")
-    @PreAuthorize("@ss.hasPerm('tools:code-gen:download')")
+    @PreAuthorize("@ss.hasPerm('tool:code-gen:download')")
     @ApiOperation(value = "生成代码", notes = "代码生成", httpMethod = "PUT")
     @ApiImplicitParam(name = "tableId", value = "数据表Id", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<Boolean> download(HttpServletResponse response, @PathVariable Long tableId) {
