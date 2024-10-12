@@ -29,6 +29,7 @@ public class ToolCodeGenUtils {
         codeGenTable.setBusinessName(convertBusinessName(codeGenTable.getTableName()));
         codeGenTable.setFunctionName(convertFunctionName(codeGenTable.getTableComment()));
         codeGenTable.setFunctionAuthor(toolCodeGenConfig.getAuthor());
+        codeGenTable.setParentMenuId(ToolCodeGenConstants.PARENT_MENU_ID);
     }
 
     /**

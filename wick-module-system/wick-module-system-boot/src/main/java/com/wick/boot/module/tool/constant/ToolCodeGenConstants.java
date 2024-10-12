@@ -39,11 +39,6 @@ public interface ToolCodeGenConstants {
     String TREE_NAME = "treeName";
 
     /**
-     * 上级菜单ID字段
-     */
-    String PARENT_MENU_ID = "parentMenuId";
-
-    /**
      * 上级菜单名称字段
      */
     String PARENT_MENU_NAME = "parentMenuName";
@@ -178,5 +173,10 @@ public interface ToolCodeGenConstants {
      * 需要
      */
     String REQUIRE = "1";
+
+    /**
+     * 需要
+     */
+    Long PARENT_MENU_ID = 1L;
 }
 
