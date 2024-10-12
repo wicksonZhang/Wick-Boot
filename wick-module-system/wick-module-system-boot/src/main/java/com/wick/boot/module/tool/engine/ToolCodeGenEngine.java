@@ -222,10 +222,10 @@ public class ToolCodeGenEngine {
         boolean hasRequiredField = false;
 
         for (ToolCodeGenTableColumn fieldConfig : columns) {
-            if ("LocalDateTime".equals(fieldConfig.getColumnType())) {
+            if ("LocalDateTime".equals(fieldConfig.getJavaType())) {
                 hasLocalDateTime = true;
             }
-            if ("BigDecimal".equals(fieldConfig.getColumnType())) {
+            if ("BigDecimal".equals(fieldConfig.getJavaType())) {
                 hasBigDecimal = true;
             }
             if (ObjectUtil.equals(fieldConfig.getRequired(), "1")) {
