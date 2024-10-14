@@ -115,79 +115,76 @@ CREATE TABLE `system_menu`  (
 -- ----------------------------
 -- Records of system_menu
 -- ----------------------------
-INSERT INTO `system_menu` VALUES (1, 0, 2, '系统管理','', '/system', 'Layout', NULL, 'system', 1, 1, '/system/user', '0', NULL, NULL, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
-INSERT INTO `system_menu` VALUES (2, 1, 1, '用户管理', 'User', 'user', 'system/user/index', NULL, 'user', 1, 1, NULL, '0,1', NULL, 1, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
-INSERT INTO `system_menu` VALUES (3, 1, 1, '角色管理', 'Role', 'role', 'system/role/index', NULL, 'role', 2, 1, NULL, '0,1', NULL, 1, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
-INSERT INTO `system_menu` VALUES (4, 1, 1, '菜单管理', 'Menu', 'menu', 'system/menu/index', NULL, 'menu', 3, 1, NULL, '0,1', NULL, 1, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
-INSERT INTO `system_menu` VALUES (5, 1, 1, '部门管理', 'Dept', 'dept', 'system/dept/index', NULL, 'tree', 4, 1, NULL, '0,1', NULL, 1, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
-INSERT INTO `system_menu` VALUES (6, 1, 1, '字典管理', 'Dict', 'dict', 'system/dict/index', NULL, 'dict', 5, 1, NULL, '0,1', NULL, 1, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
-INSERT INTO `system_menu` VALUES (7, 1, 1, '日志管理', '', '/logger', 'system/logger/index', NULL, 'menu', 6, 1, '/system/logger/login-log', '0,1', NULL, 1, b'0', '2024-06-25 10:14:37', '2024-06-25 17:07:11', '2', '2');
-INSERT INTO `system_menu` VALUES (8, 7, 1, '登录日志', 'Login', 'login-log', 'system/logger/login-log/index', NULL, 'user', 1, 1, '', '0,1,7', 0, 0, b'0', '2024-06-25 11:19:43', '2024-06-25 16:32:47', '2', '2');
-INSERT INTO `system_menu` VALUES (9, 7, 1, '操作日志', 'Operate', 'operate-log', 'system/logger/operate-log/index', NULL, 'document', 1, 1, '', '0,1,7', NULL, NULL, b'0', '2024-06-25 16:34:34', '2024-06-25 16:35:14', '2', '2');
-
-INSERT INTO `system_menu` VALUES (10, 2, 4, '新增用户', NULL, '', NULL, 'system:user:add', '', 1, 1, '', '0,1,2', NULL, NULL, 0, '2021-08-28 09:12:21', '2021-08-28 09:12:21', 1, 1);
-INSERT INTO `system_menu` VALUES (11, 2, 4, '修改用户', NULL, '', NULL, 'system:user:update', '', 2, 1, '', '0,1,2', NULL, NULL, 0, '2022-11-05 01:26:44', '2022-11-05 01:26:44', 1, 1);
-INSERT INTO `system_menu` VALUES (12, 2, 4, '删除用户', NULL, '', NULL, 'system:user:delete', '', 3, 1, '', '0,1,2', NULL, NULL, 0, '2022-11-05 01:27:13', '2022-11-05 01:27:13', 1, 1);
-INSERT INTO `system_menu` VALUES (13, 2, 4, '获取用户信息', NULL, '', NULL, 'system:user:query', '', 4, 1, '', '0,1,2', NULL, NULL, 0, '2022-11-05 01:27:13', '2022-11-05 01:27:13', 1, 1);
-INSERT INTO `system_menu` VALUES (14, 2, 4, '获取用户分页', NULL, '', NULL, 'system:user:query', '', 5, 1, '', '0,1,2', NULL, NULL, 0, '2022-11-05 01:27:13', '2022-11-05 01:27:13', 1, 1);
-INSERT INTO `system_menu` VALUES (15, 2, 4, '导出用户信息', NULL, '', NULL, 'system:user:export', '', 6, 1, '', '0,1,2', NULL, NULL, 0, '2022-11-05 01:27:13', '2022-11-05 01:27:13', 1, 1);
-INSERT INTO `system_menu` VALUES (16, 2, 4, '导入用户信息', NULL, '', NULL, 'system:user:import', '', 7, 1, '', '0,1,2', NULL, NULL, 0, '2022-11-05 01:27:13', '2022-11-05 01:27:13', 1, 1);
-INSERT INTO `system_menu` VALUES (17, 2, 4, '重置密码', NULL, '', NULL, 'system:user:reset_pwd', '', 4, 1, NULL, '0,1,2', NULL, NULL, 0, '2023-05-21 00:49:18', '2023-05-21 00:49:18', 1, 1);
-
-INSERT INTO `system_menu` VALUES (18, 3, 4, '角色新增', NULL, '', NULL, 'system:role:add', '', 1, 1, NULL, '0,1,3', NULL, NULL, 0, '2023-05-20 23:39:09', '2023-05-20 23:39:09', 1, 1);
-INSERT INTO `system_menu` VALUES (19, 3, 4, '角色编辑', NULL, '', NULL, 'system:role:update', '', 2, 1, NULL, '0,1,3', NULL, NULL, 0, '2023-05-20 23:40:31', '2023-05-20 23:40:31', 1, 1);
-INSERT INTO `system_menu` VALUES (20, 3, 4, '角色删除', NULL, '', NULL, 'system:role:delete', '', 3, 1, NULL, '0,1,3', NULL, NULL, 0, '2023-05-20 23:41:08', '2023-05-20 23:41:08', 1, 1);
-INSERT INTO `system_menu` VALUES (21, 3, 4, '分配权限', NULL, '', NULL, 'system:role:assign', '', 3, 1, NULL, '0,1,3', NULL, NULL, 0, '2023-05-20 23:41:08', '2023-05-20 23:41:08', 1, 1);
-INSERT INTO `system_menu` VALUES (22, 3, 4, '获取角色信息', NULL, '', NULL, 'system:role:query', '', 4, 1, NULL, '0,1,3', NULL, NULL, 0, '2023-05-20 23:41:08', '2023-05-20 23:41:08', 1, 1);
-INSERT INTO `system_menu` VALUES (23, 3, 4, '获取角色分页', NULL, '', NULL, 'system:role:query', '', 5, 1, NULL, '0,1,3', NULL, NULL, 0, '2023-05-20 23:41:08', '2023-05-20 23:41:08', 1, 1);
-INSERT INTO `system_menu` VALUES (24, 3, 4, '获取角色下拉选项', NULL, '', NULL, 'system:role:options', '', 6, 1, NULL, '0,1,3', NULL, NULL, 0, '2023-05-20 23:41:08', '2023-05-20 23:41:08', 1, 1);
-
-INSERT INTO `system_menu` VALUES (25, 4, 4, '菜单新增', NULL, '', NULL, 'system:menu:add', '', 1, 1, NULL, '0,1,4', NULL, NULL, 0, '2023-05-20 23:41:35', '2023-05-20 23:41:35', 1, 1);
-INSERT INTO `system_menu` VALUES (26, 4, 4, '菜单编辑', NULL, '', NULL, 'system:menu:update', '', 3, 1, NULL, '0,1,4', NULL, NULL, 0, '2023-05-20 23:41:58', '2023-05-20 23:41:58', 1, 1);
-INSERT INTO `system_menu` VALUES (27, 4, 4, '菜单删除', NULL, '', NULL, 'system:menu:delete', '', 3, 1, NULL, '0,1,4', NULL, NULL, 0, '2023-05-20 23:44:18', '2023-05-20 23:44:18', 1, 1);
-INSERT INTO `system_menu` VALUES (28, 4, 4, '获取菜单列表', NULL, '', NULL, 'system:menu:query', '', 4, 1, NULL, '0,1,4', NULL, NULL, 0, '2023-05-20 23:44:18', '2023-05-20 23:44:18', 1, 1);
-INSERT INTO `system_menu` VALUES (29, 4, 4, '获取菜单数据', NULL, '', NULL, 'system:menu:query', '', 5, 1, NULL, '0,1,4', NULL, NULL, 0, '2023-05-20 23:44:18', '2023-05-20 23:44:18', 1, 1);
-INSERT INTO `system_menu` VALUES (30, 4, 4, '获取菜单选项', NULL, '', NULL, 'system:menu:options', '', 6, 1, NULL, '0,1,4', NULL, NULL, 0, '2023-05-20 23:44:18', '2023-05-20 23:44:18', 1, 1);
-INSERT INTO `system_menu` VALUES (31, 4, 4, '获取菜单路由', NULL, '', NULL, 'system:menu:routes', '', 7, 1, NULL, '0,1,4', NULL, NULL, 0, '2023-05-20 23:44:18', '2023-05-20 23:44:18', 1, 1);
-
-INSERT INTO `system_menu` VALUES (32, 5, 4, '部门新增', NULL, '', NULL, 'system:dept:add', '', 1, 1, NULL, '0,1,5', NULL, NULL, 0, '2023-05-20 23:45:00', '2023-05-20 23:45:00', 1, 1);
-INSERT INTO `system_menu` VALUES (33, 5, 4, '部门编辑', NULL, '', NULL, 'system:dept:update', '', 2, 1, NULL, '0,1,5', NULL, NULL, 0, '2023-05-20 23:46:16', '2023-05-20 23:46:16', 1, 1);
-INSERT INTO `system_menu` VALUES (34, 5, 4, '部门删除', NULL, '', NULL, 'system:dept:delete', '', 3, 1, NULL, '0,1,5', NULL, NULL, 0, '2023-05-20 23:46:36', '2023-05-20 23:46:36', 1, 1);
-INSERT INTO `system_menu` VALUES (35, 5, 4, '获取部门数据', NULL, '', NULL, 'system:dept:query', '', 4, 1, NULL, '0,1,5', NULL, NULL, 0, '2023-05-20 23:46:36', '2023-05-20 23:46:36', 1, 1);
-INSERT INTO `system_menu` VALUES (36, 5, 4, '获取部门列表', NULL, '', NULL, 'system:dept:query', '', 5, 1, NULL, '0,1,5', NULL, NULL, 0, '2023-05-20 23:46:36', '2023-05-20 23:46:36', 1, 1);
-INSERT INTO `system_menu` VALUES (37, 5, 4, '获取部门下拉选项', NULL, '', NULL, 'system:dept:options', '', 6, 1, NULL, '0,1,5', NULL, NULL, 0, '2023-05-20 23:46:36', '2023-05-20 23:46:36', 1, 1);
-
-INSERT INTO `system_menu` VALUES (38, 6, 4, '字典类型新增', NULL, '', NULL, 'system:dict_type:add', '', 1, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:16:06', '2023-05-21 00:16:06', 1, 1);
-INSERT INTO `system_menu` VALUES (39, 6, 4, '字典类型编辑', NULL, '', NULL, 'system:dict_type:update', '', 2, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:27:37', '2023-05-21 00:27:37', 1, 1);
-INSERT INTO `system_menu` VALUES (40, 6, 4, '字典类型删除', NULL, '', NULL, 'system:dict_type:delete', '', 3, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:29:39', '2023-05-21 00:29:39', 1, 1);
-INSERT INTO `system_menu` VALUES (41, 6, 4, '获取字典类型数据', NULL, '', NULL, 'system:dict_type:query', '', 4, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:29:39', '2023-05-21 00:29:39', 1, 1);
-INSERT INTO `system_menu` VALUES (42, 6, 4, '获取字典类型分页', NULL, '', NULL, 'system:dict_type:query', '', 5, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:29:39', '2023-05-21 00:29:39', 1, 1);
-INSERT INTO `system_menu` VALUES (43, 6, 4, '获取字典类型选项', NULL, '', NULL, 'system:dict_type:options', '', 6, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:29:39', '2023-05-21 00:29:39', 1, 1);
-
-INSERT INTO `system_menu` VALUES (44, 6, 4, '字典数据新增', NULL, '', NULL, 'system:dict_data:add', '', 1, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:46:56', '2023-05-21 00:47:06', 1, 1);
-INSERT INTO `system_menu` VALUES (45, 6, 4, '字典数据编辑', NULL, '', NULL, 'system:dict_data:update', '', 2, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:47:36', '2023-05-21 00:47:36', 1, 1);
-INSERT INTO `system_menu` VALUES (46, 6, 4, '字典数据删除', NULL, '', NULL, 'system:dict_data:delete', '', 3, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:48:10', '2023-05-21 00:48:20', 1, 1);
-INSERT INTO `system_menu` VALUES (47, 6, 4, '获取字典数据', NULL, '', NULL, 'system:dict_data:query', '', 4, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:48:10', '2023-05-21 00:48:20', 1, 1);
-INSERT INTO `system_menu` VALUES (48, 6, 4, '获取字典数据分页', NULL, '', NULL, 'system:dict_data:query', '', 5, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:48:10', '2023-05-21 00:48:20', 1, 1);
-INSERT INTO `system_menu` VALUES (49, 6, 4, '获取字典数据选项', NULL, '', NULL, 'system:dict_data:options', '', 6, 1, NULL, '0,1,6', NULL, NULL, 0, '2023-05-21 00:48:10', '2023-05-21 00:48:20', 1, 1);
-
-INSERT INTO `system_menu` VALUES (50, 8, 4, '获取登录日志分页', NULL, '', NULL, 'system:login-log:query', '', 1, 1, NULL, '0,1,8', NULL, NULL, 0, '2023-05-21 00:48:10', '2023-05-21 00:48:20', 1, 1);
-INSERT INTO `system_menu` VALUES (51, 8, 4, '导出登录日志分页', NULL, '', NULL, 'system:login-log:export', '', 2, 1, NULL, '0,1,8', NULL, NULL, 0, '2023-05-21 00:48:10', '2023-05-21 00:48:20', 1, 1);
-
-INSERT INTO `system_menu` VALUES (52, 9, 4, '获取操作日志分页', NULL, '', NULL, 'system:operate-log:query', '', 1, 1, NULL, '0,1,9', NULL, NULL, 0, '2023-05-21 00:48:10', '2023-05-21 00:48:20', 1, 1);
-INSERT INTO `system_menu` VALUES (53, 9, 4, '导出操作日志分页', NULL, '', NULL, 'system:operate-log:export', '', 2, 1, NULL, '0,1,9', NULL, NULL, 0, '2023-05-21 00:48:10', '2023-05-21 00:48:20', 1, 1);
-
-
-INSERT INTO `system_menu` VALUES (54, 0, 2, '系统工具', '', '/tool', 'Layout', NULL, 'menu', 2, 1, '', '0', 1, 1, b'0', '2024-09-19 15:38:40', '2024-09-19 15:38:40', 1, 1);
-INSERT INTO `system_menu` VALUES (55, 54 ,1, '代码生成', 'Codegen', 'code-gen', 'tool/code-gen/index', NULL, 'code', 1, 1, '', '0,54', 0, 1, b'0', '2024-09-19 15:39:46', '2024-09-19 15:39:46', 1, 1);
-INSERT INTO `system_menu` VALUES (56, 55, 4, '获取数据源数据表', NULL, '', NULL, 'tool:code-gen:query', '', 1, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:30:55', '2024-09-19 16:30:55', 1, 1);
-INSERT INTO `system_menu` VALUES (57, 55, 4, '导入数据表', NULL, '', NULL, 'tool:code-gen:import', '', 2, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:30:55', '2024-09-19 16:30:55', 1, 1);
-INSERT INTO `system_menu` VALUES (58, 55, 4, '获取代码生成分页', NULL, '', NULL, 'tool:code-gen:query', '', 2, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:30:55', '2024-09-19 16:30:55', 1, 1);
-INSERT INTO `system_menu` VALUES (59, 55, 4, '修改代码生成信息', NULL, '', NULL, 'tool:code-gen:update', '', 3, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', 1, 1);
-INSERT INTO `system_menu` VALUES (60, 55, 4, '删除代码生成信息', NULL, '', NULL, 'tool:code-gen:delete', '', 4, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', 1, 1);
-INSERT INTO `system_menu` VALUES (61, 55, 4, '预览代码', NULL, '', NULL, 'tool:code-gen:preview', '', 4, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', 1, 1);
-INSERT INTO `system_menu` VALUES (62, 55, 4, '同步代码生成信息', NULL, '', NULL, 'tool:code-gen:async', '', 5, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', 1, 1);
-INSERT INTO `system_menu` VALUES (63, 55, 4, '生成代码信息', NULL, '', NULL, 'tool:code-gen:download', '', 6, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', 1, 1);
+INSERT INTO `system_menu` VALUES(1, 0, 2, '系统管理', '', '/system', 'Layout', NULL, 'system', 1, 1, '/system/user', '0', NULL, NULL, b'0', '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1', '1');
+INSERT INTO `system_menu` VALUES(2, 1, 1, '用户管理', 'User', 'user', 'system/user/index', NULL, 'user', 1, 1, NULL, '0,1', NULL, 1, b'0', '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1', '1');
+INSERT INTO `system_menu` VALUES(3, 1, 1, '角色管理', 'Role', 'role', 'system/role/index', NULL, 'role', 2, 1, NULL, '0,1', NULL, 1, b'0', '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1', '1');
+INSERT INTO `system_menu` VALUES(4, 1, 1, '菜单管理', 'Menu', 'menu', 'system/menu/index', NULL, 'menu', 3, 1, NULL, '0,1', NULL, 1, b'0', '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1', '1');
+INSERT INTO `system_menu` VALUES(5, 1, 1, '部门管理', 'Dept', 'dept', 'system/dept/index', NULL, 'tree', 4, 1, NULL, '0,1', NULL, 1, b'0', '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1', '1');
+INSERT INTO `system_menu` VALUES(6, 1, 1, '字典管理', 'Dict', 'dict', 'system/dict/index', NULL, 'dict', 5, 1, NULL, '0,1', NULL, 1, b'0', '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1', '1');
+INSERT INTO `system_menu` VALUES(7, 1, 1, '日志管理', 'Logger', '/logger', 'system/logger/index', NULL, 'menu', 6, 1, '/system/logger/login-log', '0,1', NULL, 1, b'0', '2024-06-25 10:14:37', '2024-10-14 17:20:41', '2', '2');
+INSERT INTO `system_menu` VALUES(8, 7, 1, '登录日志', 'Login', 'login-log', 'system/logger/login-log/index', NULL, 'user', 1, 1, '', '0,1,7', 0, 0, b'0', '2024-06-25 11:19:43', '2024-06-25 16:32:47', '2', '2');
+INSERT INTO `system_menu` VALUES(9, 7, 1, '操作日志', 'Operate', 'operate-log', 'system/logger/operate-log/index', NULL, 'document', 1, 1, '', '0,1,7', NULL, NULL, b'0', '2024-06-25 16:34:34', '2024-06-25 16:35:14', '2', '2');
+INSERT INTO `system_menu` VALUES(10, 2, 4, '新增用户', NULL, '', NULL, 'system:user:add', '', 1, 1, '', '0,1,2', NULL, NULL, b'0', '2021-08-28 09:12:21', '2021-08-28 09:12:21', '1', '1');
+INSERT INTO `system_menu` VALUES(11, 2, 4, '修改用户', NULL, '', NULL, 'system:user:update', '', 2, 1, '', '0,1,2', NULL, NULL, b'0', '2022-11-05 01:26:44', '2022-11-05 01:26:44', '1', '1');
+INSERT INTO `system_menu` VALUES(12, 2, 4, '删除用户', NULL, '', NULL, 'system:user:delete', '', 3, 1, '', '0,1,2', NULL, NULL, b'0', '2022-11-05 01:27:13', '2022-11-05 01:27:13', '1', '1');
+INSERT INTO `system_menu` VALUES(13, 2, 4, '获取用户信息', NULL, '', NULL, 'system:user:query', '', 4, 1, '', '0,1,2', NULL, NULL, b'0', '2022-11-05 01:27:13', '2022-11-05 01:27:13', '1', '1');
+INSERT INTO `system_menu` VALUES(14, 2, 4, '获取用户分页', NULL, '', NULL, 'system:user:query', '', 5, 1, '', '0,1,2', NULL, NULL, b'0', '2022-11-05 01:27:13', '2022-11-05 01:27:13', '1', '1');
+INSERT INTO `system_menu` VALUES(15, 2, 4, '导出用户信息', NULL, '', NULL, 'system:user:export', '', 6, 1, '', '0,1,2', NULL, NULL, b'0', '2022-11-05 01:27:13', '2022-11-05 01:27:13', '1', '1');
+INSERT INTO `system_menu` VALUES(16, 2, 4, '导入用户信息', NULL, '', NULL, 'system:user:import', '', 7, 1, '', '0,1,2', NULL, NULL, b'0', '2022-11-05 01:27:13', '2022-11-05 01:27:13', '1', '1');
+INSERT INTO `system_menu` VALUES(17, 2, 4, '重置密码', NULL, '', NULL, 'system:user:reset_pwd', '', 4, 1, NULL, '0,1,2', NULL, NULL, b'0', '2023-05-21 00:49:18', '2023-05-21 00:49:18', '1', '1');
+INSERT INTO `system_menu` VALUES(18, 3, 4, '角色新增', NULL, '', NULL, 'system:role:add', '', 1, 1, NULL, '0,1,3', NULL, NULL, b'0', '2023-05-20 23:39:09', '2023-05-20 23:39:09', '1', '1');
+INSERT INTO `system_menu` VALUES(19, 3, 4, '角色编辑', NULL, '', NULL, 'system:role:update', '', 2, 1, NULL, '0,1,3', NULL, NULL, b'0', '2023-05-20 23:40:31', '2023-05-20 23:40:31', '1', '1');
+INSERT INTO `system_menu` VALUES(20, 3, 4, '角色删除', NULL, '', NULL, 'system:role:delete', '', 3, 1, NULL, '0,1,3', NULL, NULL, b'0', '2023-05-20 23:41:08', '2023-05-20 23:41:08', '1', '1');
+INSERT INTO `system_menu` VALUES(21, 3, 4, '分配权限', NULL, '', NULL, 'system:role:assign', '', 3, 1, NULL, '0,1,3', NULL, NULL, b'0', '2023-05-20 23:41:08', '2023-05-20 23:41:08', '1', '1');
+INSERT INTO `system_menu` VALUES(22, 3, 4, '获取角色信息', NULL, '', NULL, 'system:role:query', '', 4, 1, NULL, '0,1,3', NULL, NULL, b'0', '2023-05-20 23:41:08', '2023-05-20 23:41:08', '1', '1');
+INSERT INTO `system_menu` VALUES(23, 3, 4, '获取角色分页', NULL, '', NULL, 'system:role:query', '', 5, 1, NULL, '0,1,3', NULL, NULL, b'0', '2023-05-20 23:41:08', '2023-05-20 23:41:08', '1', '1');
+INSERT INTO `system_menu` VALUES(24, 3, 4, '获取角色下拉选项', NULL, '', NULL, 'system:role:options', '', 6, 1, NULL, '0,1,3', NULL, NULL, b'0', '2023-05-20 23:41:08', '2023-05-20 23:41:08', '1', '1');
+INSERT INTO `system_menu` VALUES(25, 4, 4, '菜单新增', NULL, '', NULL, 'system:menu:add', '', 1, 1, NULL, '0,1,4', NULL, NULL, b'0', '2023-05-20 23:41:35', '2023-05-20 23:41:35', '1', '1');
+INSERT INTO `system_menu` VALUES(26, 4, 4, '菜单编辑', NULL, '', NULL, 'system:menu:update', '', 3, 1, NULL, '0,1,4', NULL, NULL, b'0', '2023-05-20 23:41:58', '2023-05-20 23:41:58', '1', '1');
+INSERT INTO `system_menu` VALUES(27, 4, 4, '菜单删除', NULL, '', NULL, 'system:menu:delete', '', 3, 1, NULL, '0,1,4', NULL, NULL, b'0', '2023-05-20 23:44:18', '2023-05-20 23:44:18', '1', '1');
+INSERT INTO `system_menu` VALUES(28, 4, 4, '获取菜单列表', NULL, '', NULL, 'system:menu:query', '', 4, 1, NULL, '0,1,4', NULL, NULL, b'0', '2023-05-20 23:44:18', '2023-05-20 23:44:18', '1', '1');
+INSERT INTO `system_menu` VALUES(29, 4, 4, '获取菜单数据', NULL, '', NULL, 'system:menu:query', '', 5, 1, NULL, '0,1,4', NULL, NULL, b'0', '2023-05-20 23:44:18', '2023-05-20 23:44:18', '1', '1');
+INSERT INTO `system_menu` VALUES(30, 4, 4, '获取菜单选项', NULL, '', NULL, 'system:menu:options', '', 6, 1, NULL, '0,1,4', NULL, NULL, b'0', '2023-05-20 23:44:18', '2023-05-20 23:44:18', '1', '1');
+INSERT INTO `system_menu` VALUES(31, 4, 4, '获取菜单路由', NULL, '', NULL, 'system:menu:routes', '', 7, 1, NULL, '0,1,4', NULL, NULL, b'0', '2023-05-20 23:44:18', '2023-05-20 23:44:18', '1', '1');
+INSERT INTO `system_menu` VALUES(32, 5, 4, '部门新增', NULL, '', NULL, 'system:dept:add', '', 1, 1, NULL, '0,1,5', NULL, NULL, b'0', '2023-05-20 23:45:00', '2023-05-20 23:45:00', '1', '1');
+INSERT INTO `system_menu` VALUES(33, 5, 4, '部门编辑', NULL, '', NULL, 'system:dept:update', '', 2, 1, NULL, '0,1,5', NULL, NULL, b'0', '2023-05-20 23:46:16', '2023-05-20 23:46:16', '1', '1');
+INSERT INTO `system_menu` VALUES(34, 5, 4, '部门删除', NULL, '', NULL, 'system:dept:delete', '', 3, 1, NULL, '0,1,5', NULL, NULL, b'0', '2023-05-20 23:46:36', '2023-05-20 23:46:36', '1', '1');
+INSERT INTO `system_menu` VALUES(35, 5, 4, '获取部门数据', NULL, '', NULL, 'system:dept:query', '', 4, 1, NULL, '0,1,5', NULL, NULL, b'0', '2023-05-20 23:46:36', '2023-05-20 23:46:36', '1', '1');
+INSERT INTO `system_menu` VALUES(36, 5, 4, '获取部门列表', NULL, '', NULL, 'system:dept:query', '', 5, 1, NULL, '0,1,5', NULL, NULL, b'0', '2023-05-20 23:46:36', '2023-05-20 23:46:36', '1', '1');
+INSERT INTO `system_menu` VALUES(37, 5, 4, '获取部门下拉选项', NULL, '', NULL, 'system:dept:options', '', 6, 1, NULL, '0,1,5', NULL, NULL, b'0', '2023-05-20 23:46:36', '2023-05-20 23:46:36', '1', '1');
+INSERT INTO `system_menu` VALUES(38, 6, 4, '字典类型新增', NULL, '', NULL, 'system:dict_type:add', '', 1, 1, NULL, '0,1,6', NULL, NULL, b'0', '2023-05-21 00:16:06', '2023-05-21 00:16:06', '1', '1');
+INSERT INTO `system_menu` VALUES(39, 6, 4, '字典类型编辑', NULL, '', NULL, 'system:dict_type:update', '', 2, 1, NULL, '0,1,6', NULL, NULL, b'0', '2023-05-21 00:27:37', '2023-05-21 00:27:37', '1', '1');
+INSERT INTO `system_menu` VALUES(40, 6, 4, '字典类型删除', NULL, '', NULL, 'system:dict_type:delete', '', 3, 1, NULL, '0,1,6', NULL, NULL, b'0', '2023-05-21 00:29:39', '2023-05-21 00:29:39', '1', '1');
+INSERT INTO `system_menu` VALUES(41, 6, 4, '获取字典类型数据', NULL, '', NULL, 'system:dict_type:query', '', 4, 1, NULL, '0,1,6', NULL, NULL, b'0', '2023-05-21 00:29:39', '2023-05-21 00:29:39', '1', '1');
+INSERT INTO `system_menu` VALUES(42, 6, 4, '获取字典类型分页', NULL, '', NULL, 'system:dict_type:query', '', 5, 1, NULL, '0,1,6', NULL, NULL, b'0', '2023-05-21 00:29:39', '2023-05-21 00:29:39', '1', '1');
+INSERT INTO `system_menu` VALUES(43, 6, 4, '获取字典类型选项', NULL, '', NULL, 'system:dict_type:options', '', 6, 1, NULL, '0,1,6', NULL, NULL, b'0', '2023-05-21 00:29:39', '2023-05-21 00:29:39', '1', '1');
+INSERT INTO `system_menu` VALUES(44, 70, 4, '字典数据新增', NULL, '', NULL, 'system:dict_data:add', '', 1, 1, NULL, '0,1,70', NULL, NULL, b'0', '2023-05-21 00:46:56', '2024-10-14 17:14:57', '1', '2');
+INSERT INTO `system_menu` VALUES(45, 70, 4, '字典数据编辑', NULL, '', NULL, 'system:dict_data:update', '', 2, 1, NULL, '0,1,70', NULL, NULL, b'0', '2023-05-21 00:47:36', '2024-10-14 17:16:09', '1', '2');
+INSERT INTO `system_menu` VALUES(46, 70, 4, '字典数据删除', NULL, '', NULL, 'system:dict_data:delete', '', 3, 1, NULL, '0,1,70', NULL, NULL, b'0', '2023-05-21 00:48:10', '2024-10-14 17:16:44', '1', '2');
+INSERT INTO `system_menu` VALUES(47, 70, 4, '获取字典数据', NULL, '', NULL, 'system:dict_data:query', '', 4, 1, NULL, '0,1,70', NULL, NULL, b'0', '2023-05-21 00:48:10', '2024-10-14 17:16:59', '1', '2');
+INSERT INTO `system_menu` VALUES(48, 70, 4, '获取字典数据分页', NULL, '', NULL, 'system:dict_data:query', '', 5, 1, NULL, '0,1,70', NULL, NULL, b'0', '2023-05-21 00:48:10', '2024-10-14 17:17:32', '1', '2');
+INSERT INTO `system_menu` VALUES(49, 70, 4, '获取字典数据选项', NULL, '', NULL, 'system:dict_data:options', '', 6, 1, NULL, '0,1,70', NULL, NULL, b'0', '2023-05-21 00:48:10', '2024-10-14 17:17:46', '1', '2');
+INSERT INTO `system_menu` VALUES(50, 8, 4, '获取登录日志分页', NULL, '', NULL, 'system:login-log:query', '', 1, 1, NULL, '0,1,8', NULL, NULL, b'0', '2023-05-21 00:48:10', '2023-05-21 00:48:20', '1', '1');
+INSERT INTO `system_menu` VALUES(51, 8, 4, '导出登录日志分页', NULL, '', NULL, 'system:login-log:export', '', 2, 1, NULL, '0,1,8', NULL, NULL, b'0', '2023-05-21 00:48:10', '2023-05-21 00:48:20', '1', '1');
+INSERT INTO `system_menu` VALUES(52, 9, 4, '获取操作日志分页', NULL, '', NULL, 'system:operate-log:query', '', 1, 1, NULL, '0,1,9', NULL, NULL, b'0', '2023-05-21 00:48:10', '2023-05-21 00:48:20', '1', '1');
+INSERT INTO `system_menu` VALUES(53, 9, 4, '导出操作日志分页', NULL, '', NULL, 'system:operate-log:export', '', 2, 1, NULL, '0,1,9', NULL, NULL, b'0', '2023-05-21 00:48:10', '2023-05-21 00:48:20', '1', '1');
+INSERT INTO `system_menu` VALUES(54, 0, 2, '系统工具', '', '/tool', 'Layout', NULL, 'menu', 2, 1, '', '0', 1, 1, b'0', '2024-09-19 15:38:40', '2024-09-19 15:38:40', '1', '1');
+INSERT INTO `system_menu` VALUES(55, 54, 1, '代码生成', 'Codegen', 'code-gen', 'tool/code-gen/index', NULL, 'code', 1, 1, '', '0,54', 0, 1, b'0', '2024-09-19 15:39:46', '2024-09-19 15:39:46', '1', '1');
+INSERT INTO `system_menu` VALUES(56, 55, 4, '获取数据源数据表', NULL, '', NULL, 'tool:code-gen:query', '', 1, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:30:55', '2024-09-19 16:30:55', '1', '1');
+INSERT INTO `system_menu` VALUES(57, 55, 4, '导入数据表', NULL, '', NULL, 'tool:code-gen:import', '', 2, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:30:55', '2024-09-19 16:30:55', '1', '1');
+INSERT INTO `system_menu` VALUES(58, 55, 4, '获取代码生成分页', NULL, '', NULL, 'tool:code-gen:query', '', 2, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:30:55', '2024-09-19 16:30:55', '1', '1');
+INSERT INTO `system_menu` VALUES(59, 55, 4, '修改代码生成信息', NULL, '', NULL, 'tool:code-gen:update', '', 3, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', '1', '1');
+INSERT INTO `system_menu` VALUES(60, 55, 4, '删除代码生成信息', NULL, '', NULL, 'tool:code-gen:delete', '', 4, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', '1', '1');
+INSERT INTO `system_menu` VALUES(61, 55, 4, '预览代码', NULL, '', NULL, 'tool:code-gen:preview', '', 4, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', '1', '1');
+INSERT INTO `system_menu` VALUES(62, 55, 4, '同步代码生成信息', NULL, '', NULL, 'tool:code-gen:async', '', 5, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', '1', '1');
+INSERT INTO `system_menu` VALUES(63, 55, 4, '生成代码信息', NULL, '', NULL, 'tool:code-gen:download', '', 6, 1, '', '0,54,55', NULL, NULL, b'0', '2024-09-19 16:31:19', '2024-09-19 16:31:19', '1', '1');
+INSERT INTO `system_menu` VALUES(64, 54, 1, '数据源配置', 'data-source', 'data-source', 'tool/data-source/index', NULL, '', 1, 1, NULL, '0,54', NULL, 1, b'0', '2024-10-12 08:40:12', '2024-10-12 08:40:12', '1', '1');
+INSERT INTO `system_menu` VALUES(65, 64, 4, '数据源配置新增', NULL, '', NULL, 'tool:data-source:add', NULL, 1, 1, NULL, '0,54,64', NULL, NULL, b'0', '2024-10-12 08:40:12', '2024-10-12 08:40:12', '1', '1');
+INSERT INTO `system_menu` VALUES(66, 64, 4, '数据源配置编辑', NULL, '', NULL, 'tool:data-source:update', NULL, 2, 1, NULL, '0,54,64', NULL, NULL, b'0', '2024-10-12 08:40:12', '2024-10-12 08:40:12', '1', '1');
+INSERT INTO `system_menu` VALUES(67, 64, 4, '数据源配置删除', NULL, '', NULL, 'tool:data-source:delete', NULL, 3, 1, NULL, '0,54,64', NULL, NULL, b'0', '2024-10-12 08:40:12', '2024-10-12 08:40:12', '1', '1');
+INSERT INTO `system_menu` VALUES(68, 64, 4, '获取数据源配置数据', NULL, '', NULL, 'tool:data-source:query', NULL, 4, 1, NULL, '0,54,64', NULL, NULL, b'0', '2024-10-12 08:40:12', '2024-10-12 08:40:12', '1', '1');
+INSERT INTO `system_menu` VALUES(69, 64, 4, '获取数据源配置分页', NULL, '', NULL, 'tool:data-source:query', NULL, 4, 1, NULL, '0,54,64', NULL, NULL, b'0', '2024-10-12 08:40:12', '2024-10-12 08:40:12', '1', '1');
+INSERT INTO `system_menu` VALUES(70, 1, 1, '字典数据', 'DictData', 'dict-data', 'system/dict/item', NULL, 'menu', 5, 1, '', '0,1', 0, 1, b'0', '2024-10-14 17:09:31', '2024-10-14 17:15:13', '2', '2');
 
 -- ----------------------------
 -- Table structure for system_user_role
@@ -280,6 +277,13 @@ INSERT INTO `system_role_menu` VALUES (2, 60);
 INSERT INTO `system_role_menu` VALUES (2, 61);
 INSERT INTO `system_role_menu` VALUES (2, 62);
 INSERT INTO `system_role_menu` VALUES (2, 63);
+INSERT INTO `system_role_menu` VALUES (2, 64);
+INSERT INTO `system_role_menu` VALUES (2, 65);
+INSERT INTO `system_role_menu` VALUES (2, 66);
+INSERT INTO `system_role_menu` VALUES (2, 67);
+INSERT INTO `system_role_menu` VALUES (2, 68);
+INSERT INTO `system_role_menu` VALUES (2, 69);
+INSERT INTO `system_role_menu` VALUES (2, 70);
 
 -- ----------------------------
 -- Table structure for sys_dict_type

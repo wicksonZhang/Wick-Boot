@@ -1,6 +1,6 @@
 -- 菜单SQL
 INSERT INTO`system_menu`(`parent_id`,`type`,`name`,`route_name`,`route_path`,`component`,`perm`,`icon`,`sort`,`visible`,`redirect`,`tree_path`,`always_show`,`keep_alive`,`deleted`,`create_time`,`update_time`,`create_by`,`update_by`)
-VALUES('54',1,'数据源配置','data-source','data-source','tool/data-source/index',NULL,'',1,1,NULL,'0,54',NULL,1,b'0',sysdate(),sysdate(),1,1);
+VALUES('54',1,'数据源配置','DataSource','data-source','tool/data-source/index',NULL,'',1,1,NULL,'0,54',NULL,1,b'0',sysdate(),sysdate(),1,1);
 
 -- 按钮父菜单ID
 SELECT @parentId:=LAST_INSERT_ID();
