@@ -1,6 +1,7 @@
 package com.wick.boot.module.tool.engine;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.text.NamingCase;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.template.Template;
@@ -202,7 +203,7 @@ public class ToolCodeGenEngine {
         String className = table.getClassName();
 
         bindMap.put("packageName", table.getPackageName());
-        bindMap.put("packageVOName", StrUtil.replace(table.getBusinessName(), "-", ""));
+        bindMap.put("packageVOName", table.getBusinessName().replace("-", ""));
         bindMap.put("tableName", table.getTableName());
         bindMap.put("author", table.getFunctionAuthor());
         bindMap.put("subPackage", templateConfig.getPackageName());
@@ -213,6 +214,7 @@ public class ToolCodeGenEngine {
         bindMap.put("functionName", table.getFunctionName());
         bindMap.put("moduleName", table.getModuleName());
         bindMap.put("businessName", table.getBusinessName());
+        bindMap.put("routerName", NamingCase.toPascalCase(table.getBusinessName().replace("-", "")));
         bindMap.put("baseEntity", Arrays.asList(ToolCodeGenConstants.BASE_ENTITY));
         bindMap.put("permissionPrefix", getPermissionPrefix(table.getModuleName(), table.getBusinessName()));
         bindMap.put("fieldConfigs", columns);
