@@ -16,8 +16,6 @@ import com.wick.boot.module.system.model.vo.menu.SystemMenuUpdateVO;
 import com.wick.boot.module.system.service.SystemMenuAbstractService;
 import com.wick.boot.module.system.service.SystemMenuService;
 import com.wick.boot.module.system.service.SystemRoleMenuService;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +40,6 @@ public class SystemMenuServiceImpl extends SystemMenuAbstractService implements 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(cacheNames = "MENU", key = "'ROUTES'") // @CacheEvict 注解的方法在被调用时，会从缓存中移除已存储的数据
     public Long add(SystemMenuAddVO reqVO) {
         /* Step-1: 校验新增菜单参数 */
         this.validateAddParams(reqVO);
@@ -67,7 +64,6 @@ public class SystemMenuServiceImpl extends SystemMenuAbstractService implements 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(cacheNames = "MENU", key = "'ROUTES'") // @CacheEvict 注解的方法在被调用时，会从缓存中移除已存储的数据
     public void update(SystemMenuUpdateVO reqVO) {
         /* Step-1: 校验更新菜单参数 */
         this.validateUpdateParams(reqVO);
@@ -86,7 +82,6 @@ public class SystemMenuServiceImpl extends SystemMenuAbstractService implements 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(cacheNames = "MENU", key = "'ROUTES'") // @CacheEvict 注解的方法在被调用时，会从缓存中移除已存储的数据
     public void deleteMenu(List<Long> ids) {
         /* Step-1: 校验删除菜单参数 */
         List<SystemMenu> systemMenuList = this.systemMenuMapper.selectBatchIds(ids);
@@ -166,7 +161,6 @@ public class SystemMenuServiceImpl extends SystemMenuAbstractService implements 
     }
 
     @Override
-    @Cacheable(cacheNames = "MENU", key = "'ROUTES'") // 可以将方法运行的结果进行缓存， 下次执行先走缓存， 在走数据库
     public List<SystemRouteDTO> listRoutes() {
         /* Step-1: 获取菜单信息 */
         List<SystemMenuDTO> routeDTOS = systemMenuMapper.selectListRoutes();

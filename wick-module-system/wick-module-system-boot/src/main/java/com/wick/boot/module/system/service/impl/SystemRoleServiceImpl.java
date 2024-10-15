@@ -3,18 +3,17 @@ package com.wick.boot.module.system.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.core.result.PageResult;
-import com.wick.boot.module.system.model.vo.role.SystemRoleAddVO;
-import com.wick.boot.module.system.model.vo.role.SystemRoleUpdateVO;
-import com.wick.boot.module.system.service.SystemRoleAbstractService;
-import com.wick.boot.module.system.service.SystemRoleMenuService;
-import com.wick.boot.module.system.service.SystemRoleService;
 import com.wick.boot.module.system.convert.SystemRoleConvert;
 import com.wick.boot.module.system.model.dto.role.SystemRoleDTO;
 import com.wick.boot.module.system.model.dto.role.SystemRoleOptionsDTO;
 import com.wick.boot.module.system.model.entity.SystemRole;
 import com.wick.boot.module.system.model.entity.SystemRoleMenu;
+import com.wick.boot.module.system.model.vo.role.SystemRoleAddVO;
 import com.wick.boot.module.system.model.vo.role.SystemRoleQueryVO;
-import org.springframework.cache.annotation.CacheEvict;
+import com.wick.boot.module.system.model.vo.role.SystemRoleUpdateVO;
+import com.wick.boot.module.system.service.SystemRoleAbstractService;
+import com.wick.boot.module.system.service.SystemRoleMenuService;
+import com.wick.boot.module.system.service.SystemRoleService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -118,7 +117,6 @@ public class SystemRoleServiceImpl extends SystemRoleAbstractService implements 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(cacheNames = "MENU", key = "'ROUTES'") // @CacheEvict 注解的方法在被调用时，会从缓存中移除已存储的数据
     public void assignMenusToRole(Long roleId, List<Long> menuIds) {
         /* Step-1: 校验分配菜单(包括按钮权限)给角色 */
         SystemRole systemRole = this.roleMapper.selectById(roleId);

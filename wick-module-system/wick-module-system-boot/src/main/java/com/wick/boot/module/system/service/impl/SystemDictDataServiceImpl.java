@@ -85,7 +85,7 @@ public class SystemDictDataServiceImpl extends SystemDictDataAbstractService imp
     @Override
     public PageResult<SystemDictDataDTO> getSystemDictDataPage(SystemDictDataQueryVO reqVO) {
         /* Step-1: 判断数据类型是否存在 */
-        SystemDictType dictType = dictTypeService.getDictTypeByCode(reqVO.getTypeCode());
+        SystemDictType dictType = dictTypeService.getDictTypeByCode(reqVO.getCode());
         if (ObjUtil.isNull(dictType)) {
             return PageResult.empty();
         }
@@ -93,7 +93,7 @@ public class SystemDictDataServiceImpl extends SystemDictDataAbstractService imp
         /* Step-2: 查询字典数据 */
         Page<SystemDictData> pageResult = dictDataMapper.selectDictDataPage(
                 new Page<>(reqVO.getPageNumber(), reqVO.getPageSize()),
-                reqVO.getName(), reqVO.getTypeCode()
+                reqVO.getName(), reqVO.getCode()
         );
         if (ObjUtil.isNull(pageResult)) {
             return PageResult.empty();
