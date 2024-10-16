@@ -40,20 +40,20 @@ public abstract class SystemDictDataAbstractService {
      */
     protected void validateAddParams(SystemDictDataAddVO reqVO) {
         // 验证字典类型
-        this.validateDictDataByCode(reqVO.getTypeCode());
+        this.validateDictDataByCode(reqVO.getCode());
         // 验证当前字典类型下是否存在字典标签
-        this.validateDictDataByName(reqVO.getTypeCode(), reqVO.getName());
+        this.validateDictDataByName(reqVO.getCode(), reqVO.getName());
         // 验证当前字典类型下是否存在字典键值
-        this.validateDictDataByValue(reqVO.getTypeCode(), reqVO.getValue());
+        this.validateDictDataByValue(reqVO.getCode(), reqVO.getValue());
     }
 
     /**
      * 校验字典编码是否存在
      *
-     * @param typeCode 字典编码
+     * @param code 字典编码
      */
-    private void validateDictDataByCode(String typeCode) {
-        SystemDictType dictType = this.dictTypeMapper.selectDictTypeByCode(typeCode);
+    private void validateDictDataByCode(String code) {
+        SystemDictType dictType = this.dictTypeMapper.selectDictTypeByCode(code);
         if (ObjUtil.isNull(dictType)) {
             throw ServiceException.getInstance(ErrorCodeSystem.DICT_TYPE_CODE_NOT_EXIST);
         }
@@ -62,11 +62,11 @@ public abstract class SystemDictDataAbstractService {
     /**
      * 验证当前字典类型下是否存在字典标签
      *
-     * @param typeCode 字典编码
+     * @param code 字典编码
      * @param name     字典标签
      */
-    private void validateDictDataByName(String typeCode, String name) {
-        SystemDictData dictData = this.dictDataMapper.selectDictDataByName(typeCode, name);
+    private void validateDictDataByName(String code, String name) {
+        SystemDictData dictData = this.dictDataMapper.selectDictDataByName(code, name);
         if (ObjUtil.isNotNull(dictData)) {
             throw ServiceException.getInstance(ErrorCodeSystem.DICT_DATA_LABEL_ALREADY_EXIST);
         }
@@ -75,11 +75,11 @@ public abstract class SystemDictDataAbstractService {
     /**
      * 验证当前字典类型下是否存在字典键值
      *
-     * @param typeCode 字典编码
+     * @param code 字典编码
      * @param value    字典键值
      */
-    private void validateDictDataByValue(String typeCode, String value) {
-        SystemDictData dictData = this.dictDataMapper.selectDictDataByValue(typeCode, value);
+    private void validateDictDataByValue(String code, String value) {
+        SystemDictData dictData = this.dictDataMapper.selectDictDataByValue(code, value);
         if (ObjUtil.isNotNull(dictData)) {
             throw ServiceException.getInstance(ErrorCodeSystem.DICT_DATA_VALUE_ALREADY_EXIST);
         }
@@ -96,11 +96,11 @@ public abstract class SystemDictDataAbstractService {
         // 验证字典数据是否存在
         SystemDictData systemDictData = this.validateDictData(reqVO.getId());
         // 验证字典类型
-        this.validateDictDataByCode(systemDictData.getDictType(), reqVO.getTypeCode());
+        this.validateDictDataByCode(systemDictData.getDictType(), reqVO.getCode());
         // 验证字典标签
-        this.validateDictDataByName(systemDictData.getLabel(), reqVO.getTypeCode(), reqVO.getName());
+        this.validateDictDataByName(systemDictData.getLabel(), reqVO.getCode(), reqVO.getName());
         // 验证字典键值
-        this.validateDictDataByValue(systemDictData.getValue(), reqVO.getTypeCode(), reqVO.getValue());
+        this.validateDictDataByValue(systemDictData.getValue(), reqVO.getCode(), reqVO.getValue());
     }
 
     /**

@@ -31,7 +31,7 @@ public interface SystemDictDataConvert {
      */
     @Mappings({
             @Mapping(target = "label", source = "name"),
-            @Mapping(target = "dictType", source = "typeCode")
+            @Mapping(target = "dictType", source = "code")
     })
     SystemDictData addVoToEntity(SystemDictDataAddVO reqVO);
 
@@ -43,7 +43,7 @@ public interface SystemDictDataConvert {
      */
     @Mappings({
             @Mapping(target = "label", source = "name"),
-            @Mapping(target = "dictType", source = "typeCode")
+            @Mapping(target = "dictType", source = "code")
     })
     SystemDictData updateVoToEntity(SystemDictDataUpdateVO reqVO);
 

@@ -17,7 +17,7 @@ public class SystemDictDataAddVO {
 
     @ApiModelProperty(value = "字典类型编码", required = true, example = "gender")
     @NotBlank(message = "字典类型编码不能为空")
-    private String typeCode;
+    private String code;
 
     @ApiModelProperty(value = "字典名称", required = true, example = "男")
     @NotBlank(message = "字典名称不能为空")
@@ -27,13 +27,13 @@ public class SystemDictDataAddVO {
     @NotBlank(message = "字典值不能为空")
     private String value;
 
-    @ApiModelProperty(value = "排序", example = "1")
-    @Max(value = 99, message = "排序长度不能超过 99")
-    private Integer sort;
-
     @ApiModelProperty(value = "状态(1: 正常, 0: 停用)", required = true, example = "1")
     @InEnum(value = CommonStatusEnum.class, message = "字典数据状态必须是 {value}")
     private Integer status;
+
+    @ApiModelProperty(value = "排序", example = "1")
+    @Max(value = 99, message = "排序长度不能超过 99")
+    private Integer sort;
 
     @ApiModelProperty(value = "备注", example = "备注")
     private String remark;
