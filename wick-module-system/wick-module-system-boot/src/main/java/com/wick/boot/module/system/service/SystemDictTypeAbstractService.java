@@ -8,8 +8,8 @@ import com.wick.boot.module.system.enums.ErrorCodeSystem;
 import com.wick.boot.module.system.mapper.SystemDictDataMapper;
 import com.wick.boot.module.system.mapper.SystemDictTypeMapper;
 import com.wick.boot.module.system.model.entity.SystemDictType;
-import com.wick.boot.module.system.model.vo.dict.type.SystemDictTypeAddVO;
-import com.wick.boot.module.system.model.vo.dict.type.SystemDictTypeUpdateVO;
+import com.wick.boot.module.system.model.vo.dicttype.SystemDictTypeAddVO;
+import com.wick.boot.module.system.model.vo.dicttype.SystemDictTypeUpdateVO;
 
 import javax.annotation.Resource;
 import java.util.Collection;

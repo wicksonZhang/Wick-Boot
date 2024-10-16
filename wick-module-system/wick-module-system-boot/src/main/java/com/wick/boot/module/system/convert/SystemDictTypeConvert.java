@@ -1,12 +1,12 @@
 package com.wick.boot.module.system.convert;
 
-import com.wick.boot.module.system.model.dto.dict.SystemDictOptionsDTO;
-import com.wick.boot.module.system.model.dto.dict.data.SystemDictDataDTO;
-import com.wick.boot.module.system.model.dto.dict.type.SystemDictTypeDTO;
+import com.wick.boot.module.system.model.dto.dictdata.SystemDictOptionsDTO;
+import com.wick.boot.module.system.model.dto.dictdata.SystemDictDataDTO;
+import com.wick.boot.module.system.model.dto.dicttype.SystemDictTypeDTO;
 import com.wick.boot.module.system.model.entity.SystemDictData;
 import com.wick.boot.module.system.model.entity.SystemDictType;
-import com.wick.boot.module.system.model.vo.dict.type.SystemDictTypeAddVO;
-import com.wick.boot.module.system.model.vo.dict.type.SystemDictTypeUpdateVO;
+import com.wick.boot.module.system.model.vo.dicttype.SystemDictTypeAddVO;
+import com.wick.boot.module.system.model.vo.dicttype.SystemDictTypeUpdateVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

@@ -1,4 +1,4 @@
-package com.wick.boot.module.system.model.vo.dict.data;
+package com.wick.boot.module.system.model.vo.dictdata;
 
 import com.wick.boot.common.core.model.vo.CommonPageParamVO;
 import io.swagger.annotations.ApiModel;

@@ -1,4 +1,4 @@
-package com.wick.boot.module.system.model.vo.dict.data;
+package com.wick.boot.module.system.model.vo.dictdata;
 
 import com.wick.boot.common.core.enums.CommonStatusEnum;
 import com.wick.boot.common.core.validator.InEnum;

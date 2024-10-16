@@ -1,11 +1,11 @@
 package com.wick.boot.module.system.service;
 
 import com.wick.boot.common.core.result.PageResult;
-import com.wick.boot.module.system.model.dto.dict.data.SystemDictDataDTO;
-import com.wick.boot.module.system.model.dto.dict.SystemDictOptionsDTO;
-import com.wick.boot.module.system.model.vo.dict.data.SystemDictDataAddVO;
-import com.wick.boot.module.system.model.vo.dict.data.SystemDictDataQueryVO;
-import com.wick.boot.module.system.model.vo.dict.data.SystemDictDataUpdateVO;
+import com.wick.boot.module.system.model.dto.dictdata.SystemDictDataDTO;
+import com.wick.boot.module.system.model.dto.dictdata.SystemDictOptionsDTO;
+import com.wick.boot.module.system.model.vo.dictdata.SystemDictDataAddVO;
+import com.wick.boot.module.system.model.vo.dictdata.SystemDictDataQueryVO;
+import com.wick.boot.module.system.model.vo.dictdata.SystemDictDataUpdateVO;
 
 import java.util.List;
 

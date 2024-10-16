@@ -1,4 +1,4 @@
-package com.wick.boot.module.system.model.vo.dict.type;
+package com.wick.boot.module.system.model.vo.dicttype;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

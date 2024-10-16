@@ -9,8 +9,8 @@ import com.wick.boot.module.system.mapper.SystemDictDataMapper;
 import com.wick.boot.module.system.mapper.SystemDictTypeMapper;
 import com.wick.boot.module.system.model.entity.SystemDictData;
 import com.wick.boot.module.system.model.entity.SystemDictType;
-import com.wick.boot.module.system.model.vo.dict.data.SystemDictDataAddVO;
-import com.wick.boot.module.system.model.vo.dict.data.SystemDictDataUpdateVO;
+import com.wick.boot.module.system.model.vo.dictdata.SystemDictDataAddVO;
+import com.wick.boot.module.system.model.vo.dictdata.SystemDictDataUpdateVO;
 
 import javax.annotation.Resource;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package com.wick.boot.module.system.model.dto.dict.type;
+package com.wick.boot.module.system.model.dto.dicttype;
 
 import com.wick.boot.common.core.enums.CommonStatusEnum;
 import io.swagger.annotations.ApiModel;

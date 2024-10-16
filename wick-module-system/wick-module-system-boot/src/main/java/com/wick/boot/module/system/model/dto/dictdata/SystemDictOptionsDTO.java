@@ -1,4 +1,4 @@
-package com.wick.boot.module.system.model.dto.dict;
+package com.wick.boot.module.system.model.dto.dictdata;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
