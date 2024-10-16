@@ -39,10 +39,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -117,18 +114,21 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
 
         /* Step-2: convert dto to ToolCodeGenTableColumn */
         List<ToolCodeGenTableColumn> saveColumns = new ArrayList<>();
+        Map<String, List<ToolCodeGenTableColumn>> columnCache = new HashMap<>();
         for (ToolCodeGenTable toolCodeGenTable : toolCodeGenTables) {
             String tableName = toolCodeGenTable.getTableName();
-            // 通过表名查询对应字段信息
-            List<ToolCodeGenTableColumn> columns = this.codeGenTableColumnMapper.selectDbTableColumnsByName(tableName);
+            // 查询字段信息，使用缓存
+            List<ToolCodeGenTableColumn> columns = columnCache.computeIfAbsent(tableName, key ->
+                    this.codeGenTableColumnMapper.selectDbTableColumnsByName(key)
+            );
             for (ToolCodeGenTableColumn column : columns) {
                 column.setTableId(toolCodeGenTable.getId());
                 // 初始化部分字段信息
                 ToolCodeGenUtils.initColumnField(column);
                 saveColumns.add(column);
             }
-            this.codeGenTableColumnMapper.insertBatch(saveColumns);
         }
+        this.codeGenTableColumnMapper.insertBatch(saveColumns);
     }
 
     @Override
