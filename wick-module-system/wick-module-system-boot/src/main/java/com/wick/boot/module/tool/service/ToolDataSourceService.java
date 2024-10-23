@@ -43,7 +43,7 @@ public interface ToolDataSourceService {
      * @param id 数据源配置ID
      * @return ToolDataSourceDTO 数据源配置DTO
      */
-     ToolDataSourceDTO getToolDataSource(Long id);
+    ToolDataSourceDTO getToolDataSource(Long id);
 
     /**
      * 获取数据源配置分页数据
@@ -52,4 +52,20 @@ public interface ToolDataSourceService {
      * @return ToolDataSourceDTO 数据源配置DTO
      */
     PageResult<ToolDataSourceDTO> getToolDataSourcePage(ToolDataSourceQueryVO queryParams);
+
+    /**
+     * 列表查询数据源
+     *
+     * @return
+     */
+    List<ToolDataSourceDTO> list();
+
+    /**
+     * 测试数据源连接
+     *
+     * @param reqVO
+     * @return
+     */
+    Boolean testConnection(ToolDataSourceAddVO reqVO);
+
 }

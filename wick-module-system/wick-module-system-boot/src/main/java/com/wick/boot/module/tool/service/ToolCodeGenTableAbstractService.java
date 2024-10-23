@@ -3,10 +3,10 @@ package com.wick.boot.module.tool.service;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjUtil;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.module.system.enums.ErrorCodeSystem;
-import com.wick.boot.module.tool.model.dto.table.ToolCodeGenTableDTO;
 import com.wick.boot.module.tool.model.entity.ToolCodeGenTable;
 import com.wick.boot.module.tool.model.entity.ToolCodeGenTableColumn;
 import com.wick.boot.module.tool.model.vo.column.ToolCodeGenTableColumnAddVO;
@@ -31,12 +31,9 @@ public abstract class ToolCodeGenTableAbstractService {
      * @param tableNames    表名集合
      * @param codeGenTables 代码生成器集合表
      */
-    protected void validateAddParams(List<String> tableNames, List<ToolCodeGenTableDTO> dataSourcesTables, List<ToolCodeGenTable> codeGenTables) {
+    protected void validateAddParams(List<String> tableNames, List<TableInfo> tableList, List<ToolCodeGenTable> codeGenTables) {
         // 校验表名是否存在于数据源中
-        validateDataSourcesTables(dataSourcesTables);
-
-        // 校验表名是否存在于数据源中
-        validateTableNameExisting(tableNames, dataSourcesTables);
+        validateTableNameExisting(tableNames, tableList);
 
         // 验证 tableNames 在 code_gen_table 表中已经存在
         validateTableNameByCodeGenTable(tableNames, codeGenTables);
@@ -45,29 +42,13 @@ public abstract class ToolCodeGenTableAbstractService {
     /**
      * 校验表名是否存在于数据源中
      *
-     * @param codeGenTables 代码生成器集合
+     * @param tableNames 表名集合
+     * @param tableList  数据源集合
      * @throws ServiceException 如果表名在数据源中不存在，抛出异常
      */
-    private void validateDataSourcesTables(List<ToolCodeGenTableDTO> codeGenTables) {
-        // 如果数据源中不存在表
-        if (CollUtil.isEmpty(codeGenTables)) {
-            String errorMsg = "请确认导入表是否在数据源中";
-            throw ServiceException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID.getCode(), errorMsg);
-        }
-    }
-
-    /**
-     * 校验表名是否存在于数据源中
-     *
-     * @param tableNames        表名集合
-     * @param dataSourcesTables 代码生成器集合
-     * @throws ServiceException 如果表名在数据源中不存在，抛出异常
-     */
-    private void validateTableNameExisting(List<String> tableNames, List<ToolCodeGenTableDTO> dataSourcesTables) {
+    private void validateTableNameExisting(List<String> tableNames, List<TableInfo> tableList) {
         // 计算 tableNames 中哪些表名在数据源中不存在
-        Set<String> existingTableNames = dataSourcesTables.stream()
-                .map(ToolCodeGenTableDTO::getTableName)
-                .collect(Collectors.toSet());
+        Set<String> existingTableNames = tableList.stream().map(TableInfo::getName).collect(Collectors.toSet());
 
         Collection<String> nonExistentTableNames = CollectionUtil.subtract(tableNames, existingTableNames);
 

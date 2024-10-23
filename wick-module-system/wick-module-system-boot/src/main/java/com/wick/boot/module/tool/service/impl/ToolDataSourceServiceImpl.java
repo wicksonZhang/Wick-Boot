@@ -1,15 +1,15 @@
 package com.wick.boot.module.tool.service.impl;
 
 import cn.hutool.core.util.ObjUtil;
-import com.wick.boot.common.core.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.tool.convert.ToolDataSourceConvert;
 import com.wick.boot.module.tool.mapper.ToolDataSourceMapper;
-import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceAddVO;
-import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceUpdateVO;
-import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceQueryVO;
 import com.wick.boot.module.tool.model.dto.datasource.ToolDataSourceDTO;
 import com.wick.boot.module.tool.model.entity.ToolDataSource;
+import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceAddVO;
+import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceQueryVO;
+import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceUpdateVO;
 import com.wick.boot.module.tool.service.ToolDataSourceAbstractService;
 import com.wick.boot.module.tool.service.ToolDataSourceService;
 import lombok.extern.slf4j.Slf4j;
@@ -119,4 +119,14 @@ public class ToolDataSourceServiceImpl extends ToolDataSourceAbstractService imp
         return new PageResult<>(toolDataSourcePages, pageResult.getTotal());
     }
 
+    @Override
+    public List<ToolDataSourceDTO> list() {
+        List<ToolDataSource> list = this.toolDataSourceMapper.selectIdAndNameList();
+        return ToolDataSourceConvert.INSTANCE.toDTOList(list);
+    }
+
+    @Override
+    public Boolean testConnection(ToolDataSourceAddVO reqVO) {
+        return this.validateTestConnection(reqVO.getUrl(), reqVO.getUsername(), reqVO.getPassword());
+    }
 }

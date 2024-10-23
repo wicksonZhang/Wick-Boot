@@ -24,7 +24,6 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@ToString(callSuper = true)
 @TableName("tool_code_gen_table_column")
 public class ToolCodeGenTableColumn extends BaseDO {
 

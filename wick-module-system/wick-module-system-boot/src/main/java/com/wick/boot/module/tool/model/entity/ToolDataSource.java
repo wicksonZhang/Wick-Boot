@@ -1,11 +1,11 @@
 package com.wick.boot.module.tool.model.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wick.boot.common.core.model.entity.BaseDO;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 /**
  * 数据源配置实体
@@ -23,6 +23,7 @@ public class ToolDataSource extends BaseDO {
     /**
      * 主键编号
      */
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
@@ -44,25 +45,5 @@ public class ToolDataSource extends BaseDO {
      * 密码
      */
     private String password;
-
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
-
-    /**
-     * 更新时间
-     */
-    private LocalDateTime updateTime;
-
-    /**
-     * 创建者
-     */
-    private String createBy;
-
-    /**
-     * 更新者
-     */
-    private String updateBy;
 
 }

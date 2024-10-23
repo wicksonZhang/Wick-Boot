@@ -2,11 +2,11 @@ package com.wick.boot.module.tool.controller;
 
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
-import com.wick.boot.module.tool.service.ToolDataSourceService;
 import com.wick.boot.module.tool.model.dto.datasource.ToolDataSourceDTO;
 import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceAddVO;
-import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceUpdateVO;
 import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceQueryVO;
+import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceUpdateVO;
+import com.wick.boot.module.tool.service.ToolDataSourceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -73,4 +72,17 @@ public class ToolDataSourceController {
         return ResultUtil.success(toolDataSourceService.getToolDataSourcePage(reqVO));
     }
 
+    @PostMapping("/testConnection")
+    @PreAuthorize("@ss.hasPerm('tool:data-source:query')")
+    @ApiOperation(value = "测试连接_数据源接口", notes = "数据源配置")
+    public ResultUtil<Boolean> testConnection(@Valid @RequestBody ToolDataSourceAddVO reqVO) {
+        return ResultUtil.success(toolDataSourceService.testConnection(reqVO));
+    }
+
+    @GetMapping("/list")
+    @PreAuthorize("@ss.hasPerm('tool:data-source:query')")
+    @ApiOperation(value = "列表查询_数据源接口", notes = "数据源配置")
+    public ResultUtil<List<ToolDataSourceDTO>> list() {
+        return ResultUtil.success(toolDataSourceService.list());
+    }
 }

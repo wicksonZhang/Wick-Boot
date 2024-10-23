@@ -19,6 +19,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -42,12 +43,13 @@ public class ToolCodeGenTableController {
         return ResultUtil.success(codeGenService.selectDbTableList(queryVO));
     }
 
-    @PostMapping("/importTable/{tableNames}")
+    @PostMapping("/importTable/{tableNames}/{dataSourceId}")
     @PreAuthorize("@ss.hasPerm('tool:code-gen:import')")
     @ApiOperation(value = "导入数据表", notes = "代码生成", httpMethod = "POST")
     @ApiImplicitParam(name = "tableName", value = "数据表名称", required = true, dataType = "String", dataTypeClass = String.class)
-    public ResultUtil<Boolean> importTable(@NotEmpty(message = "表名不能为空") @PathVariable List<String> tableNames) {
-        codeGenService.importTable(tableNames);
+    public ResultUtil<Boolean> importTable(@NotEmpty(message = "表名不能为空") @PathVariable List<String> tableNames,
+                                           @NotNull(message = "数据源ID不能为空") @PathVariable Long dataSourceId) {
+        codeGenService.importTable(tableNames, dataSourceId);
         return ResultUtil.success(true);
     }
 

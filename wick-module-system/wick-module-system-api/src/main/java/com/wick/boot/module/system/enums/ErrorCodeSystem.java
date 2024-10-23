@@ -14,6 +14,7 @@ import com.wick.boot.common.core.result.ResultCode;
  * 第二段，3 位，系统类型
  * <span> 001 - 认证中心 </span>
  * <span> 002 - 系统管理 </span>
+ * <span> 002 - 系统工具 </span>
  * ... - ...
  * <p>
  * 第三段，3 位，模块
@@ -67,7 +68,11 @@ public interface ErrorCodeSystem {
     ResultCode LOGIN_LOG_EXPORT_ERROR = new ResultCode(1002006001, "用户登录日志导出失败");
     ResultCode OPERATE_LOG_EXPORT_ERROR = new ResultCode(1002006002, "用户操作日志导出失败");
 
-    // ======================================== System-代码生成器 1-002-007-000 ========================================
-    ResultCode TOOL_CODE_GEN_TABLE_NOT_EXIST = new ResultCode(1002007001, "数据表不存在");
+    // ======================================== Tool-代码生成器 1-003-007-000 ========================================
+    ResultCode TOOL_CODE_GEN_TABLE_NOT_EXIST = new ResultCode(1003007001, "数据表不存在");
+
+    ResultCode TOOL_DATA_SOURCE_NOT_EXIST = new ResultCode(1003007002, "数据源不存在");
+
+    ResultCode TOOL_DATA_SOURCE_NAME_EXIST = new ResultCode(1003007003, "数据源名称已存在");
 
 }

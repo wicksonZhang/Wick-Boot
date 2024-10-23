@@ -1,6 +1,7 @@
 package com.wick.boot.module.tool.convert;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.wick.boot.module.tool.model.dto.ToolCodeGenDetailDTO;
 import com.wick.boot.module.tool.model.dto.column.ToolCodeGenColumnDTO;
 import com.wick.boot.module.tool.model.dto.table.ToolCodeGenTableDTO;
@@ -8,6 +9,8 @@ import com.wick.boot.module.tool.model.dto.table.ToolCodeGenTablePageReqsDTO;
 import com.wick.boot.module.tool.model.entity.ToolCodeGenTable;
 import com.wick.boot.module.tool.model.entity.ToolCodeGenTableColumn;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -45,4 +48,29 @@ public interface ToolCodeGenTableConvert {
         return respVO;
     }
 
+    /**
+     * TableInfo 转 ToolCodeGenTable
+     *
+     * @param tableInfo 元数据表信息
+     * @return ToolCodeGenTable 实体
+     */
+    @Mappings({
+            @Mapping(target = "tableName", source = "name"),
+            @Mapping(target = "tableComment", source = "comment")
+    })
+    ToolCodeGenTable toToolCodeGenTable(TableInfo tableInfo);
+
+    /**
+     * tableInfos 转 ToolCodeGenTablePageReqsDTO
+     *
+     * @param tableInfos 分页集合
+     * @return
+     */
+    List<ToolCodeGenTablePageReqsDTO> toToolCodeGenTableList(List<TableInfo> tableInfos);
+
+    @Mappings({
+            @Mapping(target = "tableName", source = "name"),
+            @Mapping(target = "tableComment", source = "comment")
+    })
+    ToolCodeGenTablePageReqsDTO toToolCodeGenTablePage(TableInfo tableInfo);
 }

@@ -20,21 +20,15 @@ import java.time.LocalDateTime;
 @ApiModel(value = "ToolCodeGenTableQueryVO", description = "代码查询参数VO")
 public class ToolCodeGenTableQueryVO extends CommonPageParamVO {
 
-    /**
-     * 数据表名
-     */
+    @ApiModelProperty(value = "数据源id", example = "1")
+    private Long dataSourceId;
+
     @ApiModelProperty(value = "数据表名", required = false, example = "system_user")
     private String tableName;
 
-    /**
-     * 数据表描述
-     */
     @ApiModelProperty(value = "数据表描述", required = false, example = "用户信息表")
     private String tableComment;
 
-    /**
-     * 开始时间-结束时间
-     */
     @ApiModelProperty(value = "开始时间-结束时间", example = "[2024-06-01 00:00:00, 2024-06-01 23:59:59]")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime[] createTime;

@@ -4,14 +4,14 @@ import cn.hutool.core.util.ObjUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
-import com.wick.boot.module.tool.model.dto.table.ToolCodeGenTableDTO;
 import com.wick.boot.module.tool.model.entity.ToolCodeGenTable;
 import com.wick.boot.module.tool.model.vo.table.ToolCodeGenTableQueryVO;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 代码生成器 Mapper
@@ -23,15 +23,6 @@ import java.util.List;
 public interface ToolCodeGenTableMapper extends BaseMapperX<ToolCodeGenTable> {
 
     /**
-     * 分页查询数据表
-     *
-     * @param page    分页集合
-     * @param queryVO 请求参数
-     * @return 数据表分页集合
-     */
-    Page<ToolCodeGenTable> selectDataSourcePage(Page<ToolCodeGenTable> page, @Param("queryVO") ToolCodeGenTableQueryVO queryVO);
-
-    /**
      * 获取数据表集合
      *
      * @param tableNames 数据表集合
@@ -40,14 +31,6 @@ public interface ToolCodeGenTableMapper extends BaseMapperX<ToolCodeGenTable> {
     default List<ToolCodeGenTable> selectTables(List<String> tableNames) {
         return selectList(new LambdaQueryWrapper<ToolCodeGenTable>().in(ToolCodeGenTable::getTableName, tableNames));
     }
-
-    /**
-     * 在表中数据源的数量
-     *
-     * @param tableNames 表名集合
-     * @return 表明
-     */
-    List<ToolCodeGenTableDTO> selectByTableNames(@Param("tableNames") List<String> tableNames);
 
     /**
      * 分页查询代码生成器表数据
@@ -64,5 +47,14 @@ public interface ToolCodeGenTableMapper extends BaseMapperX<ToolCodeGenTable> {
                 .between(ObjUtil.isAllNotEmpty(startTime, endTime), ToolCodeGenTable::getCreateTime, startTime, endTime)
                 .orderByDesc(ToolCodeGenTable::getId);
         return selectPage(new Page<>(reqVO.getPageNumber(), reqVO.getPageSize()), wrapper);
+    }
+
+    default Set<String> selectListByTableNames(Long dataSourceId) {
+        // 拼接查询条件
+        LambdaQueryWrapper<ToolCodeGenTable> wrapper = new LambdaQueryWrapper<>();
+        wrapper.select(ToolCodeGenTable::getTableName).eq(ToolCodeGenTable::getDataSourceId, dataSourceId);
+        // 查询集合
+        List<ToolCodeGenTable> toolCodeGenTables = this.selectList(wrapper);
+        return toolCodeGenTables.stream().map(ToolCodeGenTable::getTableName).collect(Collectors.toSet());
     }
 }

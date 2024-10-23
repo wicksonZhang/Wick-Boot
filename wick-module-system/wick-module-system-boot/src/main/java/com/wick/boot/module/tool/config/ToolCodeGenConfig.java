@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
-/**
+/**·
  * 代码自动生成器配置
  *
  * @author Wickson

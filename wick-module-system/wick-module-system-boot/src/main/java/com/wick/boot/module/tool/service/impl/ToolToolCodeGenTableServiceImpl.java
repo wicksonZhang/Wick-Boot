@@ -7,19 +7,29 @@ import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.common.collect.Lists;
+import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
+import com.baomidou.mybatisplus.generator.config.GlobalConfig;
+import com.baomidou.mybatisplus.generator.config.StrategyConfig;
+import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
+import com.baomidou.mybatisplus.generator.config.po.TableField;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.rules.DateType;
+import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.result.PageResult;
+import com.wick.boot.module.system.enums.ErrorCodeSystem;
 import com.wick.boot.module.tool.config.ToolCodeGenConfig;
+import com.wick.boot.module.tool.convert.ToolCodeGenTableColumnConvert;
 import com.wick.boot.module.tool.convert.ToolCodeGenTableConvert;
 import com.wick.boot.module.tool.engine.ToolCodeGenEngine;
 import com.wick.boot.module.tool.mapper.ToolCodeGenTableColumnMapper;
 import com.wick.boot.module.tool.mapper.ToolCodeGenTableMapper;
+import com.wick.boot.module.tool.mapper.ToolDataSourceMapper;
 import com.wick.boot.module.tool.model.dto.ToolCodeGenDetailDTO;
 import com.wick.boot.module.tool.model.dto.ToolCodeGenPreviewDTO;
-import com.wick.boot.module.tool.model.dto.table.ToolCodeGenTableDTO;
 import com.wick.boot.module.tool.model.dto.table.ToolCodeGenTablePageReqsDTO;
 import com.wick.boot.module.tool.model.entity.ToolCodeGenTable;
 import com.wick.boot.module.tool.model.entity.ToolCodeGenTableColumn;
+import com.wick.boot.module.tool.model.entity.ToolDataSource;
 import com.wick.boot.module.tool.model.vo.column.ToolCodeGenTableColumnAddVO;
 import com.wick.boot.module.tool.model.vo.table.ToolCodeGenTableAddVO;
 import com.wick.boot.module.tool.model.vo.table.ToolCodeGenTableQueryVO;
@@ -40,6 +50,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -59,6 +70,9 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
     private ToolCodeGenTableMapper codeGenTableMapper;
 
     @Resource
+    private ToolDataSourceMapper dataSourceMapper;
+
+    @Resource
     private ToolCodeGenTableColumnMapper codeGenTableColumnMapper;
 
     @Resource
@@ -69,66 +83,171 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
 
     @Override
     public PageResult<ToolCodeGenTablePageReqsDTO> selectDbTableList(ToolCodeGenTableQueryVO queryVO) {
-        /* Step-1: 根据数据源获取对应的表信息 */
-        Page<ToolCodeGenTable> pageResult = this.codeGenTableMapper.selectDataSourcePage(
-                new Page<>(queryVO.getPageNumber(), queryVO.getPageSize()), queryVO
-        );
+        // Step-1: 获取数据源下的所有表
+        List<TableInfo> tableList = this.getTableInfoList(null, queryVO.getDataSourceId());
 
-        if (ObjUtil.isNull(pageResult)) {
-            return PageResult.empty();
-        }
+        // Step 2: 筛选符合条件的表信息
+        List<TableInfo> filteredTables = filterTablesByCriteria(tableList, queryVO);
 
-        /* Step-4: 返回分页结果 */
-        List<ToolCodeGenTablePageReqsDTO> codeGenDTOS = ToolCodeGenTableConvert.INSTANCE.entityToCodeGenDTOS(pageResult.getRecords());
-        return new PageResult<>(codeGenDTOS, pageResult.getTotal());
+        // Step 3: 移除已存在的表，避免重复导入
+        removeExistingTables(queryVO.getDataSourceId(), filteredTables);
+
+        // Step 4: 转换表信息为DTO并返回分页结果
+        return buildPageResult(filteredTables, queryVO.getPageNumber(), queryVO.getPageSize(), filteredTables.size());
+    }
+
+    /**
+     * 根据请求条件过滤表信息
+     *
+     * @param tableList 数据表集合
+     * @param reqVO     包含筛选条件的请求对象
+     * @return 过滤后的表信息列表
+     */
+    private List<TableInfo> filterTablesByCriteria(List<TableInfo> tableList, ToolCodeGenTableQueryVO reqVO) {
+        // 根据表名和表注释进行筛选
+        String tableName = reqVO.getTableName();
+        String tableComment = reqVO.getTableComment();
+        return tableList.stream()
+                .filter(table -> (StrUtil.isEmpty(tableName) || table.getName().contains(tableName)) &&
+                        (StrUtil.isEmpty(tableComment) || table.getComment().contains(tableComment)))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 移除已经存在的表
+     *
+     * @param dataSourceId 数据源ID
+     * @param tableInfos   需过滤的表信息列表
+     */
+    private void removeExistingTables(Long dataSourceId, List<TableInfo> tableInfos) {
+        // 查询已存在于数据库中的表名
+        Set<String> existingTableNames = this.codeGenTableMapper.selectListByTableNames(dataSourceId);
+        // 排除代码生成器的两张表
+        existingTableNames.add("flyway_schema_history");
+        existingTableNames.add("tool_code_gen_table");
+        existingTableNames.add("tool_code_gen_table_column");
+        // 移除已存在的表，避免重复处理
+        tableInfos.removeIf(table -> existingTableNames.contains(table.getName()));
+    }
+
+    /**
+     * 构建分页结果，将表信息转换为 DTO
+     *
+     * @param tables     数据表信息列表
+     * @param pageNumber 当前页码
+     * @param pageSize   每页显示条数
+     * @param totalSize  数据总条数
+     * @return 包含分页数据的结果
+     */
+    private PageResult<ToolCodeGenTablePageReqsDTO> buildPageResult(List<TableInfo> tables, Integer pageNumber, Integer pageSize, int totalSize) {
+        int start = (pageNumber - 1) * pageSize;
+        int end = Math.min(start + pageSize, tables.size());
+
+        // 截取分页数据
+        List<TableInfo> tableInfos = tables.subList(start, end);
+        List<ToolCodeGenTablePageReqsDTO> dtoList = ToolCodeGenTableConvert.INSTANCE.toToolCodeGenTableList(tableInfos);
+
+        // 构建分页结果
+        return new PageResult<>(dtoList, (long) totalSize);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void importTable(List<String> tableNames) {
-        /* Step-1：参数验证 */
-        // 根据数据源的数据表，排除 tool_code_、flyway_ 的表信息
-        List<ToolCodeGenTableDTO> dataSourcesTables = this.codeGenTableMapper.selectByTableNames(tableNames);
-        // 根据数据表查询对应 code_gen_table 表中的数据
-        List<ToolCodeGenTable> codeGenTables = this.codeGenTableMapper.selectTables(tableNames);
-        this.validateAddParams(tableNames, dataSourcesTables, codeGenTables);
+    public void importTable(List<String> tableNames, Long dataSourceId) {
+        // Step-1: 根据数据源的数据表，排除 tool_code_、flyway_ 的表信息
+        List<TableInfo> tableInfoList = this.getTableInfoList(tableNames, dataSourceId);
 
-        /* Step-2: 导入数据表 */
-        importGenTable(dataSourcesTables);
+        // Step-2: 根据数据表查询对应 code_gen_table 表中的数据
+        List<ToolCodeGenTable> codeGenTables = this.codeGenTableMapper.selectTables(tableNames);
+        this.validateAddParams(tableNames, tableInfoList, codeGenTables);
+
+        // Step-3: 导入数据表
+        importGenTable(tableInfoList, dataSourceId);
     }
 
     /**
-     * 导入数据表
+     * 获取数据库中的表信息
      *
-     * @param dataSourcesTables 数据表信息
+     * @param tableNames   指定的表名列表（可为空）
+     * @param dataSourceId 数据源ID
+     * @return 数据源下的表信息列表
      */
-    private void importGenTable(List<ToolCodeGenTableDTO> dataSourcesTables) {
-        /* Step-1: convert dto to ToolCodeGenTable */
-        List<ToolCodeGenTable> toolCodeGenTables = Lists.newArrayList();
-        for (ToolCodeGenTableDTO toolCodeGenTableDTO : dataSourcesTables) {
-            ToolCodeGenTable codeGenTable = BeanUtil.copyProperties(toolCodeGenTableDTO, ToolCodeGenTable.class);
-            ToolCodeGenUtils.initTableField(codeGenTable, toolCodeGenConfig);
-            toolCodeGenTables.add(codeGenTable);
+    private List<TableInfo> getTableInfoList(List<String> tableNames, Long dataSourceId) {
+        // 获取数据源配置
+        ToolDataSource dataSource = this.dataSourceMapper.selectById(dataSourceId);
+        if (ObjUtil.isNull(dataSource)) {
+            throw ServiceException.getInstance(ErrorCodeSystem.TOOL_DATA_SOURCE_NOT_EXIST);
         }
-        this.codeGenTableMapper.insertBatch(toolCodeGenTables);
 
-        /* Step-2: convert dto to ToolCodeGenTableColumn */
-        List<ToolCodeGenTableColumn> saveColumns = new ArrayList<>();
-        Map<String, List<ToolCodeGenTableColumn>> columnCache = new HashMap<>();
-        for (ToolCodeGenTable toolCodeGenTable : toolCodeGenTables) {
-            String tableName = toolCodeGenTable.getTableName();
-            // 查询字段信息，使用缓存
-            List<ToolCodeGenTableColumn> columns = columnCache.computeIfAbsent(tableName, key ->
-                    this.codeGenTableColumnMapper.selectDbTableColumnsByName(key)
-            );
-            for (ToolCodeGenTableColumn column : columns) {
-                column.setTableId(toolCodeGenTable.getId());
-                // 初始化部分字段信息
-                ToolCodeGenUtils.initColumnField(column);
-                saveColumns.add(column);
-            }
+        // 构建数据源和策略配置
+        DataSourceConfig.Builder dataSourceConfigBuilder = new DataSourceConfig.Builder(
+                dataSource.getUrl(), dataSource.getUsername(), dataSource.getPassword());
+        StrategyConfig.Builder strategyConfig = new StrategyConfig.Builder().enableSkipView();
+        // 排除对应的表信息
+        if (CollUtil.isNotEmpty(tableNames)) {
+            strategyConfig.addInclude(tableNames);
         }
-        this.codeGenTableColumnMapper.insertBatch(saveColumns);
+
+        // 只使用 LocalDateTime 类型，避免使用其他日期类型
+        GlobalConfig globalConfig = new GlobalConfig.Builder().dateType(DateType.TIME_PACK).build();
+        ConfigBuilder configBuilder = new ConfigBuilder(null, dataSourceConfigBuilder.build(),
+                strategyConfig.build(), null, globalConfig, null);
+
+        // 获取表信息并按表名排序
+        List<TableInfo> tables = configBuilder.getTableInfoList();
+        tables.sort(Comparator.comparing(TableInfo::getName));
+        return tables;
+    }
+
+    /**
+     * 导入生成表和字段信息
+     *
+     * @param tableList    表信息列表
+     * @param dataSourceId 数据源ID
+     */
+    private void importGenTable(List<TableInfo> tableList, Long dataSourceId) {
+        tableList.forEach(tableInfo -> {
+            // 转换表信息并初始化
+            ToolCodeGenTable codeGenTable = ToolCodeGenTableConvert.INSTANCE.toToolCodeGenTable(tableInfo);
+            ToolCodeGenUtils.initTableField(codeGenTable, toolCodeGenConfig);
+            codeGenTable.setDataSourceId(dataSourceId);
+            this.codeGenTableMapper.insert(codeGenTable);
+
+            // 插入字段信息
+            List<ToolCodeGenTableColumn> saveColumns = fullTooCodeGenTableColumn(tableInfo, codeGenTable);
+            this.codeGenTableColumnMapper.insertBatch(saveColumns);
+        });
+    }
+
+    /**
+     * 构建表字段信息列表
+     *
+     * @param tableInfo    表信息
+     * @param codeGenTable 生成表实体
+     * @return 字段信息列表
+     */
+    private List<ToolCodeGenTableColumn> fullTooCodeGenTableColumn(TableInfo tableInfo, ToolCodeGenTable codeGenTable) {
+        List<TableField> fields = tableInfo.getFields();
+        AtomicInteger index = new AtomicInteger(1);
+        List<ToolCodeGenTableColumn> saveColumns = new ArrayList<>();
+
+        fields.forEach(field -> {
+            ToolCodeGenTableColumn tableColumn = ToolCodeGenTableColumnConvert.INSTANCE.toToolCodeGenTable(field);
+            tableColumn.setTableId(codeGenTable.getId());
+            tableColumn.setSort(index.getAndIncrement());
+
+            // 处理字段类型和主键字段
+            if (Byte.class.getSimpleName().equals(tableColumn.getJavaType())) {
+                tableColumn.setJavaType(Integer.class.getSimpleName());
+            }
+            if (!tableInfo.isHavePrimaryKey()) {
+                tableColumn.setPk("1");
+            }
+
+            ToolCodeGenUtils.initColumnField(tableColumn);
+            saveColumns.add(tableColumn);
+        });
+        return saveColumns;
     }
 
     @Override
@@ -216,7 +335,6 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void syncDb(Long tableId) {
-        // Step 1: 校验参数
         // 查询并校验数据表信息
         ToolCodeGenTable codeGenTable = this.codeGenTableMapper.selectById(tableId);
         this.validateCodeGenTable(codeGenTable);
@@ -225,18 +343,16 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
         List<ToolCodeGenTableColumn> targetColumns = this.codeGenTableColumnMapper.selectListByTableId(tableId);
         this.validateCodeGenTableColumn(targetColumns);
 
-        // 从数据库中查询源数据表字段
-        List<ToolCodeGenTableColumn> sourceColumns = this.codeGenTableColumnMapper.selectDbTableColumnsByName(codeGenTable.getTableName());
+        // 从数据库中查询源字段
+        Long dataSourceId = codeGenTable.getDataSourceId();
+        List<String> tableNames = Collections.singletonList(codeGenTable.getTableName());
+        List<TableInfo> tableList = this.getTableInfoList(tableNames, dataSourceId);
+        List<ToolCodeGenTableColumn> sourceColumns = this.fullTooCodeGenTableColumn(tableList.get(0), codeGenTable);
         this.validateCodeGenTableColumn(sourceColumns);
 
-        // Step 2: 根据新增、更新、删除分类处理
-        // 新增字段处理：在 sourceColumns 中存在，但 targetColumns 中不存在的字段
+        // Step 2: 处理字段的新增、更新和删除
         insertColumns(targetColumns, sourceColumns, codeGenTable.getId());
-
-        // 更新字段处理：sourceColumns 和 targetColumns 中都存在的字段，进行更新
         updateColumns(targetColumns, sourceColumns);
-
-        // 删除字段处理：在 targetColumns 中存在，但 sourceColumns 中不存在的字段
         deleteColumns(targetColumns, sourceColumns);
     }
 

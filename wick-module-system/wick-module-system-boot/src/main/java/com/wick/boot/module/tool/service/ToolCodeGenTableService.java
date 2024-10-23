@@ -29,9 +29,10 @@ public interface ToolCodeGenTableService {
     /**
      * 导入数据表
      *
-     * @param tableNames 表名
+     * @param tableNames   表名
+     * @param dataSourceId 数据源id
      */
-    void importTable(List<String> tableNames);
+    void importTable(List<String> tableNames, Long dataSourceId);
 
     /**
      * 获取代码生成器分页数据

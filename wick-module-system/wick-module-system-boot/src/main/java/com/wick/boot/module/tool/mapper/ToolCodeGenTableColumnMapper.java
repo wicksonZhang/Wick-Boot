@@ -17,14 +17,6 @@ import java.util.List;
 public interface ToolCodeGenTableColumnMapper extends BaseMapperX<ToolCodeGenTableColumn> {
 
     /**
-     * 通过表名查询数据表字段信息
-     *
-     * @param tableName 表名
-     * @return 表字段信息
-     */
-    List<ToolCodeGenTableColumn> selectDbTableColumnsByName(String tableName);
-
-    /**
      * 通过表id获取数据表结构
      *
      * @param tableId 数据表id

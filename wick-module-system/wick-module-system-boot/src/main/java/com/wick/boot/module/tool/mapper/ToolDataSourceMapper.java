@@ -8,6 +8,8 @@ import com.wick.boot.module.tool.model.entity.ToolDataSource;
 import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceQueryVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * 数据源配置管理-Mapper接口
  *
@@ -26,10 +28,21 @@ public interface ToolDataSourceMapper extends BaseMapperX<ToolDataSource> {
     default Page<ToolDataSource> getToolDataSourcePage(Page<ToolDataSource> page, ToolDataSourceQueryVO queryVO) {
         LambdaQueryWrapper<ToolDataSource> wrapper = new LambdaQueryWrapper<>();
         wrapper
-            .likeRight(ObjUtil.isNotEmpty(queryVO.getName()), ToolDataSource::getName, queryVO.getName())
-            .likeRight(ObjUtil.isNotEmpty(queryVO.getUsername()), ToolDataSource::getUsername, queryVO.getUsername())
-            .orderByDesc(ToolDataSource::getId);
+                .likeRight(ObjUtil.isNotEmpty(queryVO.getName()), ToolDataSource::getName, queryVO.getName())
+                .likeRight(ObjUtil.isNotEmpty(queryVO.getUsername()), ToolDataSource::getUsername, queryVO.getUsername())
+                .orderByDesc(ToolDataSource::getId);
 
         return selectPage(page, wrapper);
+    }
+
+    /**
+     * 获取数据源列表
+     *
+     * @return
+     */
+    default List<ToolDataSource> selectIdAndNameList() {
+        LambdaQueryWrapper<ToolDataSource> wrapper = new LambdaQueryWrapper<>();
+        wrapper.select(ToolDataSource::getId, ToolDataSource::getName);
+        return selectList(wrapper);
     }
 }

@@ -1,11 +1,9 @@
 package com.wick.boot.module.tool.convert;
 
-import cn.hutool.core.util.ObjUtil;
+import com.wick.boot.module.tool.model.dto.datasource.ToolDataSourceDTO;
 import com.wick.boot.module.tool.model.entity.ToolDataSource;
 import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceAddVO;
-import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceQueryVO;
 import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceUpdateVO;
-import com.wick.boot.module.tool.model.dto.datasource.ToolDataSourceDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -28,7 +26,7 @@ public interface ToolDataSourceConvert {
      * @param reqVO 新增请求参数VO
      * @return ToolDataSource 数据源配置
      */
-     ToolDataSource addVoToEntity(ToolDataSourceAddVO reqVO);
+    ToolDataSource addVoToEntity(ToolDataSourceAddVO reqVO);
 
     /**
      * Convert updateVo To entity
@@ -36,7 +34,7 @@ public interface ToolDataSourceConvert {
      * @param reqVO 更新请求参数VO
      * @return ToolDataSource 数据源配置实体
      */
-     ToolDataSource updateVoToEntity(ToolDataSourceUpdateVO reqVO);
+    ToolDataSource updateVoToEntity(ToolDataSourceUpdateVO reqVO);
 
     /**
      * Convert entity to DTO
@@ -44,7 +42,7 @@ public interface ToolDataSourceConvert {
      * @param toolDataSource 数据源配置实体
      * @return ToolDataSourceDTO
      */
-     ToolDataSourceDTO entityToDTO(ToolDataSource toolDataSource);
+    ToolDataSourceDTO entityToDTO(ToolDataSource toolDataSource);
 
     /**
      * Convert entity to DTOList
@@ -54,4 +52,11 @@ public interface ToolDataSourceConvert {
      */
     List<ToolDataSourceDTO> entityToPage(List<ToolDataSource> toolDataSourceList);
 
+    /**
+     * Conver ToolDataSourceList to DTOList
+     *
+     * @param list 数据源集合
+     * @return List<ToolDataSourceDTO>
+     */
+    List<ToolDataSourceDTO> toDTOList(List<ToolDataSource> list);
 }
