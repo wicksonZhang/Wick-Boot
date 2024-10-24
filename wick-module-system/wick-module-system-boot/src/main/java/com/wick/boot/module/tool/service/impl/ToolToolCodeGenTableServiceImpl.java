@@ -18,6 +18,7 @@ import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.enums.ErrorCodeSystem;
 import com.wick.boot.module.tool.config.ToolCodeGenConfig;
+import com.wick.boot.module.tool.constant.ToolCodeGenConstants;
 import com.wick.boot.module.tool.convert.ToolCodeGenTableColumnConvert;
 import com.wick.boot.module.tool.convert.ToolCodeGenTableConvert;
 import com.wick.boot.module.tool.engine.ToolCodeGenEngine;
@@ -268,10 +269,20 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
     public ToolCodeGenDetailDTO getDetails(Long tableId) {
         // 查询 tool_code_gen_table 信息
         ToolCodeGenTable table = this.codeGenTableMapper.selectById(tableId);
+
         // 查询 tool_code_gen_table_column 信息
         List<ToolCodeGenTableColumn> columns = this.codeGenTableColumnMapper.selectListByTableId(tableId);
+
+        // 要移除的字段名
+        List<String> removeFiled = Arrays.asList(ToolCodeGenConstants.COLUMNNAME_NOT_LIST);
+
+        // 过滤掉 removeFiled 中包含的列名
+        columns.removeIf(column -> removeFiled.contains(column.getColumnName()));
+
+        // 返回转换后的 DTO
         return ToolCodeGenTableConvert.INSTANCE.convertDetailDTO(table, columns);
     }
+
 
     @Override
     @Transactional(rollbackFor = Exception.class)

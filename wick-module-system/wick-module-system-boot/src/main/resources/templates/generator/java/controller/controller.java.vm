@@ -35,7 +35,7 @@ public class ${className}Controller {
 
     @PostMapping("/add")
     @PreAuthorize("@ss.hasPerm('${permissionPrefix}:add')")
-    @ApiOperation(value = "新增${functionName}数据", notes = "${functionName}管理")
+    @ApiOperation(value = "新增_${functionName}接口", notes = "${functionName}管理")
     public ResultUtil<Long> add(@Valid @RequestBody ${className}AddVO reqVO) {
         this.${lowerClassName}Service.add${className}(reqVO);
         return ResultUtil.success();
@@ -43,7 +43,7 @@ public class ${className}Controller {
 
     @PutMapping("/update")
     @PreAuthorize("@ss.hasPerm('${permissionPrefix}:update')")
-    @ApiOperation(value = "修改${functionName}数据", notes = "${functionName}管理")
+    @ApiOperation(value = "修改_${functionName}接口", notes = "${functionName}管理")
     public ResultUtil<Boolean> update(@Valid @RequestBody ${className}UpdateVO reqVO) {
         this.${lowerClassName}Service.update${className}(reqVO);
         return ResultUtil.success(true);
@@ -51,7 +51,7 @@ public class ${className}Controller {
 
     @DeleteMapping("/delete/{ids}")
     @PreAuthorize("@ss.hasPerm('${permissionPrefix}:delete')")
-    @ApiOperation(value = "删除${functionName}数据", notes = "${functionName}管理")
+    @ApiOperation(value = "删除_${functionName}接口", notes = "${functionName}管理")
     @ApiImplicitParam(name = "ids", value = "主键id", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<Long> remove(@PathVariable("ids") List<Long> ids) {
         this.${lowerClassName}Service.delete${className}(ids);
@@ -60,7 +60,7 @@ public class ${className}Controller {
 
     @GetMapping("/{id}")
     @PreAuthorize("@ss.hasPerm('${permissionPrefix}:query')")
-    @ApiOperation(value = "通过主键获取${functionName}数据", notes = "${functionName}管理")
+    @ApiOperation(value = "按ID查询_${functionName}接口", notes = "${functionName}管理")
     @ApiImplicitParam(name = "id", value = "${functionName}ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<${className}DTO> get${className}(@NotNull(message = "主键不能为空") @PathVariable Long id) {
         return ResultUtil.success(${lowerClassName}Service.get${className}(id));
@@ -68,7 +68,7 @@ public class ${className}Controller {
 
     @GetMapping("/page")
     @PreAuthorize("@ss.hasPerm('${permissionPrefix}:query')")
-    @ApiOperation(value = "获取${functionName}分页数据", notes = "${functionName}管理")
+    @ApiOperation(value = "分页查询_${functionName}接口", notes = "${functionName}管理")
     public ResultUtil<PageResult<${className}DTO>> get${className}Page(@Valid ${className}QueryVO reqVO) {
         return ResultUtil.success(${lowerClassName}Service.get${className}Page(reqVO));
     }

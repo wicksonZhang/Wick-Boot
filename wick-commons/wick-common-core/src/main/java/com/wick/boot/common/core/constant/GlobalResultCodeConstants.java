@@ -9,9 +9,9 @@ import com.wick.boot.common.core.result.ResultCode;
  */
 public interface GlobalResultCodeConstants {
 
-    ResultCode SUCCESS = new ResultCode(0, "成功");
+    ResultCode SUCCESS = new ResultCode(0, "操作成功");
 
-    ResultCode FAIL = new ResultCode(500, "失败");
+    ResultCode FAIL = new ResultCode(500, "操作失败");
 
     // ===================================== 客户端错误段 =====================================
     ResultCode PARAM_IS_INVALID = new ResultCode(400, "参数无效");

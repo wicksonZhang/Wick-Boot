@@ -43,6 +43,24 @@ import java.util.List;
 #end
 #end
 #end
+
+## select 查询条件
+#macro(selectCondition)
+    #set($size = 0)
+    #foreach($fieldConfig in $fieldConfigs)
+        #if($fieldConfig.list == "1")
+            #set($size = $size + 1)
+        #end
+    #end
+    #set($counter = 0)
+    #foreach($fieldConfig in $fieldConfigs)
+        #if($fieldConfig.list == "1")
+            #set($JavaField = $fieldConfig.javaField.substring(0,1).toUpperCase() + $fieldConfig.javaField.substring(1))
+            #set($counter = $counter + 1)
+                ${className}::get${JavaField}#if($counter < $size),#end
+        #end
+    #end
+#end
 /**
  * $!{functionName}管理-Mapper接口
  *
@@ -61,6 +79,9 @@ public interface ${className}Mapper extends BaseMapperX<${className}> {
     default Page<${className}> get${className}Page(Page<${className}> page, ${className}QueryVO queryVO) {
         LambdaQueryWrapper<${className}> wrapper = new LambdaQueryWrapper<>();
         wrapper
+            .select(
+                #selectCondition()
+            )
             #listCondition()
             .orderByDesc(${className}::getId);
 

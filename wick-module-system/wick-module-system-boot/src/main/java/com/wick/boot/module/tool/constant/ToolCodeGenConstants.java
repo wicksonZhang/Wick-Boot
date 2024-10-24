@@ -67,12 +67,12 @@ public interface ToolCodeGenConstants {
     /**
      * 页面不需要编辑
      */
-    String[] COLUMNNAME_NOT_EDIT = {"create_by", "create_time", "deleted", "update_by", "update_time"};
+    String[] COLUMNNAME_NOT_EDIT_LIST = {"create_by", "create_time", "deleted", "update_by", "update_time"};
 
     /**
      * 页面不需要显示的列表字段
      */
-    String[] COLUMNNAME_NOT_LIST = {"create_by", "create_time", "deleted", "update_by", "update_time"};
+    String[] COLUMNNAME_NOT_LIST = {"create_by", "deleted", "update_by"};
 
     /**
      * Entity基类字段

@@ -121,12 +121,9 @@ public class ToolCodeGenUtils {
         // 插入字段（默认所有字段都需要插入）
         column.setCreated(ToolCodeGenConstants.REQUIRE);
 
-        // 编辑字段
-        if (!ArrayUtil.contains(ToolCodeGenConstants.COLUMNNAME_NOT_EDIT, columnName)) {
+        // 编辑字段, 列表字段
+        if (!ArrayUtil.contains(ToolCodeGenConstants.COLUMNNAME_NOT_EDIT_LIST, columnName)) {
             column.setEdit(ToolCodeGenConstants.REQUIRE);
-        }
-        // 列表字段
-        if (!ArrayUtil.contains(ToolCodeGenConstants.COLUMNNAME_NOT_LIST, columnName)) {
             column.setList(ToolCodeGenConstants.REQUIRE);
         }
         // 查询字段类型

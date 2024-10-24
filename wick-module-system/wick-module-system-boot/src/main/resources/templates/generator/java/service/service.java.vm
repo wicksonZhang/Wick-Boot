@@ -9,7 +9,7 @@ import ${packageName}.model.dto.${packageVOName}.${className}DTO;
 import java.util.List;
 
 /**
- * $!{functionName}管理-服务类
+ * $!{functionName}-应用服务类
  *
  * @author ${author}
  * @date ${date}

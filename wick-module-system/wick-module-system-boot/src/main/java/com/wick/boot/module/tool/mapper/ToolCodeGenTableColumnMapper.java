@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+
 /**
  * 代码自动生成器-字段信息
  *
@@ -26,6 +27,5 @@ public interface ToolCodeGenTableColumnMapper extends BaseMapperX<ToolCodeGenTab
         return selectList(new LambdaQueryWrapper<ToolCodeGenTableColumn>()
                 .eq(ToolCodeGenTableColumn::getTableId, tableId)
                 .orderByAsc(ToolCodeGenTableColumn::getId));
-
     }
 }

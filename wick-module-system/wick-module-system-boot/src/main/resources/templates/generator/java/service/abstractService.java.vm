@@ -1,9 +1,12 @@
 package ${packageName}.service;
 
+import cn.hutool.core.collection.CollUtil;
 import ${packageName}.mapper.${className}Mapper;
 import ${packageName}.model.entity.${className};
 import ${packageName}.model.vo.${packageVOName}.${className}AddVO;
 import ${packageName}.model.vo.${packageVOName}.${className}UpdateVO;
+import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
+import com.wick.boot.common.core.exception.ServiceException;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -40,11 +43,28 @@ public abstract class ${className}AbstractService {
     /**
      * 校验删除参数
      *
-     * @param ${lowerClassName}List 新增参数
+     * @param ${lowerClassName}List 新增集合参数
      * @param ids                   主键集合
      */
     protected void validateDeleteParams(List<${className}> ${lowerClassName}List, List<Long> ids) {
-
+        // 验证$!{functionName}否存在
+        this.validate${className}List(${lowerClassName}List);
+        // 验证$!{functionName}集合和 ids 是否匹配
+        this.validate${className}ByIds(${lowerClassName}List, ids);
     }
 
+    private void validate${className}List(List<${className}> ${lowerClassName}List) {
+        // 验证$!{functionName}否存在
+        if (CollUtil.isEmpty(${lowerClassName}List)) {
+            throw ServiceException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID);
+        }
+    }
+
+    private void validate${className}ByIds(List<${className}> ${lowerClassName}List, List<Long> ids) {
+        List<Long> ${lowerClassName}Ids = ${lowerClassName}List.stream().map(${className}::getId).collect(Collectors.toList());
+        Collection<Long> errorIds = CollectionUtil.subtract(ids, ${lowerClassName}Ids);
+        if (CollUtil.isNotEmpty(errorIds)) {
+            throw ServiceException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID);
+        }
+    }
 }

@@ -1,34 +1,48 @@
 package ${packageName}.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.wick.boot.common.core.model.entity.BaseDO;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
 #if(${hasLocalDateTime})
 import java.time.LocalDateTime;
 #end
 
 /**
- * $!{functionName}实体
+ * $!{functionName}-实体类
  *
  * @author ${author}
  * @date ${date}
  */
 @Getter
 @Setter
+@Accessors(chain = true)
 @TableName("${tableName}")
-public class ${className} extends BaseDO {
-
-    private static final long serialVersionUID=1L;
+public class ${className} extends BaseDO{
 
 #foreach($fieldConfig in ${fieldConfigs})
-  #if(!$baseEntity.contains($fieldConfig.javaField))
+#if(!$baseEntity.contains($fieldConfig.javaField))
+    #if("$!fieldConfig.pk" == '1')
+    /**
+     * 主键id
+     */
+    @TableId(value = "${fieldConfig.javaField}", type = IdType.AUTO)
+    private ${fieldConfig.javaType} ${fieldConfig.javaField};
+    #else
     #if("$!fieldConfig.columnComment" != "")
     /**
      * ${fieldConfig.columnComment}
      */
     #end
+    #set($fieldNameWithoutIs = ${fieldConfig.columnName})
+    #if($fieldNameWithoutIs.startsWith("is_"))## 去除以 is_ 开头的字段
+    @TableField("${fieldConfig.columnName}")
+    #end
     private ${fieldConfig.javaType} ${fieldConfig.javaField};
+    #end
 
-  #end
+#end
 #end
 }

@@ -16,14 +16,14 @@ import java.math.BigDecimal;
 import java.io.Serializable;
 
 /**
- * $!{functionName}管理-DTO
+ * $!{functionName}-DTO
  *
  * @author ${author}
  * @date ${date}
  */
 @Getter
 @Setter
-@ApiModel(value = "${className}ADTO", description = "$!{functionName}视图DTO")
+@ApiModel(value = "${className}DTO对象", description = "$!{functionName}视图DTO")
 public class ${className}DTO implements Serializable {
 
     private static final long serialVersionUID = 1L;

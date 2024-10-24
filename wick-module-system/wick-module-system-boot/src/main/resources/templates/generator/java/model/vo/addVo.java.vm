@@ -27,20 +27,17 @@ public class ${className}AddVO {
 
 #if($fieldConfigs)
 #foreach($fieldConfig in ${fieldConfigs})
-## 排除基类字段和主键
 #if(!$baseEntity.contains($fieldConfig.javaField) && "$!fieldConfig.pk" != '1')
-## 注释信息
-#if("$!fieldConfig.columnComment" != "")
+    #if($!fieldConfig.columnComment != "" && $fieldConfig.required != "1")
     @ApiModelProperty(value = "$fieldConfig.columnComment")
-#end
-## 必填字段校验
-#if($fieldConfig.required)
-#if($fieldConfig.columnType == 'String')
+    #else
+    @ApiModelProperty(value = "$fieldConfig.columnComment", required = true)
+    #if($fieldConfig.javaType == 'String')
     @NotBlank(message = "$fieldConfig.columnComment不能为空")
-#else
+    #else
     @NotNull(message = "$fieldConfig.columnComment不能为空")
-#end
-#end
+    #end
+    #end
     private ${fieldConfig.javaType} ${fieldConfig.javaField};
 
 #end

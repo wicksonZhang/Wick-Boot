@@ -5,18 +5,21 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import javax.validation.constraints.NotNull;
 
 /**
- * $!{functionName}更新参数
+ * $!{functionName}更新参数类
  *
  * @author ${author}
  * @date ${date}
  */
 @Setter
 @Getter
-@ApiModel(value = "${className}UpdateVO", description = "$!{functionName}更新参数")
-public class ${className}UpdateVO extends ${className}AddVO {
+@ApiModel(value = "${className}UpdateVO对象", description = "$!{functionName}更新参数")
+public class ${className}UpdateVO extends ${className}AddVO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
 #if($fieldConfigs)
 #foreach($fieldConfig in ${fieldConfigs})
