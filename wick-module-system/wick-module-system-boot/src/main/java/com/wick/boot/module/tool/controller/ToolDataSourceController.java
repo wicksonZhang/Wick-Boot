@@ -3,6 +3,7 @@ package com.wick.boot.module.tool.controller;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.module.tool.model.dto.datasource.ToolDataSourceDTO;
+import com.wick.boot.module.tool.model.dto.datasource.ToolDataSourceOptionsDTO;
 import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceAddVO;
 import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceQueryVO;
 import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceUpdateVO;
@@ -79,10 +80,10 @@ public class ToolDataSourceController {
         return ResultUtil.success(toolDataSourceService.testConnection(reqVO));
     }
 
-    @GetMapping("/list")
+    @GetMapping("/options")
     @PreAuthorize("@ss.hasPerm('tool:data-source:query')")
     @ApiOperation(value = "列表查询_数据源接口", notes = "数据源配置")
-    public ResultUtil<List<ToolDataSourceDTO>> list() {
-        return ResultUtil.success(toolDataSourceService.list());
+    public ResultUtil<List<ToolDataSourceOptionsDTO>> options() {
+        return ResultUtil.success(toolDataSourceService.options());
     }
 }

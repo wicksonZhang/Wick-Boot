@@ -1,10 +1,13 @@
 package com.wick.boot.module.tool.convert;
 
 import com.wick.boot.module.tool.model.dto.datasource.ToolDataSourceDTO;
+import com.wick.boot.module.tool.model.dto.datasource.ToolDataSourceOptionsDTO;
 import com.wick.boot.module.tool.model.entity.ToolDataSource;
 import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceAddVO;
 import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceUpdateVO;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -58,5 +61,11 @@ public interface ToolDataSourceConvert {
      * @param list 数据源集合
      * @return List<ToolDataSourceDTO>
      */
-    List<ToolDataSourceDTO> toDTOList(List<ToolDataSource> list);
+    List<ToolDataSourceOptionsDTO> toOptionsDTO(List<ToolDataSource> list);
+
+    @Mappings({
+            @Mapping(target = "value", source = "id"),
+            @Mapping(target = "label", source = "name")
+    })
+    ToolDataSourceOptionsDTO toToolDataSourceOptionsDTO(ToolDataSource toolDataSource);
 }

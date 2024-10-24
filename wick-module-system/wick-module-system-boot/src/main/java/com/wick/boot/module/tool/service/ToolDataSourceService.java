@@ -1,6 +1,7 @@
 package com.wick.boot.module.tool.service;
 
 import com.wick.boot.common.core.result.PageResult;
+import com.wick.boot.module.tool.model.dto.datasource.ToolDataSourceOptionsDTO;
 import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceAddVO;
 import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceUpdateVO;
 import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceQueryVO;
@@ -58,7 +59,7 @@ public interface ToolDataSourceService {
      *
      * @return
      */
-    List<ToolDataSourceDTO> list();
+    List<ToolDataSourceOptionsDTO> options();
 
     /**
      * 测试数据源连接

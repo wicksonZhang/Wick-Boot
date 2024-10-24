@@ -6,6 +6,7 @@ import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.tool.convert.ToolDataSourceConvert;
 import com.wick.boot.module.tool.mapper.ToolDataSourceMapper;
 import com.wick.boot.module.tool.model.dto.datasource.ToolDataSourceDTO;
+import com.wick.boot.module.tool.model.dto.datasource.ToolDataSourceOptionsDTO;
 import com.wick.boot.module.tool.model.entity.ToolDataSource;
 import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceAddVO;
 import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceQueryVO;
@@ -120,9 +121,9 @@ public class ToolDataSourceServiceImpl extends ToolDataSourceAbstractService imp
     }
 
     @Override
-    public List<ToolDataSourceDTO> list() {
+    public List<ToolDataSourceOptionsDTO> options() {
         List<ToolDataSource> list = this.toolDataSourceMapper.selectIdAndNameList();
-        return ToolDataSourceConvert.INSTANCE.toDTOList(list);
+        return ToolDataSourceConvert.INSTANCE.toOptionsDTO(list);
     }
 
     @Override
