@@ -139,15 +139,15 @@ public class OperateLogAspect {
                                          ApiOperation operation) {
         // module 属性
         if (operateLog != null) {
-            String module = operateLog.module();
-            operateLogObj.setModule(StrUtil.removeAll(module, '[', ']'));
+            operateLogObj.setModule(StrUtil.removeAll(operateLog.module(), '[', ']'));
         }
         if (StrUtil.isEmpty(operateLogObj.getModule())) {
             Api api = getClassAnnotation(joinPoint, Api.class);
             if (api != null) {
                 // 优先读取 @Tag 的 name 属性
                 if (StrUtil.isNotEmpty(Arrays.toString(api.tags()))) {
-                    operateLogObj.setModule(StrUtil.removeAll(Arrays.toString(api.tags()),'[', ']'));
+                    String module = StrUtil.removeAll(Arrays.toString(api.tags()), '[', ']');
+                    operateLogObj.setModule(module.substring(module.indexOf("-") + 1));
                 }
                 // 没有的话，读取 @API 的 description 属性
                 if (StrUtil.isEmpty(operateLogObj.getModule()) && ArrayUtil.isNotEmpty(api.value())) {
