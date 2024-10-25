@@ -17,6 +17,8 @@ import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.enums.ErrorCodeSystem;
+import com.wick.boot.module.system.mapper.SystemMenuMapper;
+import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.tool.config.ToolCodeGenConfig;
 import com.wick.boot.module.tool.constant.ToolCodeGenConstants;
 import com.wick.boot.module.tool.convert.ToolCodeGenTableColumnConvert;
@@ -81,6 +83,9 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
 
     @Resource
     private ToolCodeGenEngine toolCodeGenEngine;
+
+    @Resource
+    private SystemMenuMapper menuMapper;
 
     @Override
     public PageResult<ToolCodeGenTablePageReqsDTO> selectDbTableList(ToolCodeGenTableQueryVO queryVO) {
@@ -331,6 +336,9 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
         // 查询数据表
         ToolCodeGenTable codeGenTable = this.codeGenTableMapper.selectById(tableId);
         this.validateCodeGenTable(codeGenTable);
+        SystemMenu systemMenu = this.menuMapper.selectById(codeGenTable.getParentMenuId());
+        codeGenTable.setParentMenuName(systemMenu.getSort() + "-" + systemMenu.getName());
+
         // 查询数据表字段
         List<ToolCodeGenTableColumn> columns = this.codeGenTableColumnMapper.selectListByTableId(tableId);
         this.validateCodeGenTableColumn(columns);

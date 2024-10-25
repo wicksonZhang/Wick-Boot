@@ -24,7 +24,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/system/operate-log")
-@Api(tags = "操作日志")
+@Api(tags = "1-系统管理-操作日志")
 public class SystemOperateLogController {
 
     @Resource
@@ -32,14 +32,14 @@ public class SystemOperateLogController {
 
     @GetMapping("/page")
     @PreAuthorize("@ss.hasPerm('system:operate-log:query')")
-    @ApiOperation(value = "获取操作日志分页", notes = "操作日志")
+    @ApiOperation(value = "获取_操作日志分页", notes = "操作日志")
     public ResultUtil<PageResult<SystemOperateLogDTO>> getOperateLogPage(@Valid SystemOperateLogQueryVO reqVO) {
         return ResultUtil.success(operateLogService.getOperateLogPage(reqVO));
     }
 
     @GetMapping("/export")
     @PreAuthorize("@ss.hasPerm('system:operate-log:export')")
-    @ApiOperation(value = "导出操作日志分页", notes = "登录日志")
+    @ApiOperation(value = "导出_操作日志分页", notes = "登录日志")
     public void exportOperateLog(@Valid SystemOperateLogQueryVO queryParams, HttpServletResponse response) {
         operateLogService.exportOperateLog(queryParams, response);
     }

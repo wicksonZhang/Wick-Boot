@@ -29,21 +29,21 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/system/menu")
-@Api(tags = "菜单信息")
+@Api(tags = "1-系统管理-菜单信息")
 public class SystemMenuController {
 
     @Resource
     private SystemMenuService systemMenuService;
 
     @PostMapping("/add")
-    @ApiOperation(value = "新增菜单信息", notes = "菜单信息")
+    @ApiOperation(value = "新增_菜单信息", notes = "菜单信息")
     @PreAuthorize("@ss.hasPerm('system:menu:add')")
     public ResultUtil<Long> add(@Valid @RequestBody SystemMenuAddVO reqVO) {
         return ResultUtil.success(systemMenuService.add(reqVO));
     }
 
     @PutMapping("/update")
-    @ApiOperation(value = "更新菜单信息", notes = "菜单信息")
+    @ApiOperation(value = "更新_菜单信息", notes = "菜单信息")
     @PreAuthorize("@ss.hasPerm('system:menu:update')")
     public ResultUtil<Boolean> update(@Valid @RequestBody SystemMenuUpdateVO reqVO) {
         systemMenuService.update(reqVO);
@@ -51,7 +51,7 @@ public class SystemMenuController {
     }
 
     @DeleteMapping("/delete/{ids}")
-    @ApiOperation(value = "删除菜单信息", notes = "菜单信息")
+    @ApiOperation(value = "删除_菜单信息", notes = "菜单信息")
     @PreAuthorize("@ss.hasPerm('system:menu:delete')")
     @ApiImplicitParam(name = "ids", value = "菜单数据ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<Long> deleteMenu(@NotEmpty(message = "菜单主键不能为空") @PathVariable("ids") List<Long> ids) {
@@ -61,14 +61,14 @@ public class SystemMenuController {
 
     @GetMapping("/list")
     @PreAuthorize("@ss.hasPerm('system:menu:query')")
-    @ApiOperation(value = "获取菜单列表", notes = "菜单信息")
+    @ApiOperation(value = "获取_菜单列表", notes = "菜单信息")
     public ResultUtil<List<SystemMenuDTO>> listMenus(SystemMenuQueryVO queryParams) {
         return ResultUtil.success(systemMenuService.listMenus(queryParams));
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("@ss.hasPerm('system:menu:query')")
-    @ApiOperation(value = "获取菜单数据", notes = "菜单信息")
+    @ApiOperation(value = "获取_菜单数据", notes = "菜单信息")
     @ApiImplicitParam(name = "id", value = "菜单ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<SystemMenu> getSystemMenu(@NotNull(message = "菜单ID不能为空") @PathVariable("id") Long id) {
         return ResultUtil.success(systemMenuService.getSystemMenu(id));
@@ -76,14 +76,14 @@ public class SystemMenuController {
 
     @GetMapping("/options")
     @PreAuthorize("@ss.hasPerm('system:menu:options')")
-    @ApiOperation(value = "获取菜单选项", notes = "菜单信息")
+    @ApiOperation(value = "获取_菜单选项", notes = "菜单信息")
     public ResultUtil<List<SystemMenuOptionsDTO>> options(Boolean onlyParent) {
         return ResultUtil.success(systemMenuService.options(onlyParent));
     }
 
     @GetMapping("/routes")
     @PreAuthorize("@ss.hasPerm('system:menu:routes')")
-    @ApiOperation(value = "获取菜单路由", notes = "菜单信息")
+    @ApiOperation(value = "获取_菜单路由", notes = "菜单信息")
     public ResultUtil<List<SystemRouteDTO>> listRoutes() {
         return ResultUtil.success(systemMenuService.listRoutes());
     }

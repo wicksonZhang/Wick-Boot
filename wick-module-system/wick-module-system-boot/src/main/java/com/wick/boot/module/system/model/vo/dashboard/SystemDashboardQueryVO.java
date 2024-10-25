@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -23,12 +24,13 @@ import java.time.temporal.ChronoUnit;
 @ApiModel(value = "SystemDashboardQueryVO", description = "访问趋势查询条件参数")
 public class SystemDashboardQueryVO {
 
-
-    @ApiModelProperty(value = "查询开始时间", required = false)
+    @ApiModelProperty(value = "查询开始时间", required = true, example = "2024-10-16")
+    @NotNull(message = "开始时间不能为空")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
-    @ApiModelProperty(value = "查询结束时间", required = false)
+    @ApiModelProperty(value = "查询结束时间", required = true, example = "2024-10-24")
+    @NotNull(message = "结束时间不能为空")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 

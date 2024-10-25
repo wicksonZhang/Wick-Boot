@@ -28,21 +28,21 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/system/dict-type")
-@Api(tags = "字典信息")
+@Api(tags = "1-系统管理-字典信息")
 public class SystemDictTypeController {
 
     @Resource
     private SystemDictTypeService dictTypeService;
 
     @PostMapping("/add")
-    @ApiOperation(value = "新增字典类型数据" , notes = "字典信息")
+    @ApiOperation(value = "新增_字典类型数据" , notes = "字典信息")
     @PreAuthorize("@ss.hasPerm('system:dict-type:add')")
     public ResultUtil<Long> add(@Valid @RequestBody SystemDictTypeAddVO reqVO) {
         return ResultUtil.success(dictTypeService.addDictType(reqVO));
     }
 
     @PutMapping("/update")
-    @ApiOperation(value = "编辑字典类型数据" , notes = "字典信息")
+    @ApiOperation(value = "编辑_字典类型数据" , notes = "字典信息")
     @PreAuthorize("@ss.hasPerm('system:dict-type:update')")
     public ResultUtil<Boolean> update(@Valid @RequestBody SystemDictTypeUpdateVO reqVO) {
         dictTypeService.updateDictType(reqVO);
@@ -50,7 +50,7 @@ public class SystemDictTypeController {
     }
 
     @DeleteMapping("/{ids}")
-    @ApiOperation(value = "删除字典类型数据" , notes = "字典信息")
+    @ApiOperation(value = "删除_字典类型数据" , notes = "字典信息")
     @PreAuthorize("@ss.hasPerm('system:dict-type:delete')")
     @ApiImplicitParam(name = "ids" , value = "字典类型ID" , required = true, dataType = "Long" , dataTypeClass = Long.class)
     public ResultUtil<Long> removeSystemDictType(@NotEmpty(message = "字典类型主键不能为空") @PathVariable List<Long> ids) {
@@ -60,7 +60,7 @@ public class SystemDictTypeController {
 
     @GetMapping("/{id}")
     @PreAuthorize("@ss.hasPerm('system:dict-type:query')")
-    @ApiOperation(value = "获取字典类型数据" , notes = "字典信息")
+    @ApiOperation(value = "获取_字典类型数据" , notes = "字典信息")
     @ApiImplicitParam(name = "id" , value = "字典类型ID" , required = true, dataType = "Long" , dataTypeClass = Long.class)
     public ResultUtil<SystemDictTypeDTO> getSystemDictType(@NotNull(message = "字典类型主键不能为空") @PathVariable("id") Long id) {
         return ResultUtil.success(dictTypeService.getSystemDictType(id));
@@ -68,14 +68,14 @@ public class SystemDictTypeController {
 
     @GetMapping("/page")
     @PreAuthorize("@ss.hasPerm('system:dict-type:query')")
-    @ApiOperation(value = "获取字典类型分页" , notes = "字典信息")
+    @ApiOperation(value = "获取_字典类型分页" , notes = "字典信息")
     public ResultUtil<PageResult<SystemDictTypeDTO>> getSystemDictTypePage(@Valid SystemDictTypeQueryVO reqVO) {
         return ResultUtil.success(dictTypeService.getSystemDictTypePage(reqVO));
     }
 
     @GetMapping("/list")
     @PreAuthorize("@ss.hasPerm('system:dict-type:options')")
-    @ApiOperation(value = "获取字典类型选项" , notes = "字典信息")
+    @ApiOperation(value = "获取_字典类型选项" , notes = "字典信息")
     public ResultUtil<List<SystemDictOptionsDTO<String>>> getSystemDictTypeList() {
         return ResultUtil.success(dictTypeService.getSystemDictTypeList());
     }

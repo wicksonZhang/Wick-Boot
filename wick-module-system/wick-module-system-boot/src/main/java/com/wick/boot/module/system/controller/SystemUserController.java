@@ -30,42 +30,42 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/system/user")
-@Api(tags = "用户信息")
+@Api(tags = "1-系统管理-用户信息")
 public class SystemUserController {
 
     @Resource
     private SystemUserService userService;
 
     @GetMapping("/getUserInfo/{username}")
-    @ApiOperation(value = "获取用户信息", notes = "用户信息")
+    @ApiOperation(value = "获取_用户信息", notes = "用户信息")
     @ApiImplicitParam(name = "username", value = "用户名称", required = true, dataType = "String", dataTypeClass = String.class)
     public ResultUtil<SystemUserDTO> getUserInfo(@PathVariable String username) {
         return ResultUtil.success(userService.getUserInfo(username));
     }
 
     @GetMapping("/me")
-    @ApiOperation(value = "获取当前登录用户信息", notes = "用户信息")
+    @ApiOperation(value = "获取_当前登录用户信息", notes = "用户信息")
     public ResultUtil<SystemUserLoginInfoDTO> getCurrentUserInfo() {
         return ResultUtil.success(userService.getCurrentUserInfo());
     }
 
     @GetMapping("/page")
     @PreAuthorize("@ss.hasPerm('system:user:query')")
-    @ApiOperation(value = "获取用户分页", notes = "用户信息")
+    @ApiOperation(value = "获取_用户分页", notes = "用户信息")
     public ResultUtil<PageResult<SystemUserDTO>> getSystemUserPage(@Valid SystemUserQueryVO reqVO) {
         return ResultUtil.success(userService.getSystemUserPage(reqVO));
     }
 
     @PostMapping("/add")
     @PreAuthorize("@ss.hasPerm('system:user:add')")
-    @ApiOperation(value = "新增用户信息", notes = "用户信息")
+    @ApiOperation(value = "新增_用户信息", notes = "用户信息")
     public ResultUtil<Long> add(@Valid @RequestBody SystemUserAddVO reqVO) {
         return ResultUtil.success(userService.addSystemUser(reqVO));
     }
 
     @PutMapping("/update")
     @PreAuthorize("@ss.hasPerm('system:user:update')")
-    @ApiOperation(value = "修改用户信息", notes = "用户信息")
+    @ApiOperation(value = "修改_用户信息", notes = "用户信息")
     public ResultUtil<Boolean> update(@Valid @RequestBody SystemUserUpdateVO reqVO) {
         userService.updateSystemUser(reqVO);
         return ResultUtil.success();
@@ -73,7 +73,7 @@ public class SystemUserController {
 
     @GetMapping("/{id}")
     @PreAuthorize("@ss.hasPerm('system:user:query')")
-    @ApiOperation(value = "获取用户信息", notes = "用户信息")
+    @ApiOperation(value = "获取_用户信息", notes = "用户信息")
     @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<SystemUserDTO> getSystemUser(@PathVariable("id") Long id) {
         return ResultUtil.success(userService.getSystemUser(id));
@@ -81,7 +81,7 @@ public class SystemUserController {
 
     @DeleteMapping("/delete/{ids}")
     @PreAuthorize("@ss.hasPerm('system:user:delete')")
-    @ApiOperation(value = "删除用户信息", notes = "用户信息")
+    @ApiOperation(value = "删除_用户信息", notes = "用户信息")
     @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<Boolean> remove(@PathVariable("ids") List<Long> ids) {
         userService.deleteSystemUser(ids);
@@ -98,21 +98,21 @@ public class SystemUserController {
     }
 
     @GetMapping("/template")
-    @ApiOperation(value = "用户导入模板下载", notes = "用户信息")
+    @ApiOperation(value = "下载_用户导入模板", notes = "用户信息")
     public void downloadTemplate(HttpServletResponse response) {
         userService.downloadTemplate(response);
     }
 
     @GetMapping("/export")
     @PreAuthorize("@ss.hasPerm('system:user:export')")
-    @ApiOperation(value = "导出用户信息", notes = "用户信息")
+    @ApiOperation(value = "导出_用户信息", notes = "用户信息")
     public void exportSystemUser(@Valid SystemUserQueryVO queryParams, HttpServletResponse response) {
         userService.exportSystemUser(queryParams, response);
     }
 
     @PostMapping("/import")
     @PreAuthorize("@ss.hasPerm('system:user:import')")
-    @ApiOperation(value = "导入用户信息", notes = "用户信息")
+    @ApiOperation(value = "导入_用户信息", notes = "用户信息")
     @ApiImplicitParam(name = "deptId", value = "部门ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<Boolean> importSystemUser(@NotNull(message = "部门Id不能为空") Long deptId, MultipartFile file) {
         userService.importSystemUser(deptId, file);

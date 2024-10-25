@@ -24,7 +24,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/system/login-log")
-@Api(tags = "登录日志")
+@Api(tags = "1-系统管理-登录日志")
 public class SystemLoginLogController {
 
     @Resource
@@ -32,14 +32,14 @@ public class SystemLoginLogController {
 
     @GetMapping("/page")
     @PreAuthorize("@ss.hasPerm('system:login-log:query')")
-    @ApiOperation(value = "获取登录日志分页", notes = "登录日志")
+    @ApiOperation(value = "获取_登录日志分页", notes = "登录日志")
     public ResultUtil<PageResult<SystemLoginLogDTO>> getLoginLogPage(@Valid SystemLoginLogQueryVO reqVO) {
         return ResultUtil.success(loginLogService.getLoginLogPage(reqVO));
     }
 
     @GetMapping("/export")
     @PreAuthorize("@ss.hasPerm('system:login-log:export')")
-    @ApiOperation(value = "导出登录日志分页", notes = "登录日志")
+    @ApiOperation(value = "导出_登录日志分页", notes = "登录日志")
     public void exportLoginLog(@Valid SystemLoginLogQueryVO queryParams, HttpServletResponse response) {
         loginLogService.exportLoginLog(queryParams, response);
     }

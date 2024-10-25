@@ -210,6 +210,7 @@ public class ToolCodeGenEngine {
         bindMap.put("date", DateUtil.format(new Date(), "yyyy-MM-dd HH:mm"));
         bindMap.put("className", className);
         bindMap.put("parentMenuId", table.getParentMenuId());
+        bindMap.put("parentMenuName", table.getParentMenuName());
         bindMap.put("lowerClassName", StrUtil.lowerFirst(className));
         bindMap.put("functionName", table.getFunctionName());
         bindMap.put("moduleName", table.getModuleName());

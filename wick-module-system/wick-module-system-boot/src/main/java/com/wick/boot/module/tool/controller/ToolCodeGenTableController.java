@@ -30,7 +30,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/tool/code-gen")
-@Api(value = "/code-gen", tags = "代码生成")
+@Api(value = "/code-gen", tags = "2-系统工具-代码生成")
 public class ToolCodeGenTableController {
 
     @Resource
@@ -38,14 +38,14 @@ public class ToolCodeGenTableController {
 
     @GetMapping("/db/list")
     @PreAuthorize("@ss.hasPerm('tool:code-gen:query')")
-    @ApiOperation(value = "获取数据源数据表", notes = "代码生成", httpMethod = "GET")
+    @ApiOperation(value = "获取_数据源数据表", notes = "代码生成", httpMethod = "GET")
     public ResultUtil<PageResult<ToolCodeGenTablePageReqsDTO>> dataList(@Valid ToolCodeGenTableQueryVO queryVO) {
         return ResultUtil.success(codeGenService.selectDbTableList(queryVO));
     }
 
     @PostMapping("/importTable/{tableNames}/{dataSourceId}")
     @PreAuthorize("@ss.hasPerm('tool:code-gen:import')")
-    @ApiOperation(value = "导入数据表", notes = "代码生成", httpMethod = "POST")
+    @ApiOperation(value = "导入_数据表", notes = "代码生成", httpMethod = "POST")
     @ApiImplicitParam(name = "tableName", value = "数据表名称", required = true, dataType = "String", dataTypeClass = String.class)
     public ResultUtil<Boolean> importTable(@NotEmpty(message = "表名不能为空") @PathVariable List<String> tableNames,
                                            @NotNull(message = "数据源ID不能为空") @PathVariable Long dataSourceId) {
@@ -55,14 +55,14 @@ public class ToolCodeGenTableController {
 
     @GetMapping("/list")
     @PreAuthorize("@ss.hasPerm('tool:code-gen:query')")
-    @ApiOperation(value = "获取代码生成分页", notes = "代码生成", httpMethod = "GET")
+    @ApiOperation(value = "获取_代码生成分页", notes = "代码生成", httpMethod = "GET")
     public ResultUtil<PageResult<ToolCodeGenTablePageReqsDTO>> list(@Valid ToolCodeGenTableQueryVO queryVO) {
         return ResultUtil.success(codeGenService.selectCodeGenTableList(queryVO));
     }
 
     @GetMapping("/details/{tableId}")
     @PreAuthorize("@ss.hasPerm('tool:code-gen:query')")
-    @ApiOperation(value = "获取代码生成详细数据", notes = "代码生成", httpMethod = "GET")
+    @ApiOperation(value = "获取_代码生成详细数据", notes = "代码生成", httpMethod = "GET")
     @ApiImplicitParam(name = "tableId", value = "数据表Id", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<ToolCodeGenDetailDTO> getDetails(@PathVariable Long tableId) {
         return ResultUtil.success(codeGenService.getDetails(tableId));
@@ -70,7 +70,7 @@ public class ToolCodeGenTableController {
 
     @PutMapping("/update")
     @PreAuthorize("@ss.hasPerm('tool:code-gen:update')")
-    @ApiOperation(value = "修改代码生成信息", notes = "代码生成", httpMethod = "PUT")
+    @ApiOperation(value = "修改_代码生成信息", notes = "代码生成", httpMethod = "PUT")
     public ResultUtil<Boolean> update(@Validated @RequestBody ToolCodeGenTableUpdateVO updateVO) {
         this.codeGenService.update(updateVO);
         return ResultUtil.success(true);
@@ -78,7 +78,7 @@ public class ToolCodeGenTableController {
 
     @DeleteMapping("/delete/{ids}")
     @PreAuthorize("@ss.hasPerm('tool:code-gen:delete')")
-    @ApiOperation(value = "删除代码生成信息", notes = "代码生成", httpMethod = "DELETE")
+    @ApiOperation(value = "删除_代码生成信息", notes = "代码生成", httpMethod = "DELETE")
     public ResultUtil<Boolean> remove(@PathVariable List<Long> ids) {
         this.codeGenService.deleteToolCodeGenTable(ids);
         return ResultUtil.success(true);

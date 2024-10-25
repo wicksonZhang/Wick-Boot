@@ -1,6 +1,7 @@
 package com.wick.boot.module.tool.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.wick.boot.common.core.model.entity.BaseDO;
@@ -111,6 +112,12 @@ public class ToolCodeGenTable extends BaseDO {
      * 父菜单ID
      */
     private Long parentMenuId;
+
+    /**
+     * 父菜单名称(排除)
+     */
+    @TableField(exist = false)
+    private String parentMenuName;
 
     /**
      * 其它生成选项

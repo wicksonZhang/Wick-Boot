@@ -27,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/${moduleName}/${businessName}")
-@Api(tags = "${functionName}")
+@Api(tags = "${parentMenuName}-${functionName}")
 public class ${className}Controller {
 
     @Resource

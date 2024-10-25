@@ -21,22 +21,22 @@ import java.util.Map;
  * @author Wickson
  * @date 2024-10-16
  */
-@Api(value = "/system/dashboard", tags = {"首页管理 - 控制类"})
 @RestController
 @RequestMapping("/system/dashboard")
+@Api(value = "/system/dashboard", tags = {"0-首页管理"})
 public class SystemDashboardController {
 
     @Resource
     private SystemLoginLogService loginLogService;
 
     @GetMapping("/visit-stats")
-    @ApiOperation(value = "获取统计数据", notes = "首页管理", httpMethod = "GET")
+    @ApiOperation(value = "获取_统计数据", notes = "首页管理", httpMethod = "GET")
     public ResultUtil<List<SystemDashboardVisitStatsDTO>> getVisitStats() {
         return ResultUtil.success(loginLogService.getVisitStats());
     }
 
     @GetMapping("/visit-trend")
-    @ApiOperation(value = "获取访问趋势", notes = "首页管理", httpMethod = "GET")
+    @ApiOperation(value = "获取_访问趋势", notes = "首页管理", httpMethod = "GET")
     public ResultUtil<Map<String, Object>> getVisitTrend(@Validated SystemDashboardQueryVO queryVO) {
         // 参数验证
         queryVO.validateParam();

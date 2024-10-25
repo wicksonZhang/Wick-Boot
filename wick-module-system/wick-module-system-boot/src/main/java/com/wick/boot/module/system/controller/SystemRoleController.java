@@ -28,7 +28,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/system/role")
-@Api(tags = "角色信息")
+@Api(tags = "1-系统管理-角色信息")
 public class SystemRoleController {
 
     @Resource
@@ -36,14 +36,14 @@ public class SystemRoleController {
 
     @PostMapping("/add")
     @PreAuthorize("@ss.hasPerm('system:role:add')")
-    @ApiOperation(value = "新增角色信息", notes = "角色管理")
+    @ApiOperation(value = "新增_角色信息", notes = "角色管理")
     public ResultUtil<Long> add(@Valid @RequestBody SystemRoleAddVO reqVO) {
         return ResultUtil.success(this.systemRoleService.addSystemRole(reqVO));
     }
 
     @PutMapping("/update")
     @PreAuthorize("@ss.hasPerm('system:role:update')")
-    @ApiOperation(value = "编辑角色信息", notes = "角色管理")
+    @ApiOperation(value = "编辑_角色信息", notes = "角色管理")
     public ResultUtil<Boolean> update(@Valid @RequestBody SystemRoleUpdateVO reqVO) {
         this.systemRoleService.updateSystemRole(reqVO);
         return ResultUtil.success(true);
@@ -51,7 +51,7 @@ public class SystemRoleController {
 
     @DeleteMapping("/delete/{ids}")
     @PreAuthorize("@ss.hasPerm('system:role:delete')")
-    @ApiOperation(value = "删除角色信息", notes = "角色管理")
+    @ApiOperation(value = "删除_角色信息", notes = "角色管理")
     @ApiImplicitParam(name = "ids", value = "角色数据ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<Long> delete(@PathVariable("ids") List<Long> ids) {
         this.systemRoleService.deleteSystemRole(ids);
@@ -60,7 +60,7 @@ public class SystemRoleController {
 
     @GetMapping("/{id}")
     @PreAuthorize("@ss.hasPerm('system:role:query')")
-    @ApiOperation(value = "获取角色信息", notes = "角色管理")
+    @ApiOperation(value = "获取_角色信息", notes = "角色管理")
     @ApiImplicitParam(name = "id", value = "角色信息ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<SystemRoleDTO> getSystemRole(@NotNull(message = "角色信息主键不能为空") @PathVariable Long id) {
         return ResultUtil.success(systemRoleService.getSystemRole(id));
@@ -68,21 +68,21 @@ public class SystemRoleController {
 
     @GetMapping("/page")
     @PreAuthorize("@ss.hasPerm('system:role:query')")
-    @ApiOperation(value = "获取角色分页", notes = "角色管理")
+    @ApiOperation(value = "获取_角色分页", notes = "角色管理")
     public ResultUtil<PageResult<SystemRoleDTO>> getSystemRolePage(@Valid SystemRoleQueryVO reqVO) {
         return ResultUtil.success(systemRoleService.getSystemRolePage(reqVO));
     }
 
     @GetMapping("/options")
     @PreAuthorize("@ss.hasPerm('system:role:options')")
-    @ApiOperation(value = "获取角色下拉选项", notes = "角色管理")
+    @ApiOperation(value = "获取_角色下拉选项", notes = "角色管理")
     public ResultUtil<List<SystemRoleOptionsDTO>> listRoleOptions() {
         return ResultUtil.success(systemRoleService.listRoleOptions());
     }
 
     @GetMapping("/{id}/menuIds")
     @PreAuthorize("@ss.hasPerm('system:role:query')")
-    @ApiOperation(value = "获取角色的菜单ID集合", notes = "角色管理")
+    @ApiOperation(value = "获取_角色的菜单ID集合", notes = "角色管理")
     @ApiImplicitParam(name = "roleId", value = "角色ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<List<Long>> getRoleMenuIds(@PathVariable Long id) {
         return ResultUtil.success(systemRoleService.getRoleMenuIds(id));
@@ -90,7 +90,7 @@ public class SystemRoleController {
 
     @PutMapping("/{roleId}/menus")
     @PreAuthorize("@ss.hasPerm('system:role:assign')")
-    @ApiOperation(value = "分配菜单权限", notes = "角色管理")
+    @ApiOperation(value = "分配_菜单权限", notes = "角色管理")
     @ApiImplicitParam(name = "roleId", value = "角色ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<Long> assignMenusToRole(@PathVariable("roleId") Long roleId,
                                               @NotEmpty(message = "菜单集合不能为空")

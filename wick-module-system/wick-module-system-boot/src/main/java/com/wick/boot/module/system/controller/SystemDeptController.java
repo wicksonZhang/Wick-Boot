@@ -27,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/system/dept")
-@Api(tags = "部门信息")
+@Api(tags = "1-系统管理-部门信息")
 public class SystemDeptController {
 
     @Resource
@@ -35,14 +35,14 @@ public class SystemDeptController {
 
     @PostMapping("/add")
     @PreAuthorize("@ss.hasPerm('system:dept:add')")
-    @ApiOperation(value = "新增部门数据", notes = "部门信息")
+    @ApiOperation(value = "新增_部门数据", notes = "部门信息")
     public ResultUtil<Long> add(@Valid @RequestBody SystemDeptAddVO reqVO) {
         return ResultUtil.success(systemDeptService.addSystemDept(reqVO));
     }
 
     @PutMapping("/update")
     @PreAuthorize("@ss.hasPerm('system:dept:update')")
-    @ApiOperation(value = "编辑部门数据", notes = "部门信息")
+    @ApiOperation(value = "编辑_部门数据", notes = "部门信息")
     public ResultUtil<Boolean> update(@Valid @RequestBody SystemDeptUpdateVO reqVO) {
         systemDeptService.updateSystemDept(reqVO);
         return ResultUtil.success();
@@ -50,7 +50,7 @@ public class SystemDeptController {
 
     @DeleteMapping("/delete/{ids}")
     @PreAuthorize("@ss.hasPerm('system:dept:delete')")
-    @ApiOperation(value = "删除部门数据", notes = "部门信息")
+    @ApiOperation(value = "删除_部门数据", notes = "部门信息")
     @ApiImplicitParam(name = "ids", value = "部门ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<Long> remove(@NotEmpty(message = "部门信息主键不能为空") @PathVariable List<Long> ids) {
         systemDeptService.deleteSystemDept(ids);
@@ -59,7 +59,7 @@ public class SystemDeptController {
 
     @GetMapping("/{id}")
     @PreAuthorize("@ss.hasPerm('system:dept:query')")
-    @ApiOperation(value = "获取部门数据", notes = "部门信息")
+    @ApiOperation(value = "获取_部门数据", notes = "部门信息")
     @ApiImplicitParam(name = "id", value = "部门ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<SystemDeptDTO> getSystemDept(@NotNull(message = "部门ID不能为空") @PathVariable Long id) {
         return ResultUtil.success(systemDeptService.getSystemDept(id));
@@ -67,14 +67,14 @@ public class SystemDeptController {
 
     @GetMapping("/list")
     @PreAuthorize("@ss.hasPerm('system:dept:query')")
-    @ApiOperation(value = "获取部门列表", notes = "部门信息")
+    @ApiOperation(value = "获取_部门列表", notes = "部门信息")
     public ResultUtil<List<SystemDeptDTO>> getSystemDeptList(@Valid SystemDeptQueryVO reqVO) {
         return ResultUtil.success(systemDeptService.getSystemDeptList(reqVO));
     }
 
     @GetMapping("/options")
     @PreAuthorize("@ss.hasPerm('system:dept:options')")
-    @ApiOperation(value = "获取部门下拉选项", notes = "部门信息")
+    @ApiOperation(value = "获取_部门下拉选项", notes = "部门信息")
     public ResultUtil<List<SystemDeptOptionsDTO>> getSystemDeptOptionsList() {
         return ResultUtil.success(systemDeptService.getSystemDeptOptionsList());
     }
