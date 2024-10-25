@@ -32,6 +32,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -86,6 +89,9 @@ public class AuthServiceImpl implements IAuthService {
         /* Step-3: 存入Redis，创建Token */
         String accessTokenKey = IdUtil.fastSimpleUUID();
         String accessToken = GlobalCacheConstants.getLoginAccessToken(accessTokenKey);
+        userInfoDTO.setLoginIp(ServletUtils.getClientIP());
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        userInfoDTO.setLoginDate(timeFormatter.format(LocalDateTime.now()));
         redisService.setCacheObject(accessToken, userInfoDTO, GlobalConstants.EXPIRATION_TIME, TimeUnit.SECONDS);
 
         /* Step-4: 创建登录日志 */
@@ -212,5 +218,9 @@ public class AuthServiceImpl implements IAuthService {
         reqDTO.setUserAgent(browser);
         reqDTO.setOs(os);
         this.systemLoginLog.saveLoginLog(reqDTO);
+        // 更新用户的ip和最后登录时间
+        if (Objects.equals(LoginResultEnum.SUCCESS.getResult(), loginResultEnum.getResult())) {
+            this.systemUser.updateUserLogin(userId, clientIP);
+        }
     }
 }

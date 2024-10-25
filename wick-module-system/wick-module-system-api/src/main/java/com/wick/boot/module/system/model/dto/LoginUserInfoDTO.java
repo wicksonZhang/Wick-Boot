@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
@@ -58,7 +57,7 @@ public class LoginUserInfoDTO {
     /**
      * 最后登录时间
      */
-    private LocalDateTime loginDate;
+    private String loginDate;
 
     /**
      * 角色

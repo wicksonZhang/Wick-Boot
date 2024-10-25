@@ -28,4 +28,11 @@ public interface ApiSystemUser {
      */
     boolean isPasswordMatch(String rawPassword, String encodedPassword);
 
+    /**
+     * 更新用户的最后登陆信息
+     *
+     * @param userId   用户编号
+     * @param clientIP 登陆 IP
+     */
+    void updateUserLogin(Long userId, String clientIP);
 }
