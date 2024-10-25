@@ -24,7 +24,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping("/system/operate-log")
-@Api(tags = "1-系统管理-操作日志")
+@Api(tags = "01-系统管理-操作日志")
 public class SystemOperateLogController {
 
     @Resource

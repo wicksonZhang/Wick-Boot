@@ -337,7 +337,11 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
         ToolCodeGenTable codeGenTable = this.codeGenTableMapper.selectById(tableId);
         this.validateCodeGenTable(codeGenTable);
         SystemMenu systemMenu = this.menuMapper.selectById(codeGenTable.getParentMenuId());
-        codeGenTable.setParentMenuName(systemMenu.getSort() + "-" + systemMenu.getName());
+        String sort = String.valueOf(systemMenu.getSort());
+        if (systemMenu.getSort() < 10) {
+            sort = "0" + systemMenu.getSort();
+        }
+        codeGenTable.setParentMenuName(sort + "-" + systemMenu.getName());
 
         // 查询数据表字段
         List<ToolCodeGenTableColumn> columns = this.codeGenTableColumnMapper.selectListByTableId(tableId);

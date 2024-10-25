@@ -27,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/tool/data-source")
-@Api(tags = "2-系统工具-数据源配置")
+@Api(tags = "02-系统工具-数据源配置")
 public class ToolDataSourceController {
 
     @Resource

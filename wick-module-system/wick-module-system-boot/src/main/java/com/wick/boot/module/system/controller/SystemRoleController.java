@@ -28,7 +28,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/system/role")
-@Api(tags = "1-系统管理-角色信息")
+@Api(tags = "01-系统管理-角色信息")
 public class SystemRoleController {
 
     @Resource

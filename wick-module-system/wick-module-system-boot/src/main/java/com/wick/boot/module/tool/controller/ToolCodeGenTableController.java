@@ -30,7 +30,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/tool/code-gen")
-@Api(value = "/code-gen", tags = "2-系统工具-代码生成")
+@Api(value = "/code-gen", tags = "02-系统工具-代码生成")
 public class ToolCodeGenTableController {
 
     @Resource

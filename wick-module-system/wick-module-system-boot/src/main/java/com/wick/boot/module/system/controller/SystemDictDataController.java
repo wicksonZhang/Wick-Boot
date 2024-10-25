@@ -28,7 +28,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/system/dict-data")
-@Api(tags = "1-系统管理-字典数据")
+@Api(tags = "01-系统管理-字典数据")
 public class SystemDictDataController {
 
     @Resource

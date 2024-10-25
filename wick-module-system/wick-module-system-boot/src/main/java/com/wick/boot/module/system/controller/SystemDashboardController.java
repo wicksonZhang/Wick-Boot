@@ -23,7 +23,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/system/dashboard")
-@Api(value = "/system/dashboard", tags = {"0-首页管理"})
+@Api(value = "/system/dashboard", tags = {"00-首页管理"})
 public class SystemDashboardController {
 
     @Resource
