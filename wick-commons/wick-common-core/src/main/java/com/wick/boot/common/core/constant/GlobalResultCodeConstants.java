@@ -15,6 +15,8 @@ public interface GlobalResultCodeConstants {
 
     // ===================================== 客户端错误段 =====================================
     ResultCode PARAM_IS_INVALID = new ResultCode(400, "参数无效");
+    ResultCode PARAM_START_DATE_GREATER_END_DATE_ERROR = new ResultCode(400, "开始日期不能大于结束日期");
+    ResultCode PARAM_DATE_RANGE_ERROR = new ResultCode(400, "开始日期到结束日期之间天数不能超过30天");
     ResultCode PARAM_IS_BLANK = new ResultCode(400, "参数为空");
     ResultCode PARAM_TYPE_BIND_ERROR = new ResultCode(400, "参数类型错误");
     ResultCode PARAM_REQUEST_DATA_FORMAT_INVALID = new ResultCode(400, "请求参数的数据格式错误");

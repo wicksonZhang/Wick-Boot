@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * 字典数据管理-控制类
  *
- * @author ZhangZiHeng
+ * @author Wickson
  * @date 2024-10-15
  */
 @RestController

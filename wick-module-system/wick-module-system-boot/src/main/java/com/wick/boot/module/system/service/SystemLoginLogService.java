@@ -2,10 +2,14 @@ package com.wick.boot.module.system.service;
 
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.model.dto.LoginLogReqDTO;
+import com.wick.boot.module.system.model.dto.dashboard.SystemDashboardVisitStatsDTO;
 import com.wick.boot.module.system.model.dto.logger.login.SystemLoginLogDTO;
+import com.wick.boot.module.system.model.vo.dashboard.SystemDashboardQueryVO;
 import com.wick.boot.module.system.model.vo.logger.login.SystemLoginLogQueryVO;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 登录日志-服务层
@@ -37,4 +41,19 @@ public interface SystemLoginLogService {
      * @param response    响应结果集
      */
     void exportLoginLog(SystemLoginLogQueryVO queryParams, HttpServletResponse response);
+
+    /**
+     * 获取统计数据
+     *
+     * @return
+     */
+    List<SystemDashboardVisitStatsDTO> getVisitStats();
+
+    /**
+     * 获取访问趋势
+     *
+     * @param queryVO 查询VO
+     * @return 访问趋势DTO
+     */
+    Map<String, Object> getVisitTrend(SystemDashboardQueryVO queryVO);
 }
