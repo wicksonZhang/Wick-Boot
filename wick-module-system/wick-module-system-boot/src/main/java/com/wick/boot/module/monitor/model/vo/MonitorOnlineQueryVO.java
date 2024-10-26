@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -16,6 +17,7 @@ import java.io.Serializable;
  */
 @Setter
 @Getter
+@ToString
 @ApiModel(value = "MonitorOnlineQueryVO", description = "在线用户记录分页查询参数")
 public class MonitorOnlineQueryVO extends CommonPageParamVO implements Serializable {
 

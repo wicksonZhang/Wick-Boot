@@ -42,7 +42,9 @@ spring:
         # 最大空闲连接 默认0
         max-wait: 10000ms
         # 最大连接阻塞等待时间
-        min-idle: 1
+        max-idle: 30
+        # 最小连接阻塞等待时间
+        min-idle: 10
   # flyway
   flyway:
     enabled: true

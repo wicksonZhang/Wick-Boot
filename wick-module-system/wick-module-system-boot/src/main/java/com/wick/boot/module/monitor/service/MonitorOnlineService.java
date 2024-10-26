@@ -20,4 +20,10 @@ public interface MonitorOnlineService {
      */
     PageResult<MonitorOnlineDTO> getMonitorOnlinePage(MonitorOnlineQueryVO queryVO);
 
+    /**
+     * 强制推出
+     *
+     * @param sessionId 会话ID
+     */
+    void forceQuit(String sessionId);
 }

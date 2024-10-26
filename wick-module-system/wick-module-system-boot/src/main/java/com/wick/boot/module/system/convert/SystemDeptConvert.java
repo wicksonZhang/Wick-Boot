@@ -25,54 +25,83 @@ public interface SystemDeptConvert {
     SystemDeptConvert INSTANCE = Mappers.getMapper(SystemDeptConvert.class);
 
     /**
-     * Convert addVo To Entity
+     * 将部门新增请求参数VO转换为SystemDept实体
      *
      * @param reqVO 部门新增请求参数VO
-     * @return SystemDept 系统部门
+     * @return 转换后的SystemDept实体
      */
-    SystemDept addVoToEntity(SystemDeptAddVO reqVO);
+    SystemDept convertAddVoToEntity(SystemDeptAddVO reqVO);
 
     /**
-     * Convert updateVo To Entity
+     * 将部门更新请求参数VO转换为SystemDept实体
      *
      * @param reqVO 部门更新请求参数VO
-     * @return SystemDept 系统部门
+     * @return 转换后的SystemDept实体
      */
-    SystemDept updateVoToEntity(SystemDeptUpdateVO reqVO);
+    SystemDept convertUpdateVoToEntity(SystemDeptUpdateVO reqVO);
 
     /**
-     * Convert entity to DTO
+     * 将SystemDept实体转换为SystemDeptDTO
+     * 忽略'children'字段的转换
      *
-     * @param dept Department entity
-     * @return SystemDeptDTO
+     * @param dept 部门实体
+     * @return 转换后的SystemDeptDTO
      */
     @Mapping(target = "children", ignore = true)
-    SystemDeptDTO entityToDTO(SystemDept dept);
+    SystemDeptDTO convertEntityToDTO(SystemDept dept);
 
-    default SystemDeptDTO entityToDTOWithChildren(SystemDept dept) {
-        SystemDeptDTO dto = entityToDTO(dept);
-        dto.setChildren(new ArrayList<>()); // 初始化 children 属性为空列表
+    /**
+     * 将SystemDept实体转换为SystemDeptDTO，并初始化'children'为空列表
+     *
+     * @param dept 部门实体
+     * @return 转换后的SystemDeptDTO，且'children'属性初始化为空列表
+     */
+    default SystemDeptDTO convertEntityToDtoWithChildren(SystemDept dept) {
+        SystemDeptDTO dto = convertEntityToDTO(dept);
+        // 初始化 'children' 为空列表
+        dto.setChildren(new ArrayList<>());
         return dto;
     }
 
     /**
-     * Convert SystemDeptDTO To SystemDeptOptionsDTO
+     * 将SystemDeptDTO转换为SystemDeptOptionsDTO
+     * 将'id'映射为'value'，'name'映射为'label'
      *
-     * @param systemDeptDTO systemDeptDTO
-     * @return SystemDeptOptionsDTO
+     * @param systemDeptDTO 系统部门DTO
+     * @return 转换后的SystemDeptOptionsDTO
      */
     @Mappings({
             @Mapping(target = "value", source = "id"),
             @Mapping(target = "label", source = "name")
     })
-    SystemDeptOptionsDTO dtoToDTO(SystemDeptDTO systemDeptDTO);
+    SystemDeptOptionsDTO convertToOptionsDTO(SystemDeptDTO systemDeptDTO);
 
     /**
-     * Convert entity To DTOList
+     * 将SystemDeptDTO列表转换为SystemDeptOptionsDTO列表
      *
-     * @param deptDTOList 部门DTO集合
-     * @return
+     * @param deptDTOList 部门DTO列表
+     * @return 转换后的SystemDeptOptionsDTO列表
      */
-    List<SystemDeptOptionsDTO> entityToDTOList(List<SystemDeptDTO> deptDTOList);
+    List<SystemDeptOptionsDTO> convertDtoListToOptionsList(List<SystemDeptDTO> deptDTOList);
 
+    /**
+     * 将SystemDept实体列表转换为SystemDeptOptionsDTO列表
+     *
+     * @param systemDeptList 部门实体列表
+     * @return 转换后的SystemDeptOptionsDTO列表
+     */
+    List<SystemDeptOptionsDTO> convertEntitiesToOptionsList(List<SystemDept> systemDeptList);
+
+    /**
+     * 将单个SystemDept实体转换为SystemDeptOptionsDTO
+     * 将'id'映射为'value'，'name'映射为'label'
+     *
+     * @param systemDept 系统部门实体
+     * @return 转换后的SystemDeptOptionsDTO
+     */
+    @Mappings({
+            @Mapping(target = "value", source = "id"),
+            @Mapping(target = "label", source = "name")
+    })
+    SystemDeptOptionsDTO convertEntityToOptions(SystemDept systemDept);
 }

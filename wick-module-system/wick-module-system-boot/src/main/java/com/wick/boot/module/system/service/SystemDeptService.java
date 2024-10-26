@@ -60,4 +60,11 @@ public interface SystemDeptService {
      */
     List<SystemDeptOptionsDTO> getSystemDeptOptionsList();
 
+    /**
+     * 获取部门信息列表
+     *
+     * @return List<SystemDeptOptionsDTO>
+     */
+    List<SystemDeptOptionsDTO> getSystemDeptOptionsListAll();
+
 }

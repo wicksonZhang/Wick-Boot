@@ -23,14 +23,11 @@ public class MonitorOnlineDTO implements Serializable {
     @ApiModelProperty(value = "会话编号")
     private String sessionId;
 
-    @ApiModelProperty(value = "部门Id")
-    private Long deptId;
+    @ApiModelProperty(value = "登录用户")
+    private String username;
 
     @ApiModelProperty(value = "部门名称")
     private String deptName;
-
-    @ApiModelProperty(value = "登录名称")
-    private String username;
 
     @ApiModelProperty(value = "登录ip")
     private String loginIp;

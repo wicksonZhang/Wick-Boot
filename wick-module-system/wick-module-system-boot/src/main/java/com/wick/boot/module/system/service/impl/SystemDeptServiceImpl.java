@@ -39,7 +39,7 @@ public class SystemDeptServiceImpl extends SystemDeptAbstractService implements 
         this.validateAddParams(reqVO);
 
         /* Step-2: 类型转换，新增部门数据信息 */
-        SystemDept systemDept = SystemDeptConvert.INSTANCE.addVoToEntity(reqVO);
+        SystemDept systemDept = SystemDeptConvert.INSTANCE.convertAddVoToEntity(reqVO);
         // 获取 treePath(父节点id路径) 用作后续删除
         String treePath = getTreePath(reqVO.getParentId());
         systemDept.setTreePath(treePath);
@@ -56,7 +56,7 @@ public class SystemDeptServiceImpl extends SystemDeptAbstractService implements 
         this.validateUpdateParams(reqVO);
 
         /* Step-2: 类型转换，更新部门数据信息 */
-        SystemDept systemDept = SystemDeptConvert.INSTANCE.updateVoToEntity(reqVO);
+        SystemDept systemDept = SystemDeptConvert.INSTANCE.convertUpdateVoToEntity(reqVO);
         // 获取 treePath(父节点id路径) 用作后续删除
         String treePath = getTreePath(reqVO.getParentId());
         systemDept.setTreePath(treePath);
@@ -92,7 +92,7 @@ public class SystemDeptServiceImpl extends SystemDeptAbstractService implements 
         /* Step-1: 获取部门数据 */
         SystemDept systemDept = this.systemDeptMapper.selectById(id);
         /* Step-2: Convert entity to DTO */
-        return SystemDeptConvert.INSTANCE.entityToDTO(systemDept);
+        return SystemDeptConvert.INSTANCE.convertEntityToDTO(systemDept);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class SystemDeptServiceImpl extends SystemDeptAbstractService implements 
         List<SystemDeptDTO> deptDTOList = buildDeptTree(deptList);
 
         /* Step-3: 返回结果集 */
-        return SystemDeptConvert.INSTANCE.entityToDTOList(deptDTOList);
+        return SystemDeptConvert.INSTANCE.convertDtoListToOptionsList(deptDTOList);
     }
 
     /**
@@ -134,7 +134,7 @@ public class SystemDeptServiceImpl extends SystemDeptAbstractService implements 
 
         // Step-1: 构建部门树并将部门存入Map
         for (SystemDept dept : departmentList) {
-            SystemDeptDTO deptDTO = SystemDeptConvert.INSTANCE.entityToDTOWithChildren(dept);
+            SystemDeptDTO deptDTO = SystemDeptConvert.INSTANCE.convertEntityToDtoWithChildren(dept);
             deptMap.put(deptDTO.getId(), deptDTO);
         }
 
@@ -157,5 +157,11 @@ public class SystemDeptServiceImpl extends SystemDeptAbstractService implements 
             return new ArrayList<>(deptMap.values());
         }
         return rootDeptList;
+    }
+
+    @Override
+    public List<SystemDeptOptionsDTO> getSystemDeptOptionsListAll() {
+        List<SystemDept> systemDeptList = this.systemDeptMapper.selectList(null);
+        return SystemDeptConvert.INSTANCE.convertEntitiesToOptionsList(systemDeptList);
     }
 }

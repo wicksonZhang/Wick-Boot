@@ -198,9 +198,9 @@ public class AuthServiceImpl implements IAuthService {
      */
     private void createLog(Long userId, String username, LoginResultEnum loginResultEnum, LoginLogTypeEnum logTypeEnum) {
         // 用户 IP
-        String clientIP = ServletUtils.getClientIP();
+        String clientIp = ServletUtils.getClientIP();
         // 用户地址
-        String loginLocation = ServletUtils.getRealAddressByIP(clientIP);
+        String loginLocation = ServletUtils.getRealAddressByIP(clientIp);
         // 浏览器信息
         String header = ServletUtils.getUserAgent();
         UserAgent userAgent = UserAgentUtil.parse(header);
@@ -220,7 +220,7 @@ public class AuthServiceImpl implements IAuthService {
         this.systemLoginLog.saveLoginLog(reqDTO);
         // 更新用户的ip和最后登录时间
         if (Objects.equals(LoginResultEnum.SUCCESS.getResult(), loginResultEnum.getResult())) {
-            this.systemUser.updateUserLogin(userId, clientIP);
+            this.systemUser.updateUserLogin(userId, clientIp);
         }
     }
 }
