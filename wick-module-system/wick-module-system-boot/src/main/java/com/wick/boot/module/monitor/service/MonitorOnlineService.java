@@ -1,8 +1,10 @@
 package com.wick.boot.module.monitor.service;
 
 import com.wick.boot.common.core.result.PageResult;
-import com.wick.boot.module.monitor.model.dto.MonitorOnlineDTO;
-import com.wick.boot.module.monitor.model.vo.MonitorOnlineQueryVO;
+import com.wick.boot.module.monitor.model.dto.online.MonitorOnlineDTO;
+import com.wick.boot.module.monitor.model.vo.online.MonitorOnlineQueryVO;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 在线用户-应用服务类
@@ -26,4 +28,12 @@ public interface MonitorOnlineService {
      * @param sessionId 会话ID
      */
     void forceQuit(String sessionId);
+
+    /**
+     * 导出在线用户
+     *
+     * @param queryParams 在线用户请求VO
+     * @param response    响应结果集
+     */
+    void exportOnline(MonitorOnlineQueryVO queryParams, HttpServletResponse response);
 }

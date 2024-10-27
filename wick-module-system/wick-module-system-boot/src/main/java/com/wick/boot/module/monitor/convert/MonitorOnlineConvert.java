@@ -1,6 +1,6 @@
 package com.wick.boot.module.monitor.convert;
 
-import com.wick.boot.module.monitor.model.dto.MonitorOnlineDTO;
+import com.wick.boot.module.monitor.model.dto.online.MonitorOnlineDTO;
 import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

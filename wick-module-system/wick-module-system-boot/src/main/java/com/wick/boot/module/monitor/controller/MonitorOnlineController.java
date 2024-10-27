@@ -2,8 +2,8 @@ package com.wick.boot.module.monitor.controller;
 
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
-import com.wick.boot.module.monitor.model.dto.MonitorOnlineDTO;
-import com.wick.boot.module.monitor.model.vo.MonitorOnlineQueryVO;
+import com.wick.boot.module.monitor.model.dto.online.MonitorOnlineDTO;
+import com.wick.boot.module.monitor.model.vo.online.MonitorOnlineQueryVO;
 import com.wick.boot.module.monitor.service.MonitorOnlineService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 /**
@@ -40,6 +41,13 @@ public class MonitorOnlineController {
     public ResultUtil<Boolean> forceQuit(@PathVariable String sessionId) {
         onlineService.forceQuit(sessionId);
         return ResultUtil.success();
+    }
+
+    @GetMapping("/export")
+    @PreAuthorize("@ss.hasPerm('monitor:online:export')")
+    @ApiOperation(value = "导出_在线用户分页", notes = "在线用户")
+    public void exportOnline(@Valid MonitorOnlineQueryVO queryParams, HttpServletResponse response) {
+        onlineService.exportOnline(queryParams, response);
     }
 
 }

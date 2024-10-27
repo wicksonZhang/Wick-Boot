@@ -1,17 +1,22 @@
 package com.wick.boot.module.monitor.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
+import com.alibaba.excel.EasyExcel;
 import com.wick.boot.common.core.constant.GlobalCacheConstants;
+import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.utils.ServletUtils;
 import com.wick.boot.common.redis.service.RedisService;
 import com.wick.boot.module.monitor.convert.MonitorOnlineConvert;
-import com.wick.boot.module.monitor.model.dto.MonitorOnlineDTO;
-import com.wick.boot.module.monitor.model.vo.MonitorOnlineQueryVO;
+import com.wick.boot.module.monitor.model.dto.online.MonitorOnlineDTO;
+import com.wick.boot.module.monitor.model.vo.online.MonitorOnlineExportVO;
+import com.wick.boot.module.monitor.model.vo.online.MonitorOnlineQueryVO;
 import com.wick.boot.module.monitor.service.MonitorOnlineService;
+import com.wick.boot.module.system.enums.ErrorCodeSystem;
 import com.wick.boot.module.system.enums.LoginLogTypeEnum;
 import com.wick.boot.module.system.enums.LoginResultEnum;
 import com.wick.boot.module.system.model.dto.LoginLogReqDTO;
@@ -23,6 +28,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -47,6 +55,11 @@ public class MonitorOnlineServiceImpl implements MonitorOnlineService {
 
     @Override
     public PageResult<MonitorOnlineDTO> getMonitorOnlinePage(MonitorOnlineQueryVO query) {
+        List<MonitorOnlineDTO> pagedResult = this.getMonitorOnlineList(query);
+        return new PageResult<>(pagedResult, (long) pagedResult.size());
+    }
+
+    private List<MonitorOnlineDTO> getMonitorOnlineList(MonitorOnlineQueryVO query) {
         // 获取所有登录令牌的缓存键集合
         Collection<String> tokenKeys = redisService.keys(GlobalCacheConstants.getLoginAccessToken("*"));
         List<MonitorOnlineDTO> onlineMonitors = new ArrayList<>();
@@ -82,8 +95,7 @@ public class MonitorOnlineServiceImpl implements MonitorOnlineService {
         // 确保起始索引不为负
         int fromIndex = Math.max(0, (pageNumber - 1) * pageSize);
         int toIndex = Math.min(fromIndex + pageSize, totalRecords);
-        List<MonitorOnlineDTO> pagedResult = filteredMonitors.subList(fromIndex, toIndex);
-        return new PageResult<>(pagedResult, (long) totalRecords);
+        return filteredMonitors.subList(fromIndex, toIndex);
     }
 
     /**
@@ -133,5 +145,21 @@ public class MonitorOnlineServiceImpl implements MonitorOnlineService {
         reqDTO.setUserAgent(browser);
         reqDTO.setOs(os);
         return reqDTO;
+    }
+
+    @Override
+    public void exportOnline(MonitorOnlineQueryVO queryParams, HttpServletResponse response) {
+        String fileName = "用户在线日志.xlsx";
+        try {
+            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, "UTF-8"));
+
+            List<MonitorOnlineDTO> monitorOnlineList = this.getMonitorOnlineList(queryParams);
+            EasyExcel.write(response.getOutputStream(), MonitorOnlineExportVO.class)
+                    .sheet("用户在线日志")
+                    .doWrite(BeanUtil.copyToList(monitorOnlineList, MonitorOnlineExportVO.class));
+        } catch (IOException e) {
+            throw ServiceException.getInstance(ErrorCodeSystem.OPERATE_LOG_EXPORT_ERROR);
+        }
     }
 }
