@@ -123,12 +123,11 @@ public class SystemLoginLogServiceImpl implements SystemLoginLogService {
             }
         }
         Long count = systemUserMapper.selectCount(null);
-        SystemDashboardVisitDTO visitDTO = new SystemDashboardVisitDTO()
+        return new SystemDashboardVisitDTO()
                 .setTotalVisits(Math.toIntExact(count))
                 .setTodayVisits(userCount)
                 .setYesterdayVisits(0)
                 .setGrowthRate(new BigDecimal(0));
-        return visitDTO;
     }
 
     private SystemDashboardVisitStatsDTO createVisitStats(String title, String type, SystemDashboardVisitDTO visitDTO) {
