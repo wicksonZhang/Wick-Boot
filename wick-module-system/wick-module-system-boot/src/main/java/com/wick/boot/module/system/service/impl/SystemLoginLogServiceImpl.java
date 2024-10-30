@@ -6,14 +6,18 @@ import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.wick.boot.common.core.constant.GlobalCacheConstants;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.result.PageResult;
+import com.wick.boot.common.redis.service.RedisService;
 import com.wick.boot.module.system.convert.SystemLoggerConvert;
 import com.wick.boot.module.system.enums.ErrorCodeSystem;
 import com.wick.boot.module.system.mapper.SystemLoginLogMapper;
+import com.wick.boot.module.system.mapper.SystemUserMapper;
 import com.wick.boot.module.system.model.dto.LoginLogReqDTO;
+import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
+import com.wick.boot.module.system.model.dto.SystemDashboardVisitStatsDTO;
 import com.wick.boot.module.system.model.dto.dashboard.SystemDashboardVisitDTO;
-import com.wick.boot.module.system.model.dto.dashboard.SystemDashboardVisitStatsDTO;
 import com.wick.boot.module.system.model.dto.dashboard.SystemDashboardVisitTrendDTO;
 import com.wick.boot.module.system.model.dto.logger.login.SystemLoginLogDTO;
 import com.wick.boot.module.system.model.entity.SystemLoginLog;
@@ -26,8 +30,10 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +48,12 @@ public class SystemLoginLogServiceImpl implements SystemLoginLogService {
 
     @Resource
     private SystemLoginLogMapper loginLogMapper;
+
+    @Resource
+    private SystemUserMapper systemUserMapper;
+
+    @Resource
+    private RedisService redisService;
 
     @Override
     public void createLoginLog(LoginLogReqDTO logReqDTO) {
@@ -83,16 +95,40 @@ public class SystemLoginLogServiceImpl implements SystemLoginLogService {
         // 创建结果列表
         List<SystemDashboardVisitStatsDTO> visitStatsList = Lists.newArrayList();
 
+        // 在线用户
+        SystemDashboardVisitDTO visitDTO = getOnlineUser();
+        visitStatsList.add(createVisitStats("今日在线用户", "ov", visitDTO));
+
         // 获取PV（页面浏览量）统计
-        visitStatsList.add(createVisitStats("浏览量", "pv", this.loginLogMapper.selectPvStats()));
+        visitStatsList.add(createVisitStats("今日浏览量", "pv", this.loginLogMapper.selectPvStats()));
 
         // 获取UV（访客数）统计
-        visitStatsList.add(createVisitStats("访客数", "uv", this.loginLogMapper.selectUvStats()));
+        visitStatsList.add(createVisitStats("今日访客数", "uv", this.loginLogMapper.selectUvStats()));
 
         // 获取登录成功统计
-        visitStatsList.add(createVisitStats("登录成功", "lr", this.loginLogMapper.selectLvStats()));
+        visitStatsList.add(createVisitStats("今日登录成功", "lr", this.loginLogMapper.selectLvStats()));
 
         return visitStatsList;
+    }
+
+    private SystemDashboardVisitDTO getOnlineUser() {
+        int userCount = 0;
+        Collection<String> sessionList = redisService.keys(GlobalCacheConstants.getLoginAccessToken("*"));
+        if (sessionList != null) {
+            for (String sessionId : sessionList) {
+                LoginUserInfoDTO userInfoDTO = redisService.getCacheObject(sessionId);
+                if (userInfoDTO.getDisconnected()) {
+                    userCount = userCount + 1;
+                }
+            }
+        }
+        Long count = systemUserMapper.selectCount(null);
+        SystemDashboardVisitDTO visitDTO = new SystemDashboardVisitDTO()
+                .setTotalVisits(Math.toIntExact(count))
+                .setTodayVisits(userCount)
+                .setYesterdayVisits(0)
+                .setGrowthRate(new BigDecimal(0));
+        return visitDTO;
     }
 
     private SystemDashboardVisitStatsDTO createVisitStats(String title, String type, SystemDashboardVisitDTO visitDTO) {

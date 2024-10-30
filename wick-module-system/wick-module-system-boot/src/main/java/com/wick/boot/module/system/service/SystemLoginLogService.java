@@ -2,7 +2,7 @@ package com.wick.boot.module.system.service;
 
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.model.dto.LoginLogReqDTO;
-import com.wick.boot.module.system.model.dto.dashboard.SystemDashboardVisitStatsDTO;
+import com.wick.boot.module.system.model.dto.SystemDashboardVisitStatsDTO;
 import com.wick.boot.module.system.model.dto.logger.login.SystemLoginLogDTO;
 import com.wick.boot.module.system.model.vo.dashboard.SystemDashboardQueryVO;
 import com.wick.boot.module.system.model.vo.logger.login.SystemLoginLogQueryVO;

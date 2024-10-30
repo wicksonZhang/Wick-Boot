@@ -32,6 +32,12 @@
             <artifactId>wick-common-security</artifactId>
         </dependency>
 
+        <!-- common WebScoket -->
+        <dependency>
+            <groupId>com.wick.boot</groupId>
+            <artifactId>wick-common-websocket</artifactId>
+        </dependency>
+
         <!-- mapstruct -->
         <dependency>
             <groupId>org.mapstruct</groupId>

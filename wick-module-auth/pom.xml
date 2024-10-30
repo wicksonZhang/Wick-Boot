@@ -23,6 +23,12 @@
             <groupId>com.wick.boot</groupId>
             <artifactId>wick-common-log</artifactId>
         </dependency>
+
+        <!-- common websocket -->
+        <dependency>
+            <groupId>com.wick.boot</groupId>
+            <artifactId>wick-common-websocket</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

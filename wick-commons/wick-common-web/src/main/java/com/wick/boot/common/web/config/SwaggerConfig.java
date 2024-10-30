@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 访问地址：http://localhost:8080/api/v1/doc.html
+ * 访问地址：<a href="http://localhost:8080/api/v1/doc.html"/>
  */
 @Configuration
 @ConditionalOnClass({OpenAPI.class})

@@ -38,4 +38,5 @@ public interface GlobalConstants {
      */
     String FLYWAY_INITIALIZER = "flywayInitializer";
 
+    String LOGIN_USER = "LOGIN_USER";
 }

@@ -1,7 +1,7 @@
 package com.wick.boot.module.system.controller;
 
 import com.wick.boot.common.core.result.ResultUtil;
-import com.wick.boot.module.system.model.dto.dashboard.SystemDashboardVisitStatsDTO;
+import com.wick.boot.module.system.model.dto.SystemDashboardVisitStatsDTO;
 import com.wick.boot.module.system.model.vo.dashboard.SystemDashboardQueryVO;
 import com.wick.boot.module.system.service.SystemLoginLogService;
 import io.swagger.annotations.Api;

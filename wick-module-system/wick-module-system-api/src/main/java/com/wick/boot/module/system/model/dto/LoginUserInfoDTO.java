@@ -55,6 +55,11 @@ public class LoginUserInfoDTO {
     private String loginIp;
 
     /**
+     * 是否在线
+     */
+    private Boolean disconnected;
+
+    /**
      * 最后登录时间
      */
     private String loginDate;

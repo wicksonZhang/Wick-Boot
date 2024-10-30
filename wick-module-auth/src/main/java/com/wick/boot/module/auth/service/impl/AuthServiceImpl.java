@@ -15,6 +15,7 @@ import com.wick.boot.common.core.exception.ParameterException;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.utils.ServletUtils;
 import com.wick.boot.common.redis.service.RedisService;
+import com.wick.boot.common.websocket.session.WebSocketSessionManager;
 import com.wick.boot.module.auth.constant.CaptchaConstants;
 import com.wick.boot.module.auth.enums.ErrorCodeAuth;
 import com.wick.boot.module.auth.service.IAuthService;
@@ -56,6 +57,9 @@ public class AuthServiceImpl implements IAuthService {
     private ApiSystemUser systemUser;
 
     @Resource
+    private WebSocketSessionManager sessionManager;
+
+    @Resource
     private ApiSystemLoginLog systemLoginLog;
 
     @Override
@@ -90,6 +94,7 @@ public class AuthServiceImpl implements IAuthService {
         String accessTokenKey = IdUtil.fastSimpleUUID();
         String accessToken = GlobalCacheConstants.getLoginAccessToken(accessTokenKey);
         userInfoDTO.setLoginIp(ServletUtils.getClientIP());
+        userInfoDTO.setDisconnected(true);
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         userInfoDTO.setLoginDate(timeFormatter.format(LocalDateTime.now()));
         redisService.setCacheObject(accessToken, userInfoDTO, GlobalConstants.EXPIRATION_TIME, TimeUnit.SECONDS);
@@ -183,6 +188,9 @@ public class AuthServiceImpl implements IAuthService {
 
         /* Step-3：新增注销日志 */
         createLog(userInfoDTO.getUserId(), userInfoDTO.getUsername(), LoginResultEnum.SUCCESS, LoginLogTypeEnum.LOGOUT_SELF);
+
+        /* Step-4: 推送在线用户 */
+        sessionManager.removeSession(token);
 
         /* Step-4：清除 SecurityContextHolder */
         SecurityContextHolder.clearContext();

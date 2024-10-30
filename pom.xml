@@ -60,7 +60,6 @@
         <module>wick-module-auth</module>
         <module>wick-module-system</module>
         <module>wick-sync-db-flyway</module>
-        <module>wick-commons/wick-common-websocket</module>
     </modules>
 
     <dependencies>
@@ -119,6 +118,13 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-security</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+
+            <!-- SpringBoot WebSocket -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-websocket</artifactId>
                 <version>${spring.boot.version}</version>
             </dependency>
 
@@ -262,6 +268,13 @@
             <dependency>
                 <groupId>com.wick.boot</groupId>
                 <artifactId>wick-common-web</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- common-websocket -->
+            <dependency>
+                <groupId>com.wick.boot</groupId>
+                <artifactId>wick-common-websocket</artifactId>
                 <version>${revision}</version>
             </dependency>
 

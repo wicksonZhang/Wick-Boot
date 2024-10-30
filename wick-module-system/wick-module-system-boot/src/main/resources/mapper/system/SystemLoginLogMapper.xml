@@ -67,7 +67,7 @@
             -- 4. 统计每日登录成功次数（result = 0）
             COUNT(CASE WHEN result = 0 THEN 1 END) AS lv
         FROM system_login_log
-        WHERE create_time BETWEEN #{startDate} AND #{endDate}
+        WHERE create_time BETWEEN concat(#{startDate}, ' 00:00:00') AND concat(#{endDate}, ' 23:59:59')
         GROUP BY DATE_FORMAT(create_time, '%Y-%m-%d');
     </select>
 

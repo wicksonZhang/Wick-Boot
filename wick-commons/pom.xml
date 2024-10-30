@@ -23,6 +23,7 @@
         <module>wick-common-security</module>
         <module>wick-common-web</module>
         <module>wick-common-log</module>
+        <module>wick-common-websocket</module>
     </modules>
 
 </project>

@@ -18,4 +18,36 @@
 
     </properties>
 
+    <dependencies>
+        <!-- common core 依赖 -->
+        <dependency>
+            <groupId>com.wick.boot</groupId>
+            <artifactId>wick-common-core</artifactId>
+        </dependency>
+
+        <!-- SpringBoot WebSocket -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
+        <!-- Wick Redis -->
+        <dependency>
+            <groupId>com.wick.boot</groupId>
+            <artifactId>wick-common-redis</artifactId>
+        </dependency>
+
+        <!-- Wick System -->
+        <dependency>
+            <groupId>com.wick.boot</groupId>
+            <artifactId>wick-module-system-api</artifactId>
+        </dependency>
+
+        <!-- Wick Web -->
+        <dependency>
+            <groupId>com.wick.boot</groupId>
+            <artifactId>wick-common-web</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>
