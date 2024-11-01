@@ -11,7 +11,6 @@ import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.utils.ServletUtils;
 import com.wick.boot.common.redis.service.RedisService;
-import com.wick.boot.common.websocket.session.WebSocketSessionManager;
 import com.wick.boot.module.monitor.convert.MonitorOnlineConvert;
 import com.wick.boot.module.monitor.model.dto.online.MonitorOnlineDTO;
 import com.wick.boot.module.monitor.model.vo.online.MonitorOnlineExportVO;
@@ -53,9 +52,6 @@ public class MonitorOnlineServiceImpl implements MonitorOnlineService {
 
     @Resource
     private SystemLoginLogService loginLogService;
-
-    @Resource
-    private WebSocketSessionManager sessionManager;
 
     @Override
     public PageResult<MonitorOnlineDTO> getMonitorOnlinePage(MonitorOnlineQueryVO query) {
@@ -127,8 +123,6 @@ public class MonitorOnlineServiceImpl implements MonitorOnlineService {
         loginLogService.createLoginLog(logReqDTO);
         // 删除 key
         redisService.deleteObject(key);
-        // 推送WebSocket
-        sessionManager.removeSession(sessionId);
     }
 
     private LoginLogReqDTO getLoginLog(LoginUserInfoDTO userInfoDTO) {

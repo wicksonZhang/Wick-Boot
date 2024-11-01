@@ -47,6 +47,7 @@
         <dependency>
             <groupId>com.wick.boot</groupId>
             <artifactId>wick-common-web</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

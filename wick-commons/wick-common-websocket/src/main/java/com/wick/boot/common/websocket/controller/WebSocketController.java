@@ -1,6 +1,7 @@
-package com.wick.boot.common.websocket.sender;
+package com.wick.boot.common.websocket.controller;
 
 import com.wick.boot.common.websocket.model.dto.MessageDTO;
+import com.wick.boot.common.websocket.service.OnlineUserService;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -19,10 +20,13 @@ import java.security.Principal;
  */
 @RestController
 @RequestMapping("/websocket")
-public class WebSocketSender {
+public class WebSocketController {
 
     @Resource
     private SimpMessagingTemplate messagingTemplate;
+
+    @Resource
+    private OnlineUserService onlineUserService;
 
     /**
      * 广播发送消息
@@ -33,6 +37,11 @@ public class WebSocketSender {
     @SendTo("/topic/notice")
     public String sendToAll(String message) {
         return "服务端通知: " + message;
+    }
+
+    @MessageMapping("/request-initial-data")
+    public void handleInitialDataRequest(String message) {
+        messagingTemplate.convertAndSend("/topic/onlineUserCount", onlineUserService.getOnlineUserCount());
     }
 
     /**

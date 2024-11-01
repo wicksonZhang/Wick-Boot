@@ -15,7 +15,7 @@ import com.wick.boot.common.core.exception.ParameterException;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.utils.ServletUtils;
 import com.wick.boot.common.redis.service.RedisService;
-import com.wick.boot.common.websocket.session.WebSocketSessionManager;
+import com.wick.boot.common.websocket.service.OnlineUserService;
 import com.wick.boot.module.auth.constant.CaptchaConstants;
 import com.wick.boot.module.auth.enums.ErrorCodeAuth;
 import com.wick.boot.module.auth.service.IAuthService;
@@ -57,7 +57,7 @@ public class AuthServiceImpl implements IAuthService {
     private ApiSystemUser systemUser;
 
     @Resource
-    private WebSocketSessionManager sessionManager;
+    private OnlineUserService onlineUserService;
 
     @Resource
     private ApiSystemLoginLog systemLoginLog;
@@ -94,12 +94,15 @@ public class AuthServiceImpl implements IAuthService {
         String accessTokenKey = IdUtil.fastSimpleUUID();
         String accessToken = GlobalCacheConstants.getLoginAccessToken(accessTokenKey);
         userInfoDTO.setLoginIp(ServletUtils.getClientIP());
-        userInfoDTO.setDisconnected(true);
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        userInfoDTO.setDisconnected(true);
         userInfoDTO.setLoginDate(timeFormatter.format(LocalDateTime.now()));
         redisService.setCacheObject(accessToken, userInfoDTO, GlobalConstants.EXPIRATION_TIME, TimeUnit.SECONDS);
 
-        /* Step-4: 创建登录日志 */
+        /* Step-5: 推送在线用户 */
+        onlineUserService.removeOnlineUser(accessTokenKey, true);
+
+        /* Step-6: 创建登录日志 */
         createLog(userInfoDTO.getUserId(), userInfoDTO.getUsername(), LoginResultEnum.SUCCESS, LoginLogTypeEnum.LOGIN_USERNAME);
 
         return AuthUserLoginRespDTO.builder()
@@ -190,7 +193,7 @@ public class AuthServiceImpl implements IAuthService {
         createLog(userInfoDTO.getUserId(), userInfoDTO.getUsername(), LoginResultEnum.SUCCESS, LoginLogTypeEnum.LOGOUT_SELF);
 
         /* Step-4: 推送在线用户 */
-        sessionManager.removeSession(token);
+        onlineUserService.removeOnlineUser(accessTokenKey, false);
 
         /* Step-4：清除 SecurityContextHolder */
         SecurityContextHolder.clearContext();

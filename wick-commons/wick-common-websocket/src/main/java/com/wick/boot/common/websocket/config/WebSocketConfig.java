@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.wick.boot.common.core.constant.GlobalCacheConstants;
 import com.wick.boot.common.core.constant.GlobalConstants;
 import com.wick.boot.common.redis.service.RedisService;
-import com.wick.boot.common.websocket.session.WebSocketSessionManager;
+import com.wick.boot.common.websocket.service.OnlineUserService;
 import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
@@ -22,28 +22,36 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 import javax.annotation.Resource;
+import java.security.Principal;
 
 /**
  * WebSocket 配置类
+ * 用于配置 WebSocket 服务器，处理实时消息通信
  *
- * @author Wickson
- * @date 2024-10-28
+ * @author Your Name
+ * @since 2024-01-01
  */
 @Slf4j
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
+    /**
+     * Redis 服务，用于管理用户会话和状态
+     */
     @Resource
     private RedisService redisService;
 
+    /**
+     * 在线用户服务，用于更新用户在线状态
+     */
     @Resource
-    private WebSocketSessionManager sessionManager;
+    private OnlineUserService onlineUserService;
 
     /**
-     * 注册STOMP端点，并将端点映射到特定的路径以进行握手。
+     * 注册 STOMP 端点并配置 SockJS 支持
      *
-     * @param registry STOMP端点注册器，用于配置连接端点的相关设置。
+     * @param registry STOMP 端点注册器
      */
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
@@ -54,76 +62,90 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     }
 
     /**
-     * 配置消息代理，用于消息发送和广播的前缀设置。
+     * 配置消息代理
      *
-     * @param registry 消息代理注册器，用于配置消息路径的前缀和订阅路径。
+     * @param registry 消息代理注册器
      */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        // 设置发送消息的路径前缀
+        // 设置应用程序消息路径前缀
         registry.setApplicationDestinationPrefixes("/app");
-        // 配置用于广播和队列的路径前缀
+        // 配置广播和队列消息路径
         registry.enableSimpleBroker("/topic", "/queue");
-        // 设置用户订阅消息的路径前缀
+        // 设置用户专属消息订阅路径前缀
         registry.setUserDestinationPrefix("/user");
     }
 
     /**
-     * 配置客户端入站通道的拦截器，用于处理连接和断开连接事件。
+     * 配置客户端入站通道拦截器
+     * 用于处理 WebSocket 连接、断开事件
      *
-     * @param registration 入站通道注册器，用于添加通道拦截器。
+     * @param registration 通道注册器
      */
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
         registration.interceptors(new ChannelInterceptor() {
             @Override
             public Message<?> preSend(Message<?> message, MessageChannel channel) {
+                // 获取 STOMP 消息头访问器
                 StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-                if (accessor != null) {
-                    // 判断是否为首次连接请求
-                    if (StompCommand.CONNECT.equals(accessor.getCommand())) {
-                        // 处理连接请求
-                        handleConnect(accessor);
-                    } else if (StompCommand.DISCONNECT.equals(accessor.getCommand())) {
-                        // 处理断开连接请求
-                        handleDisconnect(accessor);
-                    }
+                // 若访问器为空，直接返回原消息
+                if (accessor == null) {
+                    return ChannelInterceptor.super.preSend(message, channel);
+                }
+
+                // 根据 STOMP 命令类型处理连接、断开请求
+                StompCommand command = accessor.getCommand();
+                if (command == StompCommand.CONNECT || command == StompCommand.RECEIPT) {
+                    // 处理连接请求
+                    handleUserConnect(accessor);
+                } else if (command == StompCommand.DISCONNECT) {
+                    // 处理断开请求
+                    handleUserDisconnect(accessor);
                 }
                 return ChannelInterceptor.super.preSend(message, channel);
             }
-
-            /**
-             * 处理连接请求，校验Token并添加用户会话。
-             *
-             * @param accessor STOMP头信息访问器
-             */
-            private void handleConnect(StompHeaderAccessor accessor) {
-                String token = accessor.getFirstNativeHeader(HttpHeaders.AUTHORIZATION);
-                if (StrUtil.isNotBlank(token) && token.startsWith(GlobalConstants.TOKEN_TYPE_BEARER)) {
-                    String finalToken = token.replace(GlobalConstants.TOKEN_TYPE_BEARER, "").trim();
-                    // 从Redis中验证Token
-                    LoginUserInfoDTO userInfo = redisService.getCacheObject(GlobalCacheConstants.getLoginAccessToken(finalToken));
-                    if (userInfo != null) {
-                        // 设置用户凭据
-                        accessor.setUser(() -> finalToken);
-                        // 添加会话信息
-                        sessionManager.addSession(finalToken, userInfo);
-                    }
-                }
-            }
-
-            /**
-             * 处理断开连接请求，移除用户会话。
-             *
-             * @param accessor STOMP头信息访问器
-             */
-            private void handleDisconnect(StompHeaderAccessor accessor) {
-                if (accessor.getUser() != null) {
-                    String username = accessor.getUser().getName();
-                    // 移除会话信息
-                    sessionManager.removeSession(username);
-                }
-            }
         });
     }
+
+    /**
+     * 处理用户连接事件
+     * 更新用户在线状态，并记录连接信息
+     *
+     * @param accessor STOMP 消息头访问器
+     */
+    private void handleUserConnect(StompHeaderAccessor accessor) {
+        String token = accessor.getFirstNativeHeader(HttpHeaders.AUTHORIZATION);
+        if (StrUtil.isBlank(token) || !token.startsWith(GlobalConstants.TOKEN_TYPE_BEARER)) {
+            log.warn("无效的认证令牌: {}", token);
+            return;
+        }
+
+        String accessToken = token.replace(GlobalConstants.TOKEN_TYPE_BEARER, "").trim();
+        String sessionKey = GlobalCacheConstants.getLoginAccessToken(accessToken);
+        LoginUserInfoDTO userInfo = redisService.getCacheObject(sessionKey);
+
+        if (userInfo != null) {
+            // 设置用户身份信息
+            accessor.setUser(() -> sessionKey);
+            // 添加在线用户信息
+            onlineUserService.addOnlineUser(sessionKey, true);
+        }
+    }
+
+    /**
+     * 处理用户断开事件
+     * 更新用户离线状态，并移除连接信息
+     *
+     * @param accessor STOMP 消息头访问器
+     */
+    private void handleUserDisconnect(StompHeaderAccessor accessor) {
+        // 获取会话密钥
+        Principal principal = accessor.getUser();
+        if (principal != null) {
+            // 移除在线用户信息
+            onlineUserService.removeOnlineUser(principal.getName(), false);
+        }
+    }
+
 }

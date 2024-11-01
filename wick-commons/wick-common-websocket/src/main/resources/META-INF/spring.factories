@@ -1,4 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.wick.boot.common.websocket.config.WebSocketConfig,\
-  com.wick.boot.common.websocket.sender.WebSocketSender,\
-  com.wick.boot.common.websocket.session.WebSocketSessionManagerImpl
+  com.wick.boot.common.websocket.controller.WebSocketController,\
+  com.wick.boot.common.websocket.service.OnlineUserServiceImpl

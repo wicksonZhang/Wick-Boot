@@ -6,7 +6,6 @@ import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.wick.boot.common.core.constant.GlobalCacheConstants;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.redis.service.RedisService;
@@ -15,7 +14,6 @@ import com.wick.boot.module.system.enums.ErrorCodeSystem;
 import com.wick.boot.module.system.mapper.SystemLoginLogMapper;
 import com.wick.boot.module.system.mapper.SystemUserMapper;
 import com.wick.boot.module.system.model.dto.LoginLogReqDTO;
-import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import com.wick.boot.module.system.model.dto.SystemDashboardVisitStatsDTO;
 import com.wick.boot.module.system.model.dto.dashboard.SystemDashboardVisitDTO;
 import com.wick.boot.module.system.model.dto.dashboard.SystemDashboardVisitTrendDTO;
@@ -30,10 +28,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -95,10 +91,6 @@ public class SystemLoginLogServiceImpl implements SystemLoginLogService {
         // 创建结果列表
         List<SystemDashboardVisitStatsDTO> visitStatsList = Lists.newArrayList();
 
-        // 在线用户
-        SystemDashboardVisitDTO visitDTO = getOnlineUser();
-        visitStatsList.add(createVisitStats("今日在线用户", "ov", visitDTO));
-
         // 获取PV（页面浏览量）统计
         visitStatsList.add(createVisitStats("今日浏览量", "pv", this.loginLogMapper.selectPvStats()));
 
@@ -109,25 +101,6 @@ public class SystemLoginLogServiceImpl implements SystemLoginLogService {
         visitStatsList.add(createVisitStats("今日登录成功", "lr", this.loginLogMapper.selectLvStats()));
 
         return visitStatsList;
-    }
-
-    private SystemDashboardVisitDTO getOnlineUser() {
-        int userCount = 0;
-        Collection<String> sessionList = redisService.keys(GlobalCacheConstants.getLoginAccessToken("*"));
-        if (sessionList != null) {
-            for (String sessionId : sessionList) {
-                LoginUserInfoDTO userInfoDTO = redisService.getCacheObject(sessionId);
-                if (userInfoDTO.getDisconnected()) {
-                    userCount = userCount + 1;
-                }
-            }
-        }
-        Long count = systemUserMapper.selectCount(null);
-        return new SystemDashboardVisitDTO()
-                .setTotalVisits(Math.toIntExact(count))
-                .setTodayVisits(userCount)
-                .setYesterdayVisits(0)
-                .setGrowthRate(new BigDecimal(0));
     }
 
     private SystemDashboardVisitStatsDTO createVisitStats(String title, String type, SystemDashboardVisitDTO visitDTO) {
