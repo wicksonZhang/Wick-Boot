@@ -21,13 +21,13 @@ public class SystemDictDataDTO {
     private Long id;
 
     @ApiModelProperty(value = "字典编码Code", example = "gender")
-    private String typeCode;
+    private String dictCode;
 
-    @ApiModelProperty(value = "字典名称", example = "男")
-    private String name;
+    @ApiModelProperty(value = "字典值")
+    private Integer value;
 
-    @ApiModelProperty(value = "字典值", example = "1")
-    private String value;
+    @ApiModelProperty(value = "字典标签")
+    private String label;
 
     /**
      * 状态 {@link CommonStatusEnum}

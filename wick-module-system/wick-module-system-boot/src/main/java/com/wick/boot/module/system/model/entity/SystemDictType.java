@@ -36,7 +36,7 @@ public class SystemDictType extends BaseDO {
     /**
      * 字典编码
      */
-    private String code;
+    private String dictCode;
 
     /**
      * 状态

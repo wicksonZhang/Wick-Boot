@@ -55,27 +55,27 @@ public class SystemDictTypeServiceImpl extends SystemDictTypeAbstractService imp
         SystemDictType newSystemDictType = SystemDictTypeConvert.INSTANCE.updateVoToEntity(reqVO);
         this.dictTypeMapper.updateById(newSystemDictType);
         // 更新字典数据
-        this.updateDictDateByCode(newSystemDictType.getCode(), oldSystemDictType.getCode());
+        this.updateDictDateByCode(newSystemDictType.getDictCode(), oldSystemDictType.getDictCode());
     }
 
-    private void updateDictDateByCode(String newTypeCode, String oldTypeCode) {
+    private void updateDictDateByCode(String newDictCode, String oldDictCode) {
         // 如果更新的 code 是一致的，则不用更新
-        if (newTypeCode.equals(oldTypeCode)) {
+        if (newDictCode.equals(oldDictCode)) {
             return;
         }
         // 通过 code 获取 system_dict_data 所有数据
-        List<SystemDictData> dictDataList = getDictDataByTypeCode(Collections.singletonList(oldTypeCode));
+        List<SystemDictData> dictDataList = getDictDataByTypeCode(Collections.singletonList(oldDictCode));
         if (CollUtil.isEmpty(dictDataList)) {
             return;
         }
         // 批量更新字典数据
-        dictDataList.forEach(dictData -> dictData.setDictType(newTypeCode));
+        dictDataList.forEach(dictData -> dictData.setDictCode(newDictCode));
         this.dictDataMapper.updateBatch(dictDataList);
     }
 
-    private List<SystemDictData> getDictDataByTypeCode(List<String> typeCodes) {
+    private List<SystemDictData> getDictDataByTypeCode(List<String> dictCodes) {
         return this.dictDataMapper.selectList(
-                new LambdaQueryWrapper<SystemDictData>().in(SystemDictData::getDictType, typeCodes)
+                new LambdaQueryWrapper<SystemDictData>().in(SystemDictData::getDictCode, dictCodes)
         );
     }
 
@@ -88,7 +88,7 @@ public class SystemDictTypeServiceImpl extends SystemDictTypeAbstractService imp
 
         /* Step-2: 先删除从表 system_dict_data, 在删除主表 system_dict_type */
         // 删除从表
-        List<String> codes = systemDictTypes.stream().map(SystemDictType::getCode).collect(Collectors.toList());
+        List<String> codes = systemDictTypes.stream().map(SystemDictType::getDictCode).collect(Collectors.toList());
         List<SystemDictData> dictDataList = getDictDataByTypeCode(codes);
         if (CollUtil.isNotEmpty(dictDataList)) {
             this.dictDataMapper.deleteBatchIds(dictDataList);
@@ -125,8 +125,7 @@ public class SystemDictTypeServiceImpl extends SystemDictTypeAbstractService imp
     }
 
     @Override
-    public List<SystemDictOptionsDTO<String>> getSystemDictTypeList() {
-        List<SystemDictType> list = this.dictTypeMapper.selectDictTypeList();
-        return SystemDictTypeConvert.INSTANCE.entityToOptionList(list);
+    public List<SystemDictOptionsDTO> getSystemDictTypeList() {
+        return this.dictTypeMapper.selectSystemDictOptions();
     }
 }

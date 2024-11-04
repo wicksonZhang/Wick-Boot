@@ -4,4 +4,25 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wick.boot.module.system.mapper.SystemDictTypeMapper">
 
+    <resultMap id="DictWithDataMap" type="com.wick.boot.module.system.model.dto.dictdata.SystemDictOptionsDTO">
+        <result column="name" property="name"/>
+        <result column="dict_code" property="dictCode"/>
+        <collection property="dictDataList"
+                    column="{dictCode=dict_code}"
+                    select="com.wick.boot.module.system.mapper.SystemDictDataMapper.getDictDataList">
+        </collection>
+    </resultMap>
+
+    <select id="selectSystemDictOptions" resultMap="DictWithDataMap">
+        SELECT
+            t1.name,
+            t1.dict_code
+        FROM
+            system_dict_type t1
+        WHERE
+            t1.deleted = 0 AND t1.status = 1
+        ORDER BY
+            t1.create_time DESC
+    </select>
+
 </mapper>

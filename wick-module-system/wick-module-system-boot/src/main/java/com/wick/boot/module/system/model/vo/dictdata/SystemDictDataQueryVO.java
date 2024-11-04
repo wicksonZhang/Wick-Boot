@@ -21,7 +21,7 @@ public class SystemDictDataQueryVO extends CommonPageParamVO {
 
     @ApiModelProperty(value = "字典类型编码", required = true, example = "gender")
     @NotBlank(message = "字典编码不能为空")
-    private String code;
+    private String dictCode;
 
     @ApiModelProperty(value = "字典数据名称", example = "男")
     private String name;

@@ -67,6 +67,6 @@ public interface SystemDictTypeService {
      *
      * @return 字典列表集合
      */
-    List<SystemDictOptionsDTO<String>> getSystemDictTypeList();
+    List<SystemDictOptionsDTO> getSystemDictTypeList();
 
 }

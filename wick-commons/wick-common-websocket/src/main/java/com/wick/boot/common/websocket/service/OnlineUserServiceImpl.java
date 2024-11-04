@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Collection;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -40,28 +38,18 @@ public class OnlineUserServiceImpl implements OnlineUserService {
     private RedisService redisService;
 
     /**
-     * id 与 WebSocketSession 映射
-     * key：Session 编号
-     */
-    private final Set<String> idSessions = ConcurrentHashMap.newKeySet();
-
-    /**
      * 在线用户数量的主题
      */
     private static final String ONLINE_USER_COUNT_TOPIC = "/topic/onlineUserCount";
 
     @Override
     public void addOnlineUser(String sessionKey, Boolean connected) {
-        idSessions.add(sessionKey);
         updateUserConnection(sessionKey, connected);
     }
 
     @Override
     public void removeOnlineUser(String sessionKey, Boolean connected) {
-        if (idSessions.contains(sessionKey)) {
-            idSessions.remove(sessionKey);
-            updateUserConnection(sessionKey, connected);
-        }
+        updateUserConnection(sessionKey, connected);
     }
 
     /**
@@ -94,21 +82,16 @@ public class OnlineUserServiceImpl implements OnlineUserService {
     @Override
     public int getOnlineUserCount() {
         AtomicInteger count = new AtomicInteger(0);
-        if (CollUtil.isEmpty(idSessions)) {
-            String accessToken = GlobalCacheConstants.getLoginAccessToken("*");
-            Collection<String> keys = redisService.keys(accessToken);
-            if (CollUtil.isEmpty(keys)) {
-                return 0;
+        String accessToken = GlobalCacheConstants.getLoginAccessToken("*");
+        Collection<String> keys = redisService.keys(accessToken);
+        if (CollUtil.isEmpty(keys)) {
+            return 0;
+        }
+        for (String key : keys) {
+            LoginUserInfoDTO userInfo = redisService.getCacheObject(key);
+            if (userInfo.getDisconnected()) {
+                count.getAndIncrement();
             }
-            for (String key : keys) {
-                LoginUserInfoDTO userInfo = redisService.getCacheObject(key);
-                if (!userInfo.getDisconnected()) {
-                    idSessions.add(key);
-                    count.getAndIncrement();
-                }
-            }
-        } else {
-            count.set(idSessions.size());
         }
         return count.get();
     }

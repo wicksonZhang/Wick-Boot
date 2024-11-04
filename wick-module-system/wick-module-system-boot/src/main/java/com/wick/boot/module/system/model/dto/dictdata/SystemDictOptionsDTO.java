@@ -1,12 +1,11 @@
 package com.wick.boot.module.system.model.dto.dictdata;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 字典类型
@@ -18,12 +17,30 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SystemDictOptionsDTO<T> implements Serializable {
+public class SystemDictOptionsDTO implements Serializable {
 
-    @ApiModelProperty(value = "字典Id", example = "1")
-    private T value;
+    @ApiModelProperty(value = "字典名称", example = "男")
+    private String name;
 
-    @ApiModelProperty(value = "字典值", example = "男")
-    private String label;
+    @ApiModelProperty(value = "字典编码", example = "1")
+    private String dictCode;
+
+    @ApiModelProperty(value = "字典数据集合")
+    private List<DictData> dictDataList;
+
+    @Getter
+    @Setter
+    @ApiModel(value = "字典数据")
+    public static class DictData {
+
+        @ApiModelProperty(value = "字典数据值")
+        private Integer value;
+
+        @ApiModelProperty(value = "字典数据标签")
+        private String label;
+
+        @ApiModelProperty(value = "标签类型")
+        private String tagType;
+    }
 
 }

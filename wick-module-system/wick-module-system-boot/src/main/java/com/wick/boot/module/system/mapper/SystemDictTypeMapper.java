@@ -3,8 +3,8 @@ package com.wick.boot.module.system.mapper;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wick.boot.common.core.enums.CommonStatusEnum;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
+import com.wick.boot.module.system.model.dto.dictdata.SystemDictOptionsDTO;
 import com.wick.boot.module.system.model.entity.SystemDictType;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -25,19 +25,14 @@ public interface SystemDictTypeMapper extends BaseMapperX<SystemDictType> {
             queryWrapper.likeRight(SystemDictType::getName, name);
         }
         if (StrUtil.isNotBlank(code)) {
-            queryWrapper.likeRight(SystemDictType::getCode, code);
+            queryWrapper.likeRight(SystemDictType::getDictCode, code);
         }
         return this.selectPage(page, queryWrapper);
     }
 
-    default SystemDictType selectDictTypeByCode(String typeCode) {
-        return this.selectOne(new LambdaQueryWrapper<SystemDictType>().eq(SystemDictType::getCode, typeCode));
+    default SystemDictType selectDictTypeByCode(String dictCode) {
+        return this.selectOne(new LambdaQueryWrapper<SystemDictType>().eq(SystemDictType::getDictCode, dictCode));
     }
 
-    default List<SystemDictType> selectDictTypeList() {
-        return this.selectList(new LambdaQueryWrapper<SystemDictType>()
-                .select(SystemDictType::getCode,
-                        SystemDictType::getName)
-                .eq(SystemDictType::getStatus, CommonStatusEnum.ENABLE.getValue()));
-    }
+    List<SystemDictOptionsDTO> selectSystemDictOptions();
 }

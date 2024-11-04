@@ -2,16 +2,11 @@ package com.wick.boot.common.websocket.service;
 
 /**
  * 管理器的接口
- *
- * @author 芋道源码
  */
 public interface OnlineUserService {
 
     /**
      * 添加用户到在线用户集合
-     *
-     * @param sessionKey
-     * @param connected
      */
     void addOnlineUser(String sessionKey, Boolean connected);
 

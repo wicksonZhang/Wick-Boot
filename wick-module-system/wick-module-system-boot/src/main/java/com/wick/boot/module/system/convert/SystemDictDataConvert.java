@@ -1,13 +1,11 @@
 package com.wick.boot.module.system.convert;
 
+import com.wick.boot.common.core.model.dto.OptionDTO;
 import com.wick.boot.module.system.model.dto.dictdata.SystemDictDataDTO;
-import com.wick.boot.module.system.model.dto.dictdata.SystemDictOptionsDTO;
 import com.wick.boot.module.system.model.entity.SystemDictData;
 import com.wick.boot.module.system.model.vo.dictdata.SystemDictDataAddVO;
 import com.wick.boot.module.system.model.vo.dictdata.SystemDictDataUpdateVO;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -29,10 +27,6 @@ public interface SystemDictDataConvert {
      * @param reqVO 新增字典数据请求参数
      * @return 字典数据
      */
-    @Mappings({
-            @Mapping(target = "label", source = "name"),
-            @Mapping(target = "dictType", source = "code")
-    })
     SystemDictData addVoToEntity(SystemDictDataAddVO reqVO);
 
     /**
@@ -41,10 +35,6 @@ public interface SystemDictDataConvert {
      * @param reqVO 新增字典数据请求参数
      * @return 字典数据
      */
-    @Mappings({
-            @Mapping(target = "label", source = "name"),
-            @Mapping(target = "dictType", source = "code")
-    })
     SystemDictData updateVoToEntity(SystemDictDataUpdateVO reqVO);
 
     /**
@@ -53,10 +43,6 @@ public interface SystemDictDataConvert {
      * @param systemDictData 字典数据
      * @return SystemDictDataDTO 字典数据DTO
      */
-    @Mappings({
-            @Mapping(target = "name", source = "label"),
-            @Mapping(target = "typeCode", source = "dictType")
-    })
     SystemDictDataDTO entityToDictDataDTO(SystemDictData systemDictData);
 
     /**
@@ -65,6 +51,6 @@ public interface SystemDictDataConvert {
      * @param systemDictDataList 字典数据集合
      * @return List<SystemDictOptionsDTO>
      */
-    List<SystemDictOptionsDTO<String>> entityToDictDataOptions(List<SystemDictData> systemDictDataList);
+    List<OptionDTO<String>> entityToDictDataOptions(List<SystemDictData> systemDictDataList);
 
 }

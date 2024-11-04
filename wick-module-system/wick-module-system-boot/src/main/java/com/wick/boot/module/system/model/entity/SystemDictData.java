@@ -31,9 +31,9 @@ public class SystemDictData extends BaseDO {
     /**
      * 字典类型
      * <p>
-     * 冗余 {@link SystemDictType#getCode()}
+     * 冗余 {@link SystemDictType#getDictCode()}
      */
-    private String dictType;
+    private String dictCode;
 
     /**
      * 字典标签
@@ -43,7 +43,7 @@ public class SystemDictData extends BaseDO {
     /**
      * 字典值
      */
-    private String value;
+    private Integer value;
 
     /**
      * 字典排序
@@ -51,23 +51,16 @@ public class SystemDictData extends BaseDO {
     private Integer sort;
 
     /**
+     * 标签类型
+     */
+    private String tagType;
+
+    /**
      * 状态
      * <p>
      * 枚举 {@link CommonStatusEnum}
      */
     private Integer status;
-
-    /**
-     * 颜色类型
-     * <p>
-     * 对应到 element-ui 为 default、primary、success、info、warning、danger
-     */
-    private String colorType;
-
-    /**
-     * css 样式
-     */
-    private String cssClass;
 
     /**
      * 备注

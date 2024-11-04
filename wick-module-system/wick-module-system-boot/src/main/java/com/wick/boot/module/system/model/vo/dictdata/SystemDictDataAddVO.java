@@ -4,6 +4,7 @@ import com.wick.boot.common.core.enums.CommonStatusEnum;
 import com.wick.boot.common.core.validator.InEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,17 +18,20 @@ public class SystemDictDataAddVO {
 
     @ApiModelProperty(value = "字典类型编码", required = true, example = "gender")
     @NotBlank(message = "字典类型编码不能为空")
-    private String code;
+    private String dictCode;
 
-    @ApiModelProperty(value = "字典名称", required = true, example = "男")
-    @NotBlank(message = "字典名称不能为空")
-    private String name;
-
-    @ApiModelProperty(value = "字典值", required = true, example = "1")
+    @Schema(description = "字典值", required = true, example = "1")
     @NotBlank(message = "字典值不能为空")
-    private String value;
+    private Integer value;
 
-    @ApiModelProperty(value = "状态(1: 正常, 0: 停用)", required = true, example = "1")
+    @ApiModelProperty(value = "字典标签", required = true, example = "男")
+    @NotBlank(message = "字典标签不能为空")
+    private String label;
+
+    @ApiModelProperty(value = "字典类型", example = "success")
+    private String tagType;
+
+    @ApiModelProperty(value = "状态(1: 启用, 0: 禁用)", required = true, example = "1")
     @InEnum(value = CommonStatusEnum.class, message = "字典数据状态必须是 {value}")
     private Integer status;
 

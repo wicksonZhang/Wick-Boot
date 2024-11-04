@@ -65,7 +65,7 @@ public abstract class SystemDictTypeAbstractService {
         // 验证字典类型是否存在
         this.validateDictType(systemDictType);
         // 验证字典编码是否存在
-        this.validateDictTypeByCode(systemDictType.getCode(), reqVO.getCode());
+        this.validateDictTypeByCode(systemDictType.getDictCode(), reqVO.getCode());
     }
 
     /**

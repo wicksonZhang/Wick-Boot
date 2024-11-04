@@ -185,6 +185,11 @@ INSERT INTO `system_menu` VALUES (67, 65, 4, '数据源配置编辑', NULL, '', 
 INSERT INTO `system_menu` VALUES (68, 65, 4, '数据源配置删除', NULL, '', NULL, 'tool:data-source:delete', NULL, 3, 1, NULL, '0,54,65', NULL, NULL, b'0', '2024-10-15 09:41:39', '2024-10-15 09:41:39', '1', '1');
 INSERT INTO `system_menu` VALUES (69, 65, 4, '获取数据源配置数据', NULL, '', NULL, 'tool:data-source:query', NULL, 4, 1, NULL, '0,54,65', NULL, NULL, b'0', '2024-10-15 09:41:39', '2024-10-15 09:41:39', '1', '1');
 INSERT INTO `system_menu` VALUES (70, 65, 4, '获取数据源配置分页', NULL, '', NULL, 'tool:data-source:query', NULL, 4, 1, NULL, '0,54,65', NULL, NULL, b'0', '2024-10-15 09:41:40', '2024-10-15 09:41:40', '1', '1');
+INSERT INTO `system_menu` VALUES (71, 0, 2, '系统监控', NULL, '/monitor', 'Layout', NULL, 'eye-open', 3, 1, '/monitor/online', '0', 1, 1, b'0', '2024-10-25 11:07:55', '2024-10-25 14:58:08', '2', '2');
+INSERT INTO `system_menu` VALUES (72, 71, 1, '在线用户', 'Online', 'online', 'monitor/online/index', NULL, 'user', 1, 1, '', '0,71', NULL, 1, b'0', '2024-10-25 14:52:16', '2024-10-25 14:53:22', '2', '2');
+INSERT INTO `system_menu` VALUES (73, 72, 4, '获取在线用户分页', NULL, '', NULL, 'monitor:online:query', '', 1, 1, '', '0,71,72', 0, 1, b'0', '2024-10-25 17:44:59', '2024-10-25 17:44:59', '2', '2');
+INSERT INTO `system_menu` VALUES (74, 72, 4, '强制退出在线用户', NULL, '', NULL, 'monitor:online:force-quit', '', 2, 1, '', '0,71,72', 0, 1, b'0', '2024-10-26 22:28:28', '2024-10-26 22:28:28', '2', '2');
+INSERT INTO `system_menu` VALUES (75, 72, 4, '导出在线用户', NULL, '', NULL, 'monitor:online:export', '', 3, 1, '', '0,71,72', 0, 1, b'0', '2024-10-27 17:57:38', '2024-10-27 17:57:38', '2', '2');
 
 
 -- ----------------------------
@@ -285,16 +290,21 @@ INSERT INTO `system_role_menu` VALUES (2, 67);
 INSERT INTO `system_role_menu` VALUES (2, 68);
 INSERT INTO `system_role_menu` VALUES (2, 69);
 INSERT INTO `system_role_menu` VALUES (2, 70);
+INSERT INTO `system_role_menu` VALUES (2, 71);
+INSERT INTO `system_role_menu` VALUES (2, 72);
+INSERT INTO `system_role_menu` VALUES (2, 73);
+INSERT INTO `system_role_menu` VALUES (2, 74);
+INSERT INTO `system_role_menu` VALUES (2, 75);
 
 -- ----------------------------
--- Table structure for sys_dict_type
+-- Table structure for system_dict_type
 -- ----------------------------
 DROP TABLE IF EXISTS `system_dict_type`;
 CREATE TABLE `system_dict_type`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键 ',
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '类型名称',
-  `code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '类型编码',
-  `status` tinyint NULL DEFAULT 0 COMMENT '状态(1:正常;0:禁用)',
+  `dict_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '类型编码',
+  `status` tinyint(1) NULL DEFAULT 0 COMMENT '状态(1:正常;0:禁用)',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '备注',
   `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -302,11 +312,11 @@ CREATE TABLE `system_dict_type`  (
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '创建者',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '更新者',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `type_code`(`code`) USING BTREE
+  UNIQUE INDEX `idx_dict_code`(`dict_code`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of sys_dict_type
+-- Records of system_dict_type
 -- ----------------------------
 INSERT INTO `system_dict_type` VALUES (1, '性别', 'gender', 1, NULL, 0, '2019-12-06 19:03:32', '2022-06-12 16:21:28', 1, 1);
 
@@ -316,13 +326,12 @@ INSERT INTO `system_dict_type` VALUES (1, '性别', 'gender', 1, NULL, 0, '2019-
 DROP TABLE IF EXISTS `system_dict_data`;
 CREATE TABLE `system_dict_data`  (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '字典编码',
-  `dict_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '字典类型',
+  `dict_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '字典类型',
   `label` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '字典标签',
-  `value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '字典键值',
+  `value` int NOT NULL DEFAULT 0  COMMENT '字典键值',
   `sort` int NOT NULL DEFAULT 0 COMMENT '字典排序',
-  `status` tinyint NOT NULL DEFAULT 0 COMMENT '状态（0正常 1停用）',
-  `color_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '颜色类型',
-  `css_class` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT 'css 样式',
+  `tag_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '标签类型，用于前端样式展示（如success、warning等）',
+  `status` tinyint NOT NULL DEFAULT 0 COMMENT '状态（1正常 0停用）',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '备注',
   `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -333,11 +342,11 @@ CREATE TABLE `system_dict_data`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '字典数据表';
 
 -- ----------------------------
--- Records of sys_dict_item
+-- Records of system_dict_data
 -- ----------------------------
-INSERT INTO `system_dict_data` VALUES (1, 'gender', '男', '1', 1, 0, 'default', 'A', '性别男', 0, '2019-05-05 13:07:52', '2022-06-12 23:20:39', 1, 1);
-INSERT INTO `system_dict_data` VALUES (2, 'gender', '女', '2', 2, 0, 'success', '', '性别女', 0, '2019-04-19 11:33:00', '2019-07-02 14:23:05', 1, 1);
-INSERT INTO `system_dict_data` VALUES (3, 'gender', '未知', '0', 3, 0, 'success', '', '未知性别', 0, '2020-10-17 08:09:31', '2020-10-17 08:09:31', 1, 1);
+INSERT INTO `system_dict_data` VALUES (1, 'gender', '男', 1, 1, 'primary', 1, '性别男', 0, '2019-05-05 13:07:52', '2022-06-12 23:20:39', 1, 1);
+INSERT INTO `system_dict_data` VALUES (2, 'gender', '女', 2, 2, 'success', 1, '性别女', 0, '2019-04-19 11:33:00', '2019-07-02 14:23:05', 1, 1);
+INSERT INTO `system_dict_data` VALUES (3, 'gender', '未知', 0, 3, 'success', 1, '未知性别', 0, '2020-10-17 08:09:31', '2020-10-17 08:09:31', 1, 1);
 
 
 -- ----------------------------
@@ -396,11 +405,32 @@ CREATE TABLE `system_operate_log`  (
    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '操作日志记录';
 
+DROP TABLE IF EXISTS tool_data_source;
+CREATE TABLE `tool_data_source` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键编号',
+    `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '参数名称',
+    `url` varchar(1024) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '数据源连接',
+    `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户名',
+    `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '密码',
+    `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `create_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
+    `update_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='数据源配置表';
+-- ----------------------------
+-- Records of tool_data_source
+-- ----------------------------
+INSERT INTO `tool_data_source` VALUES (1, 'master', 'jdbc:mysql://139.9.202.135:1653/wick_boot?useUnicode=true&characterEncoding=UTF-8&useSSL=false', 'root', 'P@ssw0rd2024', b'1', '2024-07-23 10:28:30', '2024-10-12 08:48:54', '2', '2');
+INSERT INTO `tool_data_source` VALUES (2, 'wick-boot-master', 'jdbc:mysql://139.9.202.135:1653/wick_boot?useUnicode=true&characterEncoding=UTF-8&useSSL=false', 'root', 'P@ssw0rd2024', b'0', '2024-10-11 14:15:19', '2024-10-25 01:56:34', '2', '2');
+
 
 DROP TABLE IF EXISTS tool_code_gen_table;
 CREATE TABLE tool_code_gen_table
 (
     `id`                bigint                                                        NOT NULL AUTO_INCREMENT COMMENT '编号',
+    `data_source_id`    bigint                                                        NOT NULL COMMENT '数据源ID',
     `table_name`        varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' comment '表名称',
     `table_comment`     varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' comment '表描述',
     `sub_table_name`    varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL comment '关联子表的表名',

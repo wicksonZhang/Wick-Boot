@@ -1,7 +1,6 @@
 package com.wick.boot.module.system.model.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.wick.boot.module.system.enums.GenderTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,12 +53,6 @@ public class SystemUserDTO {
     private Integer gender;
 
     /**
-     * 用户性别
-     */
-    @ApiModelProperty(value = "用户性别", example = "男")
-    private String genderLabel;
-
-    /**
      * 头像地址
      */
     @ApiModelProperty(value = "头像地址", example = "https://s2.loli.net/2022/04/07/gw1L2Z5sPtS8GIl.gif")
@@ -96,7 +89,4 @@ public class SystemUserDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
 
-    public String getGenderLabel() {
-        return GenderTypeEnum.valueOf(this.gender);
-    }
 }

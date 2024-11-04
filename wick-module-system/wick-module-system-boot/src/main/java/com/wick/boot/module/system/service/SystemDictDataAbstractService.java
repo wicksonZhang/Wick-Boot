@@ -40,48 +40,18 @@ public abstract class SystemDictDataAbstractService {
      */
     protected void validateAddParams(SystemDictDataAddVO reqVO) {
         // 验证字典类型
-        this.validateDictDataByCode(reqVO.getCode());
-        // 验证当前字典类型下是否存在字典标签
-        this.validateDictDataByName(reqVO.getCode(), reqVO.getName());
-        // 验证当前字典类型下是否存在字典键值
-        this.validateDictDataByValue(reqVO.getCode(), reqVO.getValue());
+        this.validateDictDataByCode(reqVO.getDictCode());
     }
 
     /**
      * 校验字典编码是否存在
      *
-     * @param code 字典编码
+     * @param dictCode 字典编码
      */
-    private void validateDictDataByCode(String code) {
-        SystemDictType dictType = this.dictTypeMapper.selectDictTypeByCode(code);
-        if (ObjUtil.isNull(dictType)) {
-            throw ServiceException.getInstance(ErrorCodeSystem.DICT_TYPE_CODE_NOT_EXIST);
-        }
-    }
-
-    /**
-     * 验证当前字典类型下是否存在字典标签
-     *
-     * @param code 字典编码
-     * @param name     字典标签
-     */
-    private void validateDictDataByName(String code, String name) {
-        SystemDictData dictData = this.dictDataMapper.selectDictDataByName(code, name);
-        if (ObjUtil.isNotNull(dictData)) {
-            throw ServiceException.getInstance(ErrorCodeSystem.DICT_DATA_LABEL_ALREADY_EXIST);
-        }
-    }
-
-    /**
-     * 验证当前字典类型下是否存在字典键值
-     *
-     * @param code 字典编码
-     * @param value    字典键值
-     */
-    private void validateDictDataByValue(String code, String value) {
-        SystemDictData dictData = this.dictDataMapper.selectDictDataByValue(code, value);
-        if (ObjUtil.isNotNull(dictData)) {
-            throw ServiceException.getInstance(ErrorCodeSystem.DICT_DATA_VALUE_ALREADY_EXIST);
+    private void validateDictDataByCode(String dictCode) {
+        SystemDictType dictType = this.dictTypeMapper.selectDictTypeByCode(dictCode);
+        if (ObjUtil.isNotNull(dictType)) {
+            throw ServiceException.getInstance(ErrorCodeSystem.DICT_TYPE_CODE_ALREADY_EXIST);
         }
     }
 
@@ -94,13 +64,9 @@ public abstract class SystemDictDataAbstractService {
      */
     protected void validateUpdateParams(SystemDictDataUpdateVO reqVO) {
         // 验证字典数据是否存在
-        SystemDictData systemDictData = this.validateDictData(reqVO.getId());
+        SystemDictData systemDictData = this.getSystemDictData(reqVO.getId());
         // 验证字典类型
-        this.validateDictDataByCode(systemDictData.getDictType(), reqVO.getCode());
-        // 验证字典标签
-        this.validateDictDataByName(systemDictData.getLabel(), reqVO.getCode(), reqVO.getName());
-        // 验证字典键值
-        this.validateDictDataByValue(systemDictData.getValue(), reqVO.getCode(), reqVO.getValue());
+        this.validateDictDataByCode(systemDictData.getDictCode(), reqVO.getDictCode());
     }
 
     /**
@@ -108,7 +74,7 @@ public abstract class SystemDictDataAbstractService {
      *
      * @param id 字典数据主键ID
      */
-    private SystemDictData validateDictData(Long id) {
+    private SystemDictData getSystemDictData(Long id) {
         SystemDictData systemDictData = this.dictDataMapper.selectById(id);
         if (ObjUtil.isNull(systemDictData)) {
             throw ServiceException.getInstance(ErrorCodeSystem.DICT_DATA_NOT_EXIST);
@@ -119,42 +85,14 @@ public abstract class SystemDictDataAbstractService {
     /**
      * 校验字典编码
      *
-     * @param oldTypeCode 旧字典编码
-     * @param newTypeCode 新字典编码
+     * @param oldDictCode 旧字典编码
+     * @param newDictCode 新字典编码
      */
-    private void validateDictDataByCode(String oldTypeCode, String newTypeCode) {
-        if (oldTypeCode.equals(newTypeCode)) {
+    private void validateDictDataByCode(String oldDictCode, String newDictCode) {
+        if (oldDictCode.equals(newDictCode)) {
             return;
         }
-        this.validateDictDataByCode(newTypeCode);
-    }
-
-    /**
-     * 验证当前字典类型下是否存在字典标签
-     *
-     * @param oldName     旧字典名称
-     * @param newTypeCode 字典编码
-     * @param newName     新字典名称
-     */
-    private void validateDictDataByName(String oldName, String newTypeCode, String newName) {
-        if (newName.equals(oldName)) {
-            return;
-        }
-        this.validateDictDataByName(newTypeCode, newName);
-    }
-
-    /**
-     * 验证当前字典类型下是否存在字典键值
-     *
-     * @param oldValue    旧字典键值
-     * @param newTypeCode 字典编码
-     * @param newValue    新字典键值
-     */
-    private void validateDictDataByValue(String oldValue, String newTypeCode, String newValue) {
-        if (oldValue.equals(newValue)) {
-            return;
-        }
-        this.validateDictDataByValue(newTypeCode, newValue);
+        this.validateDictDataByCode(newDictCode);
     }
 
     // ============================================== 删除参数校验 ==============================================

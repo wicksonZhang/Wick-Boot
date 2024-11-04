@@ -76,7 +76,7 @@ public class SystemDictTypeController {
     @GetMapping("/list")
     @PreAuthorize("@ss.hasPerm('system:dict-type:options')")
     @ApiOperation(value = "获取_字典类型选项" , notes = "字典信息")
-    public ResultUtil<List<SystemDictOptionsDTO<String>>> getSystemDictTypeList() {
+    public ResultUtil<List<SystemDictOptionsDTO>> getSystemDictTypeList() {
         return ResultUtil.success(dictTypeService.getSystemDictTypeList());
     }
 

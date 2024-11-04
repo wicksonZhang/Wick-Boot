@@ -24,7 +24,7 @@ public class SystemDictTypeDTO {
     private String name;
 
     @ApiModelProperty(value = "字典类型", example = "gender")
-    private String code;
+    private String dictCode;
 
     /**
      * 枚举 {@link CommonStatusEnum}

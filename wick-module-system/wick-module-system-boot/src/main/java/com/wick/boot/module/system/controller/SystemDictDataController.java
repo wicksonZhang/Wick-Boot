@@ -1,8 +1,8 @@
 package com.wick.boot.module.system.controller;
 
+import com.wick.boot.common.core.model.dto.OptionDTO;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
-import com.wick.boot.module.system.model.dto.dictdata.SystemDictOptionsDTO;
 import com.wick.boot.module.system.model.dto.dictdata.SystemDictDataDTO;
 import com.wick.boot.module.system.model.vo.dictdata.SystemDictDataAddVO;
 import com.wick.boot.module.system.model.vo.dictdata.SystemDictDataQueryVO;
@@ -70,7 +70,7 @@ public class SystemDictDataController {
     @PreAuthorize("@ss.hasPerm('system:dict-data:options')")
     @ApiOperation(value = "获取_字典数据选项", notes = "字典信息")
     @ApiImplicitParam(name = "typeCode", value = "获取字典数据选项", required = true, dataTypeClass = String.class)
-    public ResultUtil<List<SystemDictOptionsDTO<String>>> getSystemDictDataListOptions(@PathVariable String typeCode) {
+    public ResultUtil<List<OptionDTO<String>>> getSystemDictDataListOptions(@PathVariable String typeCode) {
         return ResultUtil.success(dictDataService.getSystemDictDataListOptions(typeCode));
     }
 
