@@ -2,7 +2,6 @@ package com.wick.boot.common.core.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
-import jdk.nashorn.internal.runtime.options.Option;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -34,6 +33,6 @@ public class OptionDTO<T> {
 
     @ApiModelProperty(value = "子选项列表")
     @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
-    private List<Option<T>> children;
+    private List<OptionDTO<T>> children;
 
 }
