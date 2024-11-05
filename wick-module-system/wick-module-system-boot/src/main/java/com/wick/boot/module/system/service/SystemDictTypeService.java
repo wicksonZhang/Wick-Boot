@@ -69,4 +69,8 @@ public interface SystemDictTypeService {
      */
     List<SystemDictOptionsDTO> getSystemDictTypeList();
 
+    /**
+     * 刷新缓存
+     */
+    void refreshCache();
 }

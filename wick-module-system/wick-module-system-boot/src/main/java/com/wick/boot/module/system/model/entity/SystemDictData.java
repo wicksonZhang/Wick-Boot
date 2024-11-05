@@ -43,7 +43,7 @@ public class SystemDictData extends BaseDO {
     /**
      * 字典值
      */
-    private Integer value;
+    private String value;
 
     /**
      * 字典排序

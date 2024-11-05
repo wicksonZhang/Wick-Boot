@@ -39,16 +39,16 @@ public abstract class SystemDictTypeAbstractService {
      */
     protected void validateAddParams(SystemDictTypeAddVO reqVO) {
         // 验证字典编码是否存在
-        this.validateDictTypeByCode(reqVO.getCode());
+        this.validateDictTypeByCode(reqVO.getDictCode());
     }
 
     /**
      * 校验字典编码是否存在
      *
-     * @param code 字典编码
+     * @param dictCode 字典编码
      */
-    private void validateDictTypeByCode(String code) {
-        SystemDictType dictType = this.dictTypeMapper.selectDictTypeByCode(code);
+    private void validateDictTypeByCode(String dictCode) {
+        SystemDictType dictType = this.dictTypeMapper.selectDictTypeByCode(dictCode);
         if (ObjUtil.isNotNull(dictType)) {
             throw ServiceException.getInstance(ErrorCodeSystem.DICT_TYPE_CODE_ALREADY_EXIST);
         }
@@ -65,7 +65,7 @@ public abstract class SystemDictTypeAbstractService {
         // 验证字典类型是否存在
         this.validateDictType(systemDictType);
         // 验证字典编码是否存在
-        this.validateDictTypeByCode(systemDictType.getDictCode(), reqVO.getCode());
+        this.validateDictTypeByCode(systemDictType.getDictCode(), reqVO.getDictCode());
     }
 
     /**

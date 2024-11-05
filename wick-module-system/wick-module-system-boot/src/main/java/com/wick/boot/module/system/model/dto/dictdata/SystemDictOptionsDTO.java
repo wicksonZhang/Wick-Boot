@@ -3,9 +3,10 @@ package com.wick.boot.module.system.model.dto.dictdata;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 /**
  * 字典类型
@@ -15,6 +16,7 @@ import java.util.List;
  */
 @Data
 @Builder
+@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class SystemDictOptionsDTO implements Serializable {
@@ -26,15 +28,22 @@ public class SystemDictOptionsDTO implements Serializable {
     private String dictCode;
 
     @ApiModelProperty(value = "字典数据集合")
-    private List<DictData> dictDataList;
+    private Set<DictData> dictDataList;
+
+    public SystemDictOptionsDTO(String name, String dictCode) {
+        this.name = name;
+        this.dictCode = dictCode;
+    }
 
     @Getter
     @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
     @ApiModel(value = "字典数据")
     public static class DictData {
 
         @ApiModelProperty(value = "字典数据值")
-        private Integer value;
+        private String value;
 
         @ApiModelProperty(value = "字典数据标签")
         private String label;

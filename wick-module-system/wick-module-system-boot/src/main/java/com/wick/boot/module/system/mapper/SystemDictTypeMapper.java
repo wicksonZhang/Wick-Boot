@@ -7,6 +7,7 @@ import com.wick.boot.common.mybatis.mapper.BaseMapperX;
 import com.wick.boot.module.system.model.dto.dictdata.SystemDictOptionsDTO;
 import com.wick.boot.module.system.model.entity.SystemDictType;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -34,5 +35,5 @@ public interface SystemDictTypeMapper extends BaseMapperX<SystemDictType> {
         return this.selectOne(new LambdaQueryWrapper<SystemDictType>().eq(SystemDictType::getDictCode, dictCode));
     }
 
-    List<SystemDictOptionsDTO> selectSystemDictOptions();
+    List<SystemDictOptionsDTO> selectSystemDictOptions(@Param("dictCode") String dictCode);
 }

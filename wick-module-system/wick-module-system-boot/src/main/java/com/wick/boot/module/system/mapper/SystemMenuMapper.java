@@ -4,7 +4,6 @@ import cn.hutool.core.util.ObjUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.wick.boot.common.core.enums.CommonStatusEnum;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
 import com.wick.boot.module.system.enums.MenuTypeEnum;
 import com.wick.boot.module.system.model.dto.menu.SystemMenuDTO;
@@ -86,7 +85,6 @@ public interface SystemMenuMapper extends BaseMapperX<SystemMenu> {
                         SystemMenu::getParentId,
                         SystemMenu::getName,
                         SystemMenu::getType)
-                .eq(SystemMenu::getVisible, CommonStatusEnum.ENABLE.getValue())
                 .in(Boolean.TRUE.equals(onlyParent), SystemMenu::getType, MenuTypeEnum.MENU, MenuTypeEnum.CATALOG)
                 .orderByAsc(SystemMenu::getSort);
 

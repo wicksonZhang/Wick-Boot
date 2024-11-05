@@ -18,6 +18,11 @@ public interface GlobalCacheConstants {
     String ROLE_PERMS_KEY = "ROLE_PERMS:%s";
 
     /**
+     * 字典数据
+     */
+    String DICT_CODE = "DICT_CODE:%s";
+
+    /**
      * 获取验证码Code
      *
      * @param key key
@@ -45,5 +50,15 @@ public interface GlobalCacheConstants {
      */
     static String getRolePermsKey(String key) {
         return String.format(GlobalCacheConstants.ROLE_PERMS_KEY, key);
+    }
+
+    /**
+     * 获取字典索引 Key
+     *
+     * @param key key
+     * @return String
+     */
+    static String getDictCodeKey(String key) {
+        return String.format(GlobalCacheConstants.DICT_CODE, key);
     }
 }

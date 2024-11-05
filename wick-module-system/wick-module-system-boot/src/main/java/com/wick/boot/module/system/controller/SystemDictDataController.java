@@ -66,12 +66,12 @@ public class SystemDictDataController {
         return ResultUtil.success(dictDataService.getSystemDictData(id));
     }
 
-    @GetMapping("/{typeCode}/options")
+    @GetMapping("/{dictCode}/options")
     @PreAuthorize("@ss.hasPerm('system:dict-data:options')")
     @ApiOperation(value = "获取_字典数据选项", notes = "字典信息")
     @ApiImplicitParam(name = "typeCode", value = "获取字典数据选项", required = true, dataTypeClass = String.class)
-    public ResultUtil<List<OptionDTO<String>>> getSystemDictDataListOptions(@PathVariable String typeCode) {
-        return ResultUtil.success(dictDataService.getSystemDictDataListOptions(typeCode));
+    public ResultUtil<List<OptionDTO<String>>> getSystemDictDataListOptions(@PathVariable String dictCode) {
+        return ResultUtil.success(dictDataService.getSystemDictDataListOptions(dictCode));
     }
 
     @GetMapping("/page")

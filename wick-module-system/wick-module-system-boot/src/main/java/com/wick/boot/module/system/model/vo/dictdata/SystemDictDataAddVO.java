@@ -22,7 +22,7 @@ public class SystemDictDataAddVO {
 
     @Schema(description = "字典值", required = true, example = "1")
     @NotBlank(message = "字典值不能为空")
-    private Integer value;
+    private String value;
 
     @ApiModelProperty(value = "字典标签", required = true, example = "男")
     @NotBlank(message = "字典标签不能为空")

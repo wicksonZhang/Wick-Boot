@@ -21,6 +21,9 @@
             system_dict_type t1
         WHERE
             t1.deleted = 0 AND t1.status = 1
+        <if test="dictCode != null and dictCode != ''">
+            AND t1.dict_code = #{dictCode}
+        </if>
         ORDER BY
             t1.create_time DESC
     </select>

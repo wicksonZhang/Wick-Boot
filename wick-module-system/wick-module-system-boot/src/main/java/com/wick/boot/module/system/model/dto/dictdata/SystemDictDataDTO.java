@@ -24,7 +24,7 @@ public class SystemDictDataDTO {
     private String dictCode;
 
     @ApiModelProperty(value = "字典值")
-    private Integer value;
+    private String value;
 
     @ApiModelProperty(value = "字典标签")
     private String label;
@@ -34,6 +34,9 @@ public class SystemDictDataDTO {
      */
     @ApiModelProperty(value = "状态", example = "1")
     private Integer status;
+
+    @ApiModelProperty(value = "标签类型", example = "success")
+    private String tagType;
 
     @ApiModelProperty(value = "排序", example = "1")
     private Integer sort;

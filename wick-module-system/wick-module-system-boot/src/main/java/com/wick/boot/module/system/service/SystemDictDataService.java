@@ -50,10 +50,10 @@ public interface SystemDictDataService {
     /**
      * 获取字典选项
      *
-     * @param typeCode 字典Code
+     * @param dictCode 字典Code
      * @return List<SystemDictOptionsDTO>
      */
-    List<OptionDTO<String>> getSystemDictDataListOptions(String typeCode);
+    List<OptionDTO<String>> getSystemDictDataListOptions(String dictCode);
 
     /**
      * 获取字典数据分页

@@ -190,6 +190,7 @@ INSERT INTO `system_menu` VALUES (72, 71, 1, '在线用户', 'Online', 'online',
 INSERT INTO `system_menu` VALUES (73, 72, 4, '获取在线用户分页', NULL, '', NULL, 'monitor:online:query', '', 1, 1, '', '0,71,72', 0, 1, b'0', '2024-10-25 17:44:59', '2024-10-25 17:44:59', '2', '2');
 INSERT INTO `system_menu` VALUES (74, 72, 4, '强制退出在线用户', NULL, '', NULL, 'monitor:online:force-quit', '', 2, 1, '', '0,71,72', 0, 1, b'0', '2024-10-26 22:28:28', '2024-10-26 22:28:28', '2', '2');
 INSERT INTO `system_menu` VALUES (75, 72, 4, '导出在线用户', NULL, '', NULL, 'monitor:online:export', '', 3, 1, '', '0,71,72', 0, 1, b'0', '2024-10-27 17:57:38', '2024-10-27 17:57:38', '2', '2');
+INSERT INTO `system_menu` VALUES (76, 6, 4, '刷新字典缓存', NULL, '', NULL, 'system:dict-type:refresh', '', 7, 1, '', '0,1,6', 0, 1, b'0', '2024-11-05 11:52:53', '2024-11-05 11:54:14', '2', '2');
 
 
 -- ----------------------------
@@ -295,6 +296,7 @@ INSERT INTO `system_role_menu` VALUES (2, 72);
 INSERT INTO `system_role_menu` VALUES (2, 73);
 INSERT INTO `system_role_menu` VALUES (2, 74);
 INSERT INTO `system_role_menu` VALUES (2, 75);
+INSERT INTO `system_role_menu` VALUES (2, 76);
 
 -- ----------------------------
 -- Table structure for system_dict_type
@@ -318,7 +320,9 @@ CREATE TABLE `system_dict_type`  (
 -- ----------------------------
 -- Records of system_dict_type
 -- ----------------------------
-INSERT INTO `system_dict_type` VALUES (1, '性别', 'gender', 1, NULL, 0, '2019-12-06 19:03:32', '2022-06-12 16:21:28', 1, 1);
+INSERT INTO `system_dict_type` VALUES (1, '性别', 'gender', 1, '性别（1-男、2-女、0-未知）', b'0', '2019-12-06 19:03:32', '2024-11-05 14:38:26', '1', '2');
+INSERT INTO `system_dict_type` VALUES (2, '使用状态', 'status', 1, '使用状态（1-启用、0-禁用）', b'0', '2024-11-05 10:23:52', '2024-11-05 15:31:02', '2', '2');
+INSERT INTO `system_dict_type` VALUES (3, '菜单类型', 'type', 1, '菜单类型（1-菜单、2-目录、3-外链、4-按钮）', b'0', '2024-11-05 14:38:02', '2024-11-05 15:30:40', '2', '2');
 
 -- ----------------------------
 -- Table structure for system_dict_data
@@ -328,7 +332,7 @@ CREATE TABLE `system_dict_data`  (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '字典编码',
   `dict_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '字典类型',
   `label` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '字典标签',
-  `value` int NOT NULL DEFAULT 0  COMMENT '字典键值',
+  `value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '字典键值',
   `sort` int NOT NULL DEFAULT 0 COMMENT '字典排序',
   `tag_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '标签类型，用于前端样式展示（如success、warning等）',
   `status` tinyint NOT NULL DEFAULT 0 COMMENT '状态（1正常 0停用）',
@@ -344,9 +348,15 @@ CREATE TABLE `system_dict_data`  (
 -- ----------------------------
 -- Records of system_dict_data
 -- ----------------------------
-INSERT INTO `system_dict_data` VALUES (1, 'gender', '男', 1, 1, 'primary', 1, '性别男', 0, '2019-05-05 13:07:52', '2022-06-12 23:20:39', 1, 1);
-INSERT INTO `system_dict_data` VALUES (2, 'gender', '女', 2, 2, 'success', 1, '性别女', 0, '2019-04-19 11:33:00', '2019-07-02 14:23:05', 1, 1);
-INSERT INTO `system_dict_data` VALUES (3, 'gender', '未知', 0, 3, 'success', 1, '未知性别', 0, '2020-10-17 08:09:31', '2020-10-17 08:09:31', 1, 1);
+INSERT INTO `system_dict_data` VALUES (1, 'gender', '男', '1', 1, 'primary', 1, '性别男', b'0', '2019-05-05 13:07:52', '2022-06-12 23:20:39', '1', '1');
+INSERT INTO `system_dict_data` VALUES (2, 'gender', '女', '2', 2, 'success', 1, '性别女', b'0', '2019-04-19 11:33:00', '2019-07-02 14:23:05', '1', '1');
+INSERT INTO `system_dict_data` VALUES (3, 'gender', '未知', '0', 3, 'success', 1, '未知性别', b'0', '2020-10-17 08:09:31', '2020-10-17 08:09:31', '1', '1');
+INSERT INTO `system_dict_data` VALUES (4, 'status', '启用', '1', 1, 'success', 1, '启用', b'0', '2024-11-05 10:46:31', '2024-11-05 15:31:02', '2', '2');
+INSERT INTO `system_dict_data` VALUES (5, 'status', '禁用', '0', 1, 'info', 1, '禁用', b'0', '2024-11-05 10:53:22', '2024-11-05 15:31:02', '2', '2');
+INSERT INTO `system_dict_data` VALUES (7, 'type', '菜单', '1', 1, 'success', 1, '菜单类型', b'0', '2024-11-05 16:31:26', '2024-11-05 16:31:26', '2', '2');
+INSERT INTO `system_dict_data` VALUES (8, 'type', '目录', '2', 2, 'warning', 1, '目录类型', b'0', '2024-11-05 16:35:57', '2024-11-05 16:38:45', '2', '2');
+INSERT INTO `system_dict_data` VALUES (9, 'type', '外链', '3', 3, 'info', 1, '外链类型', b'0', '2024-11-05 16:38:40', '2024-11-05 16:38:40', '2', '2');
+INSERT INTO `system_dict_data` VALUES (10, 'type', '按钮', '4', 4, 'primary', 1, '按钮类型', b'0', '2024-11-05 16:39:07', '2024-11-05 16:39:07', '2', '2');
 
 
 -- ----------------------------
@@ -354,21 +364,21 @@ INSERT INTO `system_dict_data` VALUES (3, 'gender', '未知', 0, 3, 'success', 1
 -- ----------------------------
 DROP TABLE IF EXISTS `system_login_log`;
 CREATE TABLE `system_login_log`  (
-     `id` bigint NOT NULL AUTO_INCREMENT COMMENT '访问ID',
-     `log_type` bigint NOT NULL COMMENT '日志类型',
-     `user_id` bigint NOT NULL DEFAULT 0 COMMENT '用户编号',
-     `user_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '用户账号',
-     `login_location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '登录地点',
-     `result` tinyint NOT NULL COMMENT '登陆结果',
-     `user_ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户 IP',
-     `user_agent` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '浏览器 UA',
-     `os` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '操作系统',
-     `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
-     `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-     `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-     `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '创建者',
-     `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '更新者',
-     PRIMARY KEY (`id`) USING BTREE
+ `id` bigint NOT NULL AUTO_INCREMENT COMMENT '访问ID',
+ `log_type` bigint NOT NULL COMMENT '日志类型',
+ `user_id` bigint NOT NULL DEFAULT 0 COMMENT '用户编号',
+ `user_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '用户账号',
+ `login_location` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '登录地点',
+ `result` tinyint NOT NULL COMMENT '登陆结果',
+ `user_ip` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '用户 IP',
+ `user_agent` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '浏览器 UA',
+ `os` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '操作系统',
+ `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+ `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+ `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+ `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '创建者',
+ `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '更新者',
+ PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '系统访问记录';
 -- ----------------------------
 -- Records of system_login_log
@@ -424,7 +434,6 @@ CREATE TABLE `tool_data_source` (
 -- ----------------------------
 INSERT INTO `tool_data_source` VALUES (1, 'master', 'jdbc:mysql://139.9.202.135:1653/wick_boot?useUnicode=true&characterEncoding=UTF-8&useSSL=false', 'root', 'P@ssw0rd2024', b'1', '2024-07-23 10:28:30', '2024-10-12 08:48:54', '2', '2');
 INSERT INTO `tool_data_source` VALUES (2, 'wick-boot-master', 'jdbc:mysql://139.9.202.135:1653/wick_boot?useUnicode=true&characterEncoding=UTF-8&useSSL=false', 'root', 'P@ssw0rd2024', b'0', '2024-10-11 14:15:19', '2024-10-25 01:56:34', '2', '2');
-
 
 DROP TABLE IF EXISTS tool_code_gen_table;
 CREATE TABLE tool_code_gen_table

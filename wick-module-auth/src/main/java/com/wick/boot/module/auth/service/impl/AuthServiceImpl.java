@@ -192,10 +192,10 @@ public class AuthServiceImpl implements IAuthService {
         /* Step-3：新增注销日志 */
         createLog(userInfoDTO.getUserId(), userInfoDTO.getUsername(), LoginResultEnum.SUCCESS, LoginLogTypeEnum.LOGOUT_SELF);
 
-        /* Step-4: 推送在线用户 */
+        /* Step-5: 推送离线用户 */
         onlineUserService.removeOnlineUser(accessTokenKey, false);
 
-        /* Step-4：清除 SecurityContextHolder */
+        /* Step-6：清除 SecurityContextHolder */
         SecurityContextHolder.clearContext();
     }
 

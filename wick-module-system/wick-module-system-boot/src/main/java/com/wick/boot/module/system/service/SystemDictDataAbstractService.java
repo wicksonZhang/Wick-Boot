@@ -15,6 +15,7 @@ import com.wick.boot.module.system.model.vo.dictdata.SystemDictDataUpdateVO;
 import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -39,8 +40,10 @@ public abstract class SystemDictDataAbstractService {
      * @param reqVO 新增请求参数
      */
     protected void validateAddParams(SystemDictDataAddVO reqVO) {
-        // 验证字典类型
+        // 验证字典数据类型
         this.validateDictDataByCode(reqVO.getDictCode());
+        // 验证字典数据键值
+        this.validateDictDataByValue(reqVO.getDictCode(), reqVO.getValue());
     }
 
     /**
@@ -50,8 +53,15 @@ public abstract class SystemDictDataAbstractService {
      */
     private void validateDictDataByCode(String dictCode) {
         SystemDictType dictType = this.dictTypeMapper.selectDictTypeByCode(dictCode);
-        if (ObjUtil.isNotNull(dictType)) {
-            throw ServiceException.getInstance(ErrorCodeSystem.DICT_TYPE_CODE_ALREADY_EXIST);
+        if (ObjUtil.isNull(dictType)) {
+            throw ServiceException.getInstance(ErrorCodeSystem.DICT_TYPE_CODE_NOT_EXIST);
+        }
+    }
+
+    private void validateDictDataByValue(String dictCode, String value) {
+        long count = this.dictDataMapper.countDictDataByDictCodeAndValue(dictCode, value);
+        if (count > 0) {
+            throw ServiceException.getInstance(ErrorCodeSystem.DICT_DATA_VALUE_ALREADY_EXIST);
         }
     }
 
@@ -67,6 +77,15 @@ public abstract class SystemDictDataAbstractService {
         SystemDictData systemDictData = this.getSystemDictData(reqVO.getId());
         // 验证字典类型
         this.validateDictDataByCode(systemDictData.getDictCode(), reqVO.getDictCode());
+        // 验证字典数据键值
+        this.validateDictDataByValue(reqVO.getDictCode(), systemDictData.getValue(), reqVO.getValue());
+    }
+
+    private void validateDictDataByValue(String dictCode, String oldValue, String newValue) {
+        if (Objects.equals(oldValue, newValue)) {
+            return;
+        }
+        this.validateDictDataByValue(dictCode, newValue);
     }
 
     /**
@@ -102,21 +121,9 @@ public abstract class SystemDictDataAbstractService {
      *
      * @param ids ids集合
      */
-    protected void validateDeleteParams(List<Long> ids) {
-        // 验证字典类型是否存在
-        List<SystemDictData> systemDictDataList = this.validateDictDataList(ids);
+    protected void validateDeleteParams(List<SystemDictData> systemDictDataList , List<Long> ids) {
         // 验证字典类型集合和 ids 是否匹配
         this.validateDictDataByIds(systemDictDataList, ids);
-    }
-
-    private List<SystemDictData> validateDictDataList(List<Long> ids) {
-        /* Step-1: 验证删除参数 */
-        List<SystemDictData> systemDictDataList = this.dictDataMapper.selectBatchIds(ids);
-        // 校验字典类型集合是否存在
-        if (CollUtil.isEmpty(systemDictDataList)) {
-            throw ServiceException.getInstance(ErrorCodeSystem.DICT_DATA_NOT_EXIST);
-        }
-        return systemDictDataList;
     }
 
     private void validateDictDataByIds(List<SystemDictData> systemDictDataList, List<Long> ids) {

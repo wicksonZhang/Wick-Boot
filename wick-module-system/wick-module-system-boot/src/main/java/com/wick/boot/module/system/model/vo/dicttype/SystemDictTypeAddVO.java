@@ -22,9 +22,9 @@ public class SystemDictTypeAddVO implements Serializable {
     /**
      * 字典编码
      */
-    @ApiModelProperty(value = "字典编码", required = true, example = "status")
+    @ApiModelProperty(value = "字典编码", required = true, example = "1")
     @NotBlank(message = "字典编码不能为空")
-    private String code;
+    private String dictCode;
 
     /**
      * 字典名称

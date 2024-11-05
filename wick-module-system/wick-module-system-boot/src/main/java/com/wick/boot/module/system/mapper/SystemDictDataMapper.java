@@ -37,15 +37,23 @@ public interface SystemDictDataMapper extends BaseMapperX<SystemDictData> {
     /**
      * 获取字典数据信息
      *
-     * @param typeCode 类型Code
+     * @param dictCode 类型Code
      * @return List<SystemDictData>
      */
-    default List<SystemDictData> selectDictDataOption(String typeCode) {
+    default List<SystemDictData> selectDictDataOption(String dictCode) {
         return this.selectList(new LambdaQueryWrapper<SystemDictData>()
                 .select(SystemDictData::getValue, SystemDictData::getLabel)
-                .eq(SystemDictData::getDictCode, typeCode)
+                .eq(SystemDictData::getDictCode, dictCode)
         );
     }
 
     SystemDictOptionsDTO.DictData getDictDataList(@Param("dictCode") String dictCode);
+
+    default long countDictDataByDictCodeAndValue(String dictCode, String value) {
+        return this.selectCount(
+                new LambdaQueryWrapper<SystemDictData>()
+                        .eq(SystemDictData::getDictCode, dictCode)
+                        .eq(SystemDictData::getValue, value)
+        );
+    }
 }

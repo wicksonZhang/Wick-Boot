@@ -62,7 +62,7 @@ public class SystemDictTypeController {
     @PreAuthorize("@ss.hasPerm('system:dict-type:query')")
     @ApiOperation(value = "获取_字典类型数据" , notes = "字典信息")
     @ApiImplicitParam(name = "id" , value = "字典类型ID" , required = true, dataType = "Long" , dataTypeClass = Long.class)
-    public ResultUtil<SystemDictTypeDTO> getSystemDictType(@NotNull(message = "字典类型主键不能为空") @PathVariable("id") Long id) {
+    public ResultUtil<SystemDictTypeDTO> getSystemDictType(@NotNull(message = "字典类型主键不能为空") @PathVariable Long id) {
         return ResultUtil.success(dictTypeService.getSystemDictType(id));
     }
 
@@ -80,4 +80,11 @@ public class SystemDictTypeController {
         return ResultUtil.success(dictTypeService.getSystemDictTypeList());
     }
 
+    @PatchMapping("/refreshCache")
+    @PreAuthorize("@ss.hasPerm('system:dict-type:refresh')")
+    @ApiOperation(value = "刷新字典缓存" , notes = "字典信息")
+    public ResultUtil<Boolean> refreshCache() {
+        dictTypeService.refreshCache();
+        return ResultUtil.success();
+    }
 }
