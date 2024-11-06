@@ -2,6 +2,7 @@ package com.wick.boot.module.system.model.dto.logger.operate;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.wick.boot.common.log.enums.OperateLogTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,7 +42,12 @@ public class SystemOperateLogDTO {
     @NotBlank(message = "操作名")
     private String name;
 
-    @ApiModelProperty(value = "操作分类，参见 OperateLogTypeEnum 枚举类", example = "1")
+    /**
+     * 操作分类查询如下枚举类
+     *
+     * {@link OperateLogTypeEnum }
+     */
+    @ApiModelProperty(value = "操作分类", example = "1")
     @NotNull(message = "操作分类不能为空")
     private Integer type;
 

@@ -65,10 +65,12 @@ public class SystemDictDataServiceImpl extends SystemDictDataAbstractService imp
         String redisKey = GlobalCacheConstants.getDictCodeKey(reqVO.getDictCode());
         SystemDictOptionsDTO dictOptionsDTO = redisService.getCacheObject(redisKey);
         Set<SystemDictOptionsDTO.DictData> dictDataList = dictOptionsDTO.getDictDataList();
+        SystemDictOptionsDTO.DictData dictData = new SystemDictOptionsDTO.DictData(reqVO.getValue(), reqVO.getLabel(), reqVO.getTagType());
         if (CollUtil.isEmpty(dictDataList)) {
             dictDataList = Sets.newHashSet();
-            dictDataList.add(new SystemDictOptionsDTO.DictData(reqVO.getValue(), reqVO.getLabel(), reqVO.getTagType()));
         }
+        dictDataList.add(dictData);
+        dictOptionsDTO.setDictDataList(dictDataList);
         // 新增 redis 信息
         redisService.setCacheObject(redisKey, dictOptionsDTO);
     }
