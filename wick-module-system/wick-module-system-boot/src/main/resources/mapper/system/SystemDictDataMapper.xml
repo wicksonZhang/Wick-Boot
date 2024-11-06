@@ -13,7 +13,7 @@
         FROM
             system_dict_data
         WHERE
-            status = 1 AND dict_code = #{dictCode}
+            deleted = 0 AND status = 1 AND dict_code = #{dictCode}
         ORDER BY
             sort ASC
     </select>

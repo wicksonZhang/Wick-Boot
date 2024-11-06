@@ -35,14 +35,14 @@ public class SystemDictTypeController {
     private SystemDictTypeService dictTypeService;
 
     @PostMapping("/add")
-    @ApiOperation(value = "新增_字典类型数据" , notes = "字典信息")
+    @ApiOperation(value = "新增_字典类型" , notes = "字典信息")
     @PreAuthorize("@ss.hasPerm('system:dict-type:add')")
     public ResultUtil<Long> add(@Valid @RequestBody SystemDictTypeAddVO reqVO) {
         return ResultUtil.success(dictTypeService.addDictType(reqVO));
     }
 
     @PutMapping("/update")
-    @ApiOperation(value = "编辑_字典类型数据" , notes = "字典信息")
+    @ApiOperation(value = "编辑_字典类型" , notes = "字典信息")
     @PreAuthorize("@ss.hasPerm('system:dict-type:update')")
     public ResultUtil<Boolean> update(@Valid @RequestBody SystemDictTypeUpdateVO reqVO) {
         dictTypeService.updateDictType(reqVO);
@@ -50,7 +50,7 @@ public class SystemDictTypeController {
     }
 
     @DeleteMapping("/{ids}")
-    @ApiOperation(value = "删除_字典类型数据" , notes = "字典信息")
+    @ApiOperation(value = "删除_字典类型" , notes = "字典信息")
     @PreAuthorize("@ss.hasPerm('system:dict-type:delete')")
     @ApiImplicitParam(name = "ids" , value = "字典类型ID" , required = true, dataType = "Long" , dataTypeClass = Long.class)
     public ResultUtil<Long> removeSystemDictType(@NotEmpty(message = "字典类型主键不能为空") @PathVariable List<Long> ids) {
@@ -60,7 +60,7 @@ public class SystemDictTypeController {
 
     @GetMapping("/{id}")
     @PreAuthorize("@ss.hasPerm('system:dict-type:query')")
-    @ApiOperation(value = "获取_字典类型数据" , notes = "字典信息")
+    @ApiOperation(value = "获取_字典类型" , notes = "字典信息")
     @ApiImplicitParam(name = "id" , value = "字典类型ID" , required = true, dataType = "Long" , dataTypeClass = Long.class)
     public ResultUtil<SystemDictTypeDTO> getSystemDictType(@NotNull(message = "字典类型主键不能为空") @PathVariable Long id) {
         return ResultUtil.success(dictTypeService.getSystemDictType(id));
@@ -82,7 +82,7 @@ public class SystemDictTypeController {
 
     @PatchMapping("/refreshCache")
     @PreAuthorize("@ss.hasPerm('system:dict-type:refresh')")
-    @ApiOperation(value = "刷新字典缓存" , notes = "字典信息")
+    @ApiOperation(value = "刷新_字典缓存" , notes = "字典信息")
     public ResultUtil<Boolean> refreshCache() {
         dictTypeService.refreshCache();
         return ResultUtil.success();

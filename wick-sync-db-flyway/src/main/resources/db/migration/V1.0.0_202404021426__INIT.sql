@@ -323,6 +323,11 @@ CREATE TABLE `system_dict_type`  (
 INSERT INTO `system_dict_type` VALUES (1, '性别', 'gender', 1, '性别（1-男、2-女、0-未知）', b'0', '2019-12-06 19:03:32', '2024-11-05 14:38:26', '1', '2');
 INSERT INTO `system_dict_type` VALUES (2, '使用状态', 'status', 1, '使用状态（1-启用、0-禁用）', b'0', '2024-11-05 10:23:52', '2024-11-05 15:31:02', '2', '2');
 INSERT INTO `system_dict_type` VALUES (3, '菜单类型', 'type', 1, '菜单类型（1-菜单、2-目录、3-外链、4-按钮）', b'0', '2024-11-05 14:38:02', '2024-11-05 15:30:40', '2', '2');
+INSERT INTO `system_dict_type` VALUES (4, '显示状态', 'visible', 1, '显示状态（1-显示、0-隐藏）', b'0', '2024-11-05 17:59:09', '2024-11-05 17:59:09', '2', '2');
+INSERT INTO `system_dict_type` VALUES (5, '操作类型', 'operateType', 1, '操作类型（1-查询、2-新增、3-修改、4-删除、5-导出、6-导入、7-其他）', b'0', '2024-11-06 11:41:49', '2024-11-06 11:41:49', '2', '2');
+INSERT INTO `system_dict_type` VALUES (6, '操作结果', 'resultCode', 1, '操作结果（0-成功、500-失败）', b'0', '2024-11-06 13:52:46', '2024-11-06 13:52:46', '2', '2');
+INSERT INTO `system_dict_type` VALUES (7, '登录结果', 'result', 1, '登录结果（0-成功、10-账号或密码不正确、20-用户被禁用、30-验证码不存在、31-验证码不正确、100-未知异常）', b'0', '2024-11-06 14:15:04', '2024-11-06 14:15:04', '2', '2');
+INSERT INTO `system_dict_type` VALUES (8, '登录类型', 'loginType', 1, '登录类型（100-账号登录、101-社交登录、103-短信登录、200-主动登出、202-强制登出）', b'0', '2024-11-06 14:36:19', '2024-11-06 14:36:19', '2', '2');
 
 -- ----------------------------
 -- Table structure for system_dict_data
@@ -353,10 +358,33 @@ INSERT INTO `system_dict_data` VALUES (2, 'gender', '女', '2', 2, 'success', 1,
 INSERT INTO `system_dict_data` VALUES (3, 'gender', '未知', '0', 3, 'success', 1, '未知性别', b'0', '2020-10-17 08:09:31', '2020-10-17 08:09:31', '1', '1');
 INSERT INTO `system_dict_data` VALUES (4, 'status', '启用', '1', 1, 'success', 1, '启用', b'0', '2024-11-05 10:46:31', '2024-11-05 15:31:02', '2', '2');
 INSERT INTO `system_dict_data` VALUES (5, 'status', '禁用', '0', 1, 'info', 1, '禁用', b'0', '2024-11-05 10:53:22', '2024-11-05 15:31:02', '2', '2');
-INSERT INTO `system_dict_data` VALUES (7, 'type', '菜单', '1', 1, 'success', 1, '菜单类型', b'0', '2024-11-05 16:31:26', '2024-11-05 16:31:26', '2', '2');
-INSERT INTO `system_dict_data` VALUES (8, 'type', '目录', '2', 2, 'warning', 1, '目录类型', b'0', '2024-11-05 16:35:57', '2024-11-05 16:38:45', '2', '2');
-INSERT INTO `system_dict_data` VALUES (9, 'type', '外链', '3', 3, 'info', 1, '外链类型', b'0', '2024-11-05 16:38:40', '2024-11-05 16:38:40', '2', '2');
-INSERT INTO `system_dict_data` VALUES (10, 'type', '按钮', '4', 4, 'primary', 1, '按钮类型', b'0', '2024-11-05 16:39:07', '2024-11-05 16:39:07', '2', '2');
+INSERT INTO `system_dict_data` VALUES (7, 'type', '菜单', 'MENU', 1, 'success', 1, '菜单类型', b'0', '2024-11-05 16:31:26', '2024-11-05 17:51:16', '2', '2');
+INSERT INTO `system_dict_data` VALUES (8, 'type', '目录', 'CATALOG', 2, 'warning', 1, '目录类型', b'0', '2024-11-05 16:35:57', '2024-11-05 17:51:42', '2', '2');
+INSERT INTO `system_dict_data` VALUES (9, 'type', '外链', 'EXTLINK', 3, 'info', 1, '外链类型', b'0', '2024-11-05 16:38:40', '2024-11-05 17:51:51', '2', '2');
+INSERT INTO `system_dict_data` VALUES (10, 'type', '按钮', 'BUTTON', 4, 'primary', 1, '按钮类型', b'0', '2024-11-05 16:39:07', '2024-11-05 17:51:58', '2', '2');
+INSERT INTO `system_dict_data` VALUES (13, 'visible', '显示', '1', 1, 'success', 1, '显示', b'0', '2024-11-05 20:08:10', '2024-11-05 20:08:18', '2', '2');
+INSERT INTO `system_dict_data` VALUES (14, 'visible', '隐藏', '0', 2, 'info', 1, '隐藏', b'0', '2024-11-05 20:08:58', '2024-11-05 20:08:58', '2', '2');
+INSERT INTO `system_dict_data` VALUES (15, 'operateType', '查询', '1', 1, 'primary', 1, '查询', b'0', '2024-11-06 11:44:59', '2024-11-06 11:44:59', '2', '2');
+INSERT INTO `system_dict_data` VALUES (16, 'operateType', '新增', '2', 2, 'success', 1, '新增', b'0', '2024-11-06 11:45:15', '2024-11-06 11:45:15', '2', '2');
+INSERT INTO `system_dict_data` VALUES (17, 'operateType', '修改', '3', 3, 'primary', 1, '修改', b'0', '2024-11-06 11:45:33', '2024-11-06 11:45:33', '2', '2');
+INSERT INTO `system_dict_data` VALUES (18, 'operateType', '删除', '4', 4, 'danger', 1, '删除', b'0', '2024-11-06 11:45:47', '2024-11-06 11:45:47', '2', '2');
+INSERT INTO `system_dict_data` VALUES (19, 'operateType', '导出', '5', 5, 'info', 1, '导出', b'0', '2024-11-06 11:46:48', '2024-11-06 11:46:48', '2', '2');
+INSERT INTO `system_dict_data` VALUES (20, 'operateType', '导入', '6', 6, 'info', 1, '导入', b'0', '2024-11-06 11:46:59', '2024-11-06 11:46:59', '2', '2');
+INSERT INTO `system_dict_data` VALUES (21, 'resultCode', '成功', '0', 1, 'success', 1, '成功', b'1', '2024-11-06 13:54:04', '2024-11-06 05:55:19', '2', '2');
+INSERT INTO `system_dict_data` VALUES (22, 'resultCode', '成功', '0', 1, 'success', 1, '成功', b'1', '2024-11-06 13:55:51', '2024-11-06 05:57:31', '2', '2');
+INSERT INTO `system_dict_data` VALUES (23, 'resultCode', '成功', '0', 0, 'success', 1, '成功', b'0', '2024-11-06 14:03:55', '2024-11-06 14:03:55', '2', '2');
+INSERT INTO `system_dict_data` VALUES (24, 'resultCode', '失败', '500', 1, 'danger', 1, '失败', b'0', '2024-11-06 14:04:25', '2024-11-06 14:04:25', '2', '2');
+INSERT INTO `system_dict_data` VALUES (25, 'result', '成功', '0', 1, 'success', 1, '成功', b'0', '2024-11-06 14:21:28', '2024-11-06 14:21:28', '2', '2');
+INSERT INTO `system_dict_data` VALUES (26, 'result', '账号或密码不正确', '10', 2, 'danger', 1, '账号或密码不正确', b'0', '2024-11-06 14:23:06', '2024-11-06 14:24:27', '2', '2');
+INSERT INTO `system_dict_data` VALUES (27, 'result', '用户被禁用', '20', 3, 'danger', 1, '用户被禁用', b'0', '2024-11-06 14:23:25', '2024-11-06 14:23:25', '2', '2');
+INSERT INTO `system_dict_data` VALUES (28, 'result', '验证码不存在', '30', 4, 'danger', 1, '验证码不存在', b'0', '2024-11-06 14:23:44', '2024-11-06 14:23:44', '2', '2');
+INSERT INTO `system_dict_data` VALUES (29, 'result', '验证码不正确', '31', 5, 'danger', 1, '验证码不正确', b'0', '2024-11-06 14:23:59', '2024-11-06 14:23:59', '2', '2');
+INSERT INTO `system_dict_data` VALUES (30, 'result', '未知异常', '100', 6, 'danger', 1, '未知异常', b'0', '2024-11-06 14:24:19', '2024-11-06 14:24:19', '2', '2');
+INSERT INTO `system_dict_data` VALUES (31, 'loginType', '账号登录', '100', 1, 'success', 1, '账号登录', b'0', '2024-11-06 14:37:27', '2024-11-06 14:37:27', '2', '2');
+INSERT INTO `system_dict_data` VALUES (32, 'loginType', '社交账号登录', '101', 2, 'warning', 1, '社交账号登录', b'0', '2024-11-06 14:37:49', '2024-11-06 14:37:49', '2', '2');
+INSERT INTO `system_dict_data` VALUES (33, 'loginType', '短信登录', '103', 3, 'info', 1, '短信登录', b'0', '2024-11-06 14:38:28', '2024-11-06 14:38:28', '2', '2');
+INSERT INTO `system_dict_data` VALUES (34, 'loginType', '主动登出', '200', 4, 'primary', 1, '主动登出', b'0', '2024-11-06 14:40:09', '2024-11-06 14:40:09', '2', '2');
+INSERT INTO `system_dict_data` VALUES (35, 'loginType', '强制登出', '202', 5, 'danger', 1, '强制登出', b'0', '2024-11-06 14:40:28', '2024-11-06 14:40:28', '2', '2');
 
 
 -- ----------------------------

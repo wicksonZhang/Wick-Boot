@@ -6,7 +6,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 /**
  * 字典类型
@@ -16,6 +16,7 @@ import java.util.Set;
  */
 @Data
 @Builder
+@ToString
 @Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,7 +29,7 @@ public class SystemDictOptionsDTO implements Serializable {
     private String dictCode;
 
     @ApiModelProperty(value = "字典数据集合")
-    private Set<DictData> dictDataList;
+    private List<DictData> dictDataList;
 
     public SystemDictOptionsDTO(String name, String dictCode) {
         this.name = name;
@@ -37,6 +38,7 @@ public class SystemDictOptionsDTO implements Serializable {
 
     @Getter
     @Setter
+    @ToString
     @NoArgsConstructor
     @AllArgsConstructor
     @ApiModel(value = "字典数据")
