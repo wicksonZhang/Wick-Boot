@@ -1,4 +1,4 @@
-package ${packageName}.model.${packageVOName}.vo;
+package ${packageName}.model.vo.${packageVOName};
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

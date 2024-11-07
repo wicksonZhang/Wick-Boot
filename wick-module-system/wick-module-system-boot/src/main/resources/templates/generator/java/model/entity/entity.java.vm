@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Setter
 @Accessors(chain = true)
 @TableName("${tableName}")
-public class ${className} extends BaseDO{
+public class ${className} extends BaseDO {
 
 #foreach($fieldConfig in ${fieldConfigs})
 #if(!$baseEntity.contains($fieldConfig.javaField))

@@ -1,4 +1,4 @@
-package ${packageName}.model.${packageVOName}.vo;
+package ${packageName}.model.vo.${packageVOName};
 
 import com.wick.boot.common.core.model.vo.CommonPageParamVO;
 import io.swagger.annotations.ApiModel;

@@ -2,18 +2,18 @@ import request from "@/utils/request";
 
 const BASE_URL = "/api/v1/${moduleName}/${businessName}";
 
-class ${className}API {
+const ${className}API = {
 
     /**
      * 获取${functionName}分页数据
      */
-    static getPage(queryParams: PageQuery) {
+    getPage(queryParams: PageQuery) {
         return request<any, PageResult<${className}VO[]>>({
             url: `${BASE_URL}/page`,
             method: "get",
             params: queryParams,
         });
-    }
+    },
 
     /**
      * 获取${functionName}数据
@@ -21,12 +21,12 @@ class ${className}API {
      * @param id ${functionName}ID
      * @returns ${functionName}表单数据
      */
-    static getFormData(id: number) {
+    getFormData(id: number) {
         return request<any, ${className}Form>({
             url: `${BASE_URL}/${id}`,
             method: "get",
         });
-    }
+    },
 
     /**
      * 新增${functionName}数据
@@ -34,13 +34,13 @@ class ${className}API {
      * @param data ${functionName}表单数据
      * @returns 请求结果
      */
-    static add(data: ${className}Form) {
+    add(data: ${className}Form) {
         return request({
             url: `${BASE_URL}/add`,
             method: "post",
             data: data,
         });
-    }
+    },
 
     /**
      * 修改${functionName}数据
@@ -48,13 +48,13 @@ class ${className}API {
      * @param data ${functionName}表单数据
      * @returns 请求结果
      */
-    static update(data: ${className}Form) {
+    update(data: ${className}Form) {
         return request({
             url: `${BASE_URL}/update`,
             method: "put",
             data: data,
         });
-    }
+    },
 
     /**
      * 删除${functionName}数据
@@ -62,7 +62,7 @@ class ${className}API {
      * @param ids ${functionName}ID，多个以英文逗号(,)分隔
      * @returns 请求结果
      */
-    static deleteByIds(ids: string) {
+    deleteByIds(ids: string) {
         return request({
             url: `${BASE_URL}/delete/${ids}`,
             method: "delete",
