@@ -191,6 +191,12 @@ INSERT INTO `system_menu` VALUES (73, 72, 4, '获取在线用户分页', NULL, '
 INSERT INTO `system_menu` VALUES (74, 72, 4, '强制退出在线用户', NULL, '', NULL, 'monitor:online:force-quit', '', 2, 1, '', '0,71,72', 0, 1, b'0', '2024-10-26 22:28:28', '2024-10-26 22:28:28', '2', '2');
 INSERT INTO `system_menu` VALUES (75, 72, 4, '导出在线用户', NULL, '', NULL, 'monitor:online:export', '', 3, 1, '', '0,71,72', 0, 1, b'0', '2024-10-27 17:57:38', '2024-10-27 17:57:38', '2', '2');
 INSERT INTO `system_menu` VALUES (76, 6, 4, '刷新字典缓存', NULL, '', NULL, 'system:dict-type:refresh', '', 7, 1, '', '0,1,6', 0, 1, b'0', '2024-11-05 11:52:53', '2024-11-05 11:54:14', '2', '2');
+INSERT INTO `system_menu` VALUES (77, 71, 1, '定时任务', 'Job', 'job', 'monitor/job/index', NULL, '', 1, 1, NULL, '0,71', NULL, 1, b'0', '2024-11-07 07:13:13', '2024-11-07 16:28:58', '1', '2');
+INSERT INTO `system_menu` VALUES (78, 77, 4, '定时任务调度新增', NULL, '', NULL, 'monitor:job:add', NULL, 1, 1, NULL, '0,71,77', NULL, NULL, b'0', '2024-11-07 07:13:13', '2024-11-07 07:13:13', '1', '1');
+INSERT INTO `system_menu` VALUES (79, 77, 4, '定时任务调度编辑', NULL, '', NULL, 'monitor:job:update', NULL, 2, 1, NULL, '0,71,77', NULL, NULL, b'0', '2024-11-07 07:13:13', '2024-11-07 07:13:13', '1', '1');
+INSERT INTO `system_menu` VALUES (80, 77, 4, '定时任务调度删除', NULL, '', NULL, 'monitor:job:delete', NULL, 3, 1, NULL, '0,71,77', NULL, NULL, b'0', '2024-11-07 07:13:13', '2024-11-07 07:13:13', '1', '1');
+INSERT INTO `system_menu` VALUES (81, 77, 4, '获取定时任务调度数据', NULL, '', NULL, 'monitor:job:query', NULL, 4, 1, NULL, '0,71,77', NULL, NULL, b'0', '2024-11-07 07:13:13', '2024-11-07 07:13:13', '1', '1');
+INSERT INTO `system_menu` VALUES (82, 77, 4, '获取定时任务调度分页', NULL, '', NULL, 'monitor:job:query', NULL, 4, 1, NULL, '0,71,77', NULL, NULL, b'0', '2024-11-07 07:13:13', '2024-11-07 07:13:13', '1', '1');
 
 
 -- ----------------------------
@@ -297,6 +303,12 @@ INSERT INTO `system_role_menu` VALUES (2, 73);
 INSERT INTO `system_role_menu` VALUES (2, 74);
 INSERT INTO `system_role_menu` VALUES (2, 75);
 INSERT INTO `system_role_menu` VALUES (2, 76);
+INSERT INTO `system_role_menu` VALUES (2, 77);
+INSERT INTO `system_role_menu` VALUES (2, 78);
+INSERT INTO `system_role_menu` VALUES (2, 79);
+INSERT INTO `system_role_menu` VALUES (2, 80);
+INSERT INTO `system_role_menu` VALUES (2, 81);
+INSERT INTO `system_role_menu` VALUES (2, 82);
 
 -- ----------------------------
 -- 7. 字典类型表
@@ -327,6 +339,7 @@ INSERT INTO `system_dict_type` VALUES (5, '操作类型', 'operateType', 1, '操
 INSERT INTO `system_dict_type` VALUES (6, '操作结果', 'resultCode', 1, '操作结果（0-成功、500-失败）', b'0', '2024-11-06 13:52:46', '2024-11-06 13:52:46', '2', '2');
 INSERT INTO `system_dict_type` VALUES (7, '登录结果', 'result', 1, '登录结果（0-成功、10-账号或密码不正确、20-用户被禁用、30-验证码不存在、31-验证码不正确、100-未知异常）', b'0', '2024-11-06 14:15:04', '2024-11-06 14:15:04', '2', '2');
 INSERT INTO `system_dict_type` VALUES (8, '登录类型', 'loginType', 1, '登录类型（100-账号登录、101-社交登录、103-短信登录、200-主动登出、202-强制登出）', b'0', '2024-11-06 14:36:19', '2024-11-06 14:36:19', '2', '2');
+INSERT INTO `system_dict_type` VALUES (9, '数据权限', 'dataScope', 1, '数据权限(1-全部数据权限、2-自定数据权限、3-部门数据权限、4-部门及以下数据权限、5-仅本人数据权限)', b'0', '2024-11-07 17:26:40', '2024-11-07 17:26:40', '2', '2');
 
 -- ----------------------------
 -- 8. 字典数据表
@@ -383,6 +396,11 @@ INSERT INTO `system_dict_data` VALUES (32, 'loginType', '社交账号登录', '1
 INSERT INTO `system_dict_data` VALUES (33, 'loginType', '短信登录', '103', 3, 'info', 1, '短信登录', b'0', '2024-11-06 14:38:28', '2024-11-06 14:38:28', '2', '2');
 INSERT INTO `system_dict_data` VALUES (34, 'loginType', '主动登出', '200', 4, 'primary', 1, '主动登出', b'0', '2024-11-06 14:40:09', '2024-11-06 14:40:09', '2', '2');
 INSERT INTO `system_dict_data` VALUES (35, 'loginType', '强制登出', '202', 5, 'danger', 1, '强制登出', b'0', '2024-11-06 14:40:28', '2024-11-06 14:40:28', '2', '2');
+INSERT INTO `system_dict_data` VALUES (36, 'dataScope', '全部数据权限', '1', 1, 'success', 1, '全部数据权限', b'0', '2024-11-07 17:27:56', '2024-11-07 17:27:56', '2', '2');
+INSERT INTO `system_dict_data` VALUES (37, 'dataScope', '自定数据权限', '2', 2, 'warning', 1, '自定数据权限', b'0', '2024-11-07 17:28:09', '2024-11-07 17:28:09', '2', '2');
+INSERT INTO `system_dict_data` VALUES (38, 'dataScope', '部门数据权限', '3', 3, 'primary', 1, '部门数据权限', b'0', '2024-11-07 17:28:26', '2024-11-07 17:28:26', '2', '2');
+INSERT INTO `system_dict_data` VALUES (39, 'dataScope', '部门及以下数据权限', '4', 4, 'primary', 1, '部门及以下数据权限', b'0', '2024-11-07 17:28:39', '2024-11-07 17:28:39', '2', '2');
+INSERT INTO `system_dict_data` VALUES (40, 'dataScope', '仅本人数据权限', '5', 5, 'info', 1, '仅本人数据权限', b'0', '2024-11-07 17:28:50', '2024-11-07 17:28:50', '2', '2');
 
 
 -- ----------------------------
@@ -536,7 +554,7 @@ CREATE TABLE `tool_code_gen_table_column` (
   `is_query` char(1) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '是否查询字段（1是）',
   `query_type` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT 'EQ' COMMENT '查询方式（等于、不等于、大于、小于、范围）',
   `html_type` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '显示类型（文本框、文本域、下拉框、复选框、单选框、日期控件）',
-  `dict_type` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '字典类型',
+  `dict_code` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '字典编码',
   `sort` int(11) DEFAULT '0' COMMENT '显示顺序',
   `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -579,7 +597,7 @@ CREATE TABLE `monitor_job` (
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `create_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
   `update_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
-  PRIMARY KEY (`id`, `job_name`, `job_group`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '定时任务调度表';
 
 -- ----------------------------

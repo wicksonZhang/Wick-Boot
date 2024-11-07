@@ -44,7 +44,7 @@ public class ${className}ServiceImpl extends ${className}AbstractService impleme
         this.validateAddParams(reqVO);
 
         /* Step-2: 转换实体类型 */
-        ${className} ${lowerClassName} =${className}Convert.INSTANCE.addVoToEntity(reqVO);
+        ${className} ${lowerClassName} = ${className}Convert.INSTANCE.addVoToEntity(reqVO);
 
         /* Step-3: 保存${functionName}信息 */
         this.${lowerClassName}Mapper.insert(${lowerClassName});
@@ -93,7 +93,7 @@ public class ${className}ServiceImpl extends ${className}AbstractService impleme
      */
     public ${className}DTO get${className}(Long id) {
         /* Step-1: 通过主键获取${functionName} */
-        ${className} ${lowerClassName} =this.${lowerClassName}Mapper.selectById(id);
+        ${className} ${lowerClassName} = this.${lowerClassName}Mapper.selectById(id);
 
         /* Step-2: 转换实体类型 */
         return ${className}Convert.INSTANCE.entityToDTO(${lowerClassName});
