@@ -21,7 +21,7 @@
         <result property="query" column="is_query"/>
         <result property="queryType" column="query_type"/>
         <result property="htmlType" column="html_type"/>
-        <result property="dictType" column="dict_type"/>
+        <result property="dictCode" column="dict_code"/>
         <result property="sort" column="sort"/>
         <result property="deleted" column="deleted"/>
         <result property="createBy" column="create_by"/>

@@ -121,7 +121,7 @@ public class ToolCodeGenTableColumn extends BaseDO {
     /**
      * 字典类型
      */
-    private String dictType;
+    private String dictCode;
 
     /**
      * 排序

@@ -30,7 +30,7 @@ public class ${className}DTO implements Serializable {
 
 #if($fieldConfigs)
  #foreach($fieldConfig in ${fieldConfigs})
-  #if($fieldConfig.list)
+  #if($fieldConfig.list == "1")
     @ApiModelProperty(value = "$fieldConfig.columnComment")
     #if(${fieldConfig.javaType.toLowerCase()} == "localdatetime")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

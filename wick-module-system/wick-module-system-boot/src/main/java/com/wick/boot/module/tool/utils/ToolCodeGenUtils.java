@@ -108,8 +108,13 @@ public class ToolCodeGenUtils {
             if (ToolCodeGenConstants.TYPE_BIGDECIMAL.toLowerCase().equals(dataType)) {
                 column.setJavaType(ToolCodeGenConstants.TYPE_BIGDECIMAL);
             }
+            // 如果是Bit 统一用Boolean
+            else if (ToolCodeGenConstants.TYPE_BIT.toLowerCase().equals(dataType)) {
+                column.setJavaType(ToolCodeGenConstants.TYPE_BOOLEAN);
+            }
             // 如果是整形
-            else if (ToolCodeGenConstants.TYPE_INTEGER.toLowerCase().equals(dataType)) {
+            else if (ToolCodeGenConstants.TYPE_INTEGER.toLowerCase().equals(dataType) ||
+                    ToolCodeGenConstants.TYPE_TINYINT.equals(dataType)) {
                 column.setJavaType(ToolCodeGenConstants.TYPE_INTEGER);
             }
             // 长整形

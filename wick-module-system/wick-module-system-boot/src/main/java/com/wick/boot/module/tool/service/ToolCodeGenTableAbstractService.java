@@ -7,11 +7,13 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.module.system.enums.ErrorCodeSystem;
+import com.wick.boot.module.tool.constant.ToolCodeGenConstants;
 import com.wick.boot.module.tool.model.entity.ToolCodeGenTable;
 import com.wick.boot.module.tool.model.entity.ToolCodeGenTableColumn;
 import com.wick.boot.module.tool.model.vo.column.ToolCodeGenTableColumnAddVO;
 import com.wick.boot.module.tool.model.vo.table.ToolCodeGenTableAddVO;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -119,9 +121,10 @@ public abstract class ToolCodeGenTableAbstractService {
      * @param targetColumns 目标数据表字段
      */
     private void validateCodeGenTableColumnByName(List<ToolCodeGenTableColumn> sourceColumns, List<ToolCodeGenTableColumnAddVO> targetColumns) {
-        // 提取源数据表字段
+        // 提取源数据表字段, 排除部分基类字段
         Set<String> sourceName = sourceColumns.stream()
                 .map(ToolCodeGenTableColumn::getColumnName)
+                .filter(name -> !Arrays.asList(ToolCodeGenConstants.COLUMNNAME_NOT_LIST).contains(name))
                 .collect(Collectors.toSet());
         // 提取目标数据表字段
         Set<String> targetName = targetColumns.stream()

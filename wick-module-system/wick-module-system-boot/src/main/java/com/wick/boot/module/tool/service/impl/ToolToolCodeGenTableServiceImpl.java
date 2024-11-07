@@ -438,7 +438,7 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
                     column.setId(prevColumn.getId());
                     column.setTableId(prevColumn.getTableId());
                     if (column.isPage()) {
-                        column.setDictType(prevColumn.getDictType());
+                        column.setDictCode(prevColumn.getDictCode());
                         column.setQueryType(prevColumn.getQueryType());
                     }
                     if (StrUtil.isNotEmpty(prevColumn.getRequired()) && !column.isPrimaryKey()

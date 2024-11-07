@@ -141,9 +141,9 @@
                 <DictLabel v-model="scope.row.$fieldConfig.javaField" code="$fieldConfig.dictCode"/>
               </template>
             </el-table-column>
-#end
 #else
             <el-table-column align="center" label="$fieldConfig.columnComment" prop="$fieldConfig.javaField"/>
+#end
 #end
 #end
         <el-table-column fixed="right" label="操作" width="220">

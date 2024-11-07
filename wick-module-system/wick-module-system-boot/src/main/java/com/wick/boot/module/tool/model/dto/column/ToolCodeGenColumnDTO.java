@@ -63,7 +63,7 @@ public class ToolCodeGenColumnDTO {
     private String htmlType;
 
     @ApiModelProperty(value = "字典类型", position = 17)
-    private String dictType;
+    private String dictCode;
 
     @ApiModelProperty(value = "排序", position = 18,  example = "3")
     private Integer sort;

@@ -140,6 +140,11 @@ public interface ToolCodeGenConstants {
     String TYPE_INTEGER = "Integer";
 
     /**
+     * 短整型
+     */
+    String TYPE_TINYINT = "tinyint";
+
+    /**
      * 长整型
      */
     String TYPE_LONG = "Long";
@@ -148,6 +153,16 @@ public interface ToolCodeGenConstants {
      * 浮点型
      */
     String TYPE_DOUBLE = "Double";
+
+    /**
+     * 布尔型
+     */
+    String TYPE_BIT = "bit";
+
+    /**
+     * 布尔型
+     */
+    String TYPE_BOOLEAN = "Boolean";
 
     /**
      * 高精度计算类型
