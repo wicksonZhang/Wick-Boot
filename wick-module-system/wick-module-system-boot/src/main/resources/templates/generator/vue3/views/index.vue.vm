@@ -193,12 +193,7 @@
 #if($fieldConfig.edit == "1" && $fieldConfig.pk != "1")
         <el-form-item label="$fieldConfig.columnComment" prop="$fieldConfig.javaField">
         #if($fieldConfig.htmlType == "input")
-          <el-input
-              v-model="formData.$fieldConfig.javaField"
-              placeholder="$fieldConfig.columnComment"
-              clearable
-              @keyup.enter="handleQuery()"
-          />
+          <el-input v-model="formData.$fieldConfig.javaField" placeholder="$fieldConfig.columnComment"/>
         #elseif($fieldConfig.htmlType == "select")
             #if($fieldConfig.dictCode != "")
               <dictionary v-model="formData.$fieldConfig.javaField" code="$fieldConfig.dictCode"/>
