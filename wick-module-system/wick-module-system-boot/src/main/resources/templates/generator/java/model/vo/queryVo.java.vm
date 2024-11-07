@@ -23,7 +23,7 @@ public class ${className}QueryVO extends CommonPageParamVO implements Serializab
 
 #if($fieldConfigs)
 #foreach($fieldConfig in ${fieldConfigs})
-## 判断是否为主键id
+## 判断是否为查询字段
 #if("$!fieldConfig.query" == '1')
     @ApiModelProperty(value = "$fieldConfig.columnComment")
     private ${fieldConfig.javaType} ${fieldConfig.javaField};

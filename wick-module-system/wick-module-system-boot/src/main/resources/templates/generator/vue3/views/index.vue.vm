@@ -13,10 +13,10 @@
               @keyup.enter="handleQuery()"
           />
         #elseif($fieldConfig.htmlType == "select")
-        #if($fieldConfig.dictType != "")
-          <dictionary v-model="formData.$fieldConfig.javaField" code="$fieldConfig.dictType"/>
+        #if($fieldConfig.dictCode != "")
+          <dictionary class="!w-240px" v-model="queryParams.$fieldConfig.javaField" code="$fieldConfig.dictCode"/>
         #else
-          <el-select v-model="formData.$fieldConfig.javaField"
+          <el-select v-model="queryParams.$fieldConfig.javaField"
                      placeholder="请选择$fieldConfig.columnComment">
             <el-option :key="1" :value="1" label="选项一"/>
             <el-option :key="2" :value="2" label="选项二"/>
@@ -135,13 +135,15 @@
         <el-table-column type="selection" width="55" align="center"/>
 #foreach($fieldConfig in $fieldConfigs)
 #if($fieldConfig.list == "1")
-            <el-table-column
-                align="center"
-                key="$fieldConfig.javaField"
-                label="$fieldConfig.columnComment"
-                prop="$fieldConfig.javaField"
-                min-width="100"
-            />
+#if($fieldConfig.dictCode != "")
+            <el-table-column align="center" label="$fieldConfig.columnComment" prop="$fieldConfig.javaField">
+              <template #default="scope">
+                <DictLabel v-model="scope.row.$fieldConfig.javaField" code="$fieldConfig.dictCode"/>
+              </template>
+            </el-table-column>
+#end
+#else
+            <el-table-column align="center" label="$fieldConfig.columnComment" prop="$fieldConfig.javaField"/>
 #end
 #end
         <el-table-column fixed="right" label="操作" width="220">
@@ -189,7 +191,7 @@
       <el-form ref="dataFormRef" :model="formData" :rules="rules" label-width="100px">
 #foreach($fieldConfig in $fieldConfigs)
 #if($fieldConfig.edit == "1" && $fieldConfig.pk != "1")
-    <el-form-item label="$fieldConfig.columnComment" prop="$fieldConfig.javaField">
+        <el-form-item label="$fieldConfig.columnComment" prop="$fieldConfig.javaField">
         #if($fieldConfig.htmlType == "input")
           <el-input
               v-model="formData.$fieldConfig.javaField"
@@ -198,8 +200,8 @@
               @keyup.enter="handleQuery()"
           />
         #elseif($fieldConfig.htmlType == "select")
-            #if($fieldConfig.dictType != "")
-              <dictionary v-model="formData.$fieldConfig.javaField" code="$fieldConfig.dictType"/>
+            #if($fieldConfig.dictCode != "")
+              <dictionary v-model="formData.$fieldConfig.javaField" code="$fieldConfig.dictCode"/>
             #else
               <el-select v-model="formData.$fieldConfig.javaField"
                          placeholder="请选择$fieldConfig.columnComment">
@@ -249,10 +251,11 @@
               value-format="YYYY-MM-DD"
           />
         #end
-    </el-form-item>
+        </el-form-item>
 #end
 #end
       </el-form>
+
       <template #footer>
         <div class="dialog-footer">
           <el-button type="primary" @click="handleSubmit()">确定</el-button>
@@ -269,7 +272,7 @@ defineOptions({
   inheritAttrs: false,
 });
 
-import ${className}API, {${className}VO, ${className}Form} from "@/api//${moduleName}/${businessName}";
+import ${className}API, {${className}VO, ${className}Form} from "@/api/${moduleName}/${businessName}";
 
 const queryFormRef = ref(ElForm);
 const dataFormRef = ref(ElForm);
@@ -283,7 +286,7 @@ const queryParams = reactive({
   pageSize: 10,
 #foreach($fieldConfig in ${fieldConfigs})
 ## 判断既是编辑字段并且排除主键
-#if($fieldConfig.edit == "1" && $fieldConfig.pk != "1")
+#if("$!fieldConfig.query" == '1')
 #if ($fieldConfig.htmlType == "datetime")
   $fieldConfig.javaField: [],
 #end
@@ -308,7 +311,7 @@ const formData = reactive<${className}Form>({});
 const rules = reactive({
 #if($fieldConfigs)
 #foreach($fieldConfig in ${fieldConfigs})
-#if($fieldConfig.edit == "1" && $fieldConfig.required == "1")
+#if($fieldConfig.edit == "1" && $fieldConfig.required == "1" && $fieldConfig.pk != "1")
   ${fieldConfig.javaField}: [{required: true, message: "请输入${fieldConfig.columnComment}", trigger: "blur"}],
 #end
 #end
@@ -317,8 +320,8 @@ const rules = reactive({
 
 /** 查询$!{businessName} */
 function handleQuery() {
-    loading.value = true;
-    ${className}API.getPage(queryParams)
+  loading.value = true;
+  ${className}API.getPage(queryParams)
     .then((data) => {
       pageData.value = data.list;
       total.value = data.total;
@@ -330,92 +333,94 @@ function handleQuery() {
 
 /** 重置$!{businessName}查询 */
 function handleResetQuery() {
-    queryFormRef.value!.resetFields();
-    queryParams.pageNumber = 1;
-    handleQuery();
+  queryFormRef.value!.resetFields();
+  queryParams.pageNumber = 1;
+  handleQuery();
 }
 
 /** 行复选框选中记录选中ID集合 */
 function handleSelectionChange(selection: any) {
-    ids.value = selection.map((item: any) => item.id);
+  ids.value = selection.map((item: any) => item.id);
 }
 
 /** 打开$!{businessName}弹窗 */
 function handleOpenDialog(id?: number) {
-    dialog.visible = true;
-    if (id) {
-      dialog.title = "修改$!{functionName}";
-            ${className}API.getFormData(id).then((data) => {
-        Object.assign(formData, data);
-      });
-    } else {
-      dialog.title = "新增$!{functionName}";
-    }
+  dialog.visible = true;
+  if (id) {
+    dialog.title = "修改$!{functionName}";
+          ${className}API.getFormData(id).then((data) => {
+      Object.assign(formData, data);
+    });
+  } else {
+    dialog.title = "新增$!{functionName}";
+  }
 }
 
 /** 提交$!{businessName}表单 */
 function handleSubmit() {
-    dataFormRef.value.validate((valid: any) => {
-      if (valid) {
-        loading.value = true;
-        const id = formData.id;
-        if (id) {
-            ${className}API.update(formData)
+  dataFormRef.value.validate((valid: any) => {
+    if (valid) {
+      loading.value = true;
+      const id = formData.id;
+      if (id) {
+          ${className}API.update(formData)
+        .then(() => {
+          ElMessage.success("修改成功");
+          handleCloseDialog();
+        handleResetQuery();
+      })
+      .finally(() => (loading.value = false));
+    } else {
+            ${className}API.add(formData)
           .then(() => {
-            ElMessage.success("修改成功");
+            ElMessage.success("新增成功");
             handleCloseDialog();
             handleResetQuery();
           })
           .finally(() => (loading.value = false));
-        } else {
-                ${className}API.add(formData)
-              .then(() => {
-                ElMessage.success("新增成功");
-                handleCloseDialog();
-                handleResetQuery();
-              })
-              .finally(() => (loading.value = false));
-        }
-      }
-    });
+    }
+  }
+});
 }
 
 /** 关闭$!{businessName}弹窗 */
 function handleCloseDialog() {
-    dialog.visible = false;
-    dataFormRef.value.resetFields();
-    dataFormRef.value.clearValidate();
-    formData.id = undefined;
+  dialog.visible = false;
+
+  dataFormRef.value.resetFields();
+  dataFormRef.value.clearValidate();
+
+  formData.id = undefined;
 }
 
 /** 删除$!{businessName} */
 function handleDelete(id?: number) {
-    const removeIds = [id || ids.value].join(",");
-    if (!removeIds) {
-      ElMessage.warning("请勾选删除项");
-      return;
-    }
+  const removeIds = [id || ids.value].join(",");
+  if (!removeIds) {
+    ElMessage.warning("请勾选删除项");
+    return;
+  }
 
-    ElMessageBox.confirm("确认删除已选中的数据项?", "警告", {
-      confirmButtonText: "确定",
-      cancelButtonText: "取消",
-      type: "warning",
-    }).then(() => {
-      loading.value = true;
-            ${className}API.deleteByIds(removeIds)
-          .then(() => {
-            ElMessage.success("删除成功");
-            handleResetQuery();
-          })
-          .finally(() => (loading.value = false));
-    },
-    () => {
-      ElMessage.info("已取消删除");
-    }
-    );
+  ElMessageBox.confirm("确认删除已选中的数据项?", "警告", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+  }).then(() => {
+    loading.value = true;
+          ${className}API.deleteByIds(removeIds)
+        .then(() => {
+          ElMessage.success("删除成功");
+          handleResetQuery();
+        })
+        .finally(() => (loading.value = false));
+  },
+  () => {
+    ElMessage.info("已取消删除");
+  }
+  );
 }
 
 onMounted(() => {
-    handleQuery();
+  handleQuery();
 });
 </script>
