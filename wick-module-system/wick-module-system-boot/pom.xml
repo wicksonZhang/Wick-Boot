@@ -14,6 +14,12 @@
     <artifactId>wick-module-system-boot</artifactId>
 
     <dependencies>
+        <!-- SpringBoot quartz -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
+
         <!-- common mybatis -->
         <dependency>
             <groupId>com.wick.boot</groupId>
