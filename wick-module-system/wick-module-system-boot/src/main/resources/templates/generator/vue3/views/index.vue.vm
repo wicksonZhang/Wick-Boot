@@ -193,7 +193,7 @@
 #if($fieldConfig.edit == "1" && $fieldConfig.pk != "1")
         <el-form-item label="$fieldConfig.columnComment" prop="$fieldConfig.javaField">
         #if($fieldConfig.htmlType == "input")
-          <el-input v-model="formData.$fieldConfig.javaField" placeholder="$fieldConfig.columnComment"/>
+          <el-input v-model="formData.$fieldConfig.javaField" placeholder="请输入$fieldConfig.columnComment"/>
         #elseif($fieldConfig.htmlType == "select")
             #if($fieldConfig.dictCode != "")
               <dictionary v-model="formData.$fieldConfig.javaField" code="$fieldConfig.dictCode"/>
@@ -228,13 +228,13 @@
         #elseif($fieldConfig.htmlType == "textarea")
           <el-input type="textarea"
                     v-model="formData.$fieldConfig.javaField"
-                    placeholder="$fieldConfig.columnComment"
+                    placeholder="请输入$fieldConfig.columnComment"
           />
         #elseif($fieldConfig.htmlType == "datetime")
           <el-date-picker
               v-model="formData.$fieldConfig.javaField"
               type="datetime"
-              placeholder="$fieldConfig.columnComment"
+              placeholder="请选择$fieldConfig.columnComment"
               value-format="YYYY-MM-DD HH:mm:ss"
           />
         #elseif($fieldConfig.htmlType == "date")
@@ -242,7 +242,7 @@
               class="!w-[240px]"
               v-model="formData.$fieldConfig.javaField"
               type="date"
-              placeholder="$fieldConfig.columnComment"
+              placeholder="请选择$fieldConfig.columnComment"
               value-format="YYYY-MM-DD"
           />
         #end
