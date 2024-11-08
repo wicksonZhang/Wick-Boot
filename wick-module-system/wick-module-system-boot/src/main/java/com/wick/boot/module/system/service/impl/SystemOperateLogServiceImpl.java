@@ -8,7 +8,7 @@ import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.convert.SystemLoggerConvert;
 import com.wick.boot.module.system.convert.SystemOperateLogConvert;
-import com.wick.boot.module.system.enums.ErrorCodeSystem;
+import com.wick.boot.module.system.enums.system.ErrorCodeSystem;
 import com.wick.boot.module.system.mapper.SystemOperateLogMapper;
 import com.wick.boot.module.system.mapper.SystemUserMapper;
 import com.wick.boot.module.system.model.dto.OperateLogCreateReqDTO;

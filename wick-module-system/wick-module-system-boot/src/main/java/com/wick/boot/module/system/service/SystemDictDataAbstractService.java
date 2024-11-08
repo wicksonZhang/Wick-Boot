@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjUtil;
 import com.wick.boot.common.core.exception.ServiceException;
-import com.wick.boot.module.system.enums.ErrorCodeSystem;
+import com.wick.boot.module.system.enums.system.ErrorCodeSystem;
 import com.wick.boot.module.system.mapper.SystemDictDataMapper;
 import com.wick.boot.module.system.mapper.SystemDictTypeMapper;
 import com.wick.boot.module.system.model.entity.SystemDictData;

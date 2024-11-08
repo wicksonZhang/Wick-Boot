@@ -6,7 +6,7 @@ import cn.hutool.core.util.ObjUtil;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.exception.ServiceException;
-import com.wick.boot.module.system.enums.ErrorCodeSystem;
+import com.wick.boot.module.system.enums.tool.ErrorCodeTool;
 import com.wick.boot.module.tool.constant.ToolCodeGenConstants;
 import com.wick.boot.module.tool.model.entity.ToolCodeGenTable;
 import com.wick.boot.module.tool.model.entity.ToolCodeGenTableColumn;
@@ -104,13 +104,13 @@ public abstract class ToolCodeGenTableAbstractService {
 
     private void validateCodeGenTableAddVO(ToolCodeGenTableAddVO table) {
         if (ObjUtil.isNull(table)) {
-            throw ServiceException.getInstance(ErrorCodeSystem.TOOL_CODE_GEN_TABLE_NOT_EXIST);
+            throw ServiceException.getInstance(ErrorCodeTool.TOOL_CODE_GEN_TABLE_NOT_EXIST);
         }
     }
 
     private void validateCodeGenTableColumnAddVO(List<ToolCodeGenTableColumnAddVO> columns) {
         if (CollUtil.isEmpty(columns)) {
-            throw ServiceException.getInstance(ErrorCodeSystem.TOOL_CODE_GEN_TABLE_NOT_EXIST);
+            throw ServiceException.getInstance(ErrorCodeTool.TOOL_CODE_GEN_TABLE_NOT_EXIST);
         }
     }
 
@@ -145,7 +145,7 @@ public abstract class ToolCodeGenTableAbstractService {
      */
     protected void validateCodeGenTable(ToolCodeGenTable codeGenTable) {
         if (ObjUtil.isNull(codeGenTable)) {
-            throw ServiceException.getInstance(ErrorCodeSystem.TOOL_CODE_GEN_TABLE_NOT_EXIST);
+            throw ServiceException.getInstance(ErrorCodeTool.TOOL_CODE_GEN_TABLE_NOT_EXIST);
         }
     }
 
@@ -156,7 +156,7 @@ public abstract class ToolCodeGenTableAbstractService {
      */
     protected void validateCodeGenTableColumn(List<ToolCodeGenTableColumn> tableColumns) {
         if (CollUtil.isEmpty(tableColumns)) {
-            throw ServiceException.getInstance(ErrorCodeSystem.TOOL_CODE_GEN_TABLE_NOT_EXIST);
+            throw ServiceException.getInstance(ErrorCodeTool.TOOL_CODE_GEN_TABLE_NOT_EXIST);
         }
     }
 
@@ -175,7 +175,7 @@ public abstract class ToolCodeGenTableAbstractService {
     private void validateToolCodeGenTables(List<ToolCodeGenTable> toolCodeGenTableList) {
         // 校验数据表集合是否存在
         if (CollUtil.isEmpty(toolCodeGenTableList)) {
-            throw ServiceException.getInstance(ErrorCodeSystem.TOOL_CODE_GEN_TABLE_NOT_EXIST);
+            throw ServiceException.getInstance(ErrorCodeTool.TOOL_CODE_GEN_TABLE_NOT_EXIST);
         }
     }
 
@@ -185,7 +185,7 @@ public abstract class ToolCodeGenTableAbstractService {
         Collection<Long> errorIds = CollectionUtil.subtract(ids, tableIds);
         if (CollUtil.isNotEmpty(errorIds)) {
             String errorMsg = "请确认数据表主键 " + errorIds + " 是否存在";
-            throw ServiceException.getInstance(ErrorCodeSystem.TOOL_CODE_GEN_TABLE_NOT_EXIST.getCode(), errorMsg);
+            throw ServiceException.getInstance(ErrorCodeTool.TOOL_CODE_GEN_TABLE_NOT_EXIST.getCode(), errorMsg);
         }
     }
 }

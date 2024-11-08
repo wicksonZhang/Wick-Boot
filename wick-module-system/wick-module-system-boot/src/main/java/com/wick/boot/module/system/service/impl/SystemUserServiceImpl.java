@@ -14,7 +14,7 @@ import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.redis.service.RedisService;
 import com.wick.boot.common.security.util.SecurityUtils;
 import com.wick.boot.module.system.convert.SystemUserConvert;
-import com.wick.boot.module.system.enums.ErrorCodeSystem;
+import com.wick.boot.module.system.enums.system.ErrorCodeSystem;
 import com.wick.boot.module.system.enums.user.UserImportListener;
 import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import com.wick.boot.module.system.model.dto.user.SystemUserDTO;

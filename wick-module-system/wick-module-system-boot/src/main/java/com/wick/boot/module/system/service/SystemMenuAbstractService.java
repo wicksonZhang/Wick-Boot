@@ -8,7 +8,7 @@ import com.wick.boot.common.core.constant.GlobalConstants;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.exception.ParameterException;
 import com.wick.boot.common.core.exception.ServiceException;
-import com.wick.boot.module.system.enums.ErrorCodeSystem;
+import com.wick.boot.module.system.enums.system.ErrorCodeSystem;
 import com.wick.boot.module.system.enums.MenuTypeEnum;
 import com.wick.boot.module.system.mapper.SystemMenuMapper;
 import com.wick.boot.module.system.model.entity.SystemMenu;

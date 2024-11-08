@@ -3,7 +3,7 @@ package com.wick.boot.module.tool.service;
 import cn.hutool.core.util.ObjUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.wick.boot.common.core.exception.ServiceException;
-import com.wick.boot.module.system.enums.ErrorCodeSystem;
+import com.wick.boot.module.system.enums.tool.ErrorCodeTool;
 import com.wick.boot.module.tool.mapper.ToolDataSourceMapper;
 import com.wick.boot.module.tool.model.entity.ToolDataSource;
 import com.wick.boot.module.tool.model.vo.datasource.ToolDataSourceAddVO;
@@ -43,7 +43,7 @@ public abstract class ToolDataSourceAbstractService {
                 new LambdaQueryWrapper<ToolDataSource>().eq(ToolDataSource::getName, name)
         );
         if (exists) {
-            throw ServiceException.getInstance(ErrorCodeSystem.TOOL_DATA_SOURCE_NAME_EXIST);
+            throw ServiceException.getInstance(ErrorCodeTool.TOOL_DATA_SOURCE_NAME_EXIST);
         }
     }
 
@@ -66,7 +66,7 @@ public abstract class ToolDataSourceAbstractService {
     private ToolDataSource getToolDataSource(Long id) {
         ToolDataSource dataSource = this.toolDataSourceMapper.selectById(id);
         if (ObjUtil.isNull(dataSource)) {
-            throw ServiceException.getInstance(ErrorCodeSystem.TOOL_DATA_SOURCE_NOT_EXIST);
+            throw ServiceException.getInstance(ErrorCodeTool.TOOL_DATA_SOURCE_NOT_EXIST);
         }
         return dataSource;
     }

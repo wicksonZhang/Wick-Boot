@@ -9,7 +9,7 @@ import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.redis.service.RedisService;
 import com.wick.boot.module.system.convert.SystemDictDataConvert;
 import com.wick.boot.module.system.convert.SystemDictTypeConvert;
-import com.wick.boot.module.system.enums.ErrorCodeSystem;
+import com.wick.boot.module.system.enums.system.ErrorCodeSystem;
 import com.wick.boot.module.system.mapper.SystemDictTypeMapper;
 import com.wick.boot.module.system.model.dto.dictdata.SystemDictDataDTO;
 import com.wick.boot.module.system.model.dto.dictdata.SystemDictOptionsDTO;

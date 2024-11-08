@@ -578,43 +578,5 @@ INSERT INTO `tool_code_gen_table_column` VALUES (8, 1, 'update_time', '更新时
 INSERT INTO `tool_code_gen_table_column` VALUES (9, 1, 'create_by', '创建者', 'varchar', 'String', 'createBy', '0', '0', '1', '1', '', '', '', 'EQ', 'input', '', 9, b'0', '2024-11-06 16:15:46', '2024-11-06 16:15:46', '2', '2');
 INSERT INTO `tool_code_gen_table_column` VALUES (10, 1, 'update_by', '更新者', 'varchar', 'String', 'updateBy', '0', '0', '1', '1', '', '', '', 'EQ', 'input', '', 10, b'0', '2024-11-06 16:15:46', '2024-11-06 16:15:46', '2', '2');
 
--- ----------------------------
--- 15、定时任务调度表
--- ----------------------------
-DROP TABLE IF EXISTS monitor_job;
-CREATE TABLE `monitor_job` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务ID',
-  `job_name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '任务名称',
-  `job_group` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '任务组名',
-  `invoke_target` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '调用目标字符串',
-  `cron_expression` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'cron执行表达式',
-  `misfire_policy` tinyint NOT NULL DEFAULT 3 COMMENT '计划执行错误策略（1立即执行 2执行一次 3放弃执行）',
-  `concurrent` tinyint NOT NULL DEFAULT 1 COMMENT '是否并发执行（0允许 1禁止）',
-  `status` tinyint NOT NULL DEFAULT 0 COMMENT '状态（1正常 0停用）',
-  `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '备注',
-  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `create_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
-  `update_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '定时任务调度表';
-
--- ----------------------------
--- 16、定时任务调度日志表
--- ----------------------------
-DROP TABLE IF EXISTS monitor_job_log;
-CREATE TABLE `monitor_job_log` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '任务日志ID',
-  `job_name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '任务名称',
-  `job_group` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '任务组名',
-  `invoke_target` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '调用目标字符串',
-  `job_message` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT ''  COMMENT '日志信息',
-  `status` tinyint NOT NULL DEFAULT 0 COMMENT '执行状态（0正常 1失败）',
-  `exception_info` varchar(2000) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '异常信息',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '定时任务调度日志表';
-
 BEGIN;
 COMMIT;

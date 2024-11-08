@@ -1,4 +1,4 @@
-package com.wick.boot.module.system.enums;
+package com.wick.boot.module.system.enums.system;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

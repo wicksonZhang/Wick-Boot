@@ -8,7 +8,7 @@ import com.wick.boot.common.core.constant.GlobalConstants;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.exception.ParameterException;
 import com.wick.boot.common.core.exception.ServiceException;
-import com.wick.boot.module.system.enums.ErrorCodeSystem;
+import com.wick.boot.module.system.enums.system.ErrorCodeSystem;
 import com.wick.boot.module.system.mapper.SystemDeptMapper;
 import com.wick.boot.module.system.mapper.SystemRoleMapper;
 import com.wick.boot.module.system.mapper.SystemUserMapper;

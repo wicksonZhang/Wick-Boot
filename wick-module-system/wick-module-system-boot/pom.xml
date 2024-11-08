@@ -14,10 +14,10 @@
     <artifactId>wick-module-system-boot</artifactId>
 
     <dependencies>
-        <!-- SpringBoot quartz -->
+        <!-- xxl job -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-quartz</artifactId>
+            <groupId>com.wick.boot</groupId>
+            <artifactId>wick-common-xxl-job</artifactId>
         </dependency>
 
         <!-- common mybatis -->

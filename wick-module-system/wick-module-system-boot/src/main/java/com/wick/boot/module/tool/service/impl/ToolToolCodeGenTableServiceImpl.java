@@ -16,7 +16,7 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.result.PageResult;
-import com.wick.boot.module.system.enums.ErrorCodeSystem;
+import com.wick.boot.module.system.enums.tool.ErrorCodeTool;
 import com.wick.boot.module.system.mapper.SystemMenuMapper;
 import com.wick.boot.module.system.model.entity.SystemMenu;
 import com.wick.boot.module.tool.config.ToolCodeGenConfig;
@@ -182,7 +182,7 @@ public class ToolToolCodeGenTableServiceImpl extends ToolCodeGenTableAbstractSer
         // 获取数据源配置
         ToolDataSource dataSource = this.dataSourceMapper.selectById(dataSourceId);
         if (ObjUtil.isNull(dataSource)) {
-            throw ServiceException.getInstance(ErrorCodeSystem.TOOL_DATA_SOURCE_NOT_EXIST);
+            throw ServiceException.getInstance(ErrorCodeTool.TOOL_DATA_SOURCE_NOT_EXIST);
         }
 
         // 构建数据源和策略配置

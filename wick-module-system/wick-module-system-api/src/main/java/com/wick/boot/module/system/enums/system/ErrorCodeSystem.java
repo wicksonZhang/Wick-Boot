@@ -1,4 +1,4 @@
-package com.wick.boot.module.system.enums;
+package com.wick.boot.module.system.enums.system;
 
 import com.wick.boot.common.core.result.ResultCode;
 
@@ -68,11 +68,5 @@ public interface ErrorCodeSystem {
     ResultCode LOGIN_LOG_EXPORT_ERROR = new ResultCode(1002006001, "用户登录日志导出失败");
     ResultCode OPERATE_LOG_EXPORT_ERROR = new ResultCode(1002006002, "用户操作日志导出失败");
 
-    // ======================================== Tool-代码生成器 1-003-007-000 ========================================
-    ResultCode TOOL_CODE_GEN_TABLE_NOT_EXIST = new ResultCode(1003007001, "数据表不存在");
-
-    ResultCode TOOL_DATA_SOURCE_NOT_EXIST = new ResultCode(1003007002, "数据源不存在");
-
-    ResultCode TOOL_DATA_SOURCE_NAME_EXIST = new ResultCode(1003007003, "数据源名称已存在");
 
 }
