@@ -1,4 +1,4 @@
-package com.wick.boot.module.monitor.model.vo.job;
+package com.wick.boot.module.monitor.model.vo.jobgroup;
 
 import com.wick.boot.common.core.model.vo.CommonPageParamVO;
 import io.swagger.annotations.ApiModel;
@@ -16,12 +16,15 @@ import java.io.Serializable;
  */
 @Setter
 @Getter
-@ApiModel(value = "MonitorJobQueryVO", description = "定时任务调度分页查询参数")
-public class MonitorJobQueryVO extends CommonPageParamVO implements Serializable {
+@ApiModel(value = "MonitorJobGroupQueryVO", description = "定时任务调度分页查询参数")
+public class MonitorJobGroupQueryVO extends CommonPageParamVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "appName")
+    private String appName;
+
     @ApiModelProperty(value = "任务名称")
-    private String jobName;
+    private String title;
 
 }

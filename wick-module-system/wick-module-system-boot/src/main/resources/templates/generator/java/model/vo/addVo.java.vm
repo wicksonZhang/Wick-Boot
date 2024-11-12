@@ -27,7 +27,7 @@ public class ${className}AddVO {
 
 #if($fieldConfigs)
 #foreach($fieldConfig in ${fieldConfigs})
-#if(!$baseEntity.contains($fieldConfig.javaField) && "$!fieldConfig.pk" != '1')
+#if(!$baseEntity.contains($fieldConfig.javaField) && "$fieldConfig.pk" != '1' && $fieldConfig.created == '1')
     #if($!fieldConfig.columnComment != "" && $fieldConfig.required != "1")
     @ApiModelProperty(value = "$fieldConfig.columnComment")
     #else

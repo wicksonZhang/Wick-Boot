@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.wick.boot.common.xxl.job.config.XxlJobConfig
+  com.wick.boot.common.xxl.job.config.XxlJobConfig,\
+  com.wick.boot.common.xxl.job.interceptor.CookieInterceptor

@@ -86,6 +86,10 @@ xxl:
     admin:
       # 多个地址使用,分割
       addresses: http://139.9.202.135:9100/xxl-job-admin
+      # 用户名
+      userName: admin
+      # 密码
+      password: 123456
     accessToken: default_token
     executor:
       appname: xxl-job-executor-${spring.application.name}
@@ -95,6 +99,13 @@ xxl:
       logpath: /data/applogs/xxl-job/jobhandler
       logretentiondays: 30
 
+# forest 配置
+forest:
+  max-connections: 1000        # 连接池最大连接数
+  connect-timeout: 3000        # 连接超时时间，单位为毫秒
+  read-timeout: 3000           # 数据读取超时时间，单位为毫秒
+  variables:
+    baseUrl: http://139.9.202.135:9100/xxl-job-admin
 
 # 日志模式、保存路径和文件名
 logging:

@@ -14,17 +14,14 @@ import java.util.Arrays;
  */
 @Getter
 @AllArgsConstructor
-public enum MisfirePolicyEnum implements IntArrayValuable {
+public enum JobGroupAddressTypeEnum implements IntArrayValuable {
 
-    EXECUTE_NOW(1, "立即执行"),
+    AUTOMATIC_ENTRY(0, "自动注册"),
 
-    EXECUTE_ONCE(2, "执行一次"),
-
-    EXECUTION_WAIVER(3, "放弃执行")
-
+    MANUAL_ENTRY(1, "手动录入")
     ;
 
-    public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(MisfirePolicyEnum::getValue).toArray();
+    public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(JobGroupAddressTypeEnum::getValue).toArray();
 
     private final Integer value;
 

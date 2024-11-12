@@ -1,4 +1,4 @@
-package com.wick.boot.module.monitor.model.vo.job;
+package com.wick.boot.module.monitor.model.vo.jobgroup;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Setter
 @Getter
 @ApiModel(value = "MonitorJobUpdateVO对象", description = "定时任务调度更新参数")
-public class MonitorJobUpdateVO extends MonitorJobAddVO implements Serializable {
+public class MonitorJobGroupUpdateVO extends MonitorJobGroupAddVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

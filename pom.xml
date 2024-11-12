@@ -27,6 +27,7 @@
 
         <!-- xxl-job -->
         <xxl-job.version>2.4.1</xxl-job.version>
+        <forest.version>1.5.36</forest.version>
 
         <!-- DB && ORM -->
         <mysql.version>5.1.47</mysql.version>
@@ -149,6 +150,13 @@
                 <groupId>com.xuxueli</groupId>
                 <artifactId>xxl-job-core</artifactId>
                 <version>${xxl-job.version}</version>
+            </dependency>
+
+            <!-- Forest -->
+            <dependency>
+                <groupId>com.dtflys.forest</groupId>
+                <artifactId>forest-spring-boot-starter</artifactId>
+                <version>${forest.version}</version>
             </dependency>
 
             <!--mysql依赖包-->
