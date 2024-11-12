@@ -43,12 +43,12 @@ public interface ApiXxlJobGroupService {
      * @param xxlJobGroupVO 更新参数
      */
     @Post(url = "/jobgroup/update", contentType = "application/x-www-form-urlencoded")
-    void updateMonitorJob(@JSONBody XxlJobGroupVO xxlJobGroupVO);
+    ForestResponse<String> updateMonitorJob(@Body XxlJobGroupVO xxlJobGroupVO);
 
     /**
      * 删除_执行器管理
      */
-    @Post("/jobgroup/remove")
-    void deleteMonitorJob(@JSONBody("id") int id);
+    @Post(url = "/jobgroup/remove", contentType = "application/x-www-form-urlencoded")
+    void deleteMonitorJob(@Body("id") int id);
 
 }

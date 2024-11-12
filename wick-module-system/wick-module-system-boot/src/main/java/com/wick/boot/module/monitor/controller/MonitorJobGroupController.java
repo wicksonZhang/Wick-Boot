@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -53,23 +54,15 @@ public class MonitorJobGroupController {
     @PreAuthorize("@ss.hasPerm('monitor:job-group:delete')")
     @ApiOperation(value = "删除_执行器管理接口", notes = "执行器管理管理")
     @ApiImplicitParam(name = "ids", value = "主键id", required = true, dataType = "Long", dataTypeClass = Long.class)
-    public ResultUtil<Long> remove(@PathVariable("ids") List<Long> ids) {
+    public ResultUtil<Long> remove(@NotEmpty(message = "执行器编号不能为空") @PathVariable("ids") List<Long> ids) {
         this.monitorJobService.deleteMonitorJobGroup(ids);
         return ResultUtil.success();
-    }
-
-    @GetMapping("/{id}")
-    @PreAuthorize("@ss.hasPerm('monitor:job-group:query')")
-    @ApiOperation(value = "按ID查询_执行器管理接口", notes = "执行器管理管理")
-    @ApiImplicitParam(name = "id", value = "执行器管理ID", required = true, dataType = "Long", dataTypeClass = Long.class)
-    public ResultUtil<MonitorJobGroupDTO> getMonitorJob(@NotNull(message = "主键不能为空") @PathVariable Long id) {
-        return ResultUtil.success(monitorJobService.getMonitorJob(id));
     }
 
     @GetMapping("/page")
     @PreAuthorize("@ss.hasPerm('monitor:job-group:query')")
     @ApiOperation(value = "分页查询_执行器管理接口", notes = "执行器管理管理")
-    public ResultUtil<PageResult<XxlJobGroupVO>> getMonitorJobPage(@Valid MonitorJobGroupQueryVO reqVO) {
+    public ResultUtil<PageResult<MonitorJobGroupDTO>> getMonitorJobPage(@Valid MonitorJobGroupQueryVO reqVO) {
         return ResultUtil.success(monitorJobService.getMonitorJobPage(reqVO));
     }
 

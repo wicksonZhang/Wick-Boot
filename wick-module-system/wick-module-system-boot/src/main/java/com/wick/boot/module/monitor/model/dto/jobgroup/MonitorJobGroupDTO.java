@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 定时任务调度-DTO
@@ -30,10 +31,13 @@ public class MonitorJobGroupDTO implements Serializable {
     private String title;
 
     @ApiModelProperty(value = "注册方式")
-    private String addressType;
+    private Integer addressType;
 
     @ApiModelProperty(value = "OnLine 机器地址")
     private String addressList;
+
+    @ApiModelProperty(value = "执行器地址列表(系统注册)")
+    private List<String> registryList;
 
 }
 

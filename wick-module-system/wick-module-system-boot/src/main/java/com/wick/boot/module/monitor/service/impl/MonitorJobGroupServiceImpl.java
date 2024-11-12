@@ -1,6 +1,8 @@
 package com.wick.boot.module.monitor.service.impl;
 
 import cn.hutool.http.HttpStatus;
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.dtflys.forest.http.ForestResponse;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
@@ -25,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 执行器管理-服务实现类
@@ -88,8 +91,14 @@ public class MonitorJobGroupServiceImpl extends MonitorJobGroupAbstractService i
         this.validateUpdateParams(reqVO);
 
         /* Step-2: 转换实体类型 */
+        XxlJobGroupVO xxlJobGroupVO = MonitorJobGroupConvert.INSTANCE.convertUpdateVoToEntity(reqVO);
 
         /* Step-3: 更新执行器管理信息 */
+        ForestResponse<String> response = xxlJobGroupService.updateMonitorJob(xxlJobGroupVO);
+        int statusCode = response.statusCode();
+        if (HttpStatus.HTTP_OK != statusCode) {
+            throw ServiceException.getInstance(GlobalResultCodeConstants.FAIL);
+        }
     }
 
     /**
@@ -100,22 +109,8 @@ public class MonitorJobGroupServiceImpl extends MonitorJobGroupAbstractService i
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteMonitorJobGroup(List<Long> ids) {
-        /* Step-1: 校验删除参数 */
-
-        /* Step-2: 删除执行器管理信息 */
-    }
-
-    /**
-     * 获取执行器管理数据
-     *
-     * @param id 执行器管理ID
-     * @return MonitorJobGroupDTO 执行器管理DTO
-     */
-    public MonitorJobGroupDTO getMonitorJob(Long id) {
-        /* Step-1: 通过主键获取执行器管理 */
-
-        /* Step-2: 转换实体类型 */
-        return null;
+        /* Step-1: 删除执行器管理信息 */
+        ids.forEach(id -> this.xxlJobGroupService.deleteMonitorJob(Math.toIntExact(id)));
     }
 
     /**
@@ -125,7 +120,7 @@ public class MonitorJobGroupServiceImpl extends MonitorJobGroupAbstractService i
      * @return MonitorJobGroupDTO 执行器管理DTO
      */
     @SuppressWarnings("unchecked")
-    public PageResult<XxlJobGroupVO> getMonitorJobPage(MonitorJobGroupQueryVO queryParams) {
+    public PageResult<MonitorJobGroupDTO> getMonitorJobPage(MonitorJobGroupQueryVO queryParams) {
         // Step-1: 类型转换
         XxlJobGroupQueryVO queryVO = MonitorJobGroupConvert.INSTANCE.convertToQueryVo(queryParams);
 
@@ -146,12 +141,14 @@ public class MonitorJobGroupServiceImpl extends MonitorJobGroupAbstractService i
         int totalRecords = (int) Optional.ofNullable(responseMap.get("recordsTotal")).orElse(0);
 
         // Step-6: 提取数据列表并转换类型
-        List<XxlJobGroupVO> jobGroupList = Optional.ofNullable((List<XxlJobGroupVO>) responseMap.get("data"))
-                .orElse(Collections.emptyList());
+        JSONArray array = JSONUtil.parseArray(responseMap.get("data"));
+        List<XxlJobGroupVO> jobGroupList = array.stream()
+                .map(item -> JSONUtil.toBean((JSONObject) item, XxlJobGroupVO.class))
+                .collect(Collectors.toList());
 
         // Step-7: 转换为 DTO 并构建分页结果
-
-        return new PageResult<>(jobGroupList, (long) totalRecords);
+        List<MonitorJobGroupDTO> resultList = MonitorJobGroupConvert.INSTANCE.convertToDTOList(jobGroupList);
+        return new PageResult<>(resultList, (long) totalRecords);
     }
 
 

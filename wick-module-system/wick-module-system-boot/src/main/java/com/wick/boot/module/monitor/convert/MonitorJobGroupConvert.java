@@ -5,6 +5,7 @@ import com.wick.boot.common.xxl.job.model.vo.jobgroup.XxlJobGroupVO;
 import com.wick.boot.module.monitor.model.dto.jobgroup.MonitorJobGroupDTO;
 import com.wick.boot.module.monitor.model.vo.jobgroup.MonitorJobGroupAddVO;
 import com.wick.boot.module.monitor.model.vo.jobgroup.MonitorJobGroupQueryVO;
+import com.wick.boot.module.monitor.model.vo.jobgroup.MonitorJobGroupUpdateVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -34,6 +35,17 @@ public interface MonitorJobGroupConvert {
     })
     XxlJobGroupVO convertAddVoToEntity(MonitorJobGroupAddVO reqVO);
 
+    /**
+     * 将新增请求参数 VO 转换为 XxlJobGroupVO 实体
+     *
+     * @param reqVO 新增请求参数VO
+     * @return 转换后的 XxlJobGroupVO 实体
+     */
+    @Mappings({
+            @Mapping(target = "appname", source = "appName")
+    })
+    XxlJobGroupVO convertUpdateVoToEntity(MonitorJobGroupUpdateVO reqVO);
+
     @Mappings({
             @Mapping(target = "start", expression = "java(convertStart(queryParams))"),
             @Mapping(target = "length", source = "pageSize"),
@@ -45,7 +57,10 @@ public interface MonitorJobGroupConvert {
         return Math.max(queryParams.getPageNumber() - 1, 0);
     }
 
-    List<MonitorJobGroupDTO> toDTO(List<XxlJobGroupVO> jobGroupList);
+    List<MonitorJobGroupDTO> convertToDTOList(List<XxlJobGroupVO> jobGroupList);
 
-
+    @Mappings({
+            @Mapping(target = "appName", source = "appname")
+    })
+    MonitorJobGroupDTO toDTO(XxlJobGroupVO xxlJobGroupVO);
 }
