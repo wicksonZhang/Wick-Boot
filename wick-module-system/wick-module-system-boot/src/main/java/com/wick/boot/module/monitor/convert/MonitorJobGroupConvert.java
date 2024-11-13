@@ -1,7 +1,7 @@
 package com.wick.boot.module.monitor.convert;
 
+import com.wick.boot.common.xxl.job.model.entity.XxlJobGroup;
 import com.wick.boot.common.xxl.job.model.vo.jobgroup.XxlJobGroupQueryVO;
-import com.wick.boot.common.xxl.job.model.vo.jobgroup.XxlJobGroupVO;
 import com.wick.boot.module.monitor.model.dto.jobgroup.MonitorJobGroupDTO;
 import com.wick.boot.module.monitor.model.vo.jobgroup.MonitorJobGroupAddVO;
 import com.wick.boot.module.monitor.model.vo.jobgroup.MonitorJobGroupQueryVO;
@@ -25,26 +25,26 @@ public interface MonitorJobGroupConvert {
     MonitorJobGroupConvert INSTANCE = Mappers.getMapper(MonitorJobGroupConvert.class);
 
     /**
-     * 将新增请求参数 VO 转换为 XxlJobGroupVO 实体
+     * 将新增请求参数 VO 转换为 XxlJobGroup 实体
      *
      * @param reqVO 新增请求参数VO
-     * @return 转换后的 XxlJobGroupVO 实体
+     * @return 转换后的 XxlJobGroup 实体
      */
     @Mappings({
             @Mapping(target = "appname", source = "appName")
     })
-    XxlJobGroupVO convertAddVoToEntity(MonitorJobGroupAddVO reqVO);
+    XxlJobGroup convertAddVoToEntity(MonitorJobGroupAddVO reqVO);
 
     /**
-     * 将新增请求参数 VO 转换为 XxlJobGroupVO 实体
+     * 将新增请求参数 VO 转换为 XxlJobGroup 实体
      *
      * @param reqVO 新增请求参数VO
-     * @return 转换后的 XxlJobGroupVO 实体
+     * @return 转换后的 XxlJobGroup 实体
      */
     @Mappings({
             @Mapping(target = "appname", source = "appName")
     })
-    XxlJobGroupVO convertUpdateVoToEntity(MonitorJobGroupUpdateVO reqVO);
+    XxlJobGroup convertUpdateVoToEntity(MonitorJobGroupUpdateVO reqVO);
 
     @Mappings({
             @Mapping(target = "start", expression = "java(convertStart(queryParams))"),
@@ -57,10 +57,10 @@ public interface MonitorJobGroupConvert {
         return Math.max(queryParams.getPageNumber() - 1, 0);
     }
 
-    List<MonitorJobGroupDTO> convertToDTOList(List<XxlJobGroupVO> jobGroupList);
+    List<MonitorJobGroupDTO> convertToDTOList(List<XxlJobGroup> jobGroupList);
 
     @Mappings({
             @Mapping(target = "appName", source = "appname")
     })
-    MonitorJobGroupDTO toDTO(XxlJobGroupVO xxlJobGroupVO);
+    MonitorJobGroupDTO toDTO(XxlJobGroup xxlJobGroup);
 }

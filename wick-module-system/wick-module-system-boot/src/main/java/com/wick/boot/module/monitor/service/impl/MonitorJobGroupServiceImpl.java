@@ -10,8 +10,8 @@ import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.xxl.job.api.ApiXxlJobGroupService;
 import com.wick.boot.common.xxl.job.api.ApiXxlJobLoginService;
+import com.wick.boot.common.xxl.job.model.entity.XxlJobGroup;
 import com.wick.boot.common.xxl.job.model.vo.jobgroup.XxlJobGroupQueryVO;
-import com.wick.boot.common.xxl.job.model.vo.jobgroup.XxlJobGroupVO;
 import com.wick.boot.module.monitor.convert.MonitorJobGroupConvert;
 import com.wick.boot.module.monitor.model.dto.jobgroup.MonitorJobGroupDTO;
 import com.wick.boot.module.monitor.model.vo.jobgroup.MonitorJobGroupAddVO;
@@ -26,7 +26,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -38,7 +41,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class MonitorJobGroupServiceImpl extends MonitorJobGroupAbstractService implements MonitorJobService {
-
 
     @Value("${xxl.job.admin.userName}")
     private String userName;
@@ -71,12 +73,9 @@ public class MonitorJobGroupServiceImpl extends MonitorJobGroupAbstractService i
         /* Step-1: 校验新增参数 */
         this.validateAddParams(reqVO);
 
-        XxlJobGroupVO xxlJobGroupVO = MonitorJobGroupConvert.INSTANCE.convertAddVoToEntity(reqVO);
-        ForestResponse<String> response = xxlJobGroupService.addMonitorJob(xxlJobGroupVO);
-        int statusCode = response.statusCode();
-        if (HttpStatus.HTTP_OK != statusCode) {
-            throw ServiceException.getInstance(GlobalResultCodeConstants.FAIL);
-        }
+        XxlJobGroup xxlJobGroup = MonitorJobGroupConvert.INSTANCE.convertAddVoToEntity(reqVO);
+        ForestResponse<String> response = xxlJobGroupService.addMonitorJob(xxlJobGroup);
+        validateResponse(response);
     }
 
     /**
@@ -91,10 +90,14 @@ public class MonitorJobGroupServiceImpl extends MonitorJobGroupAbstractService i
         this.validateUpdateParams(reqVO);
 
         /* Step-2: 转换实体类型 */
-        XxlJobGroupVO xxlJobGroupVO = MonitorJobGroupConvert.INSTANCE.convertUpdateVoToEntity(reqVO);
+        XxlJobGroup xxlJobGroup = MonitorJobGroupConvert.INSTANCE.convertUpdateVoToEntity(reqVO);
 
         /* Step-3: 更新执行器管理信息 */
-        ForestResponse<String> response = xxlJobGroupService.updateMonitorJob(xxlJobGroupVO);
+        ForestResponse<String> response = xxlJobGroupService.updateMonitorJob(xxlJobGroup);
+        validateResponse(response);
+    }
+
+    private static void validateResponse(ForestResponse<String> response) {
         int statusCode = response.statusCode();
         if (HttpStatus.HTTP_OK != statusCode) {
             throw ServiceException.getInstance(GlobalResultCodeConstants.FAIL);
@@ -142,8 +145,8 @@ public class MonitorJobGroupServiceImpl extends MonitorJobGroupAbstractService i
 
         // Step-6: 提取数据列表并转换类型
         JSONArray array = JSONUtil.parseArray(responseMap.get("data"));
-        List<XxlJobGroupVO> jobGroupList = array.stream()
-                .map(item -> JSONUtil.toBean((JSONObject) item, XxlJobGroupVO.class))
+        List<XxlJobGroup> jobGroupList = array.stream()
+                .map(item -> JSONUtil.toBean((JSONObject) item, XxlJobGroup.class))
                 .collect(Collectors.toList());
 
         // Step-7: 转换为 DTO 并构建分页结果

@@ -1,4 +1,4 @@
-package com.wick.boot.common.xxl.job.model.vo.jobgroup;
+package com.wick.boot.common.xxl.job.model.entity;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Setter
 @Getter
-public class XxlJobGroupVO {
+public class XxlJobGroup {
 
     /**
      * 主键id

@@ -2,7 +2,6 @@ package com.wick.boot.module.monitor.controller;
 
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
-import com.wick.boot.common.xxl.job.model.vo.jobgroup.XxlJobGroupVO;
 import com.wick.boot.module.monitor.model.dto.jobgroup.MonitorJobGroupDTO;
 import com.wick.boot.module.monitor.model.vo.jobgroup.MonitorJobGroupAddVO;
 import com.wick.boot.module.monitor.model.vo.jobgroup.MonitorJobGroupQueryVO;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -28,7 +26,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/monitor/job-group")
-@Api(tags = "03-系统监控-执行器管理")
+@Api(tags = "03-定时任务-执行器管理")
 public class MonitorJobGroupController {
 
     @Resource
