@@ -1,5 +1,6 @@
 package com.wick.boot.module.monitor.controller;
 
+import com.wick.boot.common.core.model.dto.OptionDTO;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.module.monitor.model.dto.jobgroup.MonitorJobGroupDTO;
@@ -62,6 +63,13 @@ public class MonitorJobGroupController {
     @ApiOperation(value = "分页查询_执行器管理接口", notes = "执行器管理管理")
     public ResultUtil<PageResult<MonitorJobGroupDTO>> getMonitorJobPage(@Valid MonitorJobGroupQueryVO reqVO) {
         return ResultUtil.success(monitorJobService.getMonitorJobPage(reqVO));
+    }
+
+    @GetMapping("/list")
+    @PreAuthorize("@ss.hasPerm('monitor:job-group:query')")
+    @ApiOperation(value = "集合查询_执行器管理接口", notes = "执行器管理管理")
+    public ResultUtil<List<OptionDTO<Integer>>> getMonitorJobList() {
+        return ResultUtil.success(monitorJobService.getMonitorJobList());
     }
 
 }

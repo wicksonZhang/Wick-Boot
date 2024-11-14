@@ -2,6 +2,7 @@ package com.wick.boot.common.xxl.job.model.vo.jobgroup;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 /**
  * 执行器管理-查询VO
@@ -11,6 +12,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
+@Accessors(chain = true)
 public class XxlJobGroupQueryVO {
 
     /**

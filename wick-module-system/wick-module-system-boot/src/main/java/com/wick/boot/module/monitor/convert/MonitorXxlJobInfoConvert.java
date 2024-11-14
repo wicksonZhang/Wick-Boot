@@ -53,33 +53,11 @@ public interface MonitorXxlJobInfoConvert {
     List<MonitorXxlJobInfoDTO> entityToPage(List<XxlJobInfo> monitorXxlJobInfoList);
 
     @Mappings({
-            @Mapping(target = "scheduleType", expression = "java(convertScheduleType(xxlJobInfo))"),
-            @Mapping(target = "executorHandler", expression = "java(convertExecutorHandler(xxlJobInfo))"),
             @Mapping(target = "addTime", expression = "java(convertAddTime(xxlJobInfo))"),
             @Mapping(target = "triggerLastTime", expression = "java(convertLastTime(xxlJobInfo))"),
             @Mapping(target = "triggerNextTime", expression = "java(convertNextTime(xxlJobInfo))")
     })
     MonitorXxlJobInfoDTO toXxlJobInfoDTO(XxlJobInfo xxlJobInfo);
-
-    /**
-     * 转换调度类型
-     *
-     * @param xxlJobInfo 定时任务信息
-     * @return 调度类型
-     */
-    default String convertScheduleType(XxlJobInfo xxlJobInfo) {
-        return xxlJobInfo.getScheduleType() + ": " + xxlJobInfo.getScheduleConf();
-    }
-
-    /**
-     * 转换运行模式
-     *
-     * @param xxlJobInfo 定时任务信息
-     * @return 运行模式
-     */
-    default String convertExecutorHandler(XxlJobInfo xxlJobInfo) {
-        return xxlJobInfo.getGlueType() + ": " + xxlJobInfo.getExecutorHandler();
-    }
 
     /**
      * 转换添加时间

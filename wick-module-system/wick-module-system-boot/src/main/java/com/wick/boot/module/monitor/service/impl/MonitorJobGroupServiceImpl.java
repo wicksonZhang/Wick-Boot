@@ -5,8 +5,10 @@ import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.dtflys.forest.http.ForestResponse;
+import com.google.common.collect.Lists;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.exception.ServiceException;
+import com.wick.boot.common.core.model.dto.OptionDTO;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.xxl.job.api.ApiXxlJobGroupService;
 import com.wick.boot.common.xxl.job.api.ApiXxlJobLoginService;
@@ -119,7 +121,6 @@ public class MonitorJobGroupServiceImpl extends MonitorJobGroupAbstractService i
     /**
      * 获取执行器管理分页数据
      *
-     * @param queryParams 分页查询参数
      * @return MonitorJobGroupDTO 执行器管理DTO
      */
     @SuppressWarnings("unchecked")
@@ -154,5 +155,29 @@ public class MonitorJobGroupServiceImpl extends MonitorJobGroupAbstractService i
         return new PageResult<>(resultList, (long) totalRecords);
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<OptionDTO<Integer>> getMonitorJobList() {
+        XxlJobGroupQueryVO queryVO = new XxlJobGroupQueryVO().setStart(0).setLength(500);
+        // Step-2: 调用服务获取分页数据
+        ForestResponse<Map<String, Object>> response = xxlJobGroupService.getMonitorJobPage(queryVO);
 
+        // Step-3: 校验响应状态码，非200则返回空的分页结果
+        if (response.getStatusCode() != HttpStatus.HTTP_OK) {
+            return Lists.newArrayList();
+        }
+
+        // Step-4: 解析响应内容为Map并处理异常
+        Map<String, Object> responseMap = Optional.ofNullable(response.getContent())
+                .map(content -> JSONUtil.toBean(content, HashMap.class))
+                .orElseGet(HashMap::new);
+
+        // Step-6: 提取数据列表并转换类型
+        JSONArray array = JSONUtil.parseArray(responseMap.get("data"));
+        List<XxlJobGroup> jobGroupList = array.stream()
+                .map(item -> JSONUtil.toBean((JSONObject) item, XxlJobGroup.class))
+                .collect(Collectors.toList());
+
+        return MonitorJobGroupConvert.INSTANCE.convertToOptionDTOList(jobGroupList);
+    }
 }

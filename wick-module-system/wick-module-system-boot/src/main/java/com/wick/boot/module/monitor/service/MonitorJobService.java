@@ -1,5 +1,6 @@
 package com.wick.boot.module.monitor.service;
 
+import com.wick.boot.common.core.model.dto.OptionDTO;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.monitor.model.dto.jobgroup.MonitorJobGroupDTO;
 import com.wick.boot.module.monitor.model.vo.jobgroup.MonitorJobGroupAddVO;
@@ -40,8 +41,14 @@ public interface MonitorJobService {
     /**
      * 获取执行器管理分页数据
      *
-     * @param queryParams 分页查询参数
      * @return MonitorJobGroupDTO 执行器管理DTO
      */
     PageResult<MonitorJobGroupDTO> getMonitorJobPage(MonitorJobGroupQueryVO queryParams);
+
+    /**
+     * 获取执行器管理集合数据
+     *
+     * @return OptionDTO 执行器管理集合
+     */
+    List<OptionDTO<Integer>> getMonitorJobList();
 }

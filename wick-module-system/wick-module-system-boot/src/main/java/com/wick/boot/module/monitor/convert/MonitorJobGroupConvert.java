@@ -1,5 +1,6 @@
 package com.wick.boot.module.monitor.convert;
 
+import com.wick.boot.common.core.model.dto.OptionDTO;
 import com.wick.boot.common.xxl.job.model.entity.XxlJobGroup;
 import com.wick.boot.common.xxl.job.model.vo.jobgroup.XxlJobGroupQueryVO;
 import com.wick.boot.module.monitor.model.dto.jobgroup.MonitorJobGroupDTO;
@@ -63,4 +64,19 @@ public interface MonitorJobGroupConvert {
             @Mapping(target = "appName", source = "appname")
     })
     MonitorJobGroupDTO toDTO(XxlJobGroup xxlJobGroup);
+
+    /**
+     * 转换为 OptionDTO
+     *
+     * @param jobGroupList 定时任务管理器集合
+     * @return
+     */
+    List<OptionDTO<Integer>> convertToOptionDTOList(List<XxlJobGroup> jobGroupList);
+
+    @Mappings({
+            @Mapping(target = "value", source = "id"),
+            @Mapping(target = "label", source = "title"),
+    })
+    OptionDTO<Integer> toOptionDTO(XxlJobGroup xxlJobGroup);
+
 }
