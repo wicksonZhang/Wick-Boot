@@ -64,7 +64,8 @@ public class MonitorXxlJobInfoDTO implements Serializable {
     private String childJobId;
 
     @ApiModelProperty(value = "GLUE更新时间")
-    private Date glueUpdatetime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime glueUpdatetime;
 
     @ApiModelProperty(value = "GLUE备注")
     private String glueRemark;

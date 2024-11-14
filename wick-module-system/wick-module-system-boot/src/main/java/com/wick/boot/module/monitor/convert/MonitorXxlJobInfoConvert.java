@@ -54,6 +54,7 @@ public interface MonitorXxlJobInfoConvert {
 
     @Mappings({
             @Mapping(target = "addTime", expression = "java(convertAddTime(xxlJobInfo))"),
+            @Mapping(target = "glueUpdatetime", expression = "java(convertUpdateTime(xxlJobInfo))"),
             @Mapping(target = "triggerLastTime", expression = "java(convertLastTime(xxlJobInfo))"),
             @Mapping(target = "triggerNextTime", expression = "java(convertNextTime(xxlJobInfo))")
     })
@@ -71,6 +72,20 @@ public interface MonitorXxlJobInfoConvert {
             return null;
         }
         return addTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+    }
+
+    /**
+     * 转换添加时间
+     *
+     * @param xxlJobInfo 定时任务信息
+     * @return 添加时间
+     */
+    default LocalDateTime convertUpdateTime(XxlJobInfo xxlJobInfo) {
+        Date updateTime = xxlJobInfo.getGlueUpdatetime();
+        if (updateTime == null) {
+            return null;
+        }
+        return updateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 
     /**

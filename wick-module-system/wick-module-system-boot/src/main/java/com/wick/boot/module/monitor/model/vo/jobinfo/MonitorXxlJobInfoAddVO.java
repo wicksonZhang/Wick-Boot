@@ -1,5 +1,6 @@
 package com.wick.boot.module.monitor.model.vo.jobinfo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -29,6 +30,7 @@ public class MonitorXxlJobInfoAddVO {
     private String jobDesc;
 
     @ApiModelProperty(value = "添加时间")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime addTime;
 
     @ApiModelProperty(value = "负责人", required = true)
@@ -76,6 +78,7 @@ public class MonitorXxlJobInfoAddVO {
     private String glueRemark;
 
     @ApiModelProperty(value = "GLUE更新时间")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime glueUpdatetime;
 
     @ApiModelProperty(value = "子任务ID，多个逗号分隔")
