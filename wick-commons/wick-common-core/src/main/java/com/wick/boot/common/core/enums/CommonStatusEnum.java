@@ -31,4 +31,19 @@ public enum CommonStatusEnum implements IntArrayValuable {
         return ARRAYS;
     }
 
+    /**
+     * 根据code获取 CommonStatusEnum 实例
+     */
+    public static CommonStatusEnum getStatus(int value) {
+        CommonStatusEnum commonStatusEnum = null;
+        for (CommonStatusEnum commonStatus : CommonStatusEnum.values()) {
+            if (commonStatus.getValue() == value) {
+                commonStatusEnum = commonStatus;
+                break;
+            }
+        }
+        return commonStatusEnum;
+    }
+
+
 }

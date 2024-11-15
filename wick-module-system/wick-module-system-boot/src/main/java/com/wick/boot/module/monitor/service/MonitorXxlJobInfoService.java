@@ -2,6 +2,7 @@ package com.wick.boot.module.monitor.service;
 
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.monitor.model.vo.jobinfo.MonitorXxlJobInfoAddVO;
+import com.wick.boot.module.monitor.model.vo.jobinfo.MonitorXxlJobInfoTriggerVO;
 import com.wick.boot.module.monitor.model.vo.jobinfo.MonitorXxlJobInfoUpdateVO;
 import com.wick.boot.module.monitor.model.vo.jobinfo.MonitorXxlJobInfoQueryVO;
 import com.wick.boot.module.monitor.model.dto.jobinfo.MonitorXxlJobInfoDTO;
@@ -36,6 +37,21 @@ public interface MonitorXxlJobInfoService {
      * @param ids 主键集合
      */
     void deleteMonitorXxlJobInfo(List<Long> ids);
+
+    /**
+     * 更新定时任务调度状态
+     *
+     * @param id     定时任务ID
+     * @param status 调度状态
+     */
+    void updateStatus(Integer id, Integer status);
+
+    /**
+     * 执行_定时任务管理接口
+     *
+     * @param addVO 执行定时任务新增
+     */
+    void executeTrigger(MonitorXxlJobInfoTriggerVO addVO);
 
     /**
      * 获取定时任务管理分页数据

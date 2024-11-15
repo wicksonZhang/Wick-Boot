@@ -6,7 +6,6 @@ import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.module.monitor.model.vo.jobgroup.MonitorJobGroupAddVO;
 import com.wick.boot.module.monitor.model.vo.jobgroup.MonitorJobGroupUpdateVO;
 import com.wick.boot.module.system.enums.monitor.JobGroupAddressTypeEnum;
-import org.springframework.scheduling.support.CronExpression;
 
 /**
  * 定时任务调度管理-防腐层
@@ -45,12 +44,6 @@ public abstract class MonitorJobGroupAbstractService {
                     GlobalResultCodeConstants.PARAM_IS_INVALID.getCode(),
                     "机器地址不能为空"
             );
-        }
-    }
-
-    private void validateCronExpression(String cronExpression) {
-        if (!CronExpression.isValidExpression(cronExpression)) {
-
         }
     }
 

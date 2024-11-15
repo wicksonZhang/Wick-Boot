@@ -1,13 +1,11 @@
 package com.wick.boot.common.xxl.job.model.entity;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
 
-@ApiModel
 @Getter
 @Setter
 public class XxlJobInfo {

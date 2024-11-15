@@ -53,8 +53,8 @@ public interface MonitorXxlJobInfoConvert {
     List<MonitorXxlJobInfoDTO> entityToPage(List<XxlJobInfo> monitorXxlJobInfoList);
 
     @Mappings({
-            @Mapping(target = "addTime", expression = "java(convertAddTime(xxlJobInfo))"),
-            @Mapping(target = "glueUpdatetime", expression = "java(convertUpdateTime(xxlJobInfo))"),
+            @Mapping(target = "addTime", expression = "java(convertAddTimeByLocalDateTime(xxlJobInfo))"),
+            @Mapping(target = "glueUpdatetime", expression = "java(convertUpdateTimeByLocalDateTime(xxlJobInfo))"),
             @Mapping(target = "triggerLastTime", expression = "java(convertLastTime(xxlJobInfo))"),
             @Mapping(target = "triggerNextTime", expression = "java(convertNextTime(xxlJobInfo))")
     })
@@ -66,7 +66,7 @@ public interface MonitorXxlJobInfoConvert {
      * @param xxlJobInfo 定时任务信息
      * @return 添加时间
      */
-    default LocalDateTime convertAddTime(XxlJobInfo xxlJobInfo) {
+    default LocalDateTime convertAddTimeByLocalDateTime(XxlJobInfo xxlJobInfo) {
         Date addTime = xxlJobInfo.getAddTime();
         if (addTime == null) {
             return null;
@@ -80,7 +80,7 @@ public interface MonitorXxlJobInfoConvert {
      * @param xxlJobInfo 定时任务信息
      * @return 添加时间
      */
-    default LocalDateTime convertUpdateTime(XxlJobInfo xxlJobInfo) {
+    default LocalDateTime convertUpdateTimeByLocalDateTime(XxlJobInfo xxlJobInfo) {
         Date updateTime = xxlJobInfo.getGlueUpdatetime();
         if (updateTime == null) {
             return null;

@@ -5,6 +5,7 @@ import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.module.monitor.model.dto.jobinfo.MonitorXxlJobInfoDTO;
 import com.wick.boot.module.monitor.model.vo.jobinfo.MonitorXxlJobInfoAddVO;
 import com.wick.boot.module.monitor.model.vo.jobinfo.MonitorXxlJobInfoQueryVO;
+import com.wick.boot.module.monitor.model.vo.jobinfo.MonitorXxlJobInfoTriggerVO;
 import com.wick.boot.module.monitor.model.vo.jobinfo.MonitorXxlJobInfoUpdateVO;
 import com.wick.boot.module.monitor.service.MonitorXxlJobInfoService;
 import io.swagger.annotations.Api;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -53,6 +55,21 @@ public class MonitorXxlJobInfoController {
     @ApiImplicitParam(name = "ids", value = "主键id", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<Long> remove(@PathVariable("ids") List<Long> ids) {
         this.monitorXxlJobInfoService.deleteMonitorXxlJobInfo(ids);
+        return ResultUtil.success();
+    }
+
+    @ApiOperation(value = "启用(停用)_定时任务管理接口", notes = "定时任务管理管理")
+    @PatchMapping("/updateStatus/{id}/{status}")
+    public ResultUtil<Long> updateStatus(@NotNull(message = "定时任务编号不能为空") @PathVariable Integer id,
+                                         @NotNull(message = "调度状态不能为空") @PathVariable Integer status) {
+        this.monitorXxlJobInfoService.updateStatus(id, status);
+        return ResultUtil.success();
+    }
+
+    @ApiOperation(value = "执行_定时任务管理接口", notes = "定时任务管理管理")
+    @PostMapping("/executeTrigger")
+    public ResultUtil<Long> executeTrigger(@Valid @RequestBody MonitorXxlJobInfoTriggerVO addVO) {
+        this.monitorXxlJobInfoService.executeTrigger(addVO);
         return ResultUtil.success();
     }
 

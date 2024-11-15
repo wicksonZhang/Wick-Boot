@@ -1,6 +1,5 @@
 package com.wick.boot.module.monitor.model.vo.jobinfo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -8,7 +7,6 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
 /**
  * 定时任务管理新增参数
@@ -28,10 +26,6 @@ public class MonitorXxlJobInfoAddVO {
     @ApiModelProperty(value = "任务描述", required = true)
     @NotBlank(message = "任务描述不能为空")
     private String jobDesc;
-
-    @ApiModelProperty(value = "添加时间")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime addTime;
 
     @ApiModelProperty(value = "负责人", required = true)
     @NotBlank(message = "负责人不能为空")
@@ -68,30 +62,8 @@ public class MonitorXxlJobInfoAddVO {
     @ApiModelProperty(value = "失败重试次数")
     private Integer executorFailRetryCount;
 
-    @ApiModelProperty(value = "GLUE类型")
-    private String glueType;
-
-    @ApiModelProperty(value = "GLUE源代码")
-    private String glueSource;
-
-    @ApiModelProperty(value = "GLUE备注")
-    private String glueRemark;
-
-    @ApiModelProperty(value = "GLUE更新时间")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime glueUpdatetime;
-
     @ApiModelProperty(value = "子任务ID，多个逗号分隔")
     private String childJobid;
-
-    @ApiModelProperty(value = "调度状态：0-停止，1-运行")
-    private Integer triggerStatus;
-
-    @ApiModelProperty(value = "上次调度时间")
-    private Long triggerLastTime;
-
-    @ApiModelProperty(value = "下次调度时间")
-    private Long triggerNextTime;
 
 }
 

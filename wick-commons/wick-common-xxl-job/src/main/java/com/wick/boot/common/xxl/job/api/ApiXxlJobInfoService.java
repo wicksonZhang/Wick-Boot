@@ -5,6 +5,7 @@ import com.dtflys.forest.annotation.Body;
 import com.dtflys.forest.annotation.Post;
 import com.dtflys.forest.http.ForestResponse;
 import com.wick.boot.common.xxl.job.interceptor.CookieInterceptor;
+import com.wick.boot.common.xxl.job.model.entity.XxlJobInfo;
 import com.wick.boot.common.xxl.job.model.vo.jobinfo.XxlJobInfoQueryVO;
 
 import java.util.Map;
@@ -31,4 +32,45 @@ public interface ApiXxlJobInfoService {
     @Post(url = "/jobinfo/pageList")
     ForestResponse<Map<String, Object>> getMonitorJobPage(@Body XxlJobInfoQueryVO xxlJobInfoQueryVO);
 
+    /**
+     * 新增_定时任务管理
+     *
+     * @param xxlJobInfo 新增参数
+     * @return 结果集
+     */
+    @Post(url = "/jobinfo/add")
+    ForestResponse<String> add(@Body XxlJobInfo xxlJobInfo);
+
+    /**
+     * 更新_定时任务管理
+     *
+     * @param xxlJobInfo 更新参数
+     * @return 结果集
+     */
+    @Post(url = "/jobinfo/update")
+    ForestResponse<String> update(@Body XxlJobInfo xxlJobInfo);
+
+    /**
+     * 删除_定时任务管理
+     */
+    @Post(url = "/jobinfo/remove")
+    void delete(@Body("id") int id);
+
+    /**
+     * 启动_定时任务管理
+     */
+    @Post(url = "/jobinfo/start")
+    ForestResponse<String> start(@Body("id") int id);
+
+    /**
+     * 停止_定时任务管理
+     */
+    @Post(url = "/jobinfo/stop")
+    ForestResponse<String> stop(@Body("id") int id);
+
+    /**
+     * 执行_定时任务管理
+     */
+    @Post(url = "/jobinfo/trigger")
+    ForestResponse<String> trigger(@Body("id") int id, @Body("executorParam") String executorParam, @Body("addressList") String addressList);
 }

@@ -1,11 +1,9 @@
 package com.wick.boot.module.monitor.service.impl;
 
 import cn.hutool.http.HttpStatus;
-import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.dtflys.forest.http.ForestResponse;
-import com.google.common.collect.Lists;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.model.dto.OptionDTO;
@@ -28,11 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * 执行器管理-服务实现类
@@ -43,6 +38,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class MonitorJobGroupServiceImpl extends MonitorJobGroupAbstractService implements MonitorJobService {
+
+    @Value("${xxl.job.enabled}")
+    private Boolean enabled;
 
     @Value("${xxl.job.admin.userName}")
     private String userName;
@@ -58,6 +56,9 @@ public class MonitorJobGroupServiceImpl extends MonitorJobGroupAbstractService i
 
     @PostConstruct
     private void login() {
+        if (!enabled) {
+            return;
+        }
         ForestResponse<String> response = loginService.login(userName, password);
         if (response.getStatusCode() == HttpStatus.HTTP_OK) {
             log.info("Xxl-Job Login Success...");
@@ -76,7 +77,7 @@ public class MonitorJobGroupServiceImpl extends MonitorJobGroupAbstractService i
         this.validateAddParams(reqVO);
 
         XxlJobGroup xxlJobGroup = MonitorJobGroupConvert.INSTANCE.convertAddVoToEntity(reqVO);
-        ForestResponse<String> response = xxlJobGroupService.addMonitorJob(xxlJobGroup);
+        ForestResponse<String> response = xxlJobGroupService.addMonitorJobGroup(xxlJobGroup);
         validateResponse(response);
     }
 
@@ -95,7 +96,7 @@ public class MonitorJobGroupServiceImpl extends MonitorJobGroupAbstractService i
         XxlJobGroup xxlJobGroup = MonitorJobGroupConvert.INSTANCE.convertUpdateVoToEntity(reqVO);
 
         /* Step-3: 更新执行器管理信息 */
-        ForestResponse<String> response = xxlJobGroupService.updateMonitorJob(xxlJobGroup);
+        ForestResponse<String> response = xxlJobGroupService.updateMonitorJobGroup(xxlJobGroup);
         validateResponse(response);
     }
 
@@ -115,7 +116,7 @@ public class MonitorJobGroupServiceImpl extends MonitorJobGroupAbstractService i
     @Transactional(rollbackFor = Exception.class)
     public void deleteMonitorJobGroup(List<Long> ids) {
         /* Step-1: 删除执行器管理信息 */
-        ids.forEach(id -> this.xxlJobGroupService.deleteMonitorJob(Math.toIntExact(id)));
+        ids.forEach(id -> this.xxlJobGroupService.deleteMonitorJobGroup(Math.toIntExact(id)));
     }
 
     /**
@@ -123,61 +124,41 @@ public class MonitorJobGroupServiceImpl extends MonitorJobGroupAbstractService i
      *
      * @return MonitorJobGroupDTO 执行器管理DTO
      */
-    @SuppressWarnings("unchecked")
     public PageResult<MonitorJobGroupDTO> getMonitorJobPage(MonitorJobGroupQueryVO queryParams) {
         // Step-1: 类型转换
         XxlJobGroupQueryVO queryVO = MonitorJobGroupConvert.INSTANCE.convertToQueryVo(queryParams);
 
         // Step-2: 调用服务获取分页数据
-        ForestResponse<Map<String, Object>> response = xxlJobGroupService.getMonitorJobPage(queryVO);
+        ForestResponse<String> response = xxlJobGroupService.getMonitorJobGroupPage(queryVO);
+        validateResponse(response);
 
-        // Step-3: 校验响应状态码，非200则返回空的分页结果
-        if (response.getStatusCode() != HttpStatus.HTTP_OK) {
-            return PageResult.empty();
-        }
+        // Step-3: 解析响应内容为JSONObject
+        JSONObject jsonObject = JSONUtil.parseObj(response.getContent());
 
-        // Step-4: 解析响应内容为Map并处理异常
-        Map<String, Object> responseMap = Optional.ofNullable(response.getContent())
-                .map(content -> JSONUtil.toBean(content, HashMap.class))
-                .orElseGet(HashMap::new);
+        // Step-4: 提取总记录数
+        int totalRecords = (int) Optional.ofNullable(jsonObject.get("recordsTotal")).orElse(0);
 
-        // Step-5: 提取总记录数
-        int totalRecords = (int) Optional.ofNullable(responseMap.get("recordsTotal")).orElse(0);
+        // Step-5: 提取数据列表并转换类型
+        List<XxlJobGroup> jobGroupList = jsonObject.getJSONArray("data").toList(XxlJobGroup.class);
 
-        // Step-6: 提取数据列表并转换类型
-        JSONArray array = JSONUtil.parseArray(responseMap.get("data"));
-        List<XxlJobGroup> jobGroupList = array.stream()
-                .map(item -> JSONUtil.toBean((JSONObject) item, XxlJobGroup.class))
-                .collect(Collectors.toList());
-
-        // Step-7: 转换为 DTO 并构建分页结果
+        // Step-6: 转换为 DTO 并构建分页结果
         List<MonitorJobGroupDTO> resultList = MonitorJobGroupConvert.INSTANCE.convertToDTOList(jobGroupList);
         return new PageResult<>(resultList, (long) totalRecords);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<OptionDTO<Integer>> getMonitorJobList() {
         XxlJobGroupQueryVO queryVO = new XxlJobGroupQueryVO().setStart(0).setLength(500);
+
         // Step-2: 调用服务获取分页数据
-        ForestResponse<Map<String, Object>> response = xxlJobGroupService.getMonitorJobPage(queryVO);
+        ForestResponse<String> response = xxlJobGroupService.getMonitorJobGroupPage(queryVO);
+        validateResponse(response);
 
-        // Step-3: 校验响应状态码，非200则返回空的分页结果
-        if (response.getStatusCode() != HttpStatus.HTTP_OK) {
-            return Lists.newArrayList();
-        }
+        // Step-3: 解析响应内容为Map并处理异常
+        JSONObject jsonObject = JSONUtil.parseObj(response.getContent());
 
-        // Step-4: 解析响应内容为Map并处理异常
-        Map<String, Object> responseMap = Optional.ofNullable(response.getContent())
-                .map(content -> JSONUtil.toBean(content, HashMap.class))
-                .orElseGet(HashMap::new);
-
-        // Step-6: 提取数据列表并转换类型
-        JSONArray array = JSONUtil.parseArray(responseMap.get("data"));
-        List<XxlJobGroup> jobGroupList = array.stream()
-                .map(item -> JSONUtil.toBean((JSONObject) item, XxlJobGroup.class))
-                .collect(Collectors.toList());
-
+        // Step-4: 提取数据列表并转换类型
+        List<XxlJobGroup> jobGroupList = jsonObject.getJSONArray("data").toList(XxlJobGroup.class);
         return MonitorJobGroupConvert.INSTANCE.convertToOptionDTOList(jobGroupList);
     }
 }

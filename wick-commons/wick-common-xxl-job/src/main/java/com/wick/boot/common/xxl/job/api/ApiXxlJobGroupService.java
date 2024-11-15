@@ -8,8 +8,6 @@ import com.wick.boot.common.xxl.job.interceptor.CookieInterceptor;
 import com.wick.boot.common.xxl.job.model.entity.XxlJobGroup;
 import com.wick.boot.common.xxl.job.model.vo.jobgroup.XxlJobGroupQueryVO;
 
-import java.util.Map;
-
 /**
  * 执行器管理-API
  *
@@ -30,7 +28,7 @@ public interface ApiXxlJobGroupService {
      * @return 分页 Map 集合
      */
     @Post(url = "/jobgroup/pageList")
-    ForestResponse<Map<String, Object>> getMonitorJobPage(@Body XxlJobGroupQueryVO xxlJobGroupQueryVO);
+    ForestResponse<String> getMonitorJobGroupPage(@Body XxlJobGroupQueryVO xxlJobGroupQueryVO);
 
     /**
      * 新增_执行器管理
@@ -38,7 +36,7 @@ public interface ApiXxlJobGroupService {
      * @param xxlJobGroup 新增参数
      */
     @Post(url = "/jobgroup/save")
-    ForestResponse<String> addMonitorJob(@Body XxlJobGroup xxlJobGroup);
+    ForestResponse<String> addMonitorJobGroup(@Body XxlJobGroup xxlJobGroup);
 
     /**
      * 更新_执行器管理
@@ -46,12 +44,12 @@ public interface ApiXxlJobGroupService {
      * @param xxlJobGroup 更新参数
      */
     @Post(url = "/jobgroup/update")
-    ForestResponse<String> updateMonitorJob(@Body XxlJobGroup xxlJobGroup);
+    ForestResponse<String> updateMonitorJobGroup(@Body XxlJobGroup xxlJobGroup);
 
     /**
      * 删除_执行器管理
      */
     @Post(url = "/jobgroup/remove")
-    void deleteMonitorJob(@Body("id") int id);
+    void deleteMonitorJobGroup(@Body("id") int id);
 
 }
