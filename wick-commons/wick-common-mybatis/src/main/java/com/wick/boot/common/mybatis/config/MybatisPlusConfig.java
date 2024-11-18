@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableTransactionManagement
-@MapperScan(value = "com.wick.boot.module.*.mapper", annotationClass = Mapper.class)
+@MapperScan(value = "com.wick.boot.module.**.mapper", annotationClass = Mapper.class)
 public class MybatisPlusConfig {
 
     /**

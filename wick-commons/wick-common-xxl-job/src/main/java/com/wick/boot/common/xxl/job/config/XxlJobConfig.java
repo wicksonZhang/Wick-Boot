@@ -56,8 +56,6 @@ public class XxlJobConfig {
         xxlJobSpringExecutor.setLogPath(logPath);
         xxlJobSpringExecutor.setLogRetentionDays(logRetentionDays);
 
-
-
         return xxlJobSpringExecutor;
     }
 

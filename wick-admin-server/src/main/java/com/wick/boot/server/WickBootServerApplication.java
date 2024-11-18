@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 @EnableScheduling
 @SpringBootApplication(scanBasePackages = {"com.wick.boot"})
-@ForestScan(basePackages = "com.wick.boot.common.xxl.job.api")
+@ForestScan(basePackages = "com.wick.boot")
 public class  WickBootServerApplication {
 
     public static void main(String[] args) {
