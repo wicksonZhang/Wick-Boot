@@ -17,7 +17,7 @@ import java.util.Map;
  * @date 2024-11-13
  */
 @BaseRequest(
-        baseURL = "${baseUrl}",
+        baseURL = "${xxlHttpUrl}",
         interceptor = CookieInterceptor.class,
         contentType = "application/x-www-form-urlencoded;charset=UTF-8"
 )

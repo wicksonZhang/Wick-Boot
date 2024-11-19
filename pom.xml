@@ -325,6 +325,20 @@
                 <version>${revision}</version>
             </dependency>
 
+            <!-- okx-api -->
+            <dependency>
+                <groupId>com.wick.boot</groupId>
+                <artifactId>wick-module-okx-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- okx-boot -->
+            <dependency>
+                <groupId>com.wick.boot</groupId>
+                <artifactId>wick-module-okx-boot</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
             <!-- flyway sync -->
             <dependency>
                 <groupId>com.wick.boot</groupId>

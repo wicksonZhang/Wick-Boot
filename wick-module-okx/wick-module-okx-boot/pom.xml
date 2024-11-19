@@ -19,6 +19,12 @@
     </properties>
 
     <dependencies>
+        <!-- wick-okx-api -->
+        <dependency>
+            <groupId>com.wick.boot</groupId>
+            <artifactId>wick-module-okx-api</artifactId>
+        </dependency>
+
         <!-- common mybatis -->
         <dependency>
             <groupId>com.wick.boot</groupId>

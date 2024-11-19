@@ -37,6 +37,13 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- okx-boot -->
+        <dependency>
+            <groupId>com.wick.boot</groupId>
+            <artifactId>wick-module-okx-boot</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
         <!-- flyway-core -->
         <dependency>
             <groupId>com.wick.boot</groupId>

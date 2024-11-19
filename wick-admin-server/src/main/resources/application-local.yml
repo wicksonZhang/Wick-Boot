@@ -104,8 +104,13 @@ forest:
   max-connections: 1000        # 连接池最大连接数
   connect-timeout: 3000        # 连接超时时间，单位为毫秒
   read-timeout: 3000           # 数据读取超时时间，单位为毫秒
+  ssl-protocol: TLS
   variables:
-    baseUrl: http://139.9.202.135:9100/xxl-job-admin
+    xxlHttpUrl: http://139.9.202.135:9100/xxl-job-admin
+    okxHttpUrl: https://www.okx.com
+    okxPublicWebSocketUrl: wss://ws.okx.com:8443/ws/v5/public
+    okxPrivateWebSocketUrl: wss://ws.okx.com:8443/ws/v5/private
+    okxBusinessWebSocketUrl: wss://ws.okx.com:8443/ws/v5/business
 
 # 日志模式、保存路径和文件名
 logging:

@@ -14,7 +14,7 @@ import com.wick.boot.common.xxl.job.model.vo.joblog.XxlJobLogQueryVO;
  * @date 2024-11-15
  */
 @BaseRequest(
-        baseURL = "${baseUrl}",
+        baseURL = "${xxlHttpUrl}",
         interceptor = CookieInterceptor.class,
         contentType = "application/x-www-form-urlencoded;charset=UTF-8"
 )

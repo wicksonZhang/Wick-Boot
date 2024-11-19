@@ -41,6 +41,7 @@ public interface ErrorCodeSystem {
     ResultCode USER_DOWNLOAD_ERROR = new ResultCode(1002001002, "用户导入模板下载失败");
     ResultCode USER_EXPORT_ERROR = new ResultCode(1002001003, "用户导出失败");
     ResultCode USER_IMPORT_ERROR = new ResultCode(1002001004, "用户导入失败");
+    ResultCode USER_INVALID = new ResultCode(1002001005, "当前用户已失效，请重新登录");
 
 
     // ======================================== System-角色管理 1-002-002-000 ========================================

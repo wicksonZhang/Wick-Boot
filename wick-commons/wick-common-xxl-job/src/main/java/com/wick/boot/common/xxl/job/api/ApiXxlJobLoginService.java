@@ -11,7 +11,7 @@ import com.wick.boot.common.xxl.job.interceptor.CookieInterceptor;
  * @author Wickson
  * @date 2024-11-12
  */
-@BaseRequest(baseURL = "${baseUrl}")
+@BaseRequest(baseURL = "${xxlHttpUrl}")
 public interface ApiXxlJobLoginService {
 
     @Post(value = "/login?userName={0}&password={1}", interceptor = CookieInterceptor.class)

@@ -25,6 +25,12 @@
             <artifactId>wick-common-web</artifactId>
         </dependency>
 
+        <!-- Forest SpringBoot -->
+        <dependency>
+            <groupId>com.dtflys.forest</groupId>
+            <artifactId>forest-spring-boot-starter</artifactId>
+        </dependency>
+
         <!-- Api文档 -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
