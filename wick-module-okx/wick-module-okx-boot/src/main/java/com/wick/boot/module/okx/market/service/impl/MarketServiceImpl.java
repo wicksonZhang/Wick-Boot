@@ -2,6 +2,7 @@ package com.wick.boot.module.okx.market.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpStatus;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -9,15 +10,16 @@ import com.dtflys.forest.http.ForestResponse;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.result.PageResult;
-import com.wick.boot.module.okx.api.market.ApiMarket;
 import com.wick.boot.module.okx.market.model.dto.MarketTickersDTO;
 import com.wick.boot.module.okx.market.model.vo.MarketTickersQueryVO;
 import com.wick.boot.module.okx.market.service.MarketService;
-import com.wick.boot.module.okx.model.vo.market.TickersQueryVO;
+import com.wick.boot.module.okx.model.rest.market.TickersQueryVO;
+import com.wick.boot.module.okx.api.market.ApiMarket;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,17 +44,15 @@ public class MarketServiceImpl implements MarketService {
 
         // 类型转换
         JSONObject jsonObject = JSONUtil.parseObj(response.getContent());
-        List<MarketTickersDTO> data = jsonObject.getJSONArray("data").toList(MarketTickersDTO.class).stream()
-                .sorted((a, b) -> {
-                    try {
-                        BigDecimal lastA = new BigDecimal(a.getLast());
-                        BigDecimal lastB = new BigDecimal(b.getLast());
-                        return lastB.compareTo(lastA);
-                    } catch (NumberFormatException e) {
-                        return 0;
-                    }
-                })
+        List<MarketTickersDTO> data = jsonObject.getJSONArray("data").toList(MarketTickersDTO.class);
+
+        // 新增数据排序
+        data = data.stream()
+                .filter(item -> item.getInstId() != null && item.getInstId().contains("USDT"))
                 .collect(Collectors.toList());
+
+        // 根据字段排序
+        sortData(data, queryVO);
 
         // 手动分页逻辑
         int pageNum = queryVO.getPageNumber();
@@ -66,6 +66,53 @@ public class MarketServiceImpl implements MarketService {
 
         // 构造分页结果
         return new PageResult<>(pagedData, total);
+    }
+
+    /**
+     * 动态排序方法
+     *
+     * @return
+     */
+    private void sortData(List<MarketTickersDTO> data, MarketTickersQueryVO queryVO) {
+        // 获取排序字段和顺序
+        String sortField = queryVO.getSortField();
+        String sortOrder = queryVO.getSortOrder();
+
+        if (StrUtil.isBlank(sortField)) {
+            return;
+        }
+
+        // 根据不同的排序字段创建对应的 Comparator
+        Comparator<MarketTickersDTO> comparator = null;
+        switch (sortField) {
+            case "last":
+                comparator = Comparator.comparing(dto -> {
+                    try {
+                        return new BigDecimal(dto.getLast());
+                    } catch (Exception e) {
+                        return BigDecimal.ZERO;
+                    }
+                });
+                break;
+            case "changePercent":
+                comparator = Comparator.comparing(dto -> {
+                    try {
+                        return new BigDecimal(dto.getChangePercent());
+                    } catch (Exception e) {
+                        return BigDecimal.ZERO;
+                    }
+                });
+                break;
+        }
+
+        // 如果找到有效的比较器，则进行排序
+        if (comparator != null) {
+            if ("descending".equals(sortOrder)) {
+                data.sort(comparator.reversed());
+            } else if ("ascending".equals(sortOrder)) {
+                data.sort(comparator);
+            }
+        }
     }
 
     private void validateResponse(ForestResponse<String> response) {

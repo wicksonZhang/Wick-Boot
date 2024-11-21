@@ -5,6 +5,7 @@ import com.dtflys.forest.http.ForestHeaderMap;
 import com.dtflys.forest.http.ForestProxy;
 import com.dtflys.forest.http.ForestRequest;
 import com.dtflys.forest.interceptor.Interceptor;
+import com.wick.boot.module.okx.constant.OkxConstants;
 import com.wick.boot.module.okx.api.api.config.ApiApiConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,11 +27,6 @@ import java.util.Optional;
 @Slf4j
 @Component
 public class HeaderInterceptor<T> implements Interceptor<T> {
-
-    // HMAC-SHA256 加密算法常量
-    private static final String HMAC_SHA256 = "HmacSHA256";
-    // OKX API 基础URL
-    private static final String BASE_URL = "https://www.okx.com";
 
     // 代理服务器配置，从配置文件中注入
     @Value("${proxy.host:127.0.0.1}")
@@ -77,10 +73,10 @@ public class HeaderInterceptor<T> implements Interceptor<T> {
             String sign = generateSignature(request, timestamp, secretKey);
 
             ForestHeaderMap headers = request.getHeaders();
-            headers.setHeader("OK-ACCESS-KEY", apiKey);
-            headers.setHeader("OK-ACCESS-TIMESTAMP", timestamp);
-            headers.setHeader("OK-ACCESS-PASSPHRASE", passphrase);
-            headers.setHeader("OK-ACCESS-SIGN", sign);
+            headers.setHeader(OkxConstants.HEADER_OK_ACCESS_KEY, apiKey);
+            headers.setHeader(OkxConstants.HEADER_OK_ACCESS_TIMESTAMP, timestamp);
+            headers.setHeader(OkxConstants.HEADER_OK_ACCESS_PASSPHRASE, passphrase);
+            headers.setHeader(OkxConstants.HEADER_OK_ACCESS_SIGN, sign);
         } catch (Exception e) {
             log.error("设置请求头失败", e);
             throw new RuntimeException("Failed to set request headers", e);
@@ -115,7 +111,7 @@ public class HeaderInterceptor<T> implements Interceptor<T> {
         // 获取请求方法（转换为大写）
         String method = request.getType().toString().toUpperCase();
         // 获取请求路径（移除基础URL）
-        String requestPath = request.getUrl().replace(BASE_URL, "");
+        String requestPath = request.getUrl().replace(OkxConstants.BASE_URL, "");
 
         // 对于GET请求，如果有查询参数，将其附加到路径后
         if ("GET".equalsIgnoreCase(method) && StrUtil.isNotBlank(request.getQueryString())) {
@@ -140,11 +136,11 @@ public class HeaderInterceptor<T> implements Interceptor<T> {
             // 创建加密密钥
             SecretKeySpec signingKey = new SecretKeySpec(
                     secretKey.getBytes(StandardCharsets.UTF_8),
-                    HMAC_SHA256
+                    OkxConstants.HMAC_SHA256
             );
 
             // 初始化 HMAC-SHA256 算法
-            Mac mac = Mac.getInstance(HMAC_SHA256);
+            Mac mac = Mac.getInstance(OkxConstants.HMAC_SHA256);
             mac.init(signingKey);
 
             // 计算签名并进行 Base64 编码

@@ -29,13 +29,25 @@ public class MarketTickersQueryVO extends CommonPageParamVO {
     /**
      * 币的指数（适用于交割/永续/期权，如 BTC-USD）
      */
-    @ApiModelProperty(value = "币的指数", example = "BTC-USD")
+    @ApiModelProperty(value = "币的指数", example = "BTC-USDT")
     private String uly;
 
     /**
      * 交易品种（适用于交割/永续/期权，如 BTC-USD）
      */
-    @ApiModelProperty(value = "交易品种", example = "BTC-USD")
+    @ApiModelProperty(value = "交易品种", example = "BTC-USDT")
     private String instFamily;
+
+    /**
+     * 排序字段
+     */
+    @ApiModelProperty(value = "排序字段", example = "instType")
+    private String sortField;
+
+    /**
+     * 排序方式：ASC/DESC
+     */
+    @ApiModelProperty(value = "排序字段", example = "descending")
+    private String sortOrder;
 
 }

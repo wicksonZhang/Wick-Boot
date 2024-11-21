@@ -31,6 +31,12 @@
             <artifactId>forest-spring-boot-starter</artifactId>
         </dependency>
 
+        <!-- SpringBoot WebSocket -->
+        <dependency>
+            <groupId>com.wick.boot</groupId>
+            <artifactId>wick-common-websocket</artifactId>
+        </dependency>
+
         <!-- Api文档 -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>

@@ -27,11 +27,12 @@ public class MarketController {
 
     private final MarketService marketService;
 
-
-    @GetMapping("/page")
-    @ApiOperation(value = "分页查询_市场行情", notes = "市场行情")
+    @GetMapping("/all-coin")
+    @ApiOperation(value = "分页查询_所有币种", notes = "市场行情")
     public ResultUtil<PageResult<MarketTickersDTO>> getTickersPage(@Validated MarketTickersQueryVO queryVO) {
         return ResultUtil.success(marketService.getTickersPage(queryVO));
     }
+
+
 
 }

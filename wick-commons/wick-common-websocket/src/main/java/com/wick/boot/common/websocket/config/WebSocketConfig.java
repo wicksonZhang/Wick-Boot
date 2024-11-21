@@ -7,6 +7,7 @@ import com.wick.boot.common.redis.service.RedisService;
 import com.wick.boot.common.websocket.service.OnlineUserService;
 import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.messaging.Message;
@@ -17,12 +18,19 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.messaging.WebSocketStompClient;
+import org.springframework.web.socket.sockjs.client.SockJsClient;
+import org.springframework.web.socket.sockjs.client.Transport;
+import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
 import javax.annotation.Resource;
 import java.security.Principal;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * WebSocket 配置类
@@ -146,6 +154,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             // 移除在线用户信息
             onlineUserService.removeOnlineUser(principal.getName(), false);
         }
+    }
+
+    @Bean
+    public WebSocketStompClient webSocketStompClient() {
+        List<Transport> transports = Collections.singletonList(new WebSocketTransport(new StandardWebSocketClient()));
+        SockJsClient sockJsClient = new SockJsClient(transports);
+        return new WebSocketStompClient(sockJsClient);
     }
 
 }

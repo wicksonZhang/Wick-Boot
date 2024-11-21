@@ -5,9 +5,9 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.module.okx.api.config.mapper.ApiConfigMapper;
-import com.wick.boot.module.okx.api.config.model.entity.ApiConfig;
 import com.wick.boot.module.okx.api.config.model.vo.apiconfig.ApiConfigAddVO;
 import com.wick.boot.module.okx.api.config.model.vo.apiconfig.ApiConfigUpdateVO;
+import com.wick.boot.module.okx.api.config.model.entity.ApiConfig;
 
 import javax.annotation.Resource;
 import java.util.Collection;

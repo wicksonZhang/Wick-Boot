@@ -6,7 +6,6 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -19,7 +18,6 @@ import java.security.Principal;
  * @date 2024-10-28
  */
 @RestController
-@RequestMapping("/websocket")
 public class WebSocketController {
 
     @Resource

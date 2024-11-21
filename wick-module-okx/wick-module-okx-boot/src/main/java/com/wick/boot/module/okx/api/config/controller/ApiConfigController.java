@@ -2,10 +2,10 @@ package com.wick.boot.module.okx.api.config.controller;
 
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
-import com.wick.boot.module.okx.api.config.model.dto.apiconfig.ApiConfigDTO;
 import com.wick.boot.module.okx.api.config.model.vo.apiconfig.ApiConfigAddVO;
 import com.wick.boot.module.okx.api.config.model.vo.apiconfig.ApiConfigQueryVO;
 import com.wick.boot.module.okx.api.config.model.vo.apiconfig.ApiConfigUpdateVO;
+import com.wick.boot.module.okx.api.config.model.dto.apiconfig.ApiConfigDTO;
 import com.wick.boot.module.okx.api.config.service.ApiConfigService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

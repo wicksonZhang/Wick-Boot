@@ -68,6 +68,9 @@ public class MarketTickersDTO {
     @ApiModelProperty(value = "ticker数据产生时间，Unix时间戳的毫秒数格式", position = 16)
     private String ts;
 
+    @ApiModelProperty(value = "涨跌幅", position = 17)
+    private String changePercent;
+
     public String getTs() {
         try {
             if (ts == null || ts.isEmpty() || Long.parseLong(ts) == 0) {
@@ -83,6 +86,17 @@ public class MarketTickersDTO {
         } catch (NumberFormatException e) {
             return null;
         }
+    }
+
+    public String getChangePercent() {
+        double lastPrice = Double.parseDouble(last);
+        double startPrice = Double.parseDouble(sodUtc8);
+
+        if (lastPrice == 0 || startPrice == 0) {
+            return "--";
+        }
+        double percent = ((lastPrice - startPrice) / startPrice) * 100;
+        return String.format("%.2f", percent);
     }
 
 }
