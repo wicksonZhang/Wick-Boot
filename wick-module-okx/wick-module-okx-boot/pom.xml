@@ -43,10 +43,10 @@
             <artifactId>wick-common-security</artifactId>
         </dependency>
 
-        <!-- common WebScoket -->
+        <!-- common xxl-job -->
         <dependency>
             <groupId>com.wick.boot</groupId>
-            <artifactId>wick-common-websocket</artifactId>
+            <artifactId>wick-common-xxl-job</artifactId>
         </dependency>
 
         <!-- mapstruct -->

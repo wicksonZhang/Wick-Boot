@@ -10,13 +10,18 @@ import com.dtflys.forest.http.ForestResponse;
 import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.result.PageResult;
-import com.wick.boot.module.okx.market.model.dto.MarketTickersDTO;
-import com.wick.boot.module.okx.market.model.vo.MarketTickersQueryVO;
-import com.wick.boot.module.okx.market.service.MarketService;
-import com.wick.boot.module.okx.model.rest.market.TickersQueryVO;
-import com.wick.boot.module.okx.api.market.ApiMarket;
+import com.wick.boot.module.okx.api.market.ApiMarketCoin;
+import com.wick.boot.module.okx.market.convert.MarketCoinConvert;
+import com.wick.boot.module.okx.market.model.dto.MarketCoinAddVO;
+import com.wick.boot.module.okx.market.model.dto.MarketCoinDTO;
+import com.wick.boot.module.okx.market.model.entity.MarketCoin;
+import com.wick.boot.module.okx.market.model.vo.MarketAllCoinQueryVO;
+import com.wick.boot.module.okx.market.service.AbstractMarketCoinService;
+import com.wick.boot.module.okx.market.service.MarketCoinService;
+import com.wick.boot.module.okx.model.market.MarketTickersQueryVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
@@ -31,20 +36,20 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class MarketServiceImpl implements MarketService {
+public class MarketCoinServiceImpl extends AbstractMarketCoinService implements MarketCoinService {
 
-    private final ApiMarket apiMarket;
+    private final ApiMarketCoin apiMarketCoin;
 
     @Override
-    public PageResult<MarketTickersDTO> getTickersPage(MarketTickersQueryVO queryVO) {
+    public PageResult<MarketCoinDTO> getAllCoinPage(MarketAllCoinQueryVO queryVO) {
         // 调用 API 获取数据
-        TickersQueryVO tickersQueryVO = BeanUtil.copyProperties(queryVO, TickersQueryVO.class);
-        ForestResponse<String> response = apiMarket.getTickers(tickersQueryVO);
+        MarketTickersQueryVO marketTickersQueryVO = BeanUtil.copyProperties(queryVO, MarketTickersQueryVO.class);
+        ForestResponse<String> response = apiMarketCoin.getTickers(marketTickersQueryVO);
         this.validateResponse(response);
 
         // 类型转换
         JSONObject jsonObject = JSONUtil.parseObj(response.getContent());
-        List<MarketTickersDTO> data = jsonObject.getJSONArray("data").toList(MarketTickersDTO.class);
+        List<MarketCoinDTO> data = jsonObject.getJSONArray("data").toList(MarketCoinDTO.class);
 
         // 新增数据排序
         data = data.stream()
@@ -59,7 +64,7 @@ public class MarketServiceImpl implements MarketService {
         int pageSize = queryVO.getPageSize();
         long total = data.size();
 
-        List<MarketTickersDTO> pagedData = CollUtil.emptyIfNull(data).stream()
+        List<MarketCoinDTO> pagedData = CollUtil.emptyIfNull(data).stream()
                 .skip((long) (pageNum - 1) * pageSize)
                 .limit(pageSize)
                 .collect(Collectors.toList());
@@ -73,7 +78,7 @@ public class MarketServiceImpl implements MarketService {
      *
      * @return
      */
-    private void sortData(List<MarketTickersDTO> data, MarketTickersQueryVO queryVO) {
+    private void sortData(List<MarketCoinDTO> data, MarketAllCoinQueryVO queryVO) {
         // 获取排序字段和顺序
         String sortField = queryVO.getSortField();
         String sortOrder = queryVO.getSortOrder();
@@ -83,7 +88,7 @@ public class MarketServiceImpl implements MarketService {
         }
 
         // 根据不同的排序字段创建对应的 Comparator
-        Comparator<MarketTickersDTO> comparator = null;
+        Comparator<MarketCoinDTO> comparator = null;
         switch (sortField) {
             case "last":
                 comparator = Comparator.comparing(dto -> {
@@ -122,4 +127,13 @@ public class MarketServiceImpl implements MarketService {
         }
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void addMarketMyCoin(MarketCoinAddVO reqVO) {
+        // Step-1: 校验新增参数
+        this.validateAddParams(reqVO);
+
+        MarketCoin marketCoin = MarketCoinConvert.INSTANCE.addVoToEntity(reqVO);
+        this.marketCoinMapper.insert(marketCoin);
+    }
 }

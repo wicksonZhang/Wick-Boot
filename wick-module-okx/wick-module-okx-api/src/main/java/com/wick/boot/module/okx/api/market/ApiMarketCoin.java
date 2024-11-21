@@ -2,7 +2,7 @@ package com.wick.boot.module.okx.api.market;
 
 import com.dtflys.forest.annotation.*;
 import com.dtflys.forest.http.ForestResponse;
-import com.wick.boot.module.okx.model.rest.market.TickersQueryVO;
+import com.wick.boot.module.okx.model.market.MarketTickersQueryVO;
 
 /**
  * 行情数据API
@@ -14,7 +14,7 @@ import com.wick.boot.module.okx.model.rest.market.TickersQueryVO;
         baseURL = "${okxHttpUrl}",
         contentType = "application/json;charset=UTF-8"
 )
-public interface ApiMarket {
+public interface ApiMarketCoin {
 
     /**
      * 获取产品行情信息
@@ -24,5 +24,5 @@ public interface ApiMarket {
      */
     @Get("/api/v5/market/tickers")
     @HTTPProxy(host = "127.0.0.1", port = "7890")
-    ForestResponse<String> getTickers(@Query TickersQueryVO queryVO);
+    ForestResponse<String> getTickers(@Query MarketTickersQueryVO queryVO);
 }
