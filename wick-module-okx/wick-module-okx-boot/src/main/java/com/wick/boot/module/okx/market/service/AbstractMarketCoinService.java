@@ -1,7 +1,6 @@
 package com.wick.boot.module.okx.market.service;
 
 import com.wick.boot.module.okx.market.mapper.MarketCoinMapper;
-import com.wick.boot.module.okx.market.model.dto.MarketCoinAddVO;
 
 import javax.annotation.Resource;
 
@@ -16,7 +15,4 @@ public abstract class AbstractMarketCoinService {
     @Resource
     protected MarketCoinMapper marketCoinMapper;
 
-    protected void validateAddParams(MarketCoinAddVO reqVO) {
-
-    }
 }

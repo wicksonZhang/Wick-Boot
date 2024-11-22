@@ -1,4 +1,4 @@
-package com.wick.boot.module.okx.market.model.dto;
+package com.wick.boot.module.okx.market.model.dto.allcoin;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,33 +20,36 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @ToString
 @ApiModel(description = "市场行情")
-public class MarketCoinDTO {
+public class MarketAllCoinDTO {
 
-    @ApiModelProperty(value = "产品类型", position = 1)
+    @ApiModelProperty(value = "产品ID", example = "1")
+    private Long id;
+
+    @ApiModelProperty(value = "产品类型", example = "SWAP")
     private String instType;
 
-    @ApiModelProperty(value = "产品ID", position = 2)
+    @ApiModelProperty(value = "产品编号", example = "BTC-USDT-SWAP")
     private String instId;
 
-    @ApiModelProperty(value = "最新成交价", position = 3)
+    @ApiModelProperty(value = "最新成交价", example = "98893.7")
     private String last;
 
-    @ApiModelProperty(value = "24小时最高价", position = 10)
+    @ApiModelProperty(value = "24小时最高价", example = "99490")
     private String high24h;
 
-    @ApiModelProperty(value = "24小时最低价", position = 11)
+    @ApiModelProperty(value = "24小时最低价", example = "95620")
     private String low24h;
 
-    @ApiModelProperty(value = "UTC 0 时开盘价", position = 14)
+    @ApiModelProperty(value = "UTC 0 时开盘价", example = "98338.6")
     private String sodUtc0;
 
-    @ApiModelProperty(value = "UTC+8 时开盘价", position = 15)
+    @ApiModelProperty(value = "UTC+8 时开盘价", example = "96687.5")
     private String sodUtc8;
 
-    @ApiModelProperty(value = "ticker数据产生时间，Unix时间戳的毫秒数格式", position = 16)
+    @ApiModelProperty(value = "ticker数据产生时间，Unix时间戳的毫秒数格式", example = "1699376100000")
     private String ts;
 
-    @ApiModelProperty(value = "涨跌幅", position = 17)
+    @ApiModelProperty(value = "涨跌幅", example = "2.24%")
     private String changePercent;
 
     public String getTs() {

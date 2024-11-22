@@ -11,17 +11,13 @@ import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.okx.api.market.ApiMarketCoin;
-import com.wick.boot.module.okx.market.convert.MarketCoinConvert;
-import com.wick.boot.module.okx.market.model.dto.MarketCoinAddVO;
-import com.wick.boot.module.okx.market.model.dto.MarketCoinDTO;
-import com.wick.boot.module.okx.market.model.entity.MarketCoin;
-import com.wick.boot.module.okx.market.model.vo.MarketAllCoinQueryVO;
+import com.wick.boot.module.okx.market.model.dto.allcoin.MarketAllCoinDTO;
+import com.wick.boot.module.okx.market.model.vo.allcoin.MarketAllCoinQueryVO;
 import com.wick.boot.module.okx.market.service.AbstractMarketCoinService;
 import com.wick.boot.module.okx.market.service.MarketCoinService;
 import com.wick.boot.module.okx.model.market.MarketTickersQueryVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
@@ -41,7 +37,7 @@ public class MarketCoinServiceImpl extends AbstractMarketCoinService implements 
     private final ApiMarketCoin apiMarketCoin;
 
     @Override
-    public PageResult<MarketCoinDTO> getAllCoinPage(MarketAllCoinQueryVO queryVO) {
+    public PageResult<MarketAllCoinDTO> getAllCoinPage(MarketAllCoinQueryVO queryVO) {
         // 调用 API 获取数据
         MarketTickersQueryVO marketTickersQueryVO = BeanUtil.copyProperties(queryVO, MarketTickersQueryVO.class);
         ForestResponse<String> response = apiMarketCoin.getTickers(marketTickersQueryVO);
@@ -49,7 +45,7 @@ public class MarketCoinServiceImpl extends AbstractMarketCoinService implements 
 
         // 类型转换
         JSONObject jsonObject = JSONUtil.parseObj(response.getContent());
-        List<MarketCoinDTO> data = jsonObject.getJSONArray("data").toList(MarketCoinDTO.class);
+        List<MarketAllCoinDTO> data = jsonObject.getJSONArray("data").toList(MarketAllCoinDTO.class);
 
         // 新增数据排序
         data = data.stream()
@@ -64,7 +60,7 @@ public class MarketCoinServiceImpl extends AbstractMarketCoinService implements 
         int pageSize = queryVO.getPageSize();
         long total = data.size();
 
-        List<MarketCoinDTO> pagedData = CollUtil.emptyIfNull(data).stream()
+        List<MarketAllCoinDTO> pagedData = CollUtil.emptyIfNull(data).stream()
                 .skip((long) (pageNum - 1) * pageSize)
                 .limit(pageSize)
                 .collect(Collectors.toList());
@@ -78,7 +74,7 @@ public class MarketCoinServiceImpl extends AbstractMarketCoinService implements 
      *
      * @return
      */
-    private void sortData(List<MarketCoinDTO> data, MarketAllCoinQueryVO queryVO) {
+    private void sortData(List<MarketAllCoinDTO> data, MarketAllCoinQueryVO queryVO) {
         // 获取排序字段和顺序
         String sortField = queryVO.getSortField();
         String sortOrder = queryVO.getSortOrder();
@@ -88,7 +84,7 @@ public class MarketCoinServiceImpl extends AbstractMarketCoinService implements 
         }
 
         // 根据不同的排序字段创建对应的 Comparator
-        Comparator<MarketCoinDTO> comparator = null;
+        Comparator<MarketAllCoinDTO> comparator = null;
         switch (sortField) {
             case "last":
                 comparator = Comparator.comparing(dto -> {
@@ -127,13 +123,4 @@ public class MarketCoinServiceImpl extends AbstractMarketCoinService implements 
         }
     }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void addMarketMyCoin(MarketCoinAddVO reqVO) {
-        // Step-1: 校验新增参数
-        this.validateAddParams(reqVO);
-
-        MarketCoin marketCoin = MarketCoinConvert.INSTANCE.addVoToEntity(reqVO);
-        this.marketCoinMapper.insert(marketCoin);
-    }
 }

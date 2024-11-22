@@ -30,13 +30,13 @@ public class MarketTickersQueryVO {
     /**
      * 币的指数（适用于交割/永续/期权，如 BTC-USD）
      */
-    @ApiModelProperty(value = "币的指数", required = false, example = "BTC-USD")
+    @ApiModelProperty(value = "币的指数", example = "BTC-USD")
     private String uly;
 
     /**
      * 交易品种（适用于交割/永续/期权，如 BTC-USD）
      */
-    @ApiModelProperty(value = "交易品种", required = false, example = "BTC-USD")
+    @ApiModelProperty(value = "交易品种", example = "BTC-USD")
     private String instFamily;
 
 }

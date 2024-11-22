@@ -1,4 +1,4 @@
-package com.wick.boot.module.okx.market.model.vo;
+package com.wick.boot.module.okx.market.model.vo.allcoin;
 
 import com.wick.boot.common.core.model.vo.CommonPageParamVO;
 import io.swagger.annotations.ApiModel;

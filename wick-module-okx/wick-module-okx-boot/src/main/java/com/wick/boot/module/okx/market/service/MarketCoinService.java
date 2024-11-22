@@ -1,9 +1,8 @@
 package com.wick.boot.module.okx.market.service;
 
 import com.wick.boot.common.core.result.PageResult;
-import com.wick.boot.module.okx.market.model.dto.MarketCoinAddVO;
-import com.wick.boot.module.okx.market.model.vo.MarketAllCoinQueryVO;
-import com.wick.boot.module.okx.market.model.dto.MarketCoinDTO;
+import com.wick.boot.module.okx.market.model.vo.allcoin.MarketAllCoinQueryVO;
+import com.wick.boot.module.okx.market.model.dto.allcoin.MarketAllCoinDTO;
 
 /**
  * 市场行情 - 服务层
@@ -19,12 +18,6 @@ public interface MarketCoinService {
      * @param queryVO 查询参数
      * @return
      */
-    PageResult<MarketCoinDTO> getAllCoinPage(MarketAllCoinQueryVO queryVO);
+    PageResult<MarketAllCoinDTO> getAllCoinPage(MarketAllCoinQueryVO queryVO);
 
-    /**
-     * 新增我的自选币种
-     *
-     * @param reqVO 新增参数
-     */
-    void addMarketMyCoin(MarketCoinAddVO reqVO);
 }
