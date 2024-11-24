@@ -45,61 +45,73 @@ public class MarketCoin extends BaseDO {
     /**
      * 最新成交的数量，0代表没有成交量
      */
+    @TableField(value = "last_sz")
     private String lastSz;
 
     /**
      * 卖一价
      */
+    @TableField(value = "ask_px")
     private String askPx;
 
     /**
      * 卖一价的挂单数量
      */
+    @TableField(value = "ask_sz")
     private String askSz;
 
     /**
      * 买一价
      */
+    @TableField(value = "bid_px")
     private String bidPx;
 
     /**
      * 买一价的挂单数量
      */
+    @TableField(value = "bid_sz")
     private String bidSz;
 
     /**
      * 24小时开盘价
      */
+    @TableField(value = "open_24h")
     private String open24h;
 
     /**
      * 24小时最高价
      */
+    @TableField(value = "high_24h")
     private String high24h;
 
     /**
      * 24小时最低价
      */
+    @TableField(value = "low_24h")
     private String low24h;
 
     /**
      * 24小时成交量，以币为单位
      */
+    @TableField(value = "vol_ccy_24h")
     private String volCcy24h;
 
     /**
      * 24小时成交量，以张为单位
      */
+    @TableField(value = "vol_24h")
     private String vol24h;
 
     /**
      * UTC 0 时开盘价
      */
+    @TableField(value = "sod_utc0")
     private String sodUtc0;
 
     /**
      * UTC+8 时开盘价
      */
+    @TableField(value = "sod_utc8")
     private String sodUtc8;
 
     /**

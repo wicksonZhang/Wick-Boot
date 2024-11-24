@@ -48,7 +48,7 @@ public class MarketCoinJob {
     public void marketTickersByFiveMinutes() {
         try {
             // 获取本地数据，作为基准数据
-            List<MarketCoin> originData = this.coinMapper.selectList(null);
+            List<MarketCoin> originData = this.coinMapper.selectList();
 
             // 从远程服务获取最新的市场行情数据
             List<MarketCoin> remoteData = this.getRemoteData();

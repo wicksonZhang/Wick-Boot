@@ -10,11 +10,49 @@
         <result property="id"  column="id"/>
         <result property="instType"  column="inst_type"/>
         <result property="instId"  column="inst_id"/>
+        <result property="last"  column="last"/>
+        <result property="lastSz"  column="last_sz"/>
+        <result property="askPx"  column="ask_px"/>
+        <result property="askSz"  column="ask_sz"/>
+        <result property="bidPx"  column="bid_px"/>
+        <result property="bidSz"  column="bid_sz"/>
+        <result property="open24h"  column="open_24h"/>
+        <result property="high24h"  column="high_24h"/>
+        <result property="low24h"  column="low_24h"/>
+        <result property="volCcy24h"  column="vol_ccy_24h"/>
+        <result property="vol24h"  column="vol_24h"/>
+        <result property="sodUtc0"  column="sod_utc0"/>
+        <result property="sodUtc8"  column="sod_utc8"/>
+        <result property="ts"  column="ts"/>
+        <result property="favorite"  column="is_favorite"/>
         <result property="deleted"  column="deleted"/>
-        <result property="createTime"  column="create_time"/>
-        <result property="updateTime"  column="update_time"/>
         <result property="createBy"  column="create_by"/>
         <result property="updateBy"  column="update_by"/>
+        <result property="createTime"  column="create_time"/>
+        <result property="updateTime"  column="update_time"/>
     </resultMap>
+
+    <select id="selectList" resultMap="MarketCoinResult">
+        SELECT
+            id,
+            inst_type,
+            inst_id,
+            last,
+            last_sz,
+            ask_px,
+            ask_sz,
+            bid_px,
+            bid_sz,
+            open_24h,
+            high_24h,
+            low_24h,
+            vol_ccy_24h,
+            vol_24h,
+            sod_utc0,
+            sod_utc8,
+            ts,
+            is_favorite
+        FROM okx_market_coin WHERE deleted = 0
+    </select>
 
 </mapper>
