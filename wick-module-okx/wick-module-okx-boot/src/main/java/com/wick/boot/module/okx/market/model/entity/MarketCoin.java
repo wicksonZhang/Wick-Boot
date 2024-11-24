@@ -28,7 +28,7 @@ public class MarketCoin extends BaseDO {
     private Long id;
 
     /**
-     * 产品类型
+     * 产品类型(SWAP-永续合约、SPOT-币币、FUTURES-交割合约、OPTION-期权)
      */
     private String instType;
 
