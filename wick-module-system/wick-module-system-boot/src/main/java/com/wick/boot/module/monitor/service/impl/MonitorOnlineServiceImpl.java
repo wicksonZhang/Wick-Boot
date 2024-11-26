@@ -89,7 +89,6 @@ public class MonitorOnlineServiceImpl implements MonitorOnlineService {
                 .sorted(Comparator.comparing(MonitorOnlineDTO::getLoginDate).reversed())
                 .collect(Collectors.toList());
 
-        // 构建分页结果
         // 分页查询参数
         int pageNumber = query.getPageNumber();
         int pageSize = query.getPageSize();
