@@ -7,52 +7,87 @@
         无法满足的场景，例如说多表关联查询，才使用 XML 编写 SQL。
      -->
     <resultMap type="com.wick.boot.module.okx.market.model.entity.MarketCoin" id="MarketCoinResult">
-        <result property="id"  column="id"/>
-        <result property="instType"  column="inst_type"/>
-        <result property="instId"  column="inst_id"/>
-        <result property="last"  column="last"/>
-        <result property="lastSz"  column="last_sz"/>
-        <result property="askPx"  column="ask_px"/>
-        <result property="askSz"  column="ask_sz"/>
-        <result property="bidPx"  column="bid_px"/>
-        <result property="bidSz"  column="bid_sz"/>
-        <result property="open24h"  column="open_24h"/>
-        <result property="high24h"  column="high_24h"/>
-        <result property="low24h"  column="low_24h"/>
-        <result property="volCcy24h"  column="vol_ccy_24h"/>
-        <result property="vol24h"  column="vol_24h"/>
-        <result property="sodUtc0"  column="sod_utc0"/>
-        <result property="sodUtc8"  column="sod_utc8"/>
-        <result property="ts"  column="ts"/>
-        <result property="favorite"  column="is_favorite"/>
-        <result property="deleted"  column="deleted"/>
-        <result property="createBy"  column="create_by"/>
-        <result property="updateBy"  column="update_by"/>
-        <result property="createTime"  column="create_time"/>
-        <result property="updateTime"  column="update_time"/>
+        <result property="id" column="id"/>
+        <result property="instType" column="inst_type"/>
+        <result property="instId" column="inst_id"/>
+        <result property="last" column="last"/>
+        <result property="lastSz" column="last_sz"/>
+        <result property="askPx" column="ask_px"/>
+        <result property="askSz" column="ask_sz"/>
+        <result property="bidPx" column="bid_px"/>
+        <result property="bidSz" column="bid_sz"/>
+        <result property="open24h" column="open_24h"/>
+        <result property="high24h" column="high_24h"/>
+        <result property="low24h" column="low_24h"/>
+        <result property="volCcy24h" column="vol_ccy_24h"/>
+        <result property="vol24h" column="vol_24h"/>
+        <result property="sodUtc0" column="sod_utc0"/>
+        <result property="sodUtc8" column="sod_utc8"/>
+        <result property="ts" column="ts"/>
+        <result property="favorite" column="is_favorite"/>
+        <result property="deleted" column="deleted"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
     </resultMap>
+
+    <resultMap type="com.wick.boot.module.okx.market.model.dto.allcoin.MarketAllCoinDTO" id="MarketCoinAllDTOResult">
+        <result property="id" column="id"/>
+        <result property="instType" column="inst_type"/>
+        <result property="instId" column="inst_id"/>
+        <result property="last" column="last"/>
+        <result property="high24h" column="high_24h"/>
+        <result property="low24h" column="low_24h"/>
+        <result property="sodUtc0" column="sod_utc0"/>
+        <result property="sodUtc8" column="sod_utc8"/>
+        <result property="ts" column="ts"/>
+        <result property="favorite" column="is_favorite"/>
+        <result property="changePercent" column="changePercent"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        , inst_type, inst_id, `last`, last_sz, ask_px, ask_sz, bid_px, bid_sz, open_24h, high_24h, low_24h, vol_ccy_24h, vol_24h, sod_utc0, sod_utc8, ts, is_favorite
+    </sql>
 
     <select id="selectList" resultMap="MarketCoinResult">
         SELECT
-            id,
-            inst_type,
-            inst_id,
-            last,
-            last_sz,
-            ask_px,
-            ask_sz,
-            bid_px,
-            bid_sz,
-            open_24h,
-            high_24h,
-            low_24h,
-            vol_ccy_24h,
-            vol_24h,
-            sod_utc0,
-            sod_utc8,
-            ts,
-            is_favorite
+        <include refid="Base_Column_List"/>
         FROM okx_market_coin WHERE deleted = 0
+    </select>
+
+    <select id="getMarketAllCoinPage" resultMap="MarketCoinAllDTOResult">
+        SELECT
+        id,
+        inst_type,
+        inst_id,
+        last,
+        high_24h,
+        low_24h,
+        sod_utc0,
+        sod_utc8,
+        DATE_FORMAT(FROM_UNIXTIME(ts / 1000), '%Y-%m-%d %H:%i:%s') AS ts,
+        is_favorite,
+        ROUND(((last + 0 - sod_utc8 + 0) / sod_utc8 + 0) * 100, 2) AS changePercent
+        FROM okx_market_coin WHERE deleted = 0
+        <if test="reqVO.instType != null and reqVO.instType != ''">
+            AND inst_type = #{reqVO.instType}
+        </if>
+        <if test="reqVO.billingMethod != null and reqVO.billingMethod != ''">
+            AND inst_id LIKE CONCAT('%',#{reqVO.billingMethod},'%')
+        </if>
+        <if test="reqVO.ccy != null and reqVO.ccy != ''">
+            AND inst_id LIKE CONCAT(#{reqVO.ccy},',%')
+        </if>
+        <choose>
+            <when test="reqVO.sortField != null and reqVO.sortOrder != null">
+                ORDER BY ${reqVO.sortField} + 0 ${reqVO.sortOrder}
+            </when>
+            <otherwise>
+                ORDER BY CAST(`last` AS DECIMAL) DESC
+            </otherwise>
+        </choose>
     </select>
 
 </mapper>

@@ -167,5 +167,14 @@ public class MonitorXxlJobInfoServiceImpl extends MonitorXxlJobInfoAbstractServi
             log.error("服务请求失败，状态码: {}", statusCode);
             throw ServiceException.getInstance(GlobalResultCodeConstants.FAIL);
         }
+        // 验证内容
+        String content = response.getContent();
+        JSONObject jsonObject = JSONUtil.parseObj(content);
+        Integer code = jsonObject.getInt("code");
+        String msg = jsonObject.getStr("msg");
+        if (HttpStatus.HTTP_OK != code) {
+            log.error("服务请求失败，状态码: {}", statusCode);
+            throw ServiceException.getInstance(GlobalResultCodeConstants.FAIL.getCode(), msg);
+        }
     }
 }

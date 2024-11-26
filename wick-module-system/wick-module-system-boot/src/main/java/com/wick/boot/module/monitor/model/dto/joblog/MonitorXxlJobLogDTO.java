@@ -41,7 +41,7 @@ public class MonitorXxlJobLogDTO implements Serializable {
     @ApiModelProperty(value = "调度日志")
     private String triggerMsg;
 
-    @ApiModelProperty(value = "执行时间")
+    @ApiModelProperty(value = "结束时间")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime handleTime;
 

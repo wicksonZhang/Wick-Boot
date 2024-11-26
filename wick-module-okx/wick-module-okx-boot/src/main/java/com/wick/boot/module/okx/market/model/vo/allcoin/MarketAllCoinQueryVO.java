@@ -29,16 +29,17 @@ public class MarketAllCoinQueryVO extends CommonPageParamVO {
     private String instType;
 
     /**
-     * 币的指数（适用于交割/永续/期权，如 BTC-USD）
+     * 结算方式(USDT：USDT币结算、USD：美元结算、币本位)
      */
-    @ApiModelProperty(value = "币的指数", example = "BTC-USDT")
-    private String uly;
+    @ApiModelProperty(value = "结算方式", required = true, example = "USDT")
+    @NotBlank(message = "结算方式不能为空")
+    private String billingMethod;
 
     /**
-     * 交易品种（适用于交割/永续/期权，如 BTC-USD）
+     * 币种名称
      */
-    @ApiModelProperty(value = "交易品种", example = "BTC-USDT")
-    private String instFamily;
+    @ApiModelProperty(value = "币种名称", example = "BTC")
+    private String ccy;
 
     /**
      * 排序字段

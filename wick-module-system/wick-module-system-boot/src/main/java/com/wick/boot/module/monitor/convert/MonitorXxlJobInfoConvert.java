@@ -16,6 +16,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 定时任务管理管理-转换类
@@ -34,7 +35,25 @@ public interface MonitorXxlJobInfoConvert {
      * @param reqVO 新增请求参数VO
      * @return MonitorXxlJobInfo 定时任务管理
      */
+    @Mappings({
+            @Mapping(target = "schedule_conf_CRON", expression = "java(convertCron(reqVO))"),
+            @Mapping(target = "schedule_conf_FIX_RATE", expression = "java(convertFixRate(reqVO))"),
+            @Mapping(target = "schedule_conf_FIX_DELAY", expression = "java(convertFixDelay(reqVO))"),
+            @Mapping(target = "glueRemark", defaultValue = "GLUE代码初始化"),
+    })
     XxlJobInfo addVoToEntity(MonitorXxlJobInfoAddVO reqVO);
+
+    default String convertCron(MonitorXxlJobInfoAddVO reqVO) {
+        return Objects.equals(reqVO.getScheduleType(), "CRON") ? reqVO.getScheduleConf() : null;
+    }
+
+    default String convertFixRate(MonitorXxlJobInfoAddVO reqVO) {
+        return Objects.equals(reqVO.getScheduleType(), "FIX_RATE") ? reqVO.getScheduleConf() : null;
+    }
+
+    default String convertFixDelay(MonitorXxlJobInfoAddVO reqVO) {
+        return Objects.equals(reqVO.getScheduleType(), "FIX_DELAY") ? reqVO.getScheduleConf() : null;
+    }
 
     /**
      * Convert updateVo To entity
@@ -42,6 +61,11 @@ public interface MonitorXxlJobInfoConvert {
      * @param reqVO 更新请求参数VO
      * @return MonitorXxlJobInfo 定时任务管理实体
      */
+    @Mappings({
+            @Mapping(target = "schedule_conf_CRON", expression = "java(convertCron(reqVO))"),
+            @Mapping(target = "schedule_conf_FIX_RATE", expression = "java(convertFixRate(reqVO))"),
+            @Mapping(target = "schedule_conf_FIX_DELAY", expression = "java(convertFixDelay(reqVO))")
+    })
     XxlJobInfo updateVoToEntity(MonitorXxlJobInfoUpdateVO reqVO);
 
     /**

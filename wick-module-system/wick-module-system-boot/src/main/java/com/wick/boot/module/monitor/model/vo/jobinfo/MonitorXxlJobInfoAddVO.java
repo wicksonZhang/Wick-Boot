@@ -38,6 +38,13 @@ public class MonitorXxlJobInfoAddVO {
     @NotBlank(message = "调度类型不能为空")
     private String scheduleType;
 
+    @ApiModelProperty(value = "运行模式", required = true)
+    @NotBlank(message = "运行模式不能为空")
+    private String glueType;
+
+    @ApiModelProperty(value = "GLUE代码初始化备注")
+    private String glueRemark;
+
     @ApiModelProperty(value = "调度配置，值含义取决于调度类型")
     private String scheduleConf;
 

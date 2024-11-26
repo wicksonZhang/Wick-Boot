@@ -41,15 +41,16 @@ public class MarketCoinServiceImpl extends AbstractMarketCoinService implements 
         // 调用 API 获取数据
         MarketTickersQueryVO marketTickersQueryVO = BeanUtil.copyProperties(queryVO, MarketTickersQueryVO.class);
         ForestResponse<String> response = apiMarketCoin.getTickers(marketTickersQueryVO);
-        this.validateResponse(response);
+        validateResponse(response);
 
         // 类型转换
         JSONObject jsonObject = JSONUtil.parseObj(response.getContent());
         List<MarketAllCoinDTO> data = jsonObject.getJSONArray("data").toList(MarketAllCoinDTO.class);
 
         // 新增数据排序
+        String billingMethod = queryVO.getBillingMethod();
         data = data.stream()
-                .filter(item -> item.getInstId() != null && item.getInstId().contains("USDT"))
+                .filter(item -> billingMethod != null && item.getInstId().contains(billingMethod))
                 .collect(Collectors.toList());
 
         // 根据字段排序

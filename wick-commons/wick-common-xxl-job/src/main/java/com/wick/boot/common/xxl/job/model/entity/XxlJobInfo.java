@@ -82,4 +82,13 @@ public class XxlJobInfo {
     @ApiModelProperty(value = "下次调度时间，记录任务下次执行的时间", position = 24)
     private long triggerNextTime;
 
+    @ApiModelProperty(value = "CRON")
+    private String schedule_conf_CRON;
+
+    @ApiModelProperty(value = "固定速度")
+    private String schedule_conf_FIX_RATE;
+
+    @ApiModelProperty(value = "固定延迟")
+    private String schedule_conf_FIX_DELAY;
+
 }

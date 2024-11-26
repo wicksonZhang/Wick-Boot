@@ -29,7 +29,7 @@ public class MonitorJobGroupAddVO {
 
     @ApiModelProperty(value = "执行器名称", required = true, example = "示例执行器")
     @NotBlank(message = "执行器名称不能为空")
-    @Length(min = 4, max = 64, message = "执行器名称长度限制为4~64")
+    @Length(min = 4, max = 12, message = "执行器名称长度限制为4~12")
     private String title;
 
     @ApiModelProperty(value = "注册方式(0-自动注册、1-手动录入)", required = true, example = "0")

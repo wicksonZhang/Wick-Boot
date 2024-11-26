@@ -19,9 +19,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -39,6 +43,9 @@ public class MarketCoinJob {
 
     @Resource
     private ApiMarketCoin apiMarketCoin;
+
+    @Resource(name = "commonExecutor")
+    private Executor executor;
 
     /**
      * 每五分钟同步一次市场行情信息，并推送
@@ -73,43 +80,73 @@ public class MarketCoinJob {
      */
     private List<MarketCoin> getRemoteData() {
         List<MarketCoin> result = Lists.newArrayList();
-        // 遍历所有市场类型，获取各自的数据
-        for (MarketInstTypeEnum typeEnum : MarketInstTypeEnum.values()) {
-            // 构造请求参数
-            MarketTickersQueryVO queryVO = new MarketTickersQueryVO();
-            queryVO.setInstType(typeEnum.getDescription());
+        try {
+            // 明确指定泛型类型
+            List<CompletableFuture<List<MarketCoin>>> futures = Arrays.stream(MarketInstTypeEnum.values())
+                    .map(typeEnum -> CompletableFuture.supplyAsync(() -> {
+                        try {
+                            log.info("开始获取 {} 类型的市场行情数据", typeEnum.getDescription());
 
-            // 发送请求到远程服务
-            ForestResponse<String> response = apiMarketCoin.getTickers(queryVO);
-            validateResponse(response);
+                            MarketTickersQueryVO queryVO = new MarketTickersQueryVO();
+                            queryVO.setInstType(typeEnum.getDescription());
 
-            // 解析远程服务返回的数据
-            JSONObject jsonObject = JSONUtil.parseObj(response.getContent());
-            List<MarketCoin> data = jsonObject.getJSONArray("data").toList(MarketCoin.class);
-            result.addAll(data);
+                            ForestResponse<String> response = apiMarketCoin.getTickers(queryVO);
+                            validateResponse(response);
 
-            log.info("成功获取 {} 类型的市场行情数据，共计 {} 条记录。", typeEnum.getDescription(), data.size());
+                            JSONObject jsonObject = JSONUtil.parseObj(response.getContent());
+                            // 明确指定转换类型
+                            List<MarketCoin> data = JSONUtil.toList(jsonObject.getJSONArray("data"), MarketCoin.class);
+
+                            log.info("成功获取 {} 类型的市场行情数据，共计 {} 条记录。", typeEnum.getDescription(), data.size());
+                            return data;
+                        } catch (Exception e) {
+                            log.error("获取{}类型市场行情数据失败: {}", typeEnum.getDescription(), e.getMessage(), e);
+                            return Lists.<MarketCoin>newArrayList();
+                        }
+                    }, executor))
+                    .collect(Collectors.toList());
+
+            // 等待所有任务完成并收集结果
+            CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
+
+            // 收集结果
+            for (CompletableFuture<List<MarketCoin>> future : futures) {
+                try {
+                    List<MarketCoin> data = future.get(5, TimeUnit.SECONDS);
+                    if (CollectionUtil.isNotEmpty(data)) {
+                        result.addAll(data);
+                    }
+                } catch (Exception e) {
+                    log.error("处理市场行情数据失败: {}", e.getMessage(), e);
+                }
+            }
+
+        } catch (Exception e) {
+            log.error("获取市场行情数据过程中发生异常: {}", e.getMessage(), e);
         }
+
         return result;
     }
 
     /**
      * 处理市场行情数据，包含新增、更新和删除操作
-     *
-     * @param originData 本地数据
-     * @param remoteData 远程数据
      */
     private void handlerData(List<MarketCoin> originData, List<MarketCoin> remoteData) {
         // 将数据转换为 Map 结构，方便后续对比处理
-        Map<String, MarketCoin> remoteMap = remoteData.stream().collect(Collectors.toMap(MarketCoin::getInstId, data -> data));
-        Map<String, MarketCoin> originMap = originData.stream().collect(Collectors.toMap(MarketCoin::getInstId, data -> data));
+        Map<String, MarketCoin> remoteMap = remoteData.stream()
+                .collect(Collectors.toMap(MarketCoin::getInstId, data -> data, (k1, k2) -> k1));
+        Map<String, MarketCoin> originMap = originData.stream()
+                .collect(Collectors.toMap(MarketCoin::getInstId, data -> data, (k1, k2) -> k1));
 
-        // 新增数据，并推送
-        insertData(originMap, remoteMap);
-        // 更新已有的数据
-        updateData(originMap, remoteMap);
-        // 删除本地多余的数据
-        deleteData(originMap, remoteMap);
+        // 并行处理数据
+        CompletableFuture<Void> insertFuture = CompletableFuture.runAsync(() -> insertData(originMap, remoteMap), executor);
+
+        CompletableFuture<Void> updateFuture = CompletableFuture.runAsync(() -> updateData(originMap, remoteMap), executor);
+
+        CompletableFuture<Void> deleteFuture = CompletableFuture.runAsync(() -> deleteData(originMap, remoteMap), executor);
+
+        // 等待所有操作完成
+        CompletableFuture.allOf(insertFuture, updateFuture, deleteFuture).join();
     }
 
     /**
@@ -119,19 +156,29 @@ public class MarketCoinJob {
      * @param remoteMap 远程数据映射
      */
     private void insertData(Map<String, MarketCoin> originMap, Map<String, MarketCoin> remoteMap) {
-        // 获取远程数据中本地不存在的币种（新增）
-        List<String> insertCoin = CollectionUtil.subtractToList(remoteMap.keySet(), originMap.keySet());
-        if (insertCoin.isEmpty()) {
-            return;
-        }
+        try {
+            List<String> insertCoin = CollectionUtil.subtractToList(remoteMap.keySet(), originMap.keySet());
+            if (insertCoin.isEmpty()) {
+                return;
+            }
 
-        // 将新增的数据插入数据库
-        List<MarketCoin> list = Lists.newArrayList();
-        for (String instId : insertCoin) {
-            MarketCoin marketCoin = remoteMap.get(instId);
-            list.add(marketCoin);
+            List<MarketCoin> list = insertCoin.stream()
+                    .map(remoteMap::get)
+                    .collect(Collectors.toList());
+
+            // 分批插入数据
+            Lists.partition(list, 100).forEach(batch -> {
+                try {
+                    this.coinMapper.insertBatch(batch);
+                } catch (Exception e) {
+                    log.error("批量插入市场行情数据失败: {}", e.getMessage(), e);
+                }
+            });
+
+            log.info("成功插入{}条市场行情数据", list.size());
+        } catch (Exception e) {
+            log.error("插入市场行情数据失败: {}", e.getMessage(), e);
         }
-        this.coinMapper.insertBatch(list);
     }
 
     /**
@@ -150,7 +197,7 @@ public class MarketCoinJob {
         // 更新交集数据到数据库
         List<MarketCoin> list = Lists.newArrayList();
         for (String instId : updateCoin) {
-            MarketCoin marketCoin = remoteMap.get(instId);
+            MarketCoin marketCoin = originMap.get(instId);
             list.add(marketCoin);
         }
         this.coinMapper.updateBatch(list);

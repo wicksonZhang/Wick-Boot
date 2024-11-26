@@ -54,6 +54,7 @@ public class CookieInterceptor<T> implements Interceptor<T> {
 
     @Override
     public void onError(ForestRuntimeException ex, ForestRequest request, ForestResponse response) {
+        log.info("onError --> {}", ex.getMessage());
     }
 
     @Override
