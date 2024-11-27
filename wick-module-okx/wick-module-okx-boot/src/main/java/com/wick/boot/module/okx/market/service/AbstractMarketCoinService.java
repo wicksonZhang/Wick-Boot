@@ -1,6 +1,6 @@
 package com.wick.boot.module.okx.market.service;
 
-import com.wick.boot.module.okx.market.mapper.MarketCoinMapper;
+import com.wick.boot.module.okx.market.mapper.MarketTickersMapper;
 
 import javax.annotation.Resource;
 
@@ -13,6 +13,6 @@ import javax.annotation.Resource;
 public abstract class AbstractMarketCoinService {
 
     @Resource
-    protected MarketCoinMapper marketCoinMapper;
+    protected MarketTickersMapper marketTickersMapper;
 
 }

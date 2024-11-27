@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 /**
  * 后台管理 - 认证中心
@@ -41,6 +42,12 @@ public class AuthController {
     @ApiOperation(value = "用户登录", notes = "系统管理 - 认证中心")
     public ResultUtil<AuthUserLoginRespDTO> login(@Valid AuthUserLoginReqVO reqVO) {
         return ResultUtil.success(authService.login(reqVO));
+    }
+
+    @PostMapping("/refresh-token")
+    @ApiOperation(value = "刷新token", notes = "系统管理 - 认证中心")
+    public ResultUtil<AuthUserLoginRespDTO> refreshToken(@NotBlank(message = "刷新令牌不能为空") String refreshToken) {
+        return ResultUtil.success(authService.refreshToken(refreshToken));
     }
 
     @DeleteMapping("/logout")

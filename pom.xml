@@ -42,6 +42,9 @@
         <!-- IP 地区转换 -->
         <ip2region.version>2.7.0</ip2region.version>
 
+        <!-- DingTalk 数据推送 -->
+        <dingtalk.version>2.0.0</dingtalk.version>
+
         <!-- easy-excel-->
         <easyexcel.version>3.3.4</easyexcel.version>
 
@@ -199,6 +202,13 @@
                 <groupId>org.lionsoul</groupId>
                 <artifactId>ip2region</artifactId>
                 <version>${ip2region.version}</version>
+            </dependency>
+
+            <!--dingding-sdk-->
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>alibaba-dingtalk-service-sdk</artifactId>
+                <version>${dingtalk.version}</version>
             </dependency>
 
             <!-- JSON 解析器和生成器 -->

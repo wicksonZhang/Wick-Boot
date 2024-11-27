@@ -168,6 +168,11 @@ public class AuthServiceImpl implements IAuthService {
         }
     }
 
+    @Override
+    public AuthUserLoginRespDTO refreshToken(String refreshToken) {
+        return null;
+    }
+
     /**
      * 用户登出
      *

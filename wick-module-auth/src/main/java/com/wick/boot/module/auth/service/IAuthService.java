@@ -29,9 +29,18 @@ public interface IAuthService {
     AuthUserLoginRespDTO login(AuthUserLoginReqVO reqVO);
 
     /**
+     * 刷新token
+     *
+     * @param refreshToken token
+     * @return
+     */
+    AuthUserLoginRespDTO refreshToken(String refreshToken);
+
+    /**
      * 注销用户
      *
      * @param token token
      */
     void logout(String token);
+
 }

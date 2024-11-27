@@ -23,6 +23,11 @@ public interface GlobalCacheConstants {
     String DICT_CODE = "DICT_CODE:%s";
 
     /**
+     * OKX市场行情
+     */
+    String OKX_MARKET_TICKERS = "OKX:MARKET_TICKERS:%s";
+
+    /**
      * 获取验证码Code
      *
      * @param key key
@@ -60,5 +65,15 @@ public interface GlobalCacheConstants {
      */
     static String getDictCodeKey(String key) {
         return String.format(GlobalCacheConstants.DICT_CODE, key);
+    }
+
+    /**
+     * 获取OKX市场行情 Key
+     *
+     * @param key key
+     * @return String
+     */
+    static String getOkxMarketTickers(String key) {
+        return String.format(GlobalCacheConstants.OKX_MARKET_TICKERS, key);
     }
 }

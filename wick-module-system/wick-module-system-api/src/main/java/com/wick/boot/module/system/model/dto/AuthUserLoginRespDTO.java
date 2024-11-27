@@ -3,6 +3,7 @@ package com.wick.boot.module.system.model.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class AuthUserLoginRespDTO {
     @ApiModelProperty(value = "过期时间(单位：毫秒)")
     private Long expires;
 
+    @Schema(description = "令牌类型", example = "Bearer")
     private String tokenType;
 
 }
