@@ -27,10 +27,7 @@ import org.apache.http.util.Asserts;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -50,9 +47,6 @@ public class MarketTickersSyncJob {
     private final ApiMarketCoin apiMarketCoin;
 
     private final DingTalkUtil dingTalkUtil;
-
-    @Resource(name = "commonExecutor")
-    private Executor executor;
 
     /**
      * 每三分钟同步一次市场行情信息，并推送
@@ -92,10 +86,9 @@ public class MarketTickersSyncJob {
      */
     private static String[] validateAndExtractParams(String result) {
         Asserts.check(StrUtil.isAllNotBlank(result), "xxl-job参数不能为空");
-        String[] params = result.split(",");
-        Asserts.check(NumberUtil.isNumber(params[0]), "xxl-job参数不正确");
-        Asserts.check(NumberUtil.isDouble(params[1]), "xxl-job参数不正确");
-        return params;
+        Asserts.check(NumberUtil.isNumber(result.split(",")[0]), "xxl-job参数不正确");
+        Asserts.check(NumberUtil.isDouble(result.split(",")[1]), "xxl-job参数不正确");
+        return result.split(",");
     }
 
     /**
@@ -132,12 +125,10 @@ public class MarketTickersSyncJob {
         Map<String, MarketTickers> originMap = mapByInstId(originData);
         Map<String, MarketTickers> remoteMap = mapByInstId(remoteData);
 
-        // 并行执行插入、更新、删除操作
-        CompletableFuture.allOf(
-                CompletableFuture.runAsync(() -> insertNewData(originMap, remoteMap, params), executor),
-                CompletableFuture.runAsync(() -> updateExistingData(originMap, remoteMap, params), executor),
-                CompletableFuture.runAsync(() -> deleteData(originMap, remoteMap, params), executor)
-        ).join();
+        // 执行插入、更新、删除操作
+        insertNewData(originMap, remoteMap, params);
+        updateExistingData(originMap, remoteMap, params);
+        deleteData(originMap, remoteMap, params);
     }
 
     private Map<String, MarketTickers> mapByInstId(List<MarketTickers> data) {
@@ -162,7 +153,7 @@ public class MarketTickersSyncJob {
         List<MarketTickers> newData = insertCoin.stream().map(remoteMap::get).collect(Collectors.toList());
 
         // 推送新增币种的通知（例如钉钉通知）
-        notifyNewCoins(newData);
+        notifyNewCoins(newData, params[0]);
 
         // 批量插入新增的市场行情数据
         tickersService.insertBatch(newData, params[0]);
@@ -174,10 +165,10 @@ public class MarketTickersSyncJob {
      *
      * @param newData 新增的币种数据
      */
-    private void notifyNewCoins(List<MarketTickers> newData) {
+    private void notifyNewCoins(List<MarketTickers> newData, String param) {
         List<MarketTickersDTO> newCoins = BeanUtil.copyToList(newData, MarketTickersDTO.class);
         if (!newCoins.isEmpty()) {
-            dingTalkUtil.sendMarketTickers(null, "上新币种：", newCoins);
+            dingTalkUtil.sendMarketTickers(param, "新币上市：", newCoins);
         }
     }
 
@@ -244,7 +235,13 @@ public class MarketTickersSyncJob {
                 double dayStartPrice = Double.parseDouble(remote.getSodUtc8());
                 // 日内涨跌幅也使用起始价格作为基数
                 double dayPercent = ((remoteLast - dayStartPrice) / dayStartPrice) * 100;
-                return new MarketTickersDTO(remote.getInstId(), threePercent, dayPercent);
+                return new MarketTickersDTO()
+                        .setInstId(remote.getInstId())
+                        .setThreeChangePercent(threePercent)
+                        .setDayChangePercent(dayPercent)
+                        .setLast(remote.getLast())
+                        .setHigh24h(remote.getHigh24h())
+                        .setLow24h(remote.getLow24h());
             }
         } catch (Exception e) {
             log.warn("计算涨跌幅失败: instId={}, error={}", origin.getInstId(), e.getMessage());

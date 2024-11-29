@@ -47,7 +47,7 @@ public class DingTalkUtil {
             OapiRobotSendRequest.Markdown markdown = new OapiRobotSendRequest.Markdown();
             markdown.setTitle(title);
             //调用封装文本信息
-            String markdownTable = convertJsonToHtmlTable(time, msg);
+            String markdownTable = convertJsonToText(time, msg);
             markdown.setText(markdownTable);
             request.setMarkdown(markdown);
             OapiRobotSendResponse response = client.execute(request);
@@ -57,25 +57,33 @@ public class DingTalkUtil {
         }
     }
 
-    private String convertJsonToHtmlTable(String time, List<MarketTickersDTO> msg) {
-        // 构造 HTML 表格
-        time = time == null ? "3" : time;
-        StringBuilder tableBuilder = new StringBuilder();
-        tableBuilder.append("<table border='1'>")
-                .append("<tr>")
-                .append("<th>币种名称</th>")
-                .append("<th>").append(time).append("分钟涨跌幅</th>")
-                .append("<th>今日涨跌幅</th>")
-                .append("</tr>");
+    private String convertJsonToText(String time, List<MarketTickersDTO> msg) {
+        // 使用纯文本格式展示
+        StringBuilder textBuilder = new StringBuilder();
+        textBuilder.append("#### ").append(time).append("分钟币种涨跌幅：\n\n");
+
+        // 循环输出每个币种的信息，使用 Markdown 格式竖排显示
+        int index = 1;
         for (MarketTickersDTO marketTickersDTO : msg) {
-            tableBuilder.append("<tr>")
-                    .append("<td>").append(marketTickersDTO.getInstId()).append("</td>")
-                    .append("<td>").append(marketTickersDTO.getThreeChangePercent()).append("%</td>")
-                    .append("<td>").append(marketTickersDTO.getDayChangePercent()).append("%</td>")
-                    .append("</tr>");
+            String instId = marketTickersDTO.getInstId();
+            String last = marketTickersDTO.getLast();
+            String high24h = marketTickersDTO.getHigh24h();
+            String low24h = marketTickersDTO.getLow24h();
+            String threeChangePercent = String.format("%.2f%%", marketTickersDTO.getThreeChangePercent());
+            String dayChangePercent = String.format("%.2f%%", marketTickersDTO.getDayChangePercent());
+
+            // 输出每个币种的信息，Markdown 格式，添加颜色
+            textBuilder.append("\n---\n");  // 分隔线
+            textBuilder.append("**").append(index).append("、").append(instId).append("**").append("\n\n");
+            textBuilder.append("- **当前涨跌幅**：").append(threeChangePercent).append("\n\n");
+            textBuilder.append("- **今日涨跌幅**：").append(dayChangePercent).append("\n\n");
+            textBuilder.append("- **当前成交价**：").append(last).append("\n\n");
+            textBuilder.append("- **今日最高价**：").append(high24h).append("\n\n");
+            textBuilder.append("- **今日最低价**：").append(low24h).append("\n\n");
+            index++;
         }
-        tableBuilder.append("</table>");
-        return tableBuilder.toString();
+
+        return textBuilder.toString();
     }
 
     private String sign(Long timestamp) throws Exception {

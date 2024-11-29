@@ -14,11 +14,10 @@ import com.wick.boot.module.okx.market.mapper.MarketCoinCloseMapper;
 import com.wick.boot.module.okx.market.model.entity.MarketCoinClose;
 import com.wick.boot.module.okx.model.market.MarketTickersQueryVO;
 import com.xxl.job.core.handler.annotation.XxlJob;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -28,21 +27,19 @@ import java.util.List;
  * @date 2024-11-28
  */
 @Slf4j
-@Component
+@RequiredArgsConstructor
 public class MarketCoinClosingPriceJob {
 
-    @Resource
-    private ApiMarketCoin apiMarketCoin;
+    private final ApiMarketCoin apiMarketCoin;
 
-    @Resource
-    private MarketCoinCloseMapper coinMapper;
+    private final MarketCoinCloseMapper coinMapper;
 
     @XxlJob("marketCoinClosingPricesBy8AMJob")
     @Transactional(rollbackFor = Exception.class)
-    public void marketCoinClosingPricesBy8AMJob() {
+    public void execute() {
         try {
             log.info("币种收盘价(UTC+8)-定时任务");
-            List<MarketCoinClose> remoteData = getRemoteData();
+            List<MarketCoinClose> remoteData = fetchRemoteData();
             if (CollUtil.isEmpty(remoteData)) {
                 log.warn("未获取到市场行情数据，本次同步终止");
                 return;
@@ -50,13 +47,14 @@ public class MarketCoinClosingPriceJob {
 
             // 保存到数据库
             coinMapper.insertBatch(remoteData);
+            log.info("市场行情同步完成，处理数据量: {}", remoteData.size());
         } catch (Exception e) {
             log.error("市场行情同步失败: {}", e.getMessage(), e);
             throw e;
         }
     }
 
-    private List<MarketCoinClose> getRemoteData() {
+    private List<MarketCoinClose> fetchRemoteData() {
         try {
             // 明确指定泛型类型
             MarketTickersQueryVO queryVO = new MarketTickersQueryVO();

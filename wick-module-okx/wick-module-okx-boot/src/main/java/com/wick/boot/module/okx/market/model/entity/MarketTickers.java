@@ -32,6 +32,16 @@ public class MarketTickers {
     private String last;
 
     /**
+     * 24小时最高价
+     */
+    private String high24h;
+
+    /**
+     * 24小时最低价
+     */
+    private String low24h;
+
+    /**
      * 最新成交的数量，0代表没有成交量
      */
     @TableField(value = "last_sz")
