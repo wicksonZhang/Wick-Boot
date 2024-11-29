@@ -17,26 +17,29 @@ public interface MarketTickersService {
      *
      * @return
      */
-    List<MarketTickers> selectList();
+    List<MarketTickers> selectList(String time);
 
     /**
      * 批量插入数据
      *
-     * @param insertList 市场行情数据
+     * @param insertList  市场行情数据
+     * @param executeTime 执行时间
      */
-    void insertBatch(List<MarketTickers> insertList);
+    void insertBatch(List<MarketTickers> insertList, String executeTime);
 
     /**
      * 批量更新数据
      *
      * @param updatedList 市场行情数据
+     * @param executeTime 执行时间
      */
-    void updateBatch(List<MarketTickers> updatedList);
+    void updateBatch(List<MarketTickers> updatedList, String executeTime);
 
     /**
      * 批量删除数据
      *
-     * @param keys 产品名称
+     * @param keys        产品名称
+     * @param executeTime 执行时间
      */
-    void deleteBatchIds(List<String> keys);
+    void deleteBatchIds(List<String> keys, String executeTime);
 }

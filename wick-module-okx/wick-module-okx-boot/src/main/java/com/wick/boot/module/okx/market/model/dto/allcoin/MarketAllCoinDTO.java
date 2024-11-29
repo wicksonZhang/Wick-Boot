@@ -22,9 +22,6 @@ import java.time.format.DateTimeFormatter;
 @ApiModel(description = "市场行情")
 public class MarketAllCoinDTO {
 
-    @ApiModelProperty(value = "产品ID", example = "1")
-    private Long id;
-
     @ApiModelProperty(value = "产品类型", example = "SWAP")
     private String instType;
 
@@ -74,7 +71,7 @@ public class MarketAllCoinDTO {
         double startPrice = Double.parseDouble(sodUtc8);
 
         if (lastPrice == 0 || startPrice == 0) {
-            return "--";
+            return "0";
         }
         double percent = ((lastPrice - startPrice) / startPrice) * 100;
         return String.format("%.2f", percent);

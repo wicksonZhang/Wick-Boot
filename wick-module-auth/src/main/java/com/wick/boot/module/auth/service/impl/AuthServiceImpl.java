@@ -1,7 +1,8 @@
 package com.wick.boot.module.auth.service.impl;
 
+import cn.hutool.captcha.AbstractCaptcha;
 import cn.hutool.captcha.CaptchaUtil;
-import cn.hutool.captcha.GifCaptcha;
+import cn.hutool.captcha.generator.CodeGenerator;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
@@ -28,11 +29,12 @@ import com.wick.boot.module.system.model.dto.CaptchaImageRespDTO;
 import com.wick.boot.module.system.model.dto.LoginLogReqDTO;
 import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import com.wick.boot.module.system.model.vo.AuthUserLoginReqVO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -45,41 +47,59 @@ import java.util.concurrent.TimeUnit;
  * @date 2024-04-08
  */
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImpl implements IAuthService {
 
     @Value("${captcha.enable:true}")
     private Boolean enable;
 
-    @Resource
-    private RedisService redisService;
+    private final RedisService redisService;
+    private final ApiSystemUser systemUser;
+    private final OnlineUserService onlineUserService;
+    private final ApiSystemLoginLog systemLoginLog;
+    private final CodeGenerator codeGenerator;
+    private final Font captchaFont;
 
-    @Resource
-    private ApiSystemUser systemUser;
-
-    @Resource
-    private OnlineUserService onlineUserService;
-
-    @Resource
-    private ApiSystemLoginLog systemLoginLog;
 
     @Override
     public CaptchaImageRespDTO getCaptchaImage() {
-        /* Step-1：判断是否开启验证码 */
+        // Step-1: 判断是否开启验证码
         if (!Boolean.TRUE.equals(enable)) {
             return CaptchaImageRespDTO.builder().enable(enable).build();
         }
 
-        /* Step-2: 生成验证码信息 */
-        GifCaptcha captcha =
-                CaptchaUtil.createGifCaptcha(CaptchaConstants.CAPTCHA_WIDTH, CaptchaConstants.CAPTCHA_HEIGHT, CaptchaConstants.CAPTCHA_COUNT);
-        /* Step-3: 将验证码存入redis */
+        // Step-2: 生成验证码并获取图片数据
+        AbstractCaptcha captcha = generateCaptcha();
+        String captchaCode = captcha.getCode();
+        String imageBase64Data = captcha.getImageBase64Data();
+
+        // Step-3: 存储验证码到 Redis
+        String captchaKey = storeCaptchaInRedis(captchaCode);
+
+        // Step-4: 返回结果
+        return CaptchaImageRespDTO.getInstance(enable, captchaKey, imageBase64Data);
+    }
+
+    private AbstractCaptcha generateCaptcha() {
+        AbstractCaptcha captcha = CaptchaUtil.createCircleCaptcha(
+                CaptchaConstants.CAPTCHA_WIDTH,
+                CaptchaConstants.CAPTCHA_HEIGHT,
+                CaptchaConstants.CAPTCHA_CODE_LENGTH,
+                CaptchaConstants.CAPTCHA_INTERFERE_COUNT
+        );
+        captcha.setGenerator(codeGenerator);
+        captcha.setTextAlpha(CaptchaConstants.CAPTCHA_TEXT_ALPHA);
+        captcha.setFont(captchaFont);
+        return captcha;
+    }
+
+    private String storeCaptchaInRedis(String captchaCode) {
         String captchaKey = IdUtil.fastSimpleUUID();
         String redisKey = GlobalCacheConstants.getCaptchaCodeKey(captchaKey);
-        redisService.setCacheObject(redisKey, captcha.getCode(), CaptchaConstants.CAPTCHA_TIME_OUT, TimeUnit.SECONDS);
-
-        /* Step-4: 返回结果集 */
-        return CaptchaImageRespDTO.getInstance(enable, captchaKey, captcha.getImageBase64Data());
+        redisService.setCacheObject(redisKey, captchaCode, CaptchaConstants.CAPTCHA_EXPIRE_SECONDS, TimeUnit.SECONDS);
+        return captchaKey;
     }
+
 
     @Override
     public AuthUserLoginRespDTO login(AuthUserLoginReqVO reqVO) {
@@ -138,7 +158,7 @@ public class AuthServiceImpl implements IAuthService {
             throw ServiceException.getInstance(ErrorCodeAuth.AUTH_CAPTCHA_CODE_ERROR);
         }
         // 验证码Code不能为空 || 验证码Code是否正确
-        if (!captchaCode.equalsIgnoreCase(verifyCode)) {
+        if (!codeGenerator.verify(verifyCode, captchaCode)) {
             redisService.deleteObject(redisKey);
             createLog(null, username, LoginResultEnum.CAPTCHA_CODE_ERROR, LoginLogTypeEnum.LOGIN_USERNAME);
             throw ServiceException.getInstance(ErrorCodeAuth.AUTH_CAPTCHA_CODE_ERROR);

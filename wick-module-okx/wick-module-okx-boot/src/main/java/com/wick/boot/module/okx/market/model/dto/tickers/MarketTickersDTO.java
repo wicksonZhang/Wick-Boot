@@ -24,7 +24,7 @@ public class MarketTickersDTO {
     @ApiModelProperty(value = "产品编号", example = "BTC-USDT-SWAP")
     private String instId;
 
-    @ApiModelProperty(value = "三分钟涨跌幅", example = "2.24%")
+    @ApiModelProperty(value = "涨跌幅", example = "2.24%")
     private String threeChangePercent;
 
     @ApiModelProperty(value = "今日涨跌幅", example = "5%")

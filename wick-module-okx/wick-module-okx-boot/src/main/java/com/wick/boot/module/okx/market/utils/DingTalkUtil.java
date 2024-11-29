@@ -32,7 +32,7 @@ public class DingTalkUtil {
     @Value("${aliyun.secret}")
     private String secret;
 
-    public void sendMarketTickers(String title, List<MarketTickersDTO> msg) {
+    public void sendMarketTickers(String time, String title, List<MarketTickersDTO> msg) {
         try {
             long timestamp = System.currentTimeMillis();
             String sign = sign(timestamp);
@@ -47,7 +47,7 @@ public class DingTalkUtil {
             OapiRobotSendRequest.Markdown markdown = new OapiRobotSendRequest.Markdown();
             markdown.setTitle(title);
             //调用封装文本信息
-            String markdownTable = convertJsonToMarkdownTable(msg);
+            String markdownTable = convertJsonToMarkdownTable(time, msg);
             markdown.setText(markdownTable);
             request.setMarkdown(markdown);
             OapiRobotSendResponse response = client.execute(request);
@@ -57,10 +57,10 @@ public class DingTalkUtil {
         }
     }
 
-    private String convertJsonToMarkdownTable(List<MarketTickersDTO> msg) {
+    private String convertJsonToMarkdownTable(String time, List<MarketTickersDTO> msg) {
         // 构造 Markdown 表格
         StringBuilder tableBuilder = new StringBuilder();
-        tableBuilder.append("| 币种名称 | 三分钟涨跌幅 | 今日涨跌幅 |\n");
+        tableBuilder.append("| 币种名称 | ").append(time == null ? "3" : time).append("分钟涨跌幅 | 今日涨跌幅 |\n");
         tableBuilder.append("| -------- | ------------ | ---------- |\n");
         for (MarketTickersDTO marketTickersDTO : msg) {
             tableBuilder.append("| ").append(marketTickersDTO.getInstId())
