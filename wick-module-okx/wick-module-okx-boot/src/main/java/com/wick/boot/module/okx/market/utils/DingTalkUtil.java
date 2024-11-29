@@ -47,7 +47,7 @@ public class DingTalkUtil {
             OapiRobotSendRequest.Markdown markdown = new OapiRobotSendRequest.Markdown();
             markdown.setTitle(title);
             //调用封装文本信息
-            String markdownTable = convertJsonToMarkdownTable(time, msg);
+            String markdownTable = convertJsonToHtmlTable(time, msg);
             markdown.setText(markdownTable);
             request.setMarkdown(markdown);
             OapiRobotSendResponse response = client.execute(request);
@@ -57,16 +57,24 @@ public class DingTalkUtil {
         }
     }
 
-    private String convertJsonToMarkdownTable(String time, List<MarketTickersDTO> msg) {
-        // 构造 Markdown 表格
+    private String convertJsonToHtmlTable(String time, List<MarketTickersDTO> msg) {
+        // 构造 HTML 表格
+        time = time == null ? "3" : time;
         StringBuilder tableBuilder = new StringBuilder();
-        tableBuilder.append("| 币种名称 | ").append(time == null ? "3" : time).append("分钟涨跌幅 | 今日涨跌幅 |\n");
-        tableBuilder.append("| -------- | ------------ | ---------- |\n");
+        tableBuilder.append("<table border='1'>")
+                .append("<tr>")
+                .append("<th>币种名称</th>")
+                .append("<th>").append(time).append("分钟涨跌幅</th>")
+                .append("<th>今日涨跌幅</th>")
+                .append("</tr>");
         for (MarketTickersDTO marketTickersDTO : msg) {
-            tableBuilder.append("| ").append(marketTickersDTO.getInstId())
-                    .append(" | ").append(marketTickersDTO.getThreeChangePercent())
-                    .append(" | ").append(marketTickersDTO.getDayChangePercent()).append(" |\n");
+            tableBuilder.append("<tr>")
+                    .append("<td>").append(marketTickersDTO.getInstId()).append("</td>")
+                    .append("<td>").append(marketTickersDTO.getThreeChangePercent()).append("%</td>")
+                    .append("<td>").append(marketTickersDTO.getDayChangePercent()).append("%</td>")
+                    .append("</tr>");
         }
+        tableBuilder.append("</table>");
         return tableBuilder.toString();
     }
 

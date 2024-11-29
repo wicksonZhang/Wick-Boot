@@ -11,7 +11,7 @@ import com.wick.boot.common.core.exception.ServiceException;
  * @author: Wickson
  * @create: 2024-11-21 23:27
  **/
-public abstract class AbstractMarketCoinService {
+public abstract class AbstractMarketAllCoinService {
 
     /**
      * 验证 API 响应的状态码是否正常

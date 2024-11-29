@@ -10,8 +10,8 @@ import com.wick.boot.common.core.constant.GlobalResultCodeConstants;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.module.okx.api.market.ApiMarketCoin;
 import com.wick.boot.module.okx.enums.market.MarketInstTypeEnum;
-import com.wick.boot.module.okx.market.mapper.MarketCoinMapper;
-import com.wick.boot.module.okx.market.model.entity.MarketCoin;
+import com.wick.boot.module.okx.market.mapper.MarketCoinCloseMapper;
+import com.wick.boot.module.okx.market.model.entity.MarketCoinClose;
 import com.wick.boot.module.okx.model.market.MarketTickersQueryVO;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.extern.slf4j.Slf4j;
@@ -35,14 +35,14 @@ public class MarketCoinClosingPriceJob {
     private ApiMarketCoin apiMarketCoin;
 
     @Resource
-    private MarketCoinMapper coinMapper;
+    private MarketCoinCloseMapper coinMapper;
 
     @XxlJob("marketCoinClosingPricesBy8AMJob")
     @Transactional(rollbackFor = Exception.class)
     public void marketCoinClosingPricesBy8AMJob() {
         try {
             log.info("币种收盘价(UTC+8)-定时任务");
-            List<MarketCoin> remoteData = getRemoteData();
+            List<MarketCoinClose> remoteData = getRemoteData();
             if (CollUtil.isEmpty(remoteData)) {
                 log.warn("未获取到市场行情数据，本次同步终止");
                 return;
@@ -56,7 +56,7 @@ public class MarketCoinClosingPriceJob {
         }
     }
 
-    private List<MarketCoin> getRemoteData() {
+    private List<MarketCoinClose> getRemoteData() {
         try {
             // 明确指定泛型类型
             MarketTickersQueryVO queryVO = new MarketTickersQueryVO();
@@ -66,7 +66,7 @@ public class MarketCoinClosingPriceJob {
 
             JSONObject jsonObject = JSONUtil.parseObj(response.getContent());
             // 明确指定转换类型
-            List<MarketCoin> data = JSONUtil.toList(jsonObject.getJSONArray("data"), MarketCoin.class);
+            List<MarketCoinClose> data = JSONUtil.toList(jsonObject.getJSONArray("data"), MarketCoinClose.class);
             log.info("成功获取合约类型的市场行情数据，共计 {} 条记录。", data.size());
             return data;
         } catch (Exception e) {

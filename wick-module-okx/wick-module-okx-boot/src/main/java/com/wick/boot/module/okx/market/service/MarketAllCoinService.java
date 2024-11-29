@@ -10,7 +10,7 @@ import com.wick.boot.module.okx.market.model.dto.allcoin.MarketAllCoinDTO;
  * @author Wickson
  * @date 2024-11-19
  */
-public interface MarketCoinService {
+public interface MarketAllCoinService {
 
     /**
      * 分页查询_市场行情

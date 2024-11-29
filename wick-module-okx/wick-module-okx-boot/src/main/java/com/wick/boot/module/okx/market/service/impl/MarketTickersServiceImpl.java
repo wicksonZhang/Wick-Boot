@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 市场行情-业务实现层
@@ -31,7 +30,8 @@ public class MarketTickersServiceImpl implements MarketTickersService {
     @Override
     public List<MarketTickers> selectList(String time) {
         // 获取所有的 key
-        String accessKey = GlobalCacheConstants.getOkxMarketTickers(time + "_MIN:" + "*");
+        String format = String.format("%02d", NumberUtil.parseInt(time));
+        String accessKey = GlobalCacheConstants.getOkxMarketTickers(format + "_MIN:" + "*");
         Collection<String> keys = redisService.keys(accessKey);
         if (CollUtil.isEmpty(keys)) {
             return Lists.newArrayList();
@@ -47,27 +47,26 @@ public class MarketTickersServiceImpl implements MarketTickersService {
     @Override
     public void insertBatch(List<MarketTickers> insertList, String time) {
         for (MarketTickers marketTickers : insertList) {
-            long number = NumberUtil.parseLong(time);
-            String key = time + "_MIN:" + marketTickers.getInstId();
+            String key = String.format("%02d", NumberUtil.parseInt(time)) + "_MIN:" + marketTickers.getInstId();
             String redisKey = GlobalCacheConstants.getOkxMarketTickers(key);
-            redisService.setCacheObject(redisKey, marketTickers, number + 1, TimeUnit.MINUTES);
+            redisService.setCacheObject(redisKey, marketTickers);
         }
     }
 
     @Override
     public void updateBatch(List<MarketTickers> updatedList, String time) {
         for (MarketTickers marketTickers : updatedList) {
-            long number = NumberUtil.parseLong(time);
-            String key = time + "_MIN:" + marketTickers.getInstId();
+            String key = String.format("%02d", NumberUtil.parseInt(time)) + "_MIN:" + marketTickers.getInstId();
             String redisKey = GlobalCacheConstants.getOkxMarketTickers(key);
-            redisService.setCacheObject(redisKey, marketTickers, number + 1, TimeUnit.MINUTES);
+            redisService.setCacheObject(redisKey, marketTickers);
         }
     }
 
     @Override
     public void deleteBatchIds(List<String> keys, String time) {
+        String format = String.format("%02d", NumberUtil.parseInt(time));
         for (String key : keys) {
-            String redisKey = GlobalCacheConstants.getOkxMarketTickers(time + "_MIN:" + key);
+            String redisKey = GlobalCacheConstants.getOkxMarketTickers(format + "_MIN:" + key);
             redisService.deleteObject(redisKey);
         }
     }

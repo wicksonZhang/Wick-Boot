@@ -17,8 +17,8 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("okx_market_coin")
-public class MarketCoin extends BaseDO {
+@TableName("okx_market_coin_close")
+public class MarketCoinClose extends BaseDO {
 
     /**
      * 主键id

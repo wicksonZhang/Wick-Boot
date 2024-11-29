@@ -200,7 +200,7 @@ public class MarketTickersSyncJob {
         List<MarketTickersDTO> tickersDTOS = calculateChangePercent(originMap, remoteMap, threshold);
         if (CollectionUtil.isNotEmpty(tickersDTOS)) {
             // 推送钉钉通知
-            dingTalkUtil.sendMarketTickers(params[1], "财富密码", tickersDTOS);
+            dingTalkUtil.sendMarketTickers(params[0], "财富密码", tickersDTOS);
         }
 
         // 获取需要更新的MarketTickers对象列表
@@ -210,13 +210,18 @@ public class MarketTickersSyncJob {
         tickersService.updateBatch(updatedList, params[0]);
     }
 
-    private List<MarketTickersDTO> calculateChangePercent(Map<String, MarketTickers> originMap, Map<String, MarketTickers> remoteMap, double threshold) {
-        return originMap.values().stream()
-                .filter(local -> remoteMap.containsKey(local.getInstId()))
-                .map(local -> createTickerDTO(local, remoteMap.get(local.getInstId()), threshold))
-                .filter(Objects::nonNull)
-                .sorted(Comparator.comparingDouble(dto -> -Math.abs(Double.parseDouble(dto.getThreeChangePercent()))))
-                .collect(Collectors.toList());
+    private List<MarketTickersDTO> calculateChangePercent(Map<String, MarketTickers> originMap, Map<String, MarketTickers> remoteMap, double percentage) {
+        // 过滤掉不符合条件的数据, 按 threeChangePercent 绝对值降序
+        List<MarketTickersDTO> collect = new ArrayList<>();
+        for (MarketTickers local : originMap.values()) {
+            MarketTickers remoteTickers = remoteMap.get(local.getInstId());
+            MarketTickersDTO tickerDTO = createTickerDTO(local, remoteTickers, percentage);
+            if (tickerDTO != null) {
+                collect.add(tickerDTO);
+            }
+        }
+        collect.sort(Comparator.comparingDouble(dto -> -Math.abs(dto.getThreeChangePercent())));
+        return collect;
     }
 
     /**
@@ -239,12 +244,7 @@ public class MarketTickersSyncJob {
                 double dayStartPrice = Double.parseDouble(remote.getSodUtc8());
                 // 日内涨跌幅也使用起始价格作为基数
                 double dayPercent = ((remoteLast - dayStartPrice) / dayStartPrice) * 100;
-
-                return MarketTickersDTO.builder()
-                        .instId(remote.getInstId())
-                        .threeChangePercent(String.format("%.2f%%", threePercent))
-                        .dayChangePercent(String.format("%.2f%%", dayPercent))
-                        .build();
+                return new MarketTickersDTO(remote.getInstId(), threePercent, dayPercent);
             }
         } catch (Exception e) {
             log.warn("计算涨跌幅失败: instId={}, error={}", origin.getInstId(), e.getMessage());

@@ -3,7 +3,6 @@ package com.wick.boot.module.okx.market.model.dto.tickers;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-import lombok.experimental.Accessors;
 
 /**
  * 市场行情
@@ -16,8 +15,6 @@ import lombok.experimental.Accessors;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Accessors(chain = true)
 @ApiModel(description = "市场行情")
 public class MarketTickersDTO {
 
@@ -25,9 +22,9 @@ public class MarketTickersDTO {
     private String instId;
 
     @ApiModelProperty(value = "涨跌幅", example = "2.24%")
-    private String threeChangePercent;
+    private double threeChangePercent;
 
     @ApiModelProperty(value = "今日涨跌幅", example = "5%")
-    private String dayChangePercent;
+    private double dayChangePercent;
 
 }

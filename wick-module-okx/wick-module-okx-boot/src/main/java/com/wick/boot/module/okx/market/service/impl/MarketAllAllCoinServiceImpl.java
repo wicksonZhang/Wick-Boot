@@ -9,8 +9,8 @@ import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.okx.api.market.ApiMarketCoin;
 import com.wick.boot.module.okx.market.model.dto.allcoin.MarketAllCoinDTO;
 import com.wick.boot.module.okx.market.model.vo.allcoin.MarketAllCoinQueryVO;
-import com.wick.boot.module.okx.market.service.AbstractMarketCoinService;
-import com.wick.boot.module.okx.market.service.MarketCoinService;
+import com.wick.boot.module.okx.market.service.AbstractMarketAllCoinService;
+import com.wick.boot.module.okx.market.service.MarketAllCoinService;
 import com.wick.boot.module.okx.model.market.MarketTickersQueryVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class MarketCoinServiceImpl extends AbstractMarketCoinService implements MarketCoinService {
+public class MarketAllAllCoinServiceImpl extends AbstractMarketAllCoinService implements MarketAllCoinService {
 
     private final ApiMarketCoin apiMarketCoin;
 
