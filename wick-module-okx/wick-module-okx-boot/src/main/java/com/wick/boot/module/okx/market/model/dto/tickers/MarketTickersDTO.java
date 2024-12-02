@@ -1,8 +1,11 @@
 package com.wick.boot.module.okx.market.model.dto.tickers;
 
+import cn.hutool.core.date.DateUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
@@ -35,5 +38,12 @@ public class MarketTickersDTO {
 
     @ApiModelProperty(value = "今日涨跌幅", example = "5%")
     private double dayChangePercent;
+
+    @ApiModelProperty(value = "生成时间", example = "2024-11-30 20:45:57")
+    private String ts;
+
+    public String getTs() {
+        return DateUtil.date(Long.parseLong(ts)).toString();
+    }
 
 }

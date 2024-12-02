@@ -1,29 +1,36 @@
-package com.wick.boot.module.okx.market.model.dto.allcoin;
+package com.wick.boot.module.okx.market.model.dto.mycoin;
 
-import cn.hutool.core.date.DateUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
+
+import java.io.Serializable;
 
 /**
- * 所有币种
+ * 我的自选-DTO
  *
  * @author Wickson
- * @date 2024-11-19
+ * @date 2024-12-02 11:04
  */
-@Setter
 @Getter
-@ToString
-@ApiModel(description = "市场行情")
-public class MarketAllCoinDTO {
+@Setter
+@ApiModel(value = "MarketMyCoinDTO对象", description = "我的自选视图DTO")
+public class MarketMyCoinDTO implements Serializable {
 
-    @ApiModelProperty(value = "产品类型", example = "SWAP")
+    private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty(value = "主键ID")
+    private Long id;
+
+    @ApiModelProperty(value = "产品ID")
+    private String instId;
+
+    @ApiModelProperty(value = "产品类型")
     private String instType;
 
-    @ApiModelProperty(value = "产品编号", example = "BTC-USDT-SWAP")
-    private String instId;
+    @ApiModelProperty(value = "币种类型（MeMe、Layer1、NFT）")
+    private String coinType;
 
     @ApiModelProperty(value = "最新成交价", example = "98893.7")
     private String last;
@@ -45,20 +52,6 @@ public class MarketAllCoinDTO {
 
     @ApiModelProperty(value = "涨跌幅", example = "2.24%")
     private String changePercent;
-
-    public String getTs() {
-        return DateUtil.date(Long.parseLong(ts)).toString();
-    }
-
-    public String getChangePercent() {
-        double lastPrice = Double.parseDouble(last);
-        double startPrice = Double.parseDouble(sodUtc8);
-
-        if (lastPrice == 0 || startPrice == 0) {
-            return "0";
-        }
-        double percent = ((lastPrice - startPrice) / startPrice) * 100;
-        return String.format("%.2f", percent);
-    }
-
 }
+
+

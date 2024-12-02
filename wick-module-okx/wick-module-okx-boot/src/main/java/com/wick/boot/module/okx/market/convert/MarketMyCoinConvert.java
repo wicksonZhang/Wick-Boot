@@ -1,9 +1,13 @@
 package com.wick.boot.module.okx.market.convert;
 
+import cn.hutool.core.date.DateUtil;
+import com.wick.boot.module.okx.market.model.dto.mycoin.MarketMyCoinDTO;
 import com.wick.boot.module.okx.market.model.entity.MarketMyCoin;
 import com.wick.boot.module.okx.market.model.vo.mycoin.MarketMyCoinAddVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
+import java.util.List;
 
 /**
  * 我的自选管理-转换类
@@ -24,4 +28,15 @@ public interface MarketMyCoinConvert {
      */
     MarketMyCoin addVoToEntity(MarketMyCoinAddVO reqVO);
 
+    /**
+     * Convert entity To page
+     *
+     * @param records 我的自选列表
+     * @return
+     */
+    List<MarketMyCoinDTO> entityToPage(List<MarketMyCoin> records);
+
+    default String convertTs() {
+        return DateUtil.now();
+    }
 }

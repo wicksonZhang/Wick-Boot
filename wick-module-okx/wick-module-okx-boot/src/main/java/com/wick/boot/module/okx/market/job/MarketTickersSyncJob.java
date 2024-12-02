@@ -110,7 +110,8 @@ public class MarketTickersSyncJob {
 
             // 解析响应数据并转换为MarketTickers对象列表
             JSONObject jsonObject = JSONUtil.parseObj(response.getContent());
-            return JSONUtil.toList(jsonObject.getJSONArray("data"), MarketTickers.class);
+            List<MarketTickers> data = JSONUtil.toList(jsonObject.getJSONArray("data"), MarketTickers.class);
+            return data.stream().filter(item -> item.getInstId().contains("USDT")).collect(Collectors.toList());
         } catch (Exception e) {
             log.error("获取合约类型市场行情数据失败: {}", e.getMessage());
         }
@@ -241,7 +242,8 @@ public class MarketTickersSyncJob {
                         .setDayChangePercent(dayPercent)
                         .setLast(remote.getLast())
                         .setHigh24h(remote.getHigh24h())
-                        .setLow24h(remote.getLow24h());
+                        .setLow24h(remote.getLow24h())
+                        .setTs(remote.getTs());
             }
         } catch (Exception e) {
             log.warn("计算涨跌幅失败: instId={}, error={}", origin.getInstId(), e.getMessage());

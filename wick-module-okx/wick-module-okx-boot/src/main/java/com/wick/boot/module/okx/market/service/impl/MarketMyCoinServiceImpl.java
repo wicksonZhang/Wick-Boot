@@ -1,9 +1,14 @@
 package com.wick.boot.module.okx.market.service.impl;
 
+import cn.hutool.core.util.ObjUtil;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.okx.market.convert.MarketMyCoinConvert;
 import com.wick.boot.module.okx.market.mapper.MarketMyCoinMapper;
+import com.wick.boot.module.okx.market.model.dto.mycoin.MarketMyCoinDTO;
 import com.wick.boot.module.okx.market.model.entity.MarketMyCoin;
 import com.wick.boot.module.okx.market.model.vo.mycoin.MarketMyCoinAddVO;
+import com.wick.boot.module.okx.market.model.vo.mycoin.MarketMyCoinQueryVO;
 import com.wick.boot.module.okx.market.service.MarketMyCoinAbstractService;
 import com.wick.boot.module.okx.market.service.MarketMyCoinService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 我的自选管理-服务实现类
@@ -44,4 +50,24 @@ public class MarketMyCoinServiceImpl extends MarketMyCoinAbstractService impleme
         return marketMyCoin.getId();
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteMarketMyCoin(List<Long> ids) {
+
+    }
+
+    @Override
+    public PageResult<MarketMyCoinDTO> getMarketMyCoinPage(MarketMyCoinQueryVO queryParams) {
+        Page<MarketMyCoin> pageResult = this.marketMyCoinMapper.getMarketMyCoinPage(
+                new Page<>(queryParams.getPageNumber(), queryParams.getPageSize()),
+                queryParams
+        );
+
+        if (ObjUtil.isNull(pageResult)) {
+            return PageResult.empty();
+        }
+
+        List<MarketMyCoinDTO> marketMyCoinPages = MarketMyCoinConvert.INSTANCE.entityToPage(pageResult.getRecords());
+        return new PageResult<>(marketMyCoinPages, pageResult.getTotal());
+    }
 }
