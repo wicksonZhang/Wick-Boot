@@ -18,7 +18,7 @@ import com.wick.boot.module.okx.market.model.dto.tickers.MarketTickersDTO;
 import com.wick.boot.module.okx.market.model.entity.MarketTickers;
 import com.wick.boot.module.okx.market.service.MarketTickersService;
 import com.wick.boot.module.okx.market.utils.DingTalkUtil;
-import com.wick.boot.module.okx.model.market.MarketTickersQueryVO;
+import com.wick.boot.module.okx.model.vo.market.MarketTickersQueryVO;
 import com.xxl.job.core.context.XxlJobHelper;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.RequiredArgsConstructor;

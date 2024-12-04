@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/okx/market/all-coin")
-@Api(tags = "04-欧意（okx）-市场行情-所有币种")
+@Api(tags = "04-欧意（OKX）-市场行情-所有币种")
 public class MarketAllCoinController {
 
     private final MarketAllCoinService marketService;

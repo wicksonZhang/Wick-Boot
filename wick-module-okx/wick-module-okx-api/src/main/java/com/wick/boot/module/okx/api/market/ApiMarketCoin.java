@@ -2,7 +2,7 @@ package com.wick.boot.module.okx.api.market;
 
 import com.dtflys.forest.annotation.*;
 import com.dtflys.forest.http.ForestResponse;
-import com.wick.boot.module.okx.model.market.MarketTickersQueryVO;
+import com.wick.boot.module.okx.model.vo.market.MarketTickersQueryVO;
 
 /**
  * 行情数据API

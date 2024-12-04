@@ -11,7 +11,7 @@ import com.wick.boot.module.okx.market.model.dto.allcoin.MarketAllCoinDTO;
 import com.wick.boot.module.okx.market.model.vo.allcoin.MarketAllCoinQueryVO;
 import com.wick.boot.module.okx.market.service.AbstractMarketAllCoinService;
 import com.wick.boot.module.okx.market.service.MarketAllCoinService;
-import com.wick.boot.module.okx.model.market.MarketTickersQueryVO;
+import com.wick.boot.module.okx.model.vo.market.MarketTickersQueryVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

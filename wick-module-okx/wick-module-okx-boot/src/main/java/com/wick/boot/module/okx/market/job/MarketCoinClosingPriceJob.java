@@ -12,7 +12,7 @@ import com.wick.boot.module.okx.api.market.ApiMarketCoin;
 import com.wick.boot.module.okx.enums.market.MarketInstTypeEnum;
 import com.wick.boot.module.okx.market.mapper.MarketCoinCloseMapper;
 import com.wick.boot.module.okx.market.model.entity.MarketCoinClose;
-import com.wick.boot.module.okx.model.market.MarketTickersQueryVO;
+import com.wick.boot.module.okx.model.vo.market.MarketTickersQueryVO;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

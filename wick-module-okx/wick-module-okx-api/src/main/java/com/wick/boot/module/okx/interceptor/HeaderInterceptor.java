@@ -28,10 +28,15 @@ import java.util.Optional;
 @Component
 public class HeaderInterceptor<T> implements Interceptor<T> {
 
-    // 代理服务器配置，从配置文件中注入
+    /**
+     * 代理服务器配置ip
+     */
     @Value("${proxy.host:127.0.0.1}")
     private String proxyHost;
 
+    /**
+     * 代理服务器配置端口
+     */
     @Value("${proxy.port:7890}")
     private Integer proxyPort;
 
@@ -63,7 +68,7 @@ public class HeaderInterceptor<T> implements Interceptor<T> {
      * 设置 OKX API 需要的请求头
      * 包括 API key、时间戳、密码短语和签名等
      */
-    private void setRequestHeaders(ForestRequest request, Map<String, Object> config) {
+    private void setRequestHeaders(ForestRequest<?> request, Map<String, Object> config) {
         try {
             String timestamp = Instant.now().toString();
             String apiKey = getConfigValue(config, "api_key");

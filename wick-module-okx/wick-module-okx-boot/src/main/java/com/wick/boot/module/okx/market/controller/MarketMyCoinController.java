@@ -25,7 +25,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/okx/market/my-coin")
-@Api(tags = "04-欧意（okx）-市场行情-我的币种")
+@Api(tags = "04-欧意（OKX）-市场行情-我的币种")
 public class MarketMyCoinController {
 
     private final MarketMyCoinService marketMyCoinService;

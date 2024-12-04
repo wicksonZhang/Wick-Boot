@@ -1,4 +1,4 @@
-package com.wick.boot.module.okx.model.market;
+package com.wick.boot.module.okx.model.vo.market;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
