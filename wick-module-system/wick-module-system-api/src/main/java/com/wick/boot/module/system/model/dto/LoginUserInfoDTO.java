@@ -24,7 +24,6 @@ public class LoginUserInfoDTO {
 
     /**
      * 用户类型
-     *
      * 关联 {@link UserTypeEnum}
      */
     private Integer userType;

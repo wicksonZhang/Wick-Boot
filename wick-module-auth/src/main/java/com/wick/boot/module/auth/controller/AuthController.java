@@ -38,7 +38,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    @OperateLog(enable = false) // 避免 Post 请求被记录操作日志
+    @OperateLog(enable = false)
     @ApiOperation(value = "用户登录", notes = "系统管理 - 认证中心")
     public ResultUtil<AuthUserLoginRespDTO> login(@Valid AuthUserLoginReqVO reqVO) {
         return ResultUtil.success(authService.login(reqVO));
@@ -53,7 +53,7 @@ public class AuthController {
     }
 
     @DeleteMapping("/logout")
-    @OperateLog(enable = false) // 避免 Post 请求被记录操作日志
+    @OperateLog(enable = false)
     @ApiOperation(value = "用户登出", notes = "系统管理 - 认证中心")
     public ResultUtil<Boolean> logout(HttpServletRequest request) {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);

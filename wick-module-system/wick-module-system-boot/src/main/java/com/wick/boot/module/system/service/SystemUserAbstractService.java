@@ -140,7 +140,7 @@ public abstract class SystemUserAbstractService {
      *
      * @param systemUser 用户信息
      */
-    private void validateUser(SystemUser systemUser) {
+    protected void validateUser(SystemUser systemUser) {
         if (ObjUtil.isNull(systemUser)) {
             throw ParameterException.getInstance(GlobalResultCodeConstants.PARAM_IS_INVALID, "用户信息不存在");
         }

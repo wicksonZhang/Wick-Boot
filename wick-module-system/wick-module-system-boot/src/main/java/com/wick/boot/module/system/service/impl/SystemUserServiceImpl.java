@@ -177,6 +177,18 @@ public class SystemUserServiceImpl extends SystemUserAbstractService implements 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    public void updateStatus(Integer id, Integer status) {
+        // Step 1: 校验用户状态参数
+        SystemUser systemUser = this.userMapper.selectById(id);
+        validateUser(systemUser);
+
+        // Step 2: 更新用户状态
+        systemUser.setStatus(status);
+        this.userMapper.updateById(systemUser);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteSystemUser(List<Long> ids) {
         // Step 1: 校验删除用户参数
         List<SystemUser> systemUsers = this.userMapper.selectBatchIds(ids);

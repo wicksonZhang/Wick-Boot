@@ -59,6 +59,14 @@ public interface SystemUserService {
     void updateSystemUser(SystemUserUpdateVO reqVO);
 
     /**
+     * 更新用户状态。
+     *
+     * @param id     用户ID
+     * @param status 用户状态
+     */
+    void updateStatus(Integer id, Integer status);
+
+    /**
      * 删除指定用户信息。
      *
      * @param ids 要删除的用户ID列表
@@ -103,4 +111,5 @@ public interface SystemUserService {
      * @param file   包含用户信息的上传文件
      */
     void importSystemUser(Long deptId, MultipartFile file);
+
 }

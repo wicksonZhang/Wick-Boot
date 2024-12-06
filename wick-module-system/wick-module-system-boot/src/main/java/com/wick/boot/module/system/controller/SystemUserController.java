@@ -71,6 +71,14 @@ public class SystemUserController {
         return ResultUtil.success();
     }
 
+    @ApiOperation(value = "启用(停用)_用户信息接口", notes = "定时任务管理管理")
+    @PatchMapping("/updateStatus/{id}/{status}")
+    public ResultUtil<Long> updateStatus(@NotNull(message = "定时任务编号不能为空") @PathVariable Integer id,
+                                         @NotNull(message = "调度状态不能为空") @PathVariable Integer status) {
+        this.userService.updateStatus(id, status);
+        return ResultUtil.success();
+    }
+
     @GetMapping("/{id}")
     @PreAuthorize("@ss.hasPerm('system:user:query')")
     @ApiOperation(value = "获取_用户信息", notes = "用户信息")
