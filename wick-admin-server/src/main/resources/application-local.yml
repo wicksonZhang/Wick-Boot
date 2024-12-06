@@ -40,9 +40,9 @@ spring:
         # 最大连接数 默认为8
         max-active: 8
         # 最大空闲连接 默认0
-        max-wait: 10000ms
+        max-wait: -1ms
         # 最大连接阻塞等待时间
-        max-idle: 30
+        max-idle: 8
         # 最小连接阻塞等待时间
         min-idle: 10
   # flyway
@@ -85,7 +85,7 @@ xxl:
     enabled: true
     admin:
       # 多个地址使用,分割
-      addresses: http://139.9.202.135:9100/xxl-job-admin
+      addresses: http://192.168.10.221:8090/xxl-job-admin
       # 用户名
       userName: admin
       # 密码
@@ -106,11 +106,16 @@ forest:
   read-timeout: 3000           # 数据读取超时时间，单位为毫秒
   ssl-protocol: TLS
   variables:
-    xxlHttpUrl: http://139.9.202.135:9100/xxl-job-admin
+    xxlHttpUrl: http://192.168.10.221:8090/xxl-job-admin
     okxHttpUrl: https://www.okx.com
     okxPublicWebSocketUrl: wss://ws.okx.com:8443/ws/v5/public
     okxPrivateWebSocketUrl: wss://ws.okx.com:8443/ws/v5/private
     okxBusinessWebSocketUrl: wss://ws.okx.com:8443/ws/v5/business
+
+# Ding-Talk 配置
+aliyun:
+  ding-talk: https://oapi.dingtalk.com/robot/send?access_token=b1ef264e643b855f074c0a65dfecbe0e47039152f164672d690b8e0f6a895c59
+  secret: SECea6f97855c32d9a0b2fd0b7ac6140872c93f3fee39ba965166b0a573c08c90c6
 
 # 日志模式、保存路径和文件名
 logging:

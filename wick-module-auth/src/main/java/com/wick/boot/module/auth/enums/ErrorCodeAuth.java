@@ -31,5 +31,6 @@ public interface ErrorCodeAuth {
     ResultCode AUTH_USER_PASSWORD_ERROR = new ResultCode(1001001002, "当前用户账号密码错误");
     ResultCode AUTH_USER_STATUS_DISABLE = new ResultCode(1001001003, "当前账号已被停用");
 
+    ResultCode REFRESH_TOKEN_INVALID = new ResultCode(1001001004, "Token 刷新失败");
 
 }

@@ -40,9 +40,9 @@
                menu.type,
                role.code
         FROM system_menu menu
-                 LEFT JOIN system_role_menu role_menu ON menu.id = role_menu.menu_id
-                 LEFT JOIN system_role role ON role_menu.role_id = role.id
-        WHERE menu.type IN (1, 2, 3)
+        LEFT JOIN system_role_menu role_menu ON menu.id = role_menu.menu_id
+        LEFT JOIN system_role role ON role_menu.role_id = role.id
+        WHERE menu.type IN (1, 2, 3) AND menu.deleted = 0
         ORDER BY menu.sort ASC
     </select>
 

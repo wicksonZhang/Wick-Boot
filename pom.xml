@@ -67,7 +67,6 @@
         <module>wick-module-auth</module>
         <module>wick-module-system</module>
         <module>wick-sync-db-flyway</module>
-        <module>wick-module-okx</module>
     </modules>
 
     <dependencies>
@@ -204,7 +203,7 @@
                 <version>${ip2region.version}</version>
             </dependency>
 
-            <!--dingding-sdk-->
+            <!--dingTalk-sdk-->
             <dependency>
                 <groupId>com.aliyun</groupId>
                 <artifactId>alibaba-dingtalk-service-sdk</artifactId>

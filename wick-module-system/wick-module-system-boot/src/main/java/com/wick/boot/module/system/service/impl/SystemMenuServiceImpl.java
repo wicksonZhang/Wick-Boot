@@ -130,7 +130,7 @@ public class SystemMenuServiceImpl extends SystemMenuAbstractService implements 
      * @return List<SystemMenuDTO>
      */
     private List<SystemMenuDTO> buildMenuTree(List<SystemMenu> menuList) {
-        Map<Long, SystemMenuDTO> menuMap = new HashMap<>();
+        Map<Long, SystemMenuDTO> menuMap = new HashMap<>(menuList.size());
         Long rootNodeId = GlobalConstants.ROOT_NODE_ID;
 
         // Step-1: 构建菜单树并存入Map
@@ -163,13 +163,13 @@ public class SystemMenuServiceImpl extends SystemMenuAbstractService implements 
     @Override
     public List<SystemRouteDTO> listRoutes() {
         /* Step-1: 获取菜单信息 */
-        List<SystemMenuDTO> routeDTOS = systemMenuMapper.selectListRoutes();
-        if (CollUtil.isEmpty(routeDTOS)) {
+        List<SystemMenuDTO> routeList = systemMenuMapper.selectListRoutes();
+        if (CollUtil.isEmpty(routeList)) {
             return Lists.newArrayList();
         }
 
         /* Step-2: 构建菜单树 */
-        return buildRouteTree(routeDTOS);
+        return buildRouteTree(routeList);
     }
 
     @Override
@@ -190,15 +190,15 @@ public class SystemMenuServiceImpl extends SystemMenuAbstractService implements 
     /**
      * 构建路由树
      *
-     * @param menuDTOs 菜单DTO
+     * @param menuList 菜单集合
      * @return List<SystemRouteDTO>
      */
-    private List<SystemRouteDTO> buildRouteTree(List<SystemMenuDTO> menuDTOs) {
+    private List<SystemRouteDTO> buildRouteTree(List<SystemMenuDTO> menuList) {
         // 创建结果Map，以父菜单ID为键
         Long rootNodeId = GlobalConstants.ROOT_NODE_ID;
 
         // Step-1: 构建路由树并将菜单存入Map
-        Map<Long, SystemMenuDTO> menuMap = menuDTOs.stream().collect(Collectors.toMap(SystemMenuDTO::getId, dto -> dto));
+        Map<Long, SystemMenuDTO> menuMap = menuList.stream().collect(Collectors.toMap(SystemMenuDTO::getId, dto -> dto));
 
         // 将子菜单添加到父菜单的children属性中
         for (SystemMenuDTO menuDTO : menuMap.values()) {

@@ -1,5 +1,11 @@
 package com.wick.boot.common.core.constant;
 
+/**
+ * 全局缓存常量
+ *
+ * @author Wickson
+ * @date 2024-12-05
+ */
 public interface GlobalCacheConstants {
 
     /**
@@ -13,6 +19,11 @@ public interface GlobalCacheConstants {
     String LOGIN_ACCESS_TOKEN = "LOGIN_ACCESS_TOKE:%s";
 
     /**
+     * 刷新Token
+     */
+    String REFRESH_ACCESS_TOKEN = "REFRESH_ACCESS_TOKEN:%s";
+
+    /**
      * 角色-权限 key
      */
     String ROLE_PERMS_KEY = "ROLE_PERMS:%s";
@@ -22,10 +33,6 @@ public interface GlobalCacheConstants {
      */
     String DICT_CODE = "DICT_CODE:%s";
 
-    /**
-     * OKX市场行情
-     */
-    String OKX_MARKET_TICKERS = "OKX:MARKET_TICKERS:%s";
 
     /**
      * 获取验证码Code
@@ -48,6 +55,17 @@ public interface GlobalCacheConstants {
     }
 
     /**
+     * 获取刷新Token
+     *
+     * @param key key
+     * @return String
+     */
+    static String getRefreshAccessToken(String key) {
+        return String.format(GlobalCacheConstants.REFRESH_ACCESS_TOKEN, key);
+    }
+
+
+    /**
      * 获取角色权限索引 Key
      *
      * @param key key
@@ -67,13 +85,4 @@ public interface GlobalCacheConstants {
         return String.format(GlobalCacheConstants.DICT_CODE, key);
     }
 
-    /**
-     * 获取OKX市场行情 Key
-     *
-     * @param key key
-     * @return String
-     */
-    static String getOkxMarketTickers(String key) {
-        return String.format(GlobalCacheConstants.OKX_MARKET_TICKERS, key);
-    }
 }

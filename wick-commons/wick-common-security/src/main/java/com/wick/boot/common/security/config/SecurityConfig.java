@@ -65,6 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String[] WHITE_URL_LIST = {
             "/auth/captcha",
             "/auth/login",
+            "/auth/refresh-token",
             "/webjars/**",
             "/doc.html",
             "/swagger-resources/**",

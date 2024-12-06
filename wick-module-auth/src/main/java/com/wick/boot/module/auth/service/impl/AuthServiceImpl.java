@@ -111,6 +111,7 @@ public class AuthServiceImpl implements IAuthService {
         this.validUserInfo(userInfoDTO, reqVO.getPassword());
 
         /* Step-3: 存入Redis，创建Token */
+        // accessToken 信息
         String accessTokenKey = IdUtil.fastSimpleUUID();
         String accessToken = GlobalCacheConstants.getLoginAccessToken(accessTokenKey);
         userInfoDTO.setLoginIp(ServletUtils.getClientIP());
@@ -118,6 +119,11 @@ public class AuthServiceImpl implements IAuthService {
         userInfoDTO.setDisconnected(true);
         userInfoDTO.setLoginDate(timeFormatter.format(LocalDateTime.now()));
         redisService.setCacheObject(accessToken, userInfoDTO, GlobalConstants.EXPIRATION_TIME, TimeUnit.SECONDS);
+
+        // 创建新的 refreshToken
+        String refreshToken = IdUtil.fastSimpleUUID();
+        String refreshTokenKey = GlobalCacheConstants.getRefreshAccessToken(refreshToken);
+        redisService.setCacheObject(refreshTokenKey, userInfoDTO, GlobalConstants.REFRESH_EXPIRATION_TIME, TimeUnit.HOURS);
 
         /* Step-5: 推送在线用户 */
         onlineUserService.removeOnlineUser(accessTokenKey, true);
@@ -127,6 +133,7 @@ public class AuthServiceImpl implements IAuthService {
 
         return AuthUserLoginRespDTO.builder()
                 .accessToken(accessTokenKey)
+                .refreshToken(refreshToken)
                 .tokenType("Bearer")
                 .build();
     }
@@ -189,8 +196,40 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public AuthUserLoginRespDTO refreshToken(String refreshToken) {
-        return null;
+    public AuthUserLoginRespDTO refreshToken(String accessToken, String refreshToken) {
+        // 替换掉 Token 类型前缀
+        accessToken = stripBearerPrefix(accessToken);
+
+        // 从 Redis 获取 Access Token 对应的用户信息
+        String accessTokenKey = GlobalCacheConstants.getLoginAccessToken(accessToken);
+        LoginUserInfoDTO accessTokenUserInfoDTO = redisService.getCacheObject(accessTokenKey);
+        if (accessTokenUserInfoDTO != null) {
+            return AuthUserLoginRespDTO.getInstance(accessToken, refreshToken);
+        }
+
+        // 从 Redis 获取 Refresh Token 对应的用户信息
+        String refreshTokenKey = GlobalCacheConstants.getRefreshAccessToken(refreshToken);
+        LoginUserInfoDTO refreshTokenUserInfoDTO = redisService.getCacheObject(refreshTokenKey);
+        if (refreshTokenUserInfoDTO == null) {
+            throw ServiceException.getInstance(ErrorCodeAuth.REFRESH_TOKEN_INVALID);
+        }
+
+        // 创建新的 Access Token 并缓存
+        String newAccessToken = IdUtil.fastSimpleUUID();
+        String newAccessTokenKey = GlobalCacheConstants.getLoginAccessToken(newAccessToken);
+        redisService.setCacheObject(newAccessTokenKey, refreshTokenUserInfoDTO, GlobalConstants.EXPIRATION_TIME, TimeUnit.SECONDS);
+
+        return AuthUserLoginRespDTO.getInstance(newAccessToken, refreshToken);
+    }
+
+    /**
+     * 去除 Access Token 的 Bearer 前缀
+     */
+    private String stripBearerPrefix(String token) {
+        if (token.startsWith(GlobalConstants.TOKEN_TYPE_BEARER)) {
+            return token.replace(GlobalConstants.TOKEN_TYPE_BEARER, "").trim();
+        }
+        return token;
     }
 
     /**

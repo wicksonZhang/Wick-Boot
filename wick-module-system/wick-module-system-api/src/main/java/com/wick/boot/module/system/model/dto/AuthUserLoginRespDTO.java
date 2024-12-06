@@ -29,4 +29,11 @@ public class AuthUserLoginRespDTO {
     @Schema(description = "令牌类型", example = "Bearer")
     private String tokenType;
 
+    public static AuthUserLoginRespDTO getInstance(String accessToken, String refreshToken) {
+        return AuthUserLoginRespDTO.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .tokenType("Bearer")
+                .build();
+    }
 }

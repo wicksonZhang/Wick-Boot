@@ -45,9 +45,11 @@ public class AuthController {
     }
 
     @PostMapping("/refresh-token")
+    @OperateLog(enable = false)
     @ApiOperation(value = "刷新token", notes = "系统管理 - 认证中心")
-    public ResultUtil<AuthUserLoginRespDTO> refreshToken(@NotBlank(message = "刷新令牌不能为空") String refreshToken) {
-        return ResultUtil.success(authService.refreshToken(refreshToken));
+    public ResultUtil<AuthUserLoginRespDTO> refreshToken(@NotBlank(message = "Token令牌不能为空") String accessToken,
+                                                         @NotBlank(message = "刷新令牌不能为空") String refreshToken) {
+        return ResultUtil.success(authService.refreshToken(accessToken, refreshToken));
     }
 
     @DeleteMapping("/logout")

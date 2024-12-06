@@ -29,6 +29,11 @@ public interface GlobalConstants {
     Long EXPIRATION_TIME = 7200L;
 
     /**
+     * 用户过期时间
+     */
+    Long REFRESH_EXPIRATION_TIME = 7 * 24L;
+
+    /**
      * Token 前缀
      */
     String TOKEN_TYPE_BEARER = "Bearer ";
@@ -38,5 +43,4 @@ public interface GlobalConstants {
      */
     String FLYWAY_INITIALIZER = "flywayInitializer";
 
-    String LOGIN_USER = "LOGIN_USER";
 }
