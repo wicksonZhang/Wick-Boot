@@ -87,4 +87,13 @@ public class SystemDictTypeController {
         dictTypeService.refreshCache();
         return ResultUtil.success();
     }
+
+    @ApiOperation(value = "启用(停用)_字典信息接口", notes = "字典信息管理")
+    @PatchMapping("/updateStatus/{id}/{status}")
+    public ResultUtil<Long> updateStatus(@NotNull(message = "字典编号不能为空") @PathVariable Integer id,
+                                         @NotNull(message = "字典状态不能为空") @PathVariable Integer status) {
+        this.dictTypeService.updateStatus(id, status);
+        return ResultUtil.success();
+    }
+
 }

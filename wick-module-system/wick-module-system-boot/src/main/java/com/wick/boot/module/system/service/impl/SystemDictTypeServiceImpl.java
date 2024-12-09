@@ -167,8 +167,8 @@ public class SystemDictTypeServiceImpl extends SystemDictTypeAbstractService imp
             return PageResult.empty();
         }
 
-        List<SystemDictTypeDTO> dictTypeDTOS = SystemDictTypeConvert.INSTANCE.entityToDictTypeDTOS(pageResult.getRecords());
-        return new PageResult<>(dictTypeDTOS, pageResult.getTotal());
+        List<SystemDictTypeDTO> dictTypeList = SystemDictTypeConvert.INSTANCE.entityToDictTypeDTOS(pageResult.getRecords());
+        return new PageResult<>(dictTypeList, pageResult.getTotal());
     }
 
     @Override
@@ -204,5 +204,17 @@ public class SystemDictTypeServiceImpl extends SystemDictTypeAbstractService imp
             String redisKey = GlobalCacheConstants.getDictCodeKey(option.getDictCode());
             redisService.setCacheObject(redisKey, option);
         });
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateStatus(Integer id, Integer status) {
+        // Step 1: 校验字典状态参数
+        SystemDictType dictType = this.dictTypeMapper.selectById(id);
+        validateDictType(dictType);
+
+        // Step 2: 更新字典状态
+        dictType.setStatus(status);
+        this.dictTypeMapper.updateById(dictType);
     }
 }

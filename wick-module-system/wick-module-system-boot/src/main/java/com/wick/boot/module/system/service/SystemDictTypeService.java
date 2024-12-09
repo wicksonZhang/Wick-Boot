@@ -73,4 +73,12 @@ public interface SystemDictTypeService {
      * 刷新缓存
      */
     void refreshCache();
+
+    /**
+     * 更新字典类型状态
+     *
+     * @param id     字典类型主键ID
+     * @param status 状态
+     */
+    void updateStatus(Integer id, Integer status);
 }
