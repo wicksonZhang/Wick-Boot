@@ -85,7 +85,7 @@ xxl:
     enabled: true
     admin:
       # 多个地址使用,分割
-      addresses: http://139.9.202.135:8090/xxl-job-admin
+      addresses: http://139.9.202.135:9100/xxl-job-admin
       # 用户名
       userName: admin
       # 密码
@@ -106,7 +106,7 @@ forest:
   read-timeout: 3000           # 数据读取超时时间，单位为毫秒
   ssl-protocol: TLS
   variables:
-    xxlHttpUrl: http://139.9.202.135:8090/xxl-job-admin
+    xxlHttpUrl: http://139.9.202.135:9100/xxl-job-admin
 
 # 日志模式、保存路径和文件名
 logging:
