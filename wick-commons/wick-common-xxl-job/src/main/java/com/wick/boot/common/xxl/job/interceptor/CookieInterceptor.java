@@ -14,11 +14,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 处理Cookie的拦截器
+ * @author Wickson
  */
 @Slf4j
 public class CookieInterceptor<T> implements Interceptor<T> {
 
-    // Cookie在本地存储的缓存
+    /**
+     * Cookie在本地存储的缓存
+     */
     private final Map<String, List<ForestCookie>> cookieCache = new ConcurrentHashMap<>();
 
     /**
