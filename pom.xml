@@ -203,13 +203,6 @@
                 <version>${ip2region.version}</version>
             </dependency>
 
-            <!--dingTalk-sdk-->
-            <dependency>
-                <groupId>com.aliyun</groupId>
-                <artifactId>alibaba-dingtalk-service-sdk</artifactId>
-                <version>${dingtalk.version}</version>
-            </dependency>
-
             <!-- JSON 解析器和生成器 -->
             <dependency>
                 <groupId>com.alibaba.fastjson2</groupId>
