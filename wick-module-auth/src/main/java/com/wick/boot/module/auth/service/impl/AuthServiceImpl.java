@@ -196,17 +196,7 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public AuthUserLoginRespDTO refreshToken(String accessToken, String refreshToken) {
-        // 替换掉 Token 类型前缀
-        accessToken = stripBearerPrefix(accessToken);
-
-        // 从 Redis 获取 Access Token 对应的用户信息
-        String accessTokenKey = GlobalCacheConstants.getLoginAccessToken(accessToken);
-        LoginUserInfoDTO accessTokenUserInfoDTO = redisService.getCacheObject(accessTokenKey);
-        if (accessTokenUserInfoDTO != null) {
-            return AuthUserLoginRespDTO.getInstance(accessToken, refreshToken);
-        }
-
+    public AuthUserLoginRespDTO refreshToken(String refreshToken) {
         // 从 Redis 获取 Refresh Token 对应的用户信息
         String refreshTokenKey = GlobalCacheConstants.getRefreshAccessToken(refreshToken);
         LoginUserInfoDTO refreshTokenUserInfoDTO = redisService.getCacheObject(refreshTokenKey);
@@ -219,17 +209,14 @@ public class AuthServiceImpl implements IAuthService {
         String newAccessTokenKey = GlobalCacheConstants.getLoginAccessToken(newAccessToken);
         redisService.setCacheObject(newAccessTokenKey, refreshTokenUserInfoDTO, GlobalConstants.EXPIRATION_TIME, TimeUnit.SECONDS);
 
-        return AuthUserLoginRespDTO.getInstance(newAccessToken, refreshToken);
-    }
+        // 创建新的 Refresh Token 并缓存
+        String newRefreshToken = IdUtil.fastSimpleUUID();
+        String newRefreshTokenKey = GlobalCacheConstants.getRefreshAccessToken(newRefreshToken);
+        redisService.setCacheObject(newRefreshTokenKey, refreshTokenUserInfoDTO, GlobalConstants.REFRESH_EXPIRATION_TIME, TimeUnit.HOURS);
 
-    /**
-     * 去除 Access Token 的 Bearer 前缀
-     */
-    private String stripBearerPrefix(String token) {
-        if (token.startsWith(GlobalConstants.TOKEN_TYPE_BEARER)) {
-            return token.replace(GlobalConstants.TOKEN_TYPE_BEARER, "").trim();
-        }
-        return token;
+        // 删除老的 refresh Token
+        redisService.deleteObject(refreshTokenKey);
+        return AuthUserLoginRespDTO.getInstance(newAccessToken, newRefreshToken);
     }
 
     /**

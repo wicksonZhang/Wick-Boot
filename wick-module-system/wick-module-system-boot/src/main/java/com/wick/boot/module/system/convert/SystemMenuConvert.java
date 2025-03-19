@@ -90,6 +90,7 @@ public interface SystemMenuConvert {
         routeVO.setPath(menuDTO.getRoutePath()); // 根据path路由跳转 this.$router.push({path:xxx})
         routeVO.setRedirect(menuDTO.getRedirect());
         routeVO.setComponent(menuDTO.getComponent());
+        routeVO.setSort(menuDTO.getSort());
 
         // 设置 SystemRouteDTO.Meta 属性
         SystemRouteDTO.Meta meta = new SystemRouteDTO.Meta();

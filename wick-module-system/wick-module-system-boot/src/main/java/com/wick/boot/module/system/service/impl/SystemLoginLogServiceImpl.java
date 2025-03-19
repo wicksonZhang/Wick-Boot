@@ -9,6 +9,7 @@ import com.google.common.collect.Maps;
 import com.wick.boot.common.core.exception.ServiceException;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.redis.service.RedisService;
+import com.wick.boot.module.system.convert.SystemDashboardConvert;
 import com.wick.boot.module.system.convert.SystemLoggerConvert;
 import com.wick.boot.module.system.enums.system.ErrorCodeSystem;
 import com.wick.boot.module.system.mapper.SystemLoginLogMapper;
@@ -87,31 +88,9 @@ public class SystemLoginLogServiceImpl implements SystemLoginLogService {
     }
 
     @Override
-    public List<SystemDashboardVisitStatsDTO> getVisitStats() {
-        // 创建结果列表
-        List<SystemDashboardVisitStatsDTO> visitStatsList = Lists.newArrayList();
-
-        // 获取PV（页面浏览量）统计
-        visitStatsList.add(createVisitStats("今日浏览量", "pv", this.loginLogMapper.selectPvStats()));
-
-        // 获取UV（访客数）统计
-        visitStatsList.add(createVisitStats("今日访客数", "uv", this.loginLogMapper.selectUvStats()));
-
-        // 获取登录成功统计
-        visitStatsList.add(createVisitStats("今日登录成功", "lr", this.loginLogMapper.selectLvStats()));
-
-        return visitStatsList;
-    }
-
-    private SystemDashboardVisitStatsDTO createVisitStats(String title, String type, SystemDashboardVisitDTO visitDTO) {
-        // 根据访问统计数据构建DTO
-        return new SystemDashboardVisitStatsDTO()
-                .setTitle(title)
-                .setType(type)
-                .setGranularityLabel("日")
-                .setTodayCount(visitDTO.getTodayVisits())
-                .setTotalCount(visitDTO.getTotalVisits())
-                .setGrowthRate(visitDTO.getGrowthRate());
+    public SystemDashboardVisitStatsDTO getVisitStats() {
+        SystemDashboardVisitDTO systemDashboardVisitDTO = this.loginLogMapper.selectVisitStats();
+        return SystemDashboardConvert.INSTANCE.convertToDTO(systemDashboardVisitDTO);
     }
 
     @Override
@@ -144,7 +123,6 @@ public class SystemLoginLogServiceImpl implements SystemLoginLogService {
         List<String> dates = Lists.newArrayList();
         List<Integer> pvList = Lists.newArrayList();
         List<Integer> uvList = Lists.newArrayList();
-        List<Integer> lvList = Lists.newArrayList();
 
         // 遍历日期区间，并将对应的趋势数据填入列表
         dateMap.forEach((date, defaultValue) -> {
@@ -153,12 +131,10 @@ public class SystemLoginLogServiceImpl implements SystemLoginLogService {
             if (trendDTO != null) {
                 pvList.add(trendDTO.getPv());
                 uvList.add(trendDTO.getUv());
-                lvList.add(trendDTO.getLv());
             } else {
                 // 如果没有数据，使用默认值0
                 pvList.add(defaultValue);
                 uvList.add(defaultValue);
-                lvList.add(defaultValue);
             }
         });
 
@@ -167,7 +143,6 @@ public class SystemLoginLogServiceImpl implements SystemLoginLogService {
         resultMap.put("dates", dates);
         resultMap.put("pvList", pvList);
         resultMap.put("uvList", uvList);
-        resultMap.put("lvList", lvList);
 
         return resultMap;
     }

@@ -1,5 +1,6 @@
 package com.wick.boot.module.system.model.dto.menu;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -39,6 +40,10 @@ public class SystemRouteDTO {
 
     @ApiModelProperty(value = "路由属性")
     private Meta meta;
+
+    @JsonIgnore
+    @ApiModelProperty(value = "排序", example = "1")
+    private Integer sort;
 
     @Data
     @ApiModel(value = "路由属性类型")

@@ -25,7 +25,4 @@ public class SystemDashboardVisitTrendDTO {
     @ApiModelProperty(value = "访客数(UV)")
     private Integer uv;
 
-    @ApiModelProperty(value = "登录成功(lv)")
-    private Integer lv;
-
 }

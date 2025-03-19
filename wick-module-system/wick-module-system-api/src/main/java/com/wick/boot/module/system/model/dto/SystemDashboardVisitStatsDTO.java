@@ -20,22 +20,22 @@ import java.math.BigDecimal;
 @ApiModel(description = "访问量统计")
 public class SystemDashboardVisitStatsDTO {
 
-    @ApiModelProperty(value = "统计类型")
-    private String type;
-
-    @ApiModelProperty(value = "标题")
-    private String title;
-
     @ApiModelProperty(value = "今日访问量")
-    private Integer todayCount;
+    private Integer todayUvCount;
 
-    @ApiModelProperty(value = "总访问量")
-    private Integer totalCount;
+    @ApiModelProperty(value = "访客数量总数")
+    private Integer totalUvCount;
 
-    @ApiModelProperty(value = "增长率")
-    private BigDecimal growthRate;
+    @ApiModelProperty(value = "访问量增长率")
+    private Double uvGrowthRate;
 
-    @ApiModelProperty(value = "统计粒度标签")
-    private String granularityLabel;
+    @ApiModelProperty(value = "今日浏览量")
+    private Integer todayPvCount;
+
+    @ApiModelProperty(value = "浏览量总数")
+    private Integer totalPvCount;
+
+    @ApiModelProperty(value = "浏览量增长率")
+    private Double pvGrowthRate;
 
 }

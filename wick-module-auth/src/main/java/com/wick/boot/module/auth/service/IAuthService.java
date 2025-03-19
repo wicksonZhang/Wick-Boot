@@ -31,11 +31,10 @@ public interface IAuthService {
     /**
      * 刷新token
      *
-     * @param accessToken  token
      * @param refreshToken 刷新token
      * @return
      */
-    AuthUserLoginRespDTO refreshToken(String accessToken, String refreshToken);
+    AuthUserLoginRespDTO refreshToken(String refreshToken);
 
     /**
      * 注销用户

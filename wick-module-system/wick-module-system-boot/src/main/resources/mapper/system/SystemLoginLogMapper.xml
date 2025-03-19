@@ -5,46 +5,29 @@
 <mapper namespace="com.wick.boot.module.system.mapper.SystemLoginLogMapper">
 
     <resultMap id="resultVisitDTO" type="com.wick.boot.module.system.model.dto.dashboard.SystemDashboardVisitDTO">
-        <result property="todayVisits" column="today_visits"/>
-        <result property="totalVisits" column="total_visits"/>
-        <result property="yesterdayVisits" column="yesterday_visits"/>
+        <result property="todayUvCount" column="today_uv_count"/>
+        <result property="totalUvCount" column="total_uv_count"/>
+        <result property="yesterdayUvCount" column="yesterday_uv_count"/>
+        <result property="todayPvCount" column="today_pv_count"/>
+        <result property="totalPvCount" column="total_pv_count"/>
+        <result property="yesterdayPvCount" column="yesterday_pv_count"/>
     </resultMap>
 
     <!-- 查询浏览量 -->
-    <select id="selectPvStats" resultMap="resultVisitDTO">
+    <select id="selectVisitStats" resultMap="resultVisitDTO">
         SELECT
             -- 1. 查询今日访问量
-            SUM(CASE WHEN DATE (create_time) = CURDATE() THEN 1 ELSE 0 END)                  AS today_visits,
+            SUM(CASE WHEN DATE (create_time) = CURDATE() THEN 1 ELSE 0 END)                  AS today_uv_count,
             -- 2. 查询总访问量
-            COUNT(*)                                                                         AS total_visits,
+            COUNT(*)                                                                         AS total_uv_count,
             -- 3. 查询昨日访问量（用于计算增长率）
-            SUM(CASE WHEN DATE (create_time) = CURDATE() - INTERVAL 1 DAY THEN 1 ELSE 0 END) AS yesterday_visits
-        FROM system_login_log;
-    </select>
-
-    <!-- 查询访客量 -->
-    <select id="selectUvStats" resultMap="resultVisitDTO">
-        SELECT
-            -- 1. 统计今日的独立访客数量
-            COUNT(DISTINCT CASE WHEN DATE (create_time) = CURDATE() THEN user_ip END) AS today_visits,
-            -- 2. 统计总的独立访客数量
-            COUNT(DISTINCT user_ip)                                                   AS total_visits,
-            -- 3. 统计昨日的独立访客数量（用于计算增长率）
-            COUNT(DISTINCT CASE WHEN DATE (create_time) = CURDATE() - INTERVAL 1 DAY THEN user_ip
-                  END)                                                                AS yesterday_visits
-        FROM system_login_log;
-    </select>
-
-    <!-- 查询登陆结量 -->
-    <select id="selectLvStats" resultMap="resultVisitDTO">
-        SELECT
-            -- 1. 今日登录成功的次数
-            COUNT(CASE WHEN DATE (create_time) = CURDATE() AND result = 0 THEN 1 END) AS today_visits,
-            -- 2. 总登录的次数
-            COUNT(result)                                                             AS total_visits,
-            -- 3. 昨日登录成功的次数
-            COUNT(CASE WHEN DATE (create_time) = CURDATE() - INTERVAL 1 DAY AND result = 0 THEN 1
-                  END)                                                                AS yesterday_visits
+            SUM(CASE WHEN DATE (create_time) = CURDATE() - INTERVAL 1 DAY THEN 1 ELSE 0 END) AS yesterday_uv_count,
+            -- 4. 统计今日的独立访客数量
+            COUNT(DISTINCT CASE WHEN DATE (create_time) = CURDATE() THEN user_ip END) AS today_pv_count,
+            -- 5. 统计总的独立访客数量
+            COUNT(DISTINCT user_ip)                                                   AS total_pv_count,
+            -- 6. 统计昨日的独立访客数量（用于计算增长率）
+            COUNT(DISTINCT CASE WHEN DATE (create_time) = CURDATE() - INTERVAL 1 DAY THEN user_ip END)  AS yesterday_pv_count
         FROM system_login_log;
     </select>
 
@@ -53,7 +36,6 @@
         <id column="date" property="date"/>
         <result column="pv" property="pv"/>
         <result column="uv" property="uv"/>
-        <result column="lv" property="lv"/>
     </resultMap>
 
     <select id="selectVisitTrend" resultMap="visitTrendResultMap">
@@ -63,9 +45,7 @@
             -- 2. 统计每日的PV（页面访问量）
             COUNT(1)                               AS pv,
             -- 3. 统计每日的UV（独立访客数）
-            COUNT(DISTINCT user_ip)                AS uv,
-            -- 4. 统计每日登录成功次数（result = 0）
-            COUNT(CASE WHEN result = 0 THEN 1 END) AS lv
+            COUNT(DISTINCT user_ip)                AS uv
         FROM system_login_log
         WHERE create_time BETWEEN concat(#{startDate}, ' 00:00:00') AND concat(#{endDate}, ' 23:59:59')
         GROUP BY DATE_FORMAT(create_time, '%Y-%m-%d');

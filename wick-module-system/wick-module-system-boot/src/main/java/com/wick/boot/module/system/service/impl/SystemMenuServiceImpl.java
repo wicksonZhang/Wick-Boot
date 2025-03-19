@@ -218,8 +218,10 @@ public class SystemMenuServiceImpl extends SystemMenuAbstractService implements 
                 .filter(deptDTO -> Objects.equals(rootNodeId, deptDTO.getParentId()))
                 .collect(Collectors.toList());
 
-        /* Step-2: 返回结果集 */
-        return SystemMenuConvert.INSTANCE.convertToRoute(rootMenus);
+        /* Step-3: 返回结果集 */
+        return SystemMenuConvert.INSTANCE.convertToRoute(rootMenus).stream()
+                .sorted(Comparator.comparing(SystemRouteDTO::getSort))
+                .collect(Collectors.toList());
     }
 
 }

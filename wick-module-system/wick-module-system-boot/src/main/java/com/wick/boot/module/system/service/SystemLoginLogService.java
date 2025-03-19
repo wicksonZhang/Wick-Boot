@@ -8,7 +8,6 @@ import com.wick.boot.module.system.model.vo.dashboard.SystemDashboardQueryVO;
 import com.wick.boot.module.system.model.vo.logger.login.SystemLoginLogQueryVO;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,7 +46,7 @@ public interface SystemLoginLogService {
      *
      * @return
      */
-    List<SystemDashboardVisitStatsDTO> getVisitStats();
+     SystemDashboardVisitStatsDTO getVisitStats();
 
     /**
      * 获取访问趋势

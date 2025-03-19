@@ -197,7 +197,26 @@ INSERT INTO `system_menu` VALUES (79, 77, 4, '定时任务调度编辑', NULL, '
 INSERT INTO `system_menu` VALUES (80, 77, 4, '定时任务调度删除', NULL, '', NULL, 'monitor:job:delete', NULL, 3, 1, NULL, '0,71,77', NULL, NULL, b'0', '2024-11-07 07:13:13', '2024-11-07 07:13:13', '1', '1');
 INSERT INTO `system_menu` VALUES (81, 77, 4, '获取定时任务调度数据', NULL, '', NULL, 'monitor:job:query', NULL, 4, 1, NULL, '0,71,77', NULL, NULL, b'0', '2024-11-07 07:13:13', '2024-11-07 07:13:13', '1', '1');
 INSERT INTO `system_menu` VALUES (82, 77, 4, '获取定时任务调度分页', NULL, '', NULL, 'monitor:job:query', NULL, 4, 1, NULL, '0,71,77', NULL, NULL, b'0', '2024-11-07 07:13:13', '2024-11-07 07:13:13', '1', '1');
-
+INSERT INTO `system_menu` VALUES (83, 77, 1, '执行器管理', 'JobGroup', 'job-group', 'monitor/xxl-job/job-group/index', NULL, 'cascader', 1, 1, '', '0,71,77', 0, 0, b'0', '2024-11-11 16:45:04', '2024-12-11 02:53:30', '1', '1');
+INSERT INTO `system_menu` VALUES (84, 77, 1, '定时任务管理', 'JobInfo', 'job-info', 'monitor/xxl-job/job-info/index', NULL, 'up', 1, 1, '', '0,71,77', 0, 0, b'0', '2024-11-11 16:47:19', '2024-12-11 02:53:30', '1', '1');
+INSERT INTO `system_menu` VALUES (85, 83, 4, '执行器管理新增', NULL, '', NULL, 'monitor:job-group:add', NULL, 1, 1, NULL, '0,77,83', NULL, NULL, b'0', '2024-11-12 02:44:06', '2024-11-12 02:44:06', '1', '1');
+INSERT INTO `system_menu` VALUES (86, 83, 4, '执行器管理编辑', NULL, '', NULL, 'monitor:job-group:update', NULL, 2, 1, NULL, '0,77,83', NULL, NULL, b'0', '2024-11-12 02:44:06', '2024-11-12 02:44:06', '1', '1');
+INSERT INTO `system_menu` VALUES (87, 83, 4, '执行器管理删除', NULL, '', NULL, 'monitor:job-group:delete', NULL, 3, 1, NULL, '0,77,83', NULL, NULL, b'0', '2024-11-12 02:44:06', '2024-11-12 02:44:06', '1', '1');
+INSERT INTO `system_menu` VALUES (88, 83, 4, '获取执行器管理数据', NULL, '', NULL, 'monitor:job-group:query', NULL, 4, 1, NULL, '0,77,83', NULL, NULL, b'0', '2024-11-12 02:44:06', '2024-11-12 02:44:06', '1', '1');
+INSERT INTO `system_menu` VALUES (89, 83, 4, '获取执行器管理分页', NULL, '', NULL, 'monitor:job-group:query', NULL, 4, 1, NULL, '0,77,83', NULL, NULL, b'0', '2024-11-12 02:44:06', '2024-11-12 02:44:06', '1', '1');
+INSERT INTO `system_menu` VALUES (90, 84, 4, '定时任务管理新增', NULL, '', NULL, 'monitor:job-info:add', NULL, 1, 1, NULL, '0,77,84', NULL, NULL, b'0', '2024-11-13 03:14:33', '2024-11-13 03:14:33', '1', '1');
+INSERT INTO `system_menu` VALUES (91, 84, 4, '定时任务管理编辑', NULL, '', NULL, 'monitor:job-info:update', NULL, 2, 1, NULL, '0,77,84', NULL, NULL, b'0', '2024-11-13 03:14:33', '2024-11-13 03:14:33', '1', '1');
+INSERT INTO `system_menu` VALUES (92, 84, 4, '定时任务管理删除', NULL, '', NULL, 'monitor:job-info:delete', NULL, 3, 1, NULL, '0,77,84', NULL, NULL, b'0', '2024-11-13 03:14:33', '2024-11-13 03:14:33', '1', '1');
+INSERT INTO `system_menu` VALUES (93, 84, 4, '获取定时任务管理数据', NULL, '', NULL, 'monitor:job-info:query', NULL, 4, 1, NULL, '0,77,84', NULL, NULL, b'0', '2024-11-13 03:14:33', '2024-11-13 03:14:33', '1', '1');
+INSERT INTO `system_menu` VALUES (94, 84, 4, '获取定时任务管理分页', NULL, '', NULL, 'monitor:job-info:query', NULL, 4, 1, NULL, '0,77,84', NULL, NULL, b'0', '2024-11-13 03:14:33', '2024-11-13 03:14:33', '1', '1');
+INSERT INTO `system_menu` VALUES (95, 77, 1, '调度日志', 'Joblog', 'job-log', 'monitor/xxl-job/job-log/index', NULL, '', 1, 1, NULL, '0,71,77', NULL, 1, b'0', '2024-11-15 06:32:47', '2024-12-11 02:53:30', '1', '1');
+INSERT INTO `system_menu` VALUES (96, 95, 4, '获取调度日志分页', NULL, '', NULL, 'monitor:job-log:query', NULL, 4, 1, NULL, '0,77,95', NULL, NULL, b'0', '2024-11-15 06:32:47', '2024-11-15 06:32:47', '1', '1');
+INSERT INTO `system_menu` VALUES (97, 1, 1, '通知公告', 'Notice', 'notice', 'system/notice/index', NULL, '', 1, 1, NULL, '0,1', NULL, 1, b'0', '2025-03-18 17:43:39', '2025-03-18 17:43:39', '1', '1');
+INSERT INTO `system_menu` VALUES (98, 97, 4, '通知公告新增', NULL, '', NULL, 'system:notice:add', NULL, 1, 1, NULL, '0,1,83', NULL, NULL, b'0', '2025-03-18 17:43:39', '2025-03-18 17:43:39', '1', '1');
+INSERT INTO `system_menu` VALUES (99, 97, 4, '通知公告编辑', NULL, '', NULL, 'system:notice:update', NULL, 2, 1, NULL, '0,1,83', NULL, NULL, b'0', '2025-03-18 17:43:39', '2025-03-18 17:43:39', '1', '1');
+INSERT INTO `system_menu` VALUES (100, 97, 4, '通知公告删除', NULL, '', NULL, 'system:notice:delete', NULL, 3, 1, NULL, '0,1,83', NULL, NULL, b'0', '2025-03-18 17:43:39', '2025-03-18 17:43:39', '1', '1');
+INSERT INTO `system_menu` VALUES (101, 97, 4, '获取通知公告数据', NULL, '', NULL, 'system:notice:query', NULL, 4, 1, NULL, '0,1,83', NULL, NULL, b'0', '2025-03-18 17:43:39', '2025-03-18 17:43:39', '1', '1');
+INSERT INTO `system_menu` VALUES (102, 97, 4, '获取通知公告分页', NULL, '', NULL, 'system:notice:query', NULL, 4, 1, NULL, '0,1,83', NULL, NULL, b'0', '2025-03-18 17:43:39', '2025-03-18 17:43:39', '1', '1');
 
 -- ----------------------------
 -- 5. 用户和角色关联表
@@ -309,6 +328,27 @@ INSERT INTO `system_role_menu` VALUES (2, 79);
 INSERT INTO `system_role_menu` VALUES (2, 80);
 INSERT INTO `system_role_menu` VALUES (2, 81);
 INSERT INTO `system_role_menu` VALUES (2, 82);
+INSERT INTO `system_role_menu` VALUES (2, 83);
+INSERT INTO `system_role_menu` VALUES (2, 84);
+INSERT INTO `system_role_menu` VALUES (2, 85);
+INSERT INTO `system_role_menu` VALUES (2, 86);
+INSERT INTO `system_role_menu` VALUES (2, 87);
+INSERT INTO `system_role_menu` VALUES (2, 88);
+INSERT INTO `system_role_menu` VALUES (2, 89);
+INSERT INTO `system_role_menu` VALUES (2, 90);
+INSERT INTO `system_role_menu` VALUES (2, 91);
+INSERT INTO `system_role_menu` VALUES (2, 92);
+INSERT INTO `system_role_menu` VALUES (2, 93);
+INSERT INTO `system_role_menu` VALUES (2, 94);
+INSERT INTO `system_role_menu` VALUES (2, 95);
+INSERT INTO `system_role_menu` VALUES (2, 96);
+INSERT INTO `system_role_menu` VALUES (2, 97);
+INSERT INTO `system_role_menu` VALUES (2, 98);
+INSERT INTO `system_role_menu` VALUES (2, 99);
+INSERT INTO `system_role_menu` VALUES (2, 100);
+INSERT INTO `system_role_menu` VALUES (2, 101);
+INSERT INTO `system_role_menu` VALUES (2, 102);
+
 
 -- ----------------------------
 -- 7. 字典类型表
@@ -340,6 +380,11 @@ INSERT INTO `system_dict_type` VALUES (6, '操作结果', 'resultCode', 1, '操�
 INSERT INTO `system_dict_type` VALUES (7, '登录结果', 'result', 1, '登录结果（0-成功、10-账号或密码不正确、20-用户被禁用、30-验证码不存在、31-验证码不正确、100-未知异常）', b'0', '2024-11-06 14:15:04', '2024-11-06 14:15:04', '2', '2');
 INSERT INTO `system_dict_type` VALUES (8, '登录类型', 'loginType', 1, '登录类型（100-账号登录、101-社交登录、103-短信登录、200-主动登出、202-强制登出）', b'0', '2024-11-06 14:36:19', '2024-11-06 14:36:19', '2', '2');
 INSERT INTO `system_dict_type` VALUES (9, '数据权限', 'dataScope', 1, '数据权限(1-全部数据权限、2-自定数据权限、3-部门数据权限、4-部门及以下数据权限、5-仅本人数据权限)', b'0', '2024-11-07 17:26:40', '2024-11-07 17:26:40', '2', '2');
+INSERT INTO `system_dict_type` VALUES (10, '注册类型', 'addressType', 1, '注册类型（0-自动注册、1-手动录入）', b'0', '2024-11-12 20:23:59', '2024-11-12 20:23:59', '2', '2');
+INSERT INTO `system_dict_type` VALUES (11, '调度状态', 'triggerStatus', 1, '调度状态（0-停止、1-运行、-1-全部）', b'0', '2024-11-13 14:23:26', '2024-11-15 11:03:20', '2', '2');
+INSERT INTO `system_dict_type` VALUES (12, '调度类型', 'scheduleType', 1, '调度类型（NONE-无、CRON-CRON、FIX_RATE-固定速度）', b'0', '2024-11-14 15:29:11', '2024-11-14 15:29:11', '2', '2');
+INSERT INTO `system_dict_type` VALUES (13, '运行模式', 'glueType', 1, '运行模式(BEAN-BEAN、GLUE_GROOVY-GLUE(Java)、GLUE_SHELL-GLUE(Shell)、GLUE_PYTHON-GLUE(Python)、GLUE_PHP-GLUE(PHP)、GLUE_NODEJS-GLUE(Nodejs)、GLUE_POWERSHELL-GLUE(PowerShell))', b'0', '2024-11-14 15:34:36', '2024-11-14 15:34:36', '2', '2');
+
 
 -- ----------------------------
 -- 8. 字典数据表
@@ -401,6 +446,38 @@ INSERT INTO `system_dict_data` VALUES (37, 'dataScope', '自定数据权限', '2
 INSERT INTO `system_dict_data` VALUES (38, 'dataScope', '部门数据权限', '3', 3, 'primary', 1, '部门数据权限', b'0', '2024-11-07 17:28:26', '2024-11-07 17:28:26', '2', '2');
 INSERT INTO `system_dict_data` VALUES (39, 'dataScope', '部门及以下数据权限', '4', 4, 'primary', 1, '部门及以下数据权限', b'0', '2024-11-07 17:28:39', '2024-11-07 17:28:39', '2', '2');
 INSERT INTO `system_dict_data` VALUES (40, 'dataScope', '仅本人数据权限', '5', 5, 'info', 1, '仅本人数据权限', b'0', '2024-11-07 17:28:50', '2024-11-07 17:28:50', '2', '2');
+INSERT INTO `system_dict_data` VALUES (41, 'addressType', '自动注册', '0', 1, 'success', 1, '自动注册', b'0', '2024-11-12 20:24:20', '2024-11-12 20:24:20', '2', '2');
+INSERT INTO `system_dict_data` VALUES (42, 'addressType', '手动录入', '1', 2, 'primary', 1, '手动录入', b'0', '2024-11-12 20:24:37', '2024-11-12 20:24:37', '2', '2');
+INSERT INTO `system_dict_data` VALUES (43, 'triggerStatus', '停止', '0', 1, 'info', 1, '停止', b'0', '2024-11-13 14:25:09', '2024-11-13 14:25:09', '2', '2');
+INSERT INTO `system_dict_data` VALUES (44, 'triggerStatus', '运行', '1', 2, 'success', 1, '运行', b'0', '2024-11-13 14:25:25', '2024-11-13 14:25:25', '2', '2');
+INSERT INTO `system_dict_data` VALUES (45, 'scheduleType', '无', 'NONE', 1, 'success', 1, 'NONE', b'0', '2024-11-14 15:29:51', '2024-11-14 15:29:51', '2', '2');
+INSERT INTO `system_dict_data` VALUES (46, 'scheduleType', 'CRON', 'CRON', 2, 'success', 1, 'CRON', b'0', '2024-11-14 15:30:16', '2024-11-14 15:30:16', '2', '2');
+INSERT INTO `system_dict_data` VALUES (47, 'scheduleType', '固定速度', 'FIX_RATE', 3, 'success', 1, '固定速度', b'0', '2024-11-14 15:30:40', '2024-11-14 15:30:40', '2', '2');
+INSERT INTO `system_dict_data` VALUES (48, 'glueType', 'BEAN', 'BEAN', 1, 'success', 1, 'BEAN', b'0', '2024-11-14 15:35:14', '2024-11-14 15:35:14', '2', '2');
+INSERT INTO `system_dict_data` VALUES (49, 'glueType', 'GLUE(Java)', 'GLUE_GROOVY', 2, 'success', 1, 'GLUE(Java)', b'0', '2024-11-14 15:35:37', '2024-11-14 15:35:37', '2', '2');
+INSERT INTO `system_dict_data` VALUES (50, 'glueType', 'GLUE(Shell)', 'GLUE_SHELL', 3, 'success', 1, 'GLUE(Shell)', b'0', '2024-11-14 15:35:55', '2024-11-14 15:35:55', '2', '2');
+INSERT INTO `system_dict_data` VALUES (51, 'glueType', 'GLUE(Python)', 'GLUE_PYTHON', 4, 'success', 1, 'GLUE(Python)', b'0', '2024-11-14 15:36:12', '2024-11-14 15:36:12', '2', '2');
+INSERT INTO `system_dict_data` VALUES (52, 'glueType', 'GLUE(PHP)', 'GLUE_PHP', 5, 'success', 1, 'GLUE(PHP)', b'0', '2024-11-14 15:36:30', '2024-11-14 15:36:30', '2', '2');
+INSERT INTO `system_dict_data` VALUES (53, 'glueType', 'GLUE(Nodejs)', 'GLUE_NODEJS', 6, 'success', 1, 'GLUE(Nodejs)', b'0', '2024-11-14 15:36:51', '2024-11-14 15:36:51', '2', '2');
+INSERT INTO `system_dict_data` VALUES (54, 'glueType', 'GLUE(PowerShell)', 'GLUE_POWERSHELL', 7, 'success', 1, 'GLUE(PowerShell)', b'0', '2024-11-14 15:37:11', '2024-11-14 15:37:11', '2', '2');
+INSERT INTO `system_dict_data` VALUES (55, 'executorRouteStrategy', '第一个', 'FIRST', 1, 'success', 1, '第一个', b'0', '2024-11-14 15:42:36', '2024-11-14 15:42:36', '2', '2');
+INSERT INTO `system_dict_data` VALUES (56, 'executorRouteStrategy', '最后一个', 'LAST', 2, 'success', 1, '最后一个', b'0', '2024-11-14 15:42:55', '2024-11-14 15:42:55', '2', '2');
+INSERT INTO `system_dict_data` VALUES (57, 'executorRouteStrategy', '轮询', 'ROUND', 3, 'success', 1, '轮询', b'0', '2024-11-14 15:43:11', '2024-11-14 15:43:11', '2', '2');
+INSERT INTO `system_dict_data` VALUES (58, 'executorRouteStrategy', '随机', 'RANDOM', 4, 'success', 1, '随机', b'0', '2024-11-14 15:43:29', '2024-11-14 15:43:29', '2', '2');
+INSERT INTO `system_dict_data` VALUES (59, 'executorRouteStrategy', '一致性HASH', 'CONSISTENT_HASH', 5, 'success', 1, '一致性HASH', b'0', '2024-11-14 15:43:49', '2024-11-14 15:43:49', '2', '2');
+INSERT INTO `system_dict_data` VALUES (60, 'executorRouteStrategy', '最不经常使用', 'LEAST_FREQUENTLY_USED', 6, 'success', 1, '最不经常使用', b'0', '2024-11-14 15:44:15', '2024-11-14 15:44:15', '2', '2');
+INSERT INTO `system_dict_data` VALUES (61, 'executorRouteStrategy', '最近最久未使用', 'LEAST_RECENTLY_USED', 7, 'success', 1, '最近最久未使用-LEAST_RECENTLY_USED', b'0', '2024-11-14 15:44:41', '2024-11-14 15:44:41', '2', '2');
+INSERT INTO `system_dict_data` VALUES (62, 'executorRouteStrategy', '故障转移', 'FAILOVER', 8, 'success', 1, 'FAILOVER-故障转移', b'0', '2024-11-14 15:45:01', '2024-11-14 15:45:01', '2', '2');
+INSERT INTO `system_dict_data` VALUES (63, 'executorRouteStrategy', '忙碌转移', 'BUSYOVER', 9, 'success', 1, 'BUSYOVER-忙碌转移', b'0', '2024-11-14 15:45:18', '2024-11-14 15:45:18', '2', '2');
+INSERT INTO `system_dict_data` VALUES (64, 'executorRouteStrategy', '分片广播', 'SHARDING_BROADCAST', 10, 'success', 1, 'SHARDING_BROADCAST-分片广播', b'0', '2024-11-14 15:45:35', '2024-11-14 15:45:35', '2', '2');
+INSERT INTO `system_dict_data` VALUES (65, 'misfireStrategy', '忽略', 'DO_NOTHING', 0, 'success', 1, 'DO_NOTHING-忽略', b'0', '2024-11-14 15:49:31', '2024-11-14 15:49:31', '2', '2');
+INSERT INTO `system_dict_data` VALUES (66, 'misfireStrategy', '立即执行一次', 'FIRE_ONCE_NOW', 2, 'success', 1, 'FIRE_ONCE_NOW-立即执行一次', b'0', '2024-11-14 15:49:48', '2024-11-14 15:49:48', '2', '2');
+INSERT INTO `system_dict_data` VALUES (67, 'executorBlockStrategy', '单机串行', 'SERIAL_EXECUTION', 1, 'success', 1, 'SERIAL_EXECUTION-单机串行\n', b'0', '2024-11-14 15:53:22', '2024-11-14 15:53:22', '2', '2');
+INSERT INTO `system_dict_data` VALUES (68, 'executorBlockStrategy', '丢弃后续调度', 'DISCARD_LATER', 2, 'success', 1, 'DISCARD_LATER-丢弃后续调度', b'0', '2024-11-14 15:53:37', '2024-11-14 15:53:37', '2', '2');
+INSERT INTO `system_dict_data` VALUES (69, 'executorBlockStrategy', '覆盖之前调度', 'COVER_EARLY', 3, 'success', 1, 'COVER_EARLY-覆盖之前调度', b'0', '2024-11-14 15:53:52', '2024-11-14 15:53:52', '2', '2');
+INSERT INTO `system_dict_data` VALUES (70, 'triggerStatus', '全部', '-1', 3, 'success', 1, '-1-全部', b'0', '2024-11-15 11:03:35', '2024-11-28 16:37:38', '2', '2');
+INSERT INTO `system_dict_data` VALUES (71, 'triggerCode', '成功', '200', 1, 'success', 1, '200-成功', b'0', '2024-11-15 17:00:35', '2024-11-15 17:00:35', '2', '2');
+INSERT INTO `system_dict_data` VALUES (72, 'triggerCode', '失败', '500', 1, 'danger', 1, '500-失败', b'0', '2024-11-15 17:00:48', '2024-11-15 17:00:48', '2', '2');
 
 
 -- ----------------------------
@@ -473,6 +550,42 @@ INSERT INTO `system_operate_log` VALUES (3, 2, 0, '系统管理-字典数据', '
 
 
 -- ----------------------------
+-- 通知公告表
+-- ----------------------------
+DROP TABLE IF EXISTS `system_notice`;
+CREATE TABLE `system_notice` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '通知标题',
+  `content` varchar(4000) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '通知内容',
+  `type` tinyint(1) NULL DEFAULT 1 COMMENT '通知类型（关联字典编码：notice_type）',
+  `level` varchar(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '通知等级（字典code：notice_level）',
+  `target_type` tinyint(1) NULL DEFAULT 1 COMMENT '目标类型（1: 全体, 2: 指定）',
+  `target_user_ids`  varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '目标人ID集合（多个使用英文逗号,分割）',
+  `publisher_id` bigint NOT NULL COMMENT '发布人ID',
+  `publish_status` tinyint(1) NULL DEFAULT 1 COMMENT '发布状态（0: 未发布, 1: 已发布, -1: 已撤回）',
+  `publish_time` datetime COMMENT '发布时间',
+  `revoke_time` datetime COMMENT '撤回时间',
+  `deleted` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否删除',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '创建者',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '更新者',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='通知公告表';
+
+INSERT INTO `system_notice`  VALUES (1, 'v2.12.0 新增系统日志，访问趋势统计功能。', '<p>1. 消息通知</p><p>2. 字典重构</p><p>3. 代码生成</p>', 1, 'L', 1, '2', 1, 1, now(), now(),  b'0', '2024-11-06 15:01:11', '2024-11-06 15:01:11', '2', '2');
+INSERT INTO `system_notice`  VALUES (2, 'v2.13.0 新增菜单搜索。', '<p>1. 消息通知</p><p>2. 字典重构</p><p>3. 代码生成</p>', 1, 'L', 1, '2', 1, 1, now(), now(),  b'0', '2024-11-06 15:01:11', '2024-11-06 15:01:11', '2', '2');
+INSERT INTO `system_notice`  VALUES (3, 'v2.14.0 新增个人中心。', '<p>1. 消息通知</p><p>2. 字典重构</p><p>3. 代码生成</p>', 1, 'L', 1, '2', 2, 1, now(), now(),  b'0', '2024-11-06 15:01:11', '2024-11-06 15:01:11', '2', '2');
+INSERT INTO `system_notice`  VALUES (4, 'v2.15.0 登录页面改造。', '<p>1. 消息通知</p><p>2. 字典重构</p><p>3. 代码生成</p>', 1, 'L', 1, '2', 2, 1, now(), now(),  b'0', '2024-11-06 15:01:11', '2024-11-06 15:01:11', '2', '2');
+INSERT INTO `system_notice`  VALUES (5, 'v2.16.0 通知公告、字典翻译组件。', '<p>1. 消息通知</p><p>2. 字典重构</p><p>3. 代码生成</p>', 1, 'L', 1, '2', 2, 1, now(), now(),  b'0', '2024-11-06 15:01:11', '2024-11-06 15:01:11', '2', '2');
+INSERT INTO `system_notice`  VALUES (6, '系统将于本周六凌晨 2 点进行维护，预计维护时间为 2 小时。', '<p>1. 消息通知</p><p>2. 字典重构</p><p>3. 代码生成</p>', 2, 'H', 1, '2', 2, 1, now(), now(),  b'0', '2024-11-06 15:01:11', '2024-11-06 15:01:11', '2', '2');
+INSERT INTO `system_notice`  VALUES (7, '最近发现一些钓鱼邮件，请大家提高警惕，不要点击陌生链接。', '<p>1. 消息通知</p><p>2. 字典重构</p><p>3. 代码生成</p>', 3, 'L', 1, '2', 2, 1, now(), now(),  b'0', '2024-11-06 15:01:11', '2024-11-06 15:01:11', '2', '2');
+INSERT INTO `system_notice`  VALUES (8, '国庆假期从 10 月 1 日至 10 月 7 日放假，共 7 天。', '<p>1. 消息通知</p><p>2. 字典重构</p><p>3. 代码生成</p>', 4, 'L', 1, '2', 2, 1, now(), now(),  b'0', '2024-11-06 15:01:11', '2024-11-06 15:01:11', '2', '2');
+INSERT INTO `system_notice`  VALUES (9, '公司将在 10 月 15 日举办新产品发布会，敬请期待。', '公司将在 10 月 15 日举办新产品发布会，敬请期待。', 5, 'H', 1, '2', 2, 1, now(), now(),  b'0', '2024-11-06 15:01:11', '2024-11-06 15:01:11', '2', '2');
+INSERT INTO `system_notice`  VALUES (10, 'v2.16.1 版本发布。', 'v2.16.1 版本修复了 WebSocket 重复连接导致的后台线程阻塞问题，优化了通知公告。', 1, 'M', 1, '2', 2, 1, now(), now(),  b'0', '2024-11-06 15:01:11', '2024-11-06 15:01:11', '2', '2');
+
+
+-- ----------------------------
 -- 11. 数据源配置表
 -- ----------------------------
 DROP TABLE IF EXISTS tool_data_source;
@@ -492,8 +605,7 @@ CREATE TABLE `tool_data_source` (
 -- ----------------------------
 -- Records of tool_data_source
 -- ----------------------------
-INSERT INTO `tool_data_source` VALUES (1, 'master', 'jdbc:mysql://139.9.202.135:1653/wick_boot?useUnicode=true&characterEncoding=UTF-8&useSSL=false', 'root', 'P@ssw0rd2024', b'1', '2024-07-23 10:28:30', '2024-10-12 08:48:54', '2', '2');
-INSERT INTO `tool_data_source` VALUES (2, 'wick-boot-master', 'jdbc:mysql://139.9.202.135:1653/wick_boot?useUnicode=true&characterEncoding=UTF-8&useSSL=false', 'root', 'P@ssw0rd2024', b'0', '2024-10-11 14:15:19', '2024-10-25 01:56:34', '2', '2');
+INSERT INTO `tool_data_source` VALUES (1, 'master', 'jdbc:mysql://localhost:3306/wick_boot?useUnicode=true&characterEncoding=UTF-8&useSSL=false', 'root', 'root', b'0', '2024-07-23 10:28:30', '2024-10-12 08:48:54', '2', '2');
 
 
 -- ----------------------------

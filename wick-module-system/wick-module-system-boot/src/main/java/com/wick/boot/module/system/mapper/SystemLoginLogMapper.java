@@ -49,21 +49,7 @@ public interface SystemLoginLogMapper extends BaseMapperX<SystemLoginLog> {
      *
      * @return
      */
-    SystemDashboardVisitDTO selectPvStats();
-
-    /**
-     * 查询访客量
-     *
-     * @return
-     */
-    SystemDashboardVisitDTO selectUvStats();
-
-    /**
-     * 查询登录结果量
-     *
-     * @return
-     */
-    SystemDashboardVisitDTO selectLvStats();
+    SystemDashboardVisitDTO selectVisitStats();
 
     /**
      * 查询获取访问趋势
