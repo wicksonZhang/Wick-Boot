@@ -1,6 +1,7 @@
 package com.wick.boot.module.system.service;
 
 import com.wick.boot.common.core.result.PageResult;
+import com.wick.boot.module.system.model.dto.notice.SystemNoticeDetailDTO;
 import com.wick.boot.module.system.model.vo.notice.SystemNoticeAddVO;
 import com.wick.boot.module.system.model.vo.notice.SystemNoticeUpdateVO;
 import com.wick.boot.module.system.model.vo.notice.SystemNoticeQueryVO;
@@ -44,7 +45,7 @@ public interface SystemNoticeService {
      * @param id 通知公告ID
      * @return SystemNoticeDTO 通知公告DTO
      */
-     SystemNoticeDTO getSystemNotice(Long id);
+    SystemNoticeDTO getSystemNotice(Long id);
 
     /**
      * 获取通知公告分页数据
@@ -61,4 +62,12 @@ public interface SystemNoticeService {
      * @return
      */
     Map<String, Object> getSystemNoticeMyPage(SystemNoticeQueryVO reqVO);
+
+    /**
+     * 通知详细公告接口
+     *
+     * @param id 通知公告ID
+     * @return
+     */
+    SystemNoticeDetailDTO getSystemNoticeDetail(Long id);
 }

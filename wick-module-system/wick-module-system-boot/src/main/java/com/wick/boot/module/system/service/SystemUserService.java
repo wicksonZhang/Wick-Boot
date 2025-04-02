@@ -4,6 +4,7 @@ package com.wick.boot.module.system.service;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.module.system.model.dto.user.SystemUserDTO;
 import com.wick.boot.module.system.model.dto.user.SystemUserLoginInfoDTO;
+import com.wick.boot.module.system.model.dto.user.SystemUserOptionDTO;
 import com.wick.boot.module.system.model.vo.user.SystemUserQueryVO;
 import com.wick.boot.module.system.model.vo.user.SystemUserAddVO;
 import com.wick.boot.module.system.model.vo.user.SystemUserUpdateVO;
@@ -72,6 +73,13 @@ public interface SystemUserService {
      * @param ids 要删除的用户ID列表
      */
     void deleteSystemUser(List<Long> ids);
+
+    /**
+     * 获取用户选项列表。
+     *
+     * @return
+     */
+    List<SystemUserOptionDTO> getSystemUserOption();
 
     /**
      * 根据用户ID获取用户信息。

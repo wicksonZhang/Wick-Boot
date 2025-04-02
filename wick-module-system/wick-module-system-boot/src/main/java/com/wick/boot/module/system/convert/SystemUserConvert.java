@@ -2,12 +2,14 @@ package com.wick.boot.module.system.convert;
 
 import com.wick.boot.module.system.model.dto.user.SystemUserDTO;
 import com.wick.boot.module.system.model.dto.user.SystemUserLoginInfoDTO;
+import com.wick.boot.module.system.model.dto.user.SystemUserOptionDTO;
 import com.wick.boot.module.system.model.entity.SystemUser;
 import com.wick.boot.module.system.model.vo.user.SystemUserAddVO;
 import com.wick.boot.module.system.model.vo.user.SystemUserImportVO;
 import com.wick.boot.module.system.model.vo.user.SystemUserUpdateVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -56,8 +58,26 @@ public interface SystemUserConvert {
      */
     SystemUser updateVoToEntity(SystemUserUpdateVO reqVO);
 
-
+    /**
+     * Convert importVO To SystemUser
+     *
+     * @param systemUserImportVO
+     * @return
+     */
     SystemUser importVo2Entity(SystemUserImportVO systemUserImportVO);
 
-    List<SystemUserDTO> entityToDTOList(List<SystemUser> systemUsers);
+    /**
+     * Convert entities To SystemUserOptionsDTO
+     *
+     * @param systemUsers
+     * @return
+     */
+    List<SystemUserOptionDTO> entitiesToOptions(List<SystemUser> systemUsers);
+
+    @Mappings({
+            @Mapping(target = "value", source = "id"),
+            @Mapping(target = "label", source = "nickname")
+    })
+    SystemUserOptionDTO entityToOption(SystemUser systemUser);
+
 }

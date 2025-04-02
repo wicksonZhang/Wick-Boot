@@ -21,6 +21,12 @@ public class SystemNoticeQueryVO extends CommonPageParamVO implements Serializab
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "通知标题")
+    private String title;
+
+    @ApiModelProperty(value = "发布状态")
+    private Integer publishStatus;
+
     @ApiModelProperty(value = "是否已读", example = "0")
     private Integer isRead;
 

@@ -7,22 +7,66 @@
         无法满足的场景，例如说多表关联查询，才使用 XML 编写 SQL。
      -->
     <resultMap type="com.wick.boot.module.system.model.entity.SystemNotice" id="SystemNoticeResult">
-        <result property="id"  column="id"/>
-        <result property="title"  column="title"/>
-        <result property="content"  column="content"/>
-        <result property="type"  column="type"/>
-        <result property="level"  column="level"/>
-        <result property="targetType"  column="target_type"/>
-        <result property="targetUserIds"  column="target_user_ids"/>
-        <result property="publisherId"  column="publisher_id"/>
-        <result property="publishStatus"  column="publish_status"/>
-        <result property="publishTime"  column="publish_time"/>
-        <result property="revokeTime"  column="revoke_time"/>
-        <result property="deleted"  column="deleted"/>
-        <result property="createTime"  column="create_time"/>
-        <result property="updateTime"  column="update_time"/>
-        <result property="createBy"  column="create_by"/>
-        <result property="updateBy"  column="update_by"/>
+        <result property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="type" column="type"/>
+        <result property="level" column="level"/>
+        <result property="targetType" column="target_type"/>
+        <result property="targetUserIds" column="target_user_ids"/>
+        <result property="publisherId" column="publisher_id"/>
+        <result property="publishStatus" column="publish_status"/>
+        <result property="publishTime" column="publish_time"/>
+        <result property="revokeTime" column="revoke_time"/>
+        <result property="deleted" column="deleted"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateBy" column="update_by"/>
     </resultMap>
+
+    <select id="getSystemNoticePage" resultType="com.wick.boot.module.system.model.dto.notice.SystemNoticeDTO">
+        SELECT
+        sn.id,
+        sn.title,
+        sn.content,
+        sn.type,
+        sn.level,
+        sn.target_type,
+        su.nickname AS publisher_name,
+        sn.publish_status,
+        sn.publish_time,
+        sn.revoke_time,
+        sn.create_time
+        FROM
+        system_notice sn LEFT JOIN system_user su ON sn.publisher_id = su.id
+        <where>
+            sn.deleted = 0
+            <if test='reqVO.title !=null'>
+                <if test='reqVO.title !=null'>
+                    AND sn.title LIKE CONCAT(#{reqVO.title} ,'%')
+                </if>
+            </if>
+            <if test='reqVO.publishStatus !=null'>
+                AND sn.publish_status = #{reqVO.publishStatus}
+            </if>
+        </where>
+        order by sn.create_time desc
+    </select>
+
+    <select id="getSystemNoticeDetailById" resultType="com.wick.boot.module.system.model.dto.notice.SystemNoticeDetailDTO">
+        SELECT
+        sn.id,
+        sn.title,
+        sn.content,
+        sn.type,
+        sn.level,
+        su.nickname AS publisher_name,
+        sn.publish_status,
+        sn.publish_time
+        FROM
+        system_notice sn LEFT JOIN system_user su ON sn.publisher_id = su.id
+       WHERE sn.deleted = 0 AND sn.id = #{id}
+    </select>
 
 </mapper>

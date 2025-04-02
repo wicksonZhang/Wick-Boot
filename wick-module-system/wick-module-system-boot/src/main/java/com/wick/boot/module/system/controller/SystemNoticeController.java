@@ -3,6 +3,7 @@ package com.wick.boot.module.system.controller;
 import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.module.system.model.dto.notice.SystemNoticeDTO;
+import com.wick.boot.module.system.model.dto.notice.SystemNoticeDetailDTO;
 import com.wick.boot.module.system.model.vo.notice.SystemNoticeAddVO;
 import com.wick.boot.module.system.model.vo.notice.SystemNoticeQueryVO;
 import com.wick.boot.module.system.model.vo.notice.SystemNoticeUpdateVO;
@@ -76,5 +77,14 @@ public class SystemNoticeController {
     public ResultUtil<Map<String, Object>> getSystemNoticeMyPage(@Valid SystemNoticeQueryVO reqVO) {
         return ResultUtil.success(systemNoticeService.getSystemNoticeMyPage(reqVO));
     }
+
+    @GetMapping("/{id}/detail")
+    @PreAuthorize("@ss.hasPerm('system:notice:query')")
+    @ApiOperation(value = "通知详细公告接口", notes = "通知公告管理")
+    public ResultUtil<SystemNoticeDetailDTO> getSystemNoticeDetail(@NotNull(message = "主键不能为空") @PathVariable Long id) {
+        return ResultUtil.success(systemNoticeService.getSystemNoticeDetail(id));
+    }
+
+
 
 }

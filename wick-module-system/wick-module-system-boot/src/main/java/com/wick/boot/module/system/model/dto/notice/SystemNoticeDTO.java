@@ -44,11 +44,15 @@ public class SystemNoticeDTO implements Serializable {
     @ApiModelProperty(value = "目标人ID集合（多个使用英文逗号,分割）")
     private String targetUserIds;
 
-    @ApiModelProperty(value = "发布人ID")
-    private Long publisherId;
+    @ApiModelProperty(value = "发布人名称")
+    private String publisherName;
 
     @ApiModelProperty(value = "发布状态（0: 未发布, 1: 已发布, -1: 已撤回）")
     private Integer publishStatus;
+
+    @ApiModelProperty(value = "创建时间")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime createTime;
 
     @ApiModelProperty(value = "发布时间")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

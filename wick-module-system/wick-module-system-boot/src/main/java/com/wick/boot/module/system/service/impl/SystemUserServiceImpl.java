@@ -19,12 +19,14 @@ import com.wick.boot.module.system.enums.user.UserImportListener;
 import com.wick.boot.module.system.model.dto.LoginUserInfoDTO;
 import com.wick.boot.module.system.model.dto.user.SystemUserDTO;
 import com.wick.boot.module.system.model.dto.user.SystemUserLoginInfoDTO;
+import com.wick.boot.module.system.model.dto.user.SystemUserOptionDTO;
 import com.wick.boot.module.system.model.entity.SystemUser;
 import com.wick.boot.module.system.model.entity.SystemUserRole;
 import com.wick.boot.module.system.model.vo.user.*;
 import com.wick.boot.module.system.service.SystemUserAbstractService;
 import com.wick.boot.module.system.service.SystemUserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.compress.utils.Lists;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -199,6 +201,15 @@ public class SystemUserServiceImpl extends SystemUserAbstractService implements 
 
         // Step 3: 删除用户的角色信息
         this.userRoleMapper.deleteBatchByUserIds(ids);
+    }
+
+    @Override
+    public List<SystemUserOptionDTO> getSystemUserOption() {
+        List<SystemUser> systemUsers = this.userMapper.selectList(null);
+        if (CollUtil.isNotEmpty(systemUsers)) {
+            return SystemUserConvert.INSTANCE.entitiesToOptions(systemUsers);
+        }
+        return Lists.newArrayList();
     }
 
     @Override

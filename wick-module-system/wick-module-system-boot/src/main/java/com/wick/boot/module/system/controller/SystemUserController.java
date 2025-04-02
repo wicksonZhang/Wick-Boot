@@ -4,6 +4,7 @@ import com.wick.boot.common.core.result.PageResult;
 import com.wick.boot.common.core.result.ResultUtil;
 import com.wick.boot.module.system.model.dto.user.SystemUserDTO;
 import com.wick.boot.module.system.model.dto.user.SystemUserLoginInfoDTO;
+import com.wick.boot.module.system.model.dto.user.SystemUserOptionDTO;
 import com.wick.boot.module.system.model.vo.user.SystemUserAddVO;
 import com.wick.boot.module.system.model.vo.user.SystemUserQueryVO;
 import com.wick.boot.module.system.model.vo.user.SystemUserUpdateVO;
@@ -85,6 +86,13 @@ public class SystemUserController {
     @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long", dataTypeClass = Long.class)
     public ResultUtil<SystemUserDTO> getSystemUser(@PathVariable("id") Long id) {
         return ResultUtil.success(userService.getSystemUser(id));
+    }
+
+    @GetMapping("/options")
+    @PreAuthorize("@ss.hasPerm('system:user:query')")
+    @ApiOperation(value = "获取_用户信息列表", notes = "用户信息")
+    public ResultUtil<List<SystemUserOptionDTO>> SystemUserOption() {
+        return ResultUtil.success(userService.getSystemUserOption());
     }
 
     @DeleteMapping("/delete/{ids}")

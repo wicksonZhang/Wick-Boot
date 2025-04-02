@@ -1,14 +1,14 @@
 package com.wick.boot.module.system.mapper;
 
-import cn.hutool.core.util.ObjUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.common.mybatis.mapper.BaseMapperX;
+import com.wick.boot.module.system.model.dto.notice.SystemNoticeDTO;
+import com.wick.boot.module.system.model.dto.notice.SystemNoticeDetailDTO;
 import com.wick.boot.module.system.model.entity.SystemNotice;
 import com.wick.boot.module.system.model.vo.notice.SystemNoticeQueryVO;
 import org.apache.ibatis.annotations.Mapper;
-
-import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 
 /**
@@ -26,24 +26,33 @@ public interface SystemNoticeMapper extends BaseMapperX<SystemNotice> {
      * @param queryVO 请求参数
      * @return 数据表分页集合
      */
-    default Page<SystemNotice> getSystemNoticePage(Page<SystemNotice> page, SystemNoticeQueryVO queryVO) {
-        LambdaQueryWrapper<SystemNotice> wrapper = new LambdaQueryWrapper<>();
-        wrapper
-            .select(
-                SystemNotice::getId,
-                SystemNotice::getTitle,
-                SystemNotice::getContent,
-                SystemNotice::getType,
-                SystemNotice::getLevel,
-                SystemNotice::getTargetType,
-                SystemNotice::getTargetUserIds,
-                SystemNotice::getPublisherId,
-                SystemNotice::getPublishStatus,
-                SystemNotice::getPublishTime,
-                SystemNotice::getRevokeTime
-            )
-            .orderByDesc(SystemNotice::getId);
+    Page<SystemNoticeDTO> getSystemNoticePage(Page<SystemNotice> page, @Param("reqVO") SystemNoticeQueryVO queryVO);
 
+    /**
+     * 根据ID查询数据表详情
+     *
+     * @param id id
+     * @return
+     */
+    SystemNoticeDetailDTO getSystemNoticeDetailById(Long id);
+
+    default Page<SystemNotice> selectMyPage(Page<SystemNotice> page, SystemNoticeQueryVO reqVO) {
+        LambdaQueryWrapper<SystemNotice> wrapper = new LambdaQueryWrapper<>();
+        wrapper.select(
+                        SystemNotice::getId,
+                        SystemNotice::getTitle,
+                        SystemNotice::getContent,
+                        SystemNotice::getType,
+                        SystemNotice::getLevel,
+                        SystemNotice::getTargetType,
+                        SystemNotice::getTargetUserIds,
+                        SystemNotice::getPublisherId,
+                        SystemNotice::getPublishStatus,
+                        SystemNotice::getPublishTime,
+                        SystemNotice::getRevokeTime
+                )
+                .orderByDesc(SystemNotice::getId);
         return selectPage(page, wrapper);
     }
+
 }

@@ -1,11 +1,10 @@
 package com.wick.boot.module.system.convert;
 
-import cn.hutool.core.util.ObjUtil;
+import com.wick.boot.module.system.model.dto.notice.SystemNoticeDTO;
+import com.wick.boot.module.system.model.dto.notice.SystemNoticeDetailDTO;
 import com.wick.boot.module.system.model.entity.SystemNotice;
 import com.wick.boot.module.system.model.vo.notice.SystemNoticeAddVO;
-import com.wick.boot.module.system.model.vo.notice.SystemNoticeQueryVO;
 import com.wick.boot.module.system.model.vo.notice.SystemNoticeUpdateVO;
-import com.wick.boot.module.system.model.dto.notice.SystemNoticeDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -28,7 +27,7 @@ public interface SystemNoticeConvert {
      * @param reqVO 新增请求参数VO
      * @return SystemNotice 通知公告
      */
-     SystemNotice addVoToEntity(SystemNoticeAddVO reqVO);
+    SystemNotice addVoToEntity(SystemNoticeAddVO reqVO);
 
     /**
      * Convert updateVo To entity
@@ -36,7 +35,7 @@ public interface SystemNoticeConvert {
      * @param reqVO 更新请求参数VO
      * @return SystemNotice 通知公告实体
      */
-     SystemNotice updateVoToEntity(SystemNoticeUpdateVO reqVO);
+    SystemNotice updateVoToEntity(SystemNoticeUpdateVO reqVO);
 
     /**
      * Convert entity to DTO
@@ -44,7 +43,7 @@ public interface SystemNoticeConvert {
      * @param systemNotice 通知公告实体
      * @return SystemNoticeDTO
      */
-     SystemNoticeDTO entityToDTO(SystemNotice systemNotice);
+    SystemNoticeDTO entityToDTO(SystemNotice systemNotice);
 
     /**
      * Convert entity to DTOList
@@ -54,4 +53,11 @@ public interface SystemNoticeConvert {
      */
     List<SystemNoticeDTO> entityToPage(List<SystemNotice> systemNoticeList);
 
+    /**
+     * Convert entity to detailDTO
+     *
+     * @param systemNotice 通知公告
+     * @return
+     */
+    SystemNoticeDetailDTO entityToDetailDTO(SystemNotice systemNotice);
 }

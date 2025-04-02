@@ -7,6 +7,8 @@ import com.wick.boot.common.core.result.PageResult;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wick.boot.module.system.convert.SystemNoticeConvert;
 import com.wick.boot.module.system.mapper.SystemNoticeMapper;
+import com.wick.boot.module.system.model.dto.notice.SystemNoticeDetailDTO;
+import com.wick.boot.module.system.model.dto.user.SystemUserDTO;
 import com.wick.boot.module.system.model.vo.notice.SystemNoticeAddVO;
 import com.wick.boot.module.system.model.vo.notice.SystemNoticeUpdateVO;
 import com.wick.boot.module.system.model.vo.notice.SystemNoticeQueryVO;
@@ -111,22 +113,20 @@ public class SystemNoticeServiceImpl extends SystemNoticeAbstractService impleme
      * @return SystemNoticeDTO 通知公告DTO
      */
     public PageResult<SystemNoticeDTO> getSystemNoticePage(SystemNoticeQueryVO queryParams) {
-        Page<SystemNotice> pageResult = this.systemNoticeMapper.getSystemNoticePage(
+        // 分页查询用户信息
+        Page<SystemNoticeDTO> pageResult = this.systemNoticeMapper.getSystemNoticePage(
                 new Page<>(queryParams.getPageNumber(), queryParams.getPageSize()),
                 queryParams
         );
-
-        if (ObjUtil.isNull(pageResult)) {
+        if (CollUtil.isEmpty(pageResult.getRecords())) {
             return PageResult.empty();
         }
-
-        List<SystemNoticeDTO> systemNoticePages = SystemNoticeConvert.INSTANCE.entityToPage(pageResult.getRecords());
-        return new PageResult<>(systemNoticePages, pageResult.getTotal());
+        return new PageResult<>(pageResult.getRecords(), pageResult.getTotal());
     }
 
     @Override
     public Map<String, Object> getSystemNoticeMyPage(SystemNoticeQueryVO reqVO) {
-        Page<SystemNotice> pageResult = this.systemNoticeMapper.getSystemNoticePage(
+        Page<SystemNotice> pageResult = this.systemNoticeMapper.selectMyPage(
                 new Page<>(reqVO.getPageNumber(), reqVO.getPageSize()),
                 reqVO
         );
@@ -139,5 +139,10 @@ public class SystemNoticeServiceImpl extends SystemNoticeAbstractService impleme
         map.put("list", list);
         map.put("total", pageResult.getTotal());
         return map;
+    }
+
+    @Override
+    public SystemNoticeDetailDTO getSystemNoticeDetail(Long id) {
+        return this.systemNoticeMapper.getSystemNoticeDetailById(id);
     }
 }
