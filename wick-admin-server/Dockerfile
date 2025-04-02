@@ -17,4 +17,4 @@ COPY target/wick-admin-server.jar /app.jar
 ENTRYPOINT ["java", "-Xmx128m", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
 
 # 暴露端口
-EXPOSE 8000
+EXPOSE 8090
