@@ -1,0 +1,115 @@
+# 服务端口
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+  tomcat:
+    relaxed-query-chars:
+      - '<'
+      - '>'
+      - '['
+      - ']'
+      - '{'
+      - '}'
+      - '^'
+      - '`'
+      - '\'
+      - '|'
+
+# Spring 配置
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+  main:
+    allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。
+  # 数据源
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://172.17.0.1:3306/wick_boot?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: root
+  # redis
+  redis:
+    host: 172.17.0.1
+    port: 6379
+    lettuce:
+      pool:
+        # 最大连接数 默认为8
+        max-active: 8
+        # 最大空闲连接 默认0
+        max-wait: -1ms
+        # 最大连接阻塞等待时间
+        max-idle: 5
+        # 最小连接阻塞等待时间
+        min-idle: 10
+  # flyway
+  flyway:
+    enabled: true
+    encoding: UTF-8
+    table: flyway_schema_history
+    # 禁止清理数据库表
+    clean-disabled: true
+    # 如果数据库不是空表，需要设置成 true，否则启动报错
+    baseline-on-migrate: true
+    # 与 baseline-on-migrate: true 搭配使用
+    baseline-version: 1.0.0
+    locations:
+      - classpath:db/migration
+
+# mybatis-plus
+mybatis-plus:
+  configuration:
+    # 驼峰下划线转换
+    map-underscore-to-camel-case: true
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+  global-config:
+    db-config:
+      id-type: NONE # “智能”模式，基于 IdTypeEnvironmentPostProcessor + 数据源的类型，自动适配成 AUTO、INPUT 模式。
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+    banner: true # 关闭控制台的 Banner 打印
+  # 指定加载Mapper.xml文件路径
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
+  # 指定扫描实体类的包路径
+  type-aliases-package: com.wick.boot.module.*.model.entity
+
+# xxl-job 定时任务配置
+xxl:
+  job:
+    # 定时任务开关
+    enabled: true
+    admin:
+      # 多个地址使用,分割
+      addresses: http://172.17.0.1:8090/xxl-job-admin
+      # 用户名
+      userName: admin
+      # 密码
+      password: 123456
+    accessToken: default_token
+    executor:
+      appname: xxl-job-executor-${spring.application.name}
+      address:
+      ip:
+      port: 9999
+      logpath: /data/applogs/xxl-job/jobhandler
+      logretentiondays: 30
+
+# forest 配置
+forest:
+  max-connections: 1000        # 连接池最大连接数
+  connect-timeout: 3000        # 连接超时时间，单位为毫秒
+  read-timeout: 3000           # 数据读取超时时间，单位为毫秒
+  ssl-protocol: TLS
+  variables:
+    xxlHttpUrl: http://172.17.0.1:8090/xxl-job-admin
+
+# 日志模式、保存路径和文件名
+logging:
+  level:
+    com.wick.boot.module.*: debug
+  file:
+    name: ./logs/wick-admin-log.log

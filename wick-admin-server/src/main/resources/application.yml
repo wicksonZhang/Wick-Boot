@@ -2,4 +2,4 @@ spring:
   application:
     name: admin-server
   profiles:
-    active: local
+    active: prod
