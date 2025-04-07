@@ -27,12 +27,12 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/wick_boot?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://152.32.210.209:3306/wick_boot?useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root
     password: root
   # redis
   redis:
-    host: localhost
+    host: 152.32.210.209
     port: 6379
     lettuce:
       pool:
@@ -84,7 +84,7 @@ xxl:
     enabled: true
     admin:
       # 多个地址使用,分割
-      addresses: http://localhost:9100/xxl-job-admin
+      addresses: http://152.32.210.209:9100/xxl-job-admin
       # 用户名
       userName: admin
       # 密码
@@ -105,7 +105,7 @@ forest:
   read-timeout: 3000           # 数据读取超时时间，单位为毫秒
   ssl-protocol: TLS
   variables:
-    xxlHttpUrl: http://localhost:9100/xxl-job-admin
+    xxlHttpUrl: http://152.32.210.209:9100/xxl-job-admin
 
 # 日志模式、保存路径和文件名
 logging:
