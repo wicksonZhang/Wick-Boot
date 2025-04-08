@@ -384,6 +384,8 @@ INSERT INTO `system_dict_type` VALUES (10, '注册类型', 'addressType', 1, '�
 INSERT INTO `system_dict_type` VALUES (11, '调度状态', 'triggerStatus', 1, '调度状态（0-停止、1-运行、-1-全部）', b'0', '2024-11-13 14:23:26', '2024-11-15 11:03:20', '2', '2');
 INSERT INTO `system_dict_type` VALUES (12, '调度类型', 'scheduleType', 1, '调度类型（NONE-无、CRON-CRON、FIX_RATE-固定速度）', b'0', '2024-11-14 15:29:11', '2024-11-14 15:29:11', '2', '2');
 INSERT INTO `system_dict_type` VALUES (13, '运行模式', 'glueType', 1, '运行模式(BEAN-BEAN、GLUE_GROOVY-GLUE(Java)、GLUE_SHELL-GLUE(Shell)、GLUE_PYTHON-GLUE(Python)、GLUE_PHP-GLUE(PHP)、GLUE_NODEJS-GLUE(Nodejs)、GLUE_POWERSHELL-GLUE(PowerShell))', b'0', '2024-11-14 15:34:36', '2024-11-14 15:34:36', '2', '2');
+INSERT INTO `system_dict_type` VALUES (14, '通知类型', 'noticeType', 1, '通知类型（1-系统升级、2-系统维护、3-安全警告、4-假期通知、5-公司新闻、6-其他）', b'0', '2025-03-20 13:54:30', '2025-03-20 13:54:30', '2', '2');
+INSERT INTO `system_dict_type` VALUES (15, '通知等级', 'noticeLevel', 1, '通知等级（低、中、高）', b'0', '2025-03-20 14:27:56', '2025-03-20 14:28:08', '2', '2');
 
 
 -- ----------------------------
@@ -478,6 +480,15 @@ INSERT INTO `system_dict_data` VALUES (69, 'executorBlockStrategy', '覆盖之�
 INSERT INTO `system_dict_data` VALUES (70, 'triggerStatus', '全部', '-1', 3, 'success', 1, '-1-全部', b'0', '2024-11-15 11:03:35', '2024-11-28 16:37:38', '2', '2');
 INSERT INTO `system_dict_data` VALUES (71, 'triggerCode', '成功', '200', 1, 'success', 1, '200-成功', b'0', '2024-11-15 17:00:35', '2024-11-15 17:00:35', '2', '2');
 INSERT INTO `system_dict_data` VALUES (72, 'triggerCode', '失败', '500', 1, 'danger', 1, '500-失败', b'0', '2024-11-15 17:00:48', '2024-11-15 17:00:48', '2', '2');
+INSERT INTO `system_dict_data` VALUES (73, 'noticeType', '系统升级', '1', 1, 'success', 1, '系统升级', b'0', '2025-03-20 14:10:40', '2025-03-20 14:10:40', '2', '2');
+INSERT INTO `system_dict_data` VALUES (74, 'noticeType', '系统维护', '2', 2, 'warning', 1, NULL, b'0', '2025-03-20 14:11:24', '2025-03-20 14:11:47', '2', '2');
+INSERT INTO `system_dict_data` VALUES (75, 'noticeType', '安全警告', '3', 3, 'danger', 1, '安全警告', b'0', '2025-03-20 14:11:42', '2025-03-20 14:11:42', '2', '2');
+INSERT INTO `system_dict_data` VALUES (76, 'noticeType', '假期通知', '4', 4, 'primary', 1, '假期通知', b'0', '2025-03-20 14:15:21', '2025-03-20 14:15:21', '2', '2');
+INSERT INTO `system_dict_data` VALUES (77, 'noticeType', '公司新闻', '5', 1, 'warning', 1, '公司新闻', b'0', '2025-03-20 14:15:38', '2025-03-20 14:15:38', '2', '2');
+INSERT INTO `system_dict_data` VALUES (78, 'noticeType', '其他', '99', 99, 'info', 1, '其他', b'0', '2025-03-20 14:16:02', '2025-03-20 14:16:02', '2', '2');
+INSERT INTO `system_dict_data` VALUES (79, 'noticeLevel', '低', 'L', 1, 'info', 1, '低', b'0', '2025-03-20 14:32:08', '2025-03-20 14:35:05', '2', '2');
+INSERT INTO `system_dict_data` VALUES (80, 'noticeLevel', '中', 'M', 2, 'warning', 1, 'M', b'0', '2025-03-20 14:32:22', '2025-03-20 14:34:59', '2', '2');
+INSERT INTO `system_dict_data` VALUES (81, 'noticeLevel', '高', 'H', 3, 'danger', 1, '高', b'0', '2025-03-20 14:32:40', '2025-03-20 14:32:40', '2', '2');
 
 
 -- ----------------------------
@@ -605,7 +616,7 @@ CREATE TABLE `tool_data_source` (
 -- ----------------------------
 -- Records of tool_data_source
 -- ----------------------------
-INSERT INTO `tool_data_source` VALUES (1, 'master', 'jdbc:mysql://localhost:3306/wick_boot?useUnicode=true&characterEncoding=UTF-8&useSSL=false', 'root', 'root', b'0', '2024-07-23 10:28:30', '2024-10-12 08:48:54', '2', '2');
+INSERT INTO `tool_data_source` VALUES (1, 'master', 'jdbc:mysql://localhost:3306/wick_boot?useUnicode=true&characterEncoding=UTF-8&useSSL=false', 'root', '123456', b'0', '2024-07-23 10:28:30', '2024-10-12 08:48:54', '2', '2');
 
 
 -- ----------------------------
